@@ -4,7 +4,11 @@ import { FieldValues, useForm } from "react-hook-form";
 
 export default function AuthForm() {
   // useForm을 써보ㅈF....
-  const { register, handleSubmit, formState } = useForm();
+  const {
+    register,
+    handleSubmit,
+    formState: { isSubmitting }
+  } = useForm();
 
   const onSubmit = (value: FieldValues) => {
     console.log(value);
@@ -31,13 +35,13 @@ export default function AuthForm() {
     <form onSubmit={handleSubmit(onSubmit)}>
       <div>
         <label htmlFor="id">아이디</label>
-        <input {...register("id")} type="id" placeholder="id" />
+        <input id="id" {...register("id")} type="id" placeholder="id" />
       </div>
       <div>
         <label htmlFor="password">password</label>
-        <input {...register(`password`)} type="password" placeholder="password" />
+        <input id="password" {...register(`password`)} type="password" placeholder="password" />
       </div>
-      <button className="bg-purple-950 text-white px-4 py-2 rounded-none" type="submit">
+      <button className="bg-purple-950 text-white px-4 py-2 rounded-none" type="submit" disabled={isSubmitting}>
         로그인
       </button>
     </form>
