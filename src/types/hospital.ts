@@ -9,7 +9,7 @@ export type RegionType = {
   },
   body: {
     items: {
-      item: RegtionItem[]
+      item: RegtionItem[] | RegtionItem
     },
     pageNo: string,
     dataTime: string,
