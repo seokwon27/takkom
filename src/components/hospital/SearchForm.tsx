@@ -126,7 +126,8 @@ const SearchForm = ({
           placeholder="도로명/동 주소"
           value={addr}
           onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-            setAddr(e.target.value);
+            // 입력값 전후 공백 제거
+            setAddr(e.target.value.trim());
           }}
           disabled={disableInputs}
         />
@@ -134,7 +135,8 @@ const SearchForm = ({
           placeholder="병원명"
           value={org}
           onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-            setOrg(e.target.value);
+            // 입력값 전후 공백 제거
+            setOrg(e.target.value.trim());
           }}
           disabled={disableInputs}
         />

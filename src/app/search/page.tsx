@@ -7,7 +7,7 @@ const page = async () => {
   const regionInfo = await getRegionInfo();
 
   return (
-    <div className="w-full flex flex-col items-center">
+    <div className="container flex flex-col items-center mx-auto">
       <p>병원검색페이지</p>
       <SearchForm brtcObj={brtcObj} regionInfo={regionInfo} >
         <HospitalList />
