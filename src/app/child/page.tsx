@@ -1,5 +1,5 @@
-import ChildCard from "@/_components/child/ChildCard";
-import RegisterButton from "@/_components/child/RegisterButton";
+import ChildCard from "@/components/child/ChildCard";
+import RegisterButton from "@/components/child/RegisterButton";
 
 export interface Child {
   name: string;
