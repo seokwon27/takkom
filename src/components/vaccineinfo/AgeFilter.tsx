@@ -9,10 +9,11 @@ const AgeFilter = () => {
   return (
     <div>
       <p>{`선택된 연령: ${age}`}</p>
-      <div>
+      <div className="flex gap-3">
         {subAgeGroup.map((el, index) => {
           return (
             <div
+              className={el === age ? `font-bold` : ""}
               key={index}
               onClick={() => {
                 setAge(el);
