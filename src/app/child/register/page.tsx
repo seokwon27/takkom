@@ -1,7 +1,12 @@
-import React from "react";
+import RegisterForm from "@/_components/child/RegisterForm";
 
 const page = () => {
-  return <div>아이 등록하기 페이지</div>;
+  return (
+    <div>
+      <h1>아이 등록하기 페이지</h1>
+      <RegisterForm />
+    </div>
+  );
 };
 
 export default page;
