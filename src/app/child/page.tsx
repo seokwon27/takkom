@@ -8,7 +8,7 @@ export interface Child {
   profileImage?: string;
 }
 
-const page = () => {
+const ChildPage = () => {
   return (
     <div>
       <h1>우리 아이 접종</h1>
@@ -18,4 +18,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default ChildPage;
