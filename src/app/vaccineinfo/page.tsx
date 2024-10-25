@@ -1,11 +1,13 @@
+import { getVaccines } from "@/api/vaccineApi";
 import AgeFilter from "@/components/vaccineinfo/AgeFilter";
 import AgeGroup from "@/components/vaccineinfo/AgeGroup";
 import VaccineList from "@/components/vaccineinfo/VaccineList";
-import { getVaccineList } from "@/utils/supabase/server-action";
+import { createClient } from "@/utils/supabase/server";
 
 const VaccineInfoPage = async () => {
-  const vaccineList = await getVaccineList();
-  console.log(vaccineList);
+  const serverClinet = createClient();
+
+  await getVaccines(serverClinet);
 
   return (
     <div>
