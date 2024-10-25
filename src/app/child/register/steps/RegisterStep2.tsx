@@ -8,13 +8,11 @@ import { Form, FormField, FormItem, FormLabel, FormControl, FormDescription, For
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 
-
 interface RegisterStep2Props {
   child: Child; // child prop 추가
   onPrev: () => void;
   onComplete: () => void;
 }
-
 
 const formSchema = z.object({
   name: z.string().min(1, { message: "이름은 필수입니다." }),
@@ -22,10 +20,7 @@ const formSchema = z.object({
   notes: z.string().optional()
 });
 
-
 const RegisterStep2 = ({ onPrev, onComplete }: RegisterStep2Props) => {
-
-
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -39,7 +34,7 @@ const RegisterStep2 = ({ onPrev, onComplete }: RegisterStep2Props) => {
     console.log("접종 내역:", data);
     onComplete(); // 완료 처리
   };
-  
+
   return (
     <div>
       <h1>2단계</h1>
@@ -91,7 +86,9 @@ const RegisterStep2 = ({ onPrev, onComplete }: RegisterStep2Props) => {
               </FormItem>
             )}
           />
-
+          <Button type="button" onClick={onPrev} className="mt-4">
+            이전
+          </Button>
           <Button type="submit" className="mt-4">
             완료
           </Button>

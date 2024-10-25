@@ -1,8 +1,9 @@
+import { Control, FieldValues } from "react-hook-form";
 import { FormControl, FormField, FormLabel } from "../ui/form";
 import { Input } from "../ui/input";
 
 interface FieldProps {
-  control: any;
+  control: Control<FieldValues>;
   name: string;
   placeholder: string;
   label: string;
