@@ -1,5 +1,11 @@
+import AuthForm from "@/components/auth/AuthForm";
+
 const page = () => {
-  return <div>회원가입페이지</div>;
+  return (
+    <div>
+      <AuthForm />
+    </div>
+  );
 };
 
 export default page;
