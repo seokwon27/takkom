@@ -7,11 +7,11 @@ export const metadata: Metadata = {
   description: "우리 아이 예방 접종 정보를 저장하고 무료 접종 병원을 찾을 수 있습니다."
 };
 
-export default function RootLayout({
+const RootLayout = ({
   children
 }: Readonly<{
   children: React.ReactNode;
-}>) {
+}>) => {
   return (
     <html lang="en">
       <body>
@@ -19,4 +19,6 @@ export default function RootLayout({
       </body>
     </html>
   );
-}
+};
+
+export default RootLayout;
