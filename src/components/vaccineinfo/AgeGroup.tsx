@@ -1,9 +1,8 @@
 "use client";
-import { useMultiStore } from "@/utils/globalStore";
+import { useAgeGroupStore } from "@/utils/ageGroupStore";
 
 const AgeGroup = () => {
-  const ageGroup = useMultiStore((state) => state.ageGroup);
-  const setAgeGroup = useMultiStore((state) => state.setAgeGroup);
+  const { ageGroup, setAgeGroup } = useAgeGroupStore();
 
   return (
     <>
@@ -17,11 +16,11 @@ const AgeGroup = () => {
           <div className="bg-gray-400 w-20 h-20 rounded-lg"></div>
           <p>영아기</p>
         </div>
-        <div className="p-2" onClick={() => setAgeGroup("유아기 초기")}>
+        <div className="p-2" onClick={() => setAgeGroup("유아초기")}>
           <div className="bg-gray-400 w-20 h-20 rounded-lg"></div>
           <p>유아기 초기</p>
         </div>
-        <div className="p-2" onClick={() => setAgeGroup("유아기 중기")}>
+        <div className="p-2" onClick={() => setAgeGroup("유아중기")}>
           <div className="bg-gray-400 w-20 h-20 rounded-lg"></div>
           <p>유아기 중기</p>
         </div>

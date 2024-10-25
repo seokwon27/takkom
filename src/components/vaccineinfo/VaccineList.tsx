@@ -1,16 +1,16 @@
 "use client";
 
 import { useVaccinationQuery } from "@/query/useVaccinationQuery";
-import { useMultiStore } from "@/utils/globalStore";
+import { useAgeGroupStore } from "@/utils/ageGroupStore";
 
 const VaccineList = () => {
-  const age = useMultiStore((state) => state.selectedAge);
+  const { selectedAge } = useAgeGroupStore();
 
   const { data, error, isPending } = useVaccinationQuery();
   if (isPending) return "접종 정보 로딩중...";
   if (error) throw new Error(`Error: ${error}`);
 
-  const formattedData = data.filter((item) => item.duration === age);
+  const formattedData = data.filter((item) => item.duration === selectedAge);
 
   return (
     <div>
