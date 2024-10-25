@@ -1,5 +1,6 @@
 import { createClient } from "@/utils/supabase/client";
-import { getVaccines } from "@/utils/vaccinations/vaccinationsApi";
+import { getVaccines } from "@/utils/supabase/server-action";
+
 import { useQuery } from "@tanstack/react-query";
 
 export const useVaccinationQuery = () => {

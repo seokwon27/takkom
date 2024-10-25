@@ -1,14 +1,9 @@
-import { createClient } from "./server";
+import { SupabaseDatabase } from "@/types/supabaseDataType";
 
-// 백신테이블 fetch
-export const getVaccineList = async () => {
-  const supabase = createClient();
+export const getVaccines = async (supabaseClient: SupabaseDatabase) => {
+  const { data, error } = await supabaseClient.from("vaccine").select();
 
-  try {
-    const { data } = await supabase.from("vaccine").select("*");
-    return data;
-  } catch (error) {
-    console.error(error);
-    throw new Error(`Error : ${error}`);
-  }
+  if (error) throw Error(error.message);
+
+  return data;
 };

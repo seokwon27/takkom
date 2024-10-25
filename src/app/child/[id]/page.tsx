@@ -1,6 +1,7 @@
 import VaccinateRecord from "@/components/VaccinateRecord";
 import { createClient } from "@/utils/supabase/server";
-import { getVaccines } from "@/utils/vaccinations/vaccinationsApi";
+import { getVaccines } from "@/utils/supabase/server-action";
+
 import { dehydrate, HydrationBoundary, QueryClient } from "@tanstack/react-query";
 
 const VaccinatePage = async () => {
