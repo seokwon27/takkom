@@ -19,9 +19,9 @@ const formSchema = z.object({
 });
 
 const RegisterStep1 = ({ child, onNext }: RegisterStep1Props) => {
-  const [name, setName] = useState(child.name);
-  const [birthdate, setBirthdate] = useState(child.birthday);
-  const [note, setNote] = useState(child.notes || "");
+  // const [name, setName] = useState(child.name);
+  // const [birthdate, setBirthdate] = useState(child.birthday);
+  // const [note, setNote] = useState(child.notes || "");
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
