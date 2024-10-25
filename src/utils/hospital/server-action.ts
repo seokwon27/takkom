@@ -20,7 +20,10 @@ function xmlParser<T>(xmlData: string): T {
 export const getBrtcCd = async (): Promise<{ [key: string]: string }> => {
   const params = new URLSearchParams({ serviceKey });
   const res = await fetch(BASE_URL + `/getCondBrtcCd3?` + params, {
-    method: "GET"
+    method: "GET",
+    next: {
+      revalidate: 60 * 60
+    }
   });
   const data = await res.text();
   const {
@@ -37,8 +40,8 @@ export const getBrtcCd = async (): Promise<{ [key: string]: string }> => {
 
     return brtcObj;
   } else {
-    const brtcObj: { [key: string]: string } = {}
-    const cdNm = item.cdNm
+    const brtcObj: { [key: string]: string } = {};
+    const cdNm = item.cdNm;
     brtcObj[cdNm] = item.cd;
     return brtcObj;
   }
@@ -48,7 +51,10 @@ export const getBrtcCd = async (): Promise<{ [key: string]: string }> => {
 export const getSggCd = async (brtcCd: string): Promise<{ [key: string]: string }> => {
   const params = new URLSearchParams({ serviceKey, brtcCd });
   const res = await fetch(BASE_URL + `/getCondSggCd3?` + params, {
-    method: "GET"
+    method: "GET",
+    next: {
+      revalidate: 60 * 60
+    }
   });
   const data = await res.text();
   const {
@@ -65,8 +71,8 @@ export const getSggCd = async (brtcCd: string): Promise<{ [key: string]: string 
 
     return sggObj;
   } else {
-    const sggObj: { [key: string]: string } = {}
-    const cdNm = item.cdNm
+    const sggObj: { [key: string]: string } = {};
+    const cdNm = item.cdNm;
     sggObj[cdNm] = item.cd;
     return sggObj;
   }
