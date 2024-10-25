@@ -64,11 +64,6 @@ export default function AuthForm() {
                 message: "비밀번호가 일치하지 않습니다.",
                 path: ["passwordCheck"]
               });
-              ctx.addIssue({
-                code: z.ZodIssueCode.custom,
-                message: "비밀번호가 일치하지 않습니다.",
-                path: ["password"]
-              });
             }
           })
       : z.object({
