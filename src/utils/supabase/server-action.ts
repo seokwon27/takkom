@@ -1,4 +1,4 @@
-import { createClient } from "../supabase/server";
+import { createClient } from "./server";
 
 // 백신테이블 fetch
 export const getVaccineList = async () => {
