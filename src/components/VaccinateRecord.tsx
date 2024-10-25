@@ -2,14 +2,18 @@
 
 import { useVaccinationQuery } from "@/query/useVaccinationQuery";
 
-const VaccinateRecord = () => {
-  const { data } = useVaccinationQuery();
+interface VaccinateRecordProps {
+  id: string;
+}
+
+const VaccinateRecord = ({ id }: VaccinateRecordProps) => {
+  const { data } = useVaccinationQuery(id);
 
   return (
     <ul>
       {data?.map((vaccine) => (
         <li key={vaccine.id}>
-          <div>{vaccine.disease_name}</div>
+          <div>{vaccine.vaccine?.disease_name}</div>
         </li>
       ))}
     </ul>
