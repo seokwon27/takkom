@@ -1,7 +1,7 @@
 "use client";
 
 import { useForm } from "react-hook-form";
-import { Form, FormControl, FormItem, FormLabel, FormMessage } from "../ui/form";
+import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel } from "../ui/form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Input } from "../ui/input";
@@ -37,9 +37,9 @@ export default function AuthForm() {
           password: ""
         };
 
-  // 주소값이 signup일 때를 현재 주소값과 비교하여 스케마를 다르게 적용
+  // 주소값이 signup일 때를 현재 주소값과 비교하여 스키마를 다르게 적용
   const schema =
-    path === signUpPath // 회원가입페이지 스케마
+    path === signUpPath // 회원가입페이지 스키마
       ? z
           .object({
             id: z
@@ -67,7 +67,7 @@ export default function AuthForm() {
             }
           })
       : z.object({
-          // 로그인 페이지 스케마
+          // 로그인 페이지 스키마
           id: z.string().min(1, { message: "아이디를 입력해주세요." }),
           password: z.string().min(1, { message: "비밀번호를 입력해주세요." })
         });
@@ -80,7 +80,6 @@ export default function AuthForm() {
 
   const signUp = async (data: AuthFormInputs) => {
     try {
-      // 회원가입 로직: 예를 들어 API 호출
       console.log("회원가입 데이터:", data);
     } catch (error) {
       console.error("회원가입 실패:", error);
@@ -102,39 +101,89 @@ export default function AuthForm() {
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(path === signUpPath ? signUp : signIn)}>
-        <FormItem>
-          <FormLabel>아이디</FormLabel>
-          <FormControl>
-            <Input {...form.register("id")} />
-          </FormControl>
-          <FormMessage>{form.formState.errors.id?.message}</FormMessage>
-        </FormItem>
+        <FormField
+          control={form.control}
+          name="id"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel className="text-gray-600">아이디</FormLabel>
+              <FormControl>
+                <Input
+                  className={form.formState.errors.id ? "border-red-500" : "border-gray-300"}
+                  placeholder="ID"
+                  {...field}
+                />
+              </FormControl>
+              <FormDescription className={form.formState.errors.id ? "text-red-500" : "text-gray-600"}>
+                {form.formState.errors.id?.message}
+              </FormDescription>
+            </FormItem>
+          )}
+        />
 
-        <FormItem>
-          <FormLabel>비밀번호</FormLabel>
-          <FormControl>
-            <Input type="password" {...form.register("password")} />
-          </FormControl>
-          <FormMessage>{form.formState.errors.password?.message}</FormMessage>
-        </FormItem>
+        <FormField
+          control={form.control}
+          name="password"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel className="text-gray-600">비밀번호</FormLabel>
+              <FormControl>
+                <Input
+                  className={form.formState.errors.password ? "border-red-500" : "border-gray-300"}
+                  type="password"
+                  placeholder="PASSWORD"
+                  {...field}
+                />
+              </FormControl>
+              <FormDescription className={form.formState.errors.password ? "text-red-500" : "text-gray-600"}>
+                {form.formState.errors.password?.message}
+              </FormDescription>
+            </FormItem>
+          )}
+        />
 
         {path === signUpPath && (
           <>
-            <FormItem>
-              <FormLabel>비밀번호 확인</FormLabel>
-              <FormControl>
-                <Input type="password" {...form.register("passwordCheck")} />
-              </FormControl>
-              <FormMessage>{form.formState.errors.passwordCheck?.message}</FormMessage>
-            </FormItem>
+            <FormField
+              control={form.control}
+              name="passwordCheck"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel className="text-gray-600">비밀번호 확인</FormLabel>
+                  <FormControl>
+                    <Input
+                      className={form.formState.errors.passwordCheck ? "border-red-500" : "border-gray-300"}
+                      type="password"
+                      placeholder="PASSWORD"
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormDescription className={form.formState.errors.passwordCheck ? "text-red-500" : "text-gray-600"}>
+                    {form.formState.errors.passwordCheck?.message}
+                  </FormDescription>
+                </FormItem>
+              )}
+            />
 
-            <FormItem>
-              <FormLabel>이름</FormLabel>
-              <FormControl>
-                <Input {...form.register("name")} />
-              </FormControl>
-              <FormMessage>{form.formState.errors.name?.message}</FormMessage>
-            </FormItem>
+            <FormField
+              control={form.control}
+              name="name"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel className="text-gray-600">이름</FormLabel>
+                  <FormControl>
+                    <Input
+                      className={form.formState.errors.name ? "border-red-500" : "border-gray-300"}
+                      placeholder="NAME"
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormDescription className={form.formState.errors.name ? "text-red-500" : "text-gray-600"}>
+                    {form.formState.errors.name?.message}
+                  </FormDescription>
+                </FormItem>
+              )}
+            />
           </>
         )}
 
