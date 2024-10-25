@@ -19,7 +19,7 @@ type AuthFormInputs = {
   name?: string; // 회원가입일 때만 필요하므로 선택적임
 };
 
-export default function AuthForm() {
+const AuthForm = () => {
   // 현재 주소값을 받아와 signUp과 비교
   const path = usePathname();
 
@@ -191,4 +191,6 @@ export default function AuthForm() {
       </form>
     </Form>
   );
-}
+};
+
+export default AuthForm;

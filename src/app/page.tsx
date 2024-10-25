@@ -1,6 +1,6 @@
 import Link from "next/link";
 
-export default function Home() {
+const Home = () => {
   return (
     <>
       <div>로고</div>
@@ -13,4 +13,6 @@ export default function Home() {
       </div>
     </>
   );
-}
+};
+
+export default Home;
