@@ -1,6 +1,6 @@
 import AuthForm from "@/components/auth/AuthForm";
 
-const signInPage = () => {
+const SignInPage = () => {
   return (
     <div>
       <AuthForm />
@@ -8,4 +8,4 @@ const signInPage = () => {
   );
 };
 
-export default signInPage;
+export default SignInPage;

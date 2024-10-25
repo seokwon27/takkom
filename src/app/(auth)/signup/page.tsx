@@ -1,6 +1,6 @@
 import AuthForm from "@/components/auth/AuthForm";
 
-const signUpPage = () => {
+const SignUpPage = () => {
   return (
     <div>
       <AuthForm />
@@ -8,4 +8,4 @@ const signUpPage = () => {
   );
 };
 
-export default signUpPage;
+export default SignUpPage;
