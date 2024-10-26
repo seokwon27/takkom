@@ -4,10 +4,10 @@ interface AgeState {
   ageGroup: string;
   subAgeGroup: number[];
   selectedAge: number;
-  thisVaccine: string;
+  thisDisease: string;
   setAgeGroup: (newText: string) => void;
   setSelectedAge: (newAge: number) => void;
-  setThisVaccine: (newText: string) => void;
+  setThisDisease: (newText: string) => void;
 }
 
 // 상태 스토어 생성
@@ -16,18 +16,25 @@ export const useAgeGroupStore = create<AgeState>((set) => ({
   ageGroup: "신생아",
   subAgeGroup: [0, 1, 2],
   selectedAge: 0,
-  thisVaccine: "",
+  thisDisease: "",
   // 상태변환 함수
   setAgeGroup: (newText: string) =>
     set(() => {
       return {
         ageGroup: newText,
         subAgeGroup: subGroup[newText],
-        selectedAge: subGroup[newText][0]
+        selectedAge: subGroup[newText][0],
+        thisDisease: ""
       };
     }), //
-  setSelectedAge: (newAge: number) => set({ selectedAge: newAge }),
-  setThisVaccine: (newText: string) => set({ thisVaccine: newText })
+  setSelectedAge: (newAge: number) =>
+    set(() => {
+      return {
+        selectedAge: newAge,
+        thisDisease: ""
+      };
+    }),
+  setThisDisease: (newText: string) => set({ thisDisease: newText })
 }));
 
 //소분류
