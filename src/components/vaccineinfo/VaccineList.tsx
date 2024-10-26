@@ -4,7 +4,7 @@ import { useVaccineInfoQuery } from "@/query/useVaccineInfoQuery";
 import { useAgeGroupStore } from "@/utils/ageGroupStore";
 
 const VaccineList = () => {
-  const { selectedAge } = useAgeGroupStore();
+  const { selectedAge, setThisDisease, thisDisease } = useAgeGroupStore();
 
   const { data, error, isPending } = useVaccineInfoQuery();
   if (isPending) return "접종 정보 로딩중...";
@@ -19,7 +19,13 @@ const VaccineList = () => {
       <div className="flex flex-wrap gap-3">
         {formattedData?.map((item) => {
           return (
-            <div key={item.disease_name} className="border-[1px] gap-2 w-56 p-3">
+            <div
+              key={item.disease_name}
+              className={`${thisDisease === item.disease_name ? "border-black" : ""} border-[2px] gap-2 w-56 p-3`}
+              onClick={() => {
+                setThisDisease(item.disease_name);
+              }}
+            >
               <p>{item.disease_name}</p>
               <p className="mt-2">{item.description}</p>
             </div>
