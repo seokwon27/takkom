@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "gen": "supabase gen types --lang=typescript --project-id rhihezmeunossgtiviip --schema public > database.types.ts"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.9.0",
@@ -37,6 +38,7 @@
     "eslint": "^8",
     "eslint-config-next": "14.2.15",
     "postcss": "^8",
+    "supabase": "^1.207.9",
     "tailwindcss": "^3.4.1",
     "typescript": "^5.6.3"
   }
