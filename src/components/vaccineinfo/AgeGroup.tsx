@@ -2,34 +2,31 @@
 import { useAgeGroupStore } from "@/utils/ageGroupStore";
 
 const AgeGroup = () => {
-  const { ageGroup, setAgeGroup } = useAgeGroupStore();
+  const { ageGroup } = useAgeGroupStore();
 
   return (
     <>
-      <div>{`선택된 연령 그룹 : ${ageGroup}`}</div>
+      <p>{`선택된 연령 그룹 : ${ageGroup}`}</p>
+
       <div className="flex text-center justify-center  gap-6 p-2">
-        <div className="p-2 " onClick={() => setAgeGroup("신생아")}>
-          <div className="bg-gray-400 w-20 h-20 rounded-lg"></div>
-          <p>신생아</p>
-        </div>
-        <div className="p-2" onClick={() => setAgeGroup("영아기")}>
-          <div className="bg-gray-400 w-20 h-20 rounded-lg"></div>
-          <p>영아기</p>
-        </div>
-        <div className="p-2" onClick={() => setAgeGroup("유아초기")}>
-          <div className="bg-gray-400 w-20 h-20 rounded-lg"></div>
-          <p>유아기 초기</p>
-        </div>
-        <div className="p-2" onClick={() => setAgeGroup("유아중기")}>
-          <div className="bg-gray-400 w-20 h-20 rounded-lg"></div>
-          <p>유아기 중기</p>
-        </div>
-        <div className="p-2" onClick={() => setAgeGroup("아동기")}>
-          <div className="bg-gray-400 w-20 h-20 rounded-lg"></div>
-          <p>아동기</p>
-        </div>
+        <AgeCard age={"신생아"} />
+        <AgeCard age={"영아기"} />
+        <AgeCard age={"유아초기"} />
+        <AgeCard age={"유아중기"} />
+        <AgeCard age={"아동기"} />
       </div>
     </>
+  );
+};
+
+const AgeCard = ({ age }: { age: string }) => {
+  const { setAgeGroup } = useAgeGroupStore();
+
+  return (
+    <div className="p-2 " onClick={() => setAgeGroup(age)}>
+      <div className="bg-gray-400 w-20 h-20 rounded-lg"></div>
+      <p>{age}</p>
+    </div>
   );
 };
 
