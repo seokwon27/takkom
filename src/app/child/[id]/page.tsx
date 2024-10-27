@@ -1,30 +1,33 @@
-import { getVaccinations } from "@/api/vaccinations/vaccinationsApi";
-import VaccinateRecord from "@/components/VaccinateRecord";
+import { getVaccines } from "@/api/vaccineApi";
+
+import VaccineRecord from "@/components/vaccinerecord/VaccinateRecord";
 import { createClient } from "@/utils/supabase/server";
+import { groupVaccines } from "@/utils/vaccineRecord/vaccinesRecord";
 
 import { dehydrate, HydrationBoundary, QueryClient } from "@tanstack/react-query";
 
-interface VaccinatePageProps {
-  params: {
-    id: string;
-  };
-}
+// interface VaccinatePageProps {
+//   params: {
+//     id: string;
+//   };
+// }
 
-const VaccinatePage = async ({ params }: VaccinatePageProps) => {
+const VaccinatePage = async () => {
   const serverClient = createClient();
   const queryClient = new QueryClient();
 
-  const id = params.id;
-
   await queryClient.prefetchQuery({
-    queryKey: ["vaccinations", id],
-    queryFn: () => getVaccinations(serverClient, id)
+    queryKey: ["vaccines"],
+    queryFn: async () => {
+      const vaccines = await getVaccines(serverClient);
+      return groupVaccines(vaccines);
+    }
   });
 
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>
       <div>
-        <VaccinateRecord id={id} />
+        <VaccineRecord />
       </div>
     </HydrationBoundary>
   );
