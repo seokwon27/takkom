@@ -1,5 +1,11 @@
-const page = () => {
-  return <div>회원가입페이지</div>;
+import AuthForm from "@/components/auth/AuthForm";
+
+const SignUpPage = () => {
+  return (
+    <div>
+      <AuthForm />
+    </div>
+  );
 };
 
-export default page;
+export default SignUpPage;
