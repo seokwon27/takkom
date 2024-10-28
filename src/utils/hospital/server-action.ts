@@ -19,6 +19,7 @@ function xmlParser<T>(xmlData: string): T {
 
 // 시도 정보 가져오기
 // brtc는 ... ai에게 질의 결과 basic regional tele-communication의 약자라고 합니다.
+// return : key=brtcCd, value=brtcNm
 export const getBrtcCd = async (): Promise<{ [key: string]: string }> => {
   const params = new URLSearchParams({ serviceKey });
   const res = await fetch(BASE_URL + `/getCondBrtcCd3?` + params, {
@@ -52,6 +53,7 @@ export const getBrtcCd = async (): Promise<{ [key: string]: string }> => {
 
 // 시군구 정보 가져오기
 // sgg : 시군구
+// return : key=sggCd, value=sggNm
 export const getSggCd = async (brtcCd: string): Promise<{ [key: string]: string }> => {
   const params = new URLSearchParams({ serviceKey, brtcCd });
   const res = await fetch(BASE_URL + `/getCondSggCd3?` + params, {
@@ -83,6 +85,7 @@ export const getSggCd = async (brtcCd: string): Promise<{ [key: string]: string 
 };
 
 // 시도, 시군구 정보 합치기
+// key=brtcCd, value=해당 시도의 getSggCd값
 export const getRegionInfo = async (): Promise<Map<string, { [key: string]: string }>> => {
   const regionInfo = new Map();
 
@@ -157,11 +160,8 @@ export const getHospitals = async (
     }
   }
 
-  // if (Array.isArray(item)) {
   return { items: item, totalCount: body.totalCount, maxPage: Math.ceil(body.totalCount / 10) };
-  // } else {
-  //   return { items: [item], totalCount: body.totalCount, maxPage: body.maxPage };
-  // }
+
 };
 
 // 병원 목록 가져오기 위한 input params
@@ -185,19 +185,6 @@ export const getHospitalsMutliConditions = async (input: HospitalsMutliCondition
     if (!org && !addr) {
       console.log("addr & org 1 :", addr, org);
       const data = await getHospitals({ brtcCd, sggCd, pageNo, numOfRows });
-      // const { items, totalCount, maxPage } = await getHospitals({ brtcCd, sggCd, pageNo, numOfRows });
-      // let totalItems = items.concat([]);
-      // if (maxPage > 1) {
-      //   const allData = await Promise.all(
-      //     Array(maxPage - 1)
-      //       .fill(0)
-      //       .map((_, idx) => getHospitals({ brtcCd, sggCd, pageNo: "" + (idx + 2), numOfRows }))
-      //   );
-      //   for (const data of allData) {
-      //     totalItems = totalItems.concat(data.items);
-      //   }
-      // }
-
       return data;
     } else if (!org && addr) {
       console.log("addr & org 2 :", addr, org);
