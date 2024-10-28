@@ -7,11 +7,7 @@
     "build": "rm -rf .next && next build",
     "start": "next start",
     "lint": "next lint",
-<<<<<<< HEAD
-    "gen": "supabase gen types --lang=typescript --project-id rhihezmeunossgtiviip --schema public > database.types.ts"
-=======
     "gen": "supabase gen types typescript --project-id rhihezmeunossgtiviip > database.types.ts"
->>>>>>> dev
   },
   "dependencies": {
     "@hookform/resolvers": "^3.9.0",
