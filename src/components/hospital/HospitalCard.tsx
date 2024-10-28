@@ -1,7 +1,10 @@
 import { HopsitalItem } from "@/types/hospital";
 import React from "react";
+import { Button } from "../ui/button";
+import FreeTag from "./FreeTag";
+import PhoneButton from "./PhoneButton";
 
-const HospitalCard = ({ info }: { info: HopsitalItem }) => {
+const HospitalCard = ({ info, filter }: { info: HopsitalItem; filter: string | undefined }) => {
   const {
     orgnm,
     orgTlno,
@@ -9,25 +12,68 @@ const HospitalCard = ({ info }: { info: HopsitalItem }) => {
     vcnList: { vcnInfo }
   } = info;
 
-  const vaccineNames = Array.isArray(vcnInfo) ? vcnInfo.map(info => info.vcnNm) : [vcnInfo.vcnNm];
+  const vaccineNames = Array.isArray(vcnInfo) ? vcnInfo.map((info) => info.vcnNm) : [vcnInfo.vcnNm];
 
   return (
-    <div className="w-full border rounded-lg">
-      <div className="grid grid-cols-2 grid-rows-4">
-        <p>병원 이름 :</p> <p>{orgnm}</p>
-        <p>병원 주소 :</p> <p>{orgAddr}</p>
-        <p>전화 번호 :</p> <p>{orgTlno}</p>
-        <p>백신 목록 :</p>
-        <p>
-          {vaccineNames.map((name, idx) => {
-            if (idx === vaccineNames.length - 1) {
-              return <span key={`${orgnm}_vcnNm_${name}`}>{name}</span>;
-            } else {
-              return <span key={`${orgnm}_vcnNm_${name}`}>{name}, </span>;
-            }
-          })}
-        </p>
+    <div className="w-full h-[192px] flex border rounded-lg p-4 justify-between items-center">
+      <div>
+        <div className="w-[160px] h-[160px] rounded-2xl bg-gray-300" />
       </div>
+      <div className="flex flex-col flex-1 ml-4">
+        <FreeTag />
+        <table>
+          <tbody>
+            <tr>
+              <td className="w-[96px] text-gray-900">
+                <p>병원 이름</p>
+              </td>
+              <td className="text-gray-700">
+                <p>{orgnm}</p>
+              </td>
+            </tr>
+            <tr>
+              <td className="w-[96px] text-gray-900">
+                <p>병원 주소</p>
+              </td>
+              <td className="text-gray-700">
+                <p>{orgAddr}</p>
+              </td>
+            </tr>
+            <tr>
+              <td className="w-[96px] text-gray-900">
+                <p>백신 목록</p>
+              </td>
+              <td className="text-gray-700">
+                <ul>
+                  {
+                    filter ? (
+                      <li>
+                        {filter} {vaccineNames.length > 1 ? `외 ${vaccineNames.length - 1}개` : null}{" "}
+                      </li>
+                    ) : vaccineNames.length === 1 ? (
+                      <li>{vaccineNames[0]}</li>
+                    ) : (
+                      <li>
+                        {vaccineNames[0]} 외 {`${vaccineNames.length - 1}`}개
+                      </li>
+                    )
+                    // (
+                    //   vaccineNames.map((name, idx) => {
+                    //     if (idx === vaccineNames.length - 1) {
+                    //       return <li key={`${orgnm}_vcnNm_${name}`}>{name}</li>;
+                    //     } else {
+                    //       return <li key={`${orgnm}_vcnNm_${name}`}>{name}, </li>;
+                    //     }
+                    //   })
+                    // )
+                  }
+                </ul>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <PhoneButton phoneNumber={orgTlno} />
     </div>
   );
 };

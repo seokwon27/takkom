@@ -6,6 +6,7 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { BRTC, DISEASE, DISEASE_LIST, SGG } from "./constants";
+import { Info } from "lucide-react";
 
 const SearchForm = ({
   brtcObj,
@@ -58,6 +59,7 @@ const SearchForm = ({
 
   return (
     <div className="w-full flex flex-col ">
+      <Info/>
       <form className="hospital-search">
         <Select
           value={brtc}
