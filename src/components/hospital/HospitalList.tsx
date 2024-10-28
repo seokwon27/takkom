@@ -33,7 +33,7 @@ const HospitalList = () =>
     useEffect(() => {
       const fetchHospitalsMultiConditions = async (input: HospitalsMutliConditionParams) => {
         const data = await getHospitalsMutliConditions(input);
-        // console.log("hospitals :", data);
+        console.log("hospitals :", data);
         setHospitalData(data as HospitalData);
       };
       if (brtcCd && sggCd) {
