@@ -23,7 +23,11 @@ const config: Config = {
           600: "#636363",
           700: "#4A4A4A",
           800: "#303030",
+<<<<<<< HEAD
           900: "#171717"
+=======
+          900: "#171717",
+>>>>>>> dev
         },
         primary: {
           50: "#F5F9FF",
@@ -36,12 +40,20 @@ const config: Config = {
           600: "#0048C2",
           700: "#00358F",
           800: "#00225C",
+<<<<<<< HEAD
           900: "#000F29"
+=======
+          900: "#000F29",
+>>>>>>> dev
         },
         negative: "#FF4737",
         notice: "#FF961E",
         positive: "#008F5D",
+<<<<<<< HEAD
         informative: "#248DFF"
+=======
+        informative: "#248DFF",
+>>>>>>> dev
       },
       borderRadius: {
         lg: "var(--radius)",
