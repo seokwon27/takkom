@@ -2,7 +2,7 @@
 import { HospitalType, RegionType } from "@/types/hospital";
 import { XMLParser } from "fast-xml-parser";
 
-const serviceKey = process.env.NEXT_PUBLIC_HOSPITAL_KEY_DEC as string;
+const serviceKey = process.env.HOSPITAL_KEY_DEC as string;
 const BASE_URL = "https://apis.data.go.kr/1790387/orglist3";
 
 // xml to json 변환

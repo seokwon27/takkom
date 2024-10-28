@@ -6,6 +6,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Form, FormField, FormItem, FormLabel, FormControl, FormDescription, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import { createClient } from "@/utils/supabase/client";
 
 interface RegisterStep1Props {
   child: Child; // child prop 추가
@@ -28,8 +29,35 @@ const RegisterStep1 = ({ onNext }: RegisterStep1Props) => {
     }
   });
 
-  const onSubmit = (data: Partial<Child>) => {
+  // Supabase 클라이언트 생성
+  const supabase = createClient();
+
+  const onSubmit = async (data: Partial<Child>) => {
     console.log(data);
+
+    const { name, birthday, notes } = data;
+
+    // Supabase에 데이터 삽입
+    const { error } = await supabase
+      .from("child") // 'child' 테이블에 데이터 삽입
+      .insert([
+        {
+          // user_id: userId
+          name: name,
+          birth: birthday,
+          profile: null, // 프로필 이미지 URL이 필요하면 추가하세요
+          notes: notes || "" // notes가 없을 경우 빈 문자열로 설정
+        }
+      ]);
+
+    if (error) {
+      console.error("Error inserting data:", error);
+      // 에러 핸들링 (예: 사용자에게 알림)
+      return;
+    }
+
+    console.log("데이터가 성공적으로 저장되었습니다.");
+
     onNext(data); // 2단계로 이동
   };
   // const onSubmit = (data: z.infer<typeof formSchema>) => {
