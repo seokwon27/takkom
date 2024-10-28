@@ -77,13 +77,13 @@ const SearchForm = ({
             }
           }}
         >
-          <SelectTrigger className="justify-center">
-            <SelectValue placeholder={BRTC} />
+          <SelectTrigger className={`justify-center ${brtc === BRTC ? 'border-gray-300 text-gray-300' : 'border-gray-700'}`}>
+            <SelectValue placeholder={BRTC+'*'}/>
           </SelectTrigger>
           <SelectContent>
             <SelectGroup>
               <SelectItem value={BRTC} key={BRTC} className="justify-center">
-                {BRTC}
+                {BRTC+'*'}
               </SelectItem>
               {Object.entries(brtcObj).map((item) => (
                 <SelectItem value={"" + item[0]} key={item[0]}  className="justify-center">
@@ -108,13 +108,13 @@ const SearchForm = ({
             }
           }}
         >
-          <SelectTrigger  className="justify-center" value={sgg} disabled={disableSgg}>
-            <SelectValue placeholder={SGG} />
+          <SelectTrigger className={`justify-center ${sgg === SGG ? 'border-gray-300 text-gray-300' : 'border-gray-700 text-gray-700'}`} value={sgg} disabled={disableSgg}>
+            <SelectValue placeholder={SGG+'*'} />
           </SelectTrigger>
           <SelectContent>
             <SelectGroup>
               <SelectItem value={SGG} key={SGG} className="justify-center">
-                {SGG}
+                {SGG+'*'}
               </SelectItem>
               {Object.entries(regionInfo.get(brtc) || {}).map((item) => (
                 <SelectItem value={"" + item[0]} key={item[0]}  className="justify-center">
@@ -133,7 +133,7 @@ const SearchForm = ({
             setAddr(e.target.value);
           }}
           disabled={disableInputs}
-          className="text-center"
+          className={`text-center focus-visible:ring-0 focus-visible:ring-offset-0 ${addr ? 'border-gray-700 text-gray-700' : 'border-gray-300 text-gray-300'}`}
         />
         <Input
           placeholder="병원명"
@@ -143,7 +143,7 @@ const SearchForm = ({
             setOrg(e.target.value);
           }}
           disabled={disableInputs}
-          className="text-center"
+          className={`text-center focus-visible:ring-0 focus-visible:ring-offset-0 ${org ? 'border-gray-700 text-gray-700' : 'border-gray-300 text-gray-300'}`}
         />
 
         <Button
@@ -153,7 +153,7 @@ const SearchForm = ({
             setQueryParams(params);
           }}
           disabled={disableInputs}
-          className="bg-gray-700 hover:bg-gray-800 disabled:bg-gray-700"
+          className="bg-gray-700 rounded-lg text-base hover:bg-gray-800 disabled:bg-gray-700"
         >
           검색
         </Button>
@@ -164,7 +164,7 @@ const SearchForm = ({
             setDisease(value);
           }}
         >
-          <SelectTrigger  className="justify-center" value={disease} disabled={disableInputs}>
+          <SelectTrigger className={`justify-center ${disease === DISEASE ? 'border-gray-300 text-gray-300' : 'border-gray-700 text-gray-700'}`} value={disease} disabled={disableInputs}>
             <SelectValue placeholder={DISEASE} />
           </SelectTrigger>
           <SelectContent>
