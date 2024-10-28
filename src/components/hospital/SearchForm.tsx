@@ -7,9 +7,6 @@ import { Button } from "@/components/ui/button";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { BRTC, DISEASE, DISEASE_LIST, SGG } from "./constants";
 
-const brtcDefault = [BRTC, BRTC];
-const sggDefault = [SGG, SGG];
-
 const SearchForm = ({
   brtcObj,
   regionInfo
@@ -20,8 +17,6 @@ const SearchForm = ({
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
-  // const [brtc, setBrtc] = useState<string[]>(brtcDefault);
-  // const [sgg, setSgg] = useState<string[]>(sggDefault);
   const [brtc, setBrtc] = useState<string>(searchParams.get("brtcCd") || BRTC);
   const [sgg, setSgg] = useState<string>(searchParams.get("sggCd") || SGG);
   const [disableSgg, setDisableSgg] = useState(!searchParams.has("brtcCd"));
@@ -67,7 +62,6 @@ const SearchForm = ({
         <Select
           value={brtc}
           onValueChange={(value) => {
-            // setSgg(sggDefault);
             setBrtc(value);
             setSgg(SGG);
             setAddr("");
@@ -76,13 +70,9 @@ const SearchForm = ({
             setDisableInputs(true);
             if (value === BRTC) {
               // 선택 값이 없으면 모든 영역 초기화
-              // setBrtc(brtcDefault);
-              // setBrtc(value);
               setDisableSgg(true);
             } else {
               // 시/도 설정 시 시/군/구 활성화
-              // setBrtc([value, brtcObj[value]]);
-              // setBrtc(value);
               setDisableSgg(false);
             }
           }}
@@ -107,8 +97,6 @@ const SearchForm = ({
         <Select
           value={sgg}
           onValueChange={(value) => {
-            // const sggObj = regionInfo.get(brtc[0]) ?? { "시/군/구": SGG };
-            // setSgg([value, sggObj[value]]);
             setSgg(value);
             if (value === SGG) {
               // 기본값으로 바꾸면 입력값 초기화 및 비활성화
