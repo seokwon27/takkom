@@ -1,10 +1,10 @@
-import AuthForm from "@/components/auth/AuthForm";
+import AuthSignUp from "@/components/auth/authsignup";
 
 const SignUpPage = () => {
   return (
-    <div>
-      <AuthForm />
-    </div>
+    <section>
+      <AuthSignUp />
+    </section>
   );
 };
 

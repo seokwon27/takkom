@@ -7,6 +7,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
 import { usePathname } from "next/navigation";
+import { useState } from "react";
 
 // 주소값의 path에 따라 조건부 스키마
 const signUpPath = "/signup";
@@ -22,6 +23,9 @@ type AuthFormInputs = {
 const AuthForm = () => {
   // 현재 주소값을 받아와 signUp과 비교
   const path = usePathname();
+
+  // 비밀번호 표시 상태 관리
+  const [showPassword, setShowPassword] = useState(false);
 
   // 주소값이 signup일 때를 현재 주소값과 비교하여 state 정의
   const defaultValues =
@@ -94,10 +98,6 @@ const AuthForm = () => {
     }
   };
 
-  // 소셜로그인
-  // 구글
-  // 카카오
-  // 페이스북
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(path === signUpPath ? signUp : signIn)}>
@@ -128,12 +128,19 @@ const AuthForm = () => {
             <FormItem>
               <FormLabel className="text-gray-600">비밀번호</FormLabel>
               <FormControl>
-                <Input
-                  className={form.formState.errors.password ? "border-red-500" : "border-gray-300"}
-                  type="password"
-                  placeholder="PASSWORD"
-                  {...field}
-                />
+                <>
+                  <Input
+                    className={form.formState.errors.password ? "border-red-500" : "border-gray-300"}
+                    type={showPassword ? "text" : "password"} // 타입을 변경해 비밀번호 상태 조건부 랜더링
+                    placeholder="PASSWORD"
+                    {...field}
+                  />
+                  <label>
+                    <Button type="button" onClick={() => setShowPassword(!showPassword)}>
+                      {showPassword ? <p>가</p> : <p>나</p>}
+                    </Button>
+                  </label>
+                </>
               </FormControl>
               <FormDescription className={form.formState.errors.password ? "text-red-500" : "text-gray-600"}>
                 {form.formState.errors.password?.message}
