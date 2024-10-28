@@ -5,7 +5,7 @@ import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectVa
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { usePathname, useRouter } from "next/navigation";
-import { BRTC, SGG } from "./constants";
+import { BRTC, DISEASE, DISEASE_LIST, SGG } from "./constants";
 
 const brtcDefault = [BRTC, BRTC];
 const sggDefault = [SGG, SGG];
@@ -19,12 +19,15 @@ const SearchForm = ({
 }) => {
   const router = useRouter();
   const pathname = usePathname();
-  const [brtc, setBrtc] = useState<string[]>(brtcDefault);
-  const [sgg, setSgg] = useState<string[]>(sggDefault);
+  // const [brtc, setBrtc] = useState<string[]>(brtcDefault);
+  // const [sgg, setSgg] = useState<string[]>(sggDefault);
+  const [brtc, setBrtc] = useState<string>(BRTC);
+  const [sgg, setSgg] = useState<string>(SGG);
   const [disableSgg, setDisableSgg] = useState(true);
   const [disableInputs, setDisableInputs] = useState(true);
   const [addr, setAddr] = useState("");
   const [org, setOrg] = useState("");
+  const [disease, setDisease] = useState(DISEASE);
 
   const setQueryParams = (params: { [key: string]: string }) => {
     const { brtcCd, sggCd, addr, org, disease, pageNo } = params;
@@ -39,7 +42,7 @@ const SearchForm = ({
     if (sggCd) searchParams.set("sggCd", sggCd);
     if (addr) searchParams.set("addr", addr);
     if (org) searchParams.set("org", org);
-    if (disease) searchParams.set("disease", disease);
+    if (disease!==DISEASE) searchParams.set("disease", disease);
     if (pageNo) searchParams.set("pageNo", "" + pageNo);
 
     const queryString = searchParams.toString();
@@ -62,21 +65,23 @@ const SearchForm = ({
       <form className="hospital-search">
         <Select
           onValueChange={(value) => {
-            setSgg(sggDefault);
+            // setSgg(sggDefault);
+            setBrtc(value);
+            setSgg(SGG);
+            setAddr("");
+            setOrg("");
+            setDisease(DISEASE);
+            setDisableInputs(true);
             if (value === BRTC) {
               // 선택 값이 없으면 모든 영역 초기화
-              setBrtc(brtcDefault);
-              setAddr("");
-              setOrg("");
+              // setBrtc(brtcDefault);
+              // setBrtc(value);
               setDisableSgg(true);
-              setDisableInputs(true);
             } else {
               // 시/도 설정 시 시/군/구 활성화
-              setBrtc([value, brtcObj[value]]);
+              // setBrtc([value, brtcObj[value]]);
+              // setBrtc(value);
               setDisableSgg(false);
-              setAddr("");
-              setOrg("");
-              setDisableInputs(true);
             }
           }}
         >
@@ -84,13 +89,13 @@ const SearchForm = ({
             <SelectValue placeholder={BRTC} />
           </SelectTrigger>
           <SelectContent>
-            <SelectGroup >
+            <SelectGroup>
               <SelectItem value={BRTC} key={BRTC} className="w-[180px]">
                 {BRTC}
               </SelectItem>
-              {Array.from(regionInfo.keys()).map((item) => (
-                <SelectItem value={item} key={item} className="w-[180px]">
-                  {item}
+              {Object.entries(brtcObj).map((item) => (
+                <SelectItem value={"" + item[0]} key={item[0]} className="w-[180px]">
+                  {item[1]}
                 </SelectItem>
               ))}
             </SelectGroup>
@@ -99,8 +104,9 @@ const SearchForm = ({
 
         <Select
           onValueChange={(value) => {
-            const sggObj = regionInfo.get(brtc[0]) ?? { "시/군/구": SGG };
-            setSgg([value, sggObj[value]]);
+            // const sggObj = regionInfo.get(brtc[0]) ?? { "시/군/구": SGG };
+            // setSgg([value, sggObj[value]]);
+            setSgg(value);
             if (value === SGG) {
               // 기본값으로 바꾸면 입력값 초기화 및 비활성화
               setAddr("");
@@ -110,7 +116,7 @@ const SearchForm = ({
               setDisableInputs(false);
             }
           }}
-          value={sgg[0]}
+          value={sgg}
         >
           <SelectTrigger className="" value={sgg} disabled={disableSgg}>
             <SelectValue placeholder={SGG} />
@@ -120,9 +126,9 @@ const SearchForm = ({
               <SelectItem value={SGG} key={SGG} className="w-[180px]">
                 {SGG}
               </SelectItem>
-              {Object.entries(regionInfo.get(brtc[0]) || {}).map((item) => (
-                <SelectItem value={item[0]} key={item[0]} className="w-[180px]">
-                  {item[0]}
+              {Object.entries(regionInfo.get(brtc) || {}).map((item) => (
+                <SelectItem value={"" + item[0]} key={item[0]} className="w-[180px]">
+                  {item[1]}
                 </SelectItem>
               ))}
             </SelectGroup>
@@ -151,13 +157,36 @@ const SearchForm = ({
         <Button
           type="button"
           onClick={() => {
-            const params = { brtcCd: brtc[1], sggCd: sgg[1], addr, org, disease: "", pageNo: "1" };
+            const params = { brtcCd: brtc, sggCd: sgg, addr, org, disease, pageNo: "1" };
             setQueryParams(params);
           }}
           disabled={disableInputs}
         >
           검색
         </Button>
+
+        <Select
+          value={disease}
+          onValueChange={(value) => {
+            setDisease(value);
+          }}
+        >
+          <SelectTrigger className="" value={disease} disabled={disableInputs}>
+            <SelectValue placeholder={DISEASE} />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectGroup>
+              <SelectItem value={DISEASE} key={DISEASE} className="w-[180px]">
+                {DISEASE}
+              </SelectItem>
+              {DISEASE_LIST.map((name) => (
+                <SelectItem value={name} key={name} className="w-[180px]">
+                  {name}
+                </SelectItem>
+              ))}
+            </SelectGroup>
+          </SelectContent>
+        </Select>
       </form>
     </div>
   );

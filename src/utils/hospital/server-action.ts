@@ -38,14 +38,14 @@ export const getBrtcCd = async (): Promise<{ [key: string]: string }> => {
   if (Array.isArray(item)) {
     const brtcObj: { [key: string]: string } = {};
     item.forEach((ele) => {
-      brtcObj[ele.cdNm] = ele.cd;
+      brtcObj[ele.cd] = ele.cdNm;
     });
 
     return brtcObj;
   } else {
     const brtcObj: { [key: string]: string } = {};
-    const cdNm = item.cdNm;
-    brtcObj[cdNm] = item.cd;
+    const cd = item.cd;
+    brtcObj[cd] = item.cdNm;
     return brtcObj;
   }
 };
@@ -70,14 +70,14 @@ export const getSggCd = async (brtcCd: string): Promise<{ [key: string]: string 
   if (Array.isArray(item)) {
     const sggObj: { [key: string]: string } = {};
     item.forEach((ele) => {
-      sggObj[ele.cdNm] = ele.cd;
+      sggObj[ele.cd] = ele.cdNm;
     });
 
     return sggObj;
   } else {
     const sggObj: { [key: string]: string } = {};
-    const cdNm = item.cdNm;
-    sggObj[cdNm] = item.cd;
+    const cd = item.cd;
+    sggObj[cd] = item.cdNm;
     return sggObj;
   }
 };
@@ -89,7 +89,7 @@ export const getRegionInfo = async (): Promise<Map<string, { [key: string]: stri
   const brtcArray = await getBrtcCd().then((data) => Object.entries(data));
 
   for (const brtc of brtcArray) {
-    const sggArray = await getSggCd(brtc[1]);
+    const sggArray = await getSggCd(brtc[0]);
     regionInfo.set(brtc[0], sggArray);
   }
 
@@ -183,7 +183,7 @@ export const getHospitalsMutliConditions = async (input: HospitalsMutliCondition
 
   if (!disease) {
     if (!org && !addr) {
-      console.log('addr & org 1 :', addr, org)
+      console.log("addr & org 1 :", addr, org);
       const data = await getHospitals({ brtcCd, sggCd, pageNo, numOfRows });
       // const { items, totalCount, maxPage } = await getHospitals({ brtcCd, sggCd, pageNo, numOfRows });
       // let totalItems = items.concat([]);
@@ -200,16 +200,20 @@ export const getHospitalsMutliConditions = async (input: HospitalsMutliCondition
 
       return data;
     } else if (!org && addr) {
-      console.log('addr & org 2 :', addr, org)
-      const data = await getHospitals({ brtcCd, sggCd, pageNo, numOfRows, searchTpcd: "ADDR", searchWord: addr });
+      console.log("addr & org 2 :", addr, org);
+      const data = await getHospitals({ brtcCd, sggCd, pageNo, numOfRows });
       return data;
     } else if (org && !addr) {
-      console.log('addr & org 3 :', addr, org)
+      console.log("addr & org 3 :", addr, org);
       const data = await getHospitals({ brtcCd, sggCd, pageNo, numOfRows, searchTpcd: "ORG", searchWord: org });
       return data;
-    } else if (org && addr) { // else
-      console.log('addr & org 4 :', addr, org)
+    } else if (org && addr) {
+      // else
+      console.log("addr & org 4 :", addr, org);
       const tmpData = await getHospitals({ brtcCd, sggCd, pageNo, numOfRows, searchTpcd: "ORG", searchWord: org });
+      if (tmpData.totalCount === 0) {
+        return defaultData;
+      }
       const items = tmpData.items.filter((item) => item.orgAddr.includes(addr));
       const totalCount = items.length;
       const maxPage = Math.ceil(totalCount / 10);
@@ -219,8 +223,11 @@ export const getHospitalsMutliConditions = async (input: HospitalsMutliCondition
     }
   } else if (disease) {
     if (!org && !addr) {
-      console.log('addr & org 5 :', addr, org)
-      const tmpData = await getHospitals({ brtcCd, sggCd, pageNo, numOfRows, searchTpcd: "ORG", searchWord: org });
+      console.log("addr & org 5 :", addr, org);
+      const tmpData = await getHospitals({ brtcCd, sggCd, pageNo, numOfRows });
+      if (tmpData.totalCount === 0) {
+        return defaultData;
+      }
       const items = tmpData.items.filter((item) => {
         if (Array.isArray(item.vcnList.vcnInfo)) {
           return item.vcnList.vcnInfo.some((vcn) => vcn.vcnNm.includes(disease));
@@ -232,8 +239,11 @@ export const getHospitalsMutliConditions = async (input: HospitalsMutliCondition
       const maxPage = Math.ceil(totalCount / 10);
       return { items, totalCount, maxPage };
     } else if (!org && addr) {
-      console.log('addr & org 6 :', addr, org)
+      console.log("addr & org 6 :", addr, org);
       const tmpData = await getHospitals({ brtcCd, sggCd, pageNo, numOfRows, searchTpcd: "ADDR", searchWord: addr });
+      if (tmpData.totalCount === 0) {
+        return defaultData;
+      }
       const items = tmpData.items.filter((item) => {
         if (Array.isArray(item.vcnList.vcnInfo)) {
           return item.vcnList.vcnInfo.some((vcn) => vcn.vcnNm.includes(disease));
@@ -245,8 +255,11 @@ export const getHospitalsMutliConditions = async (input: HospitalsMutliCondition
       const maxPage = Math.ceil(totalCount / 10);
       return { items, totalCount, maxPage };
     } else if (org && !addr) {
-      console.log('addr & org 7 :', addr, org)
+      console.log("addr & org 7 :", addr, org);
       const tmpData = await getHospitals({ brtcCd, sggCd, pageNo, numOfRows, searchTpcd: "ORG", searchWord: org });
+      if (tmpData.totalCount === 0) {
+        return defaultData;
+      }
       const items = tmpData.items.filter((item) => {
         if (Array.isArray(item.vcnList.vcnInfo)) {
           return item.vcnList.vcnInfo.some((vcn) => vcn.vcnNm.includes(disease));
@@ -257,9 +270,13 @@ export const getHospitalsMutliConditions = async (input: HospitalsMutliCondition
       const totalCount = items.length;
       const maxPage = Math.ceil(totalCount / 10);
       return { items, totalCount, maxPage };
-    } else if (org && addr) { // else
-      console.log('addr & org 8 :', addr, org)
+    } else if (org && addr) {
+      // else
+      console.log("addr & org 8 :", addr, org);
       const tmpData = await getHospitals({ brtcCd, sggCd, pageNo, numOfRows, searchTpcd: "ORG", searchWord: org });
+      if (tmpData.totalCount === 0) {
+        return defaultData;
+      }
       const items = tmpData.items.filter((item) => {
         if (item.orgAddr.includes(addr)) {
           if (Array.isArray(item.vcnList.vcnInfo)) {
@@ -267,7 +284,6 @@ export const getHospitalsMutliConditions = async (input: HospitalsMutliCondition
           } else {
             return item.vcnList.vcnInfo.vcnNm.includes(disease);
           }
-
         } else {
           return false;
         }
