@@ -1,10 +1,6 @@
 "use client";
 
-import {
-  getHospitalsMutliConditions,
-  HospitalData,
-  HospitalsMutliConditionParams
-} from "@/utils/hospital/server-action";
+import { getHospitalsMutliConditions, HospitalData, HospitalsMutliConditionParams } from "@/api/hospitalApi";
 import { useSearchParams } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import HospitalCard from "./HospitalCard";

@@ -1,7 +1,10 @@
-export type RegtionItem = {
+// 각 지역(시도/시군구)의 이름cdNm과 코드 번호cd
+export type RegionItem = {
   cdNm: string;
   cd: string;
 };
+
+// getBrtcCd 또는 getSggCd 반환 타입
 export type RegionType = {
   header: {
     resultCode: number;
@@ -9,7 +12,7 @@ export type RegionType = {
   };
   body: {
     items: {
-      item: RegtionItem[] | RegtionItem;
+      item: RegionItem[] | RegionItem;
     };
     pageNo: string;
     dataTime: string;
@@ -19,8 +22,8 @@ export type RegionType = {
 };
 
 export type vcnInfo = {
-  vcnNm: string;
-  vcncd: string;
+  vcnNm: string; // 백신 이름 (접종명)
+  vcncd: string; // 백신 코드
 };
 
 export type HopsitalItem = {
@@ -28,12 +31,13 @@ export type HopsitalItem = {
   orgTlno: string; // 전화번호
   orgAddr: string; // 병원 주소
   expnYmd: number; // 병원 ?
-  orgcd: number;
+  orgcd: number; // 병원 코드
   vcnList: {
     vcnInfo: vcnInfo[] | vcnInfo;
   };
 };
 
+// getHospitals 반환 타입
 export type HospitalType = {
   header: {
     resultCode: number;

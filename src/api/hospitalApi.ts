@@ -19,7 +19,7 @@ function xmlParser<T>(xmlData: string): T {
 
 // 시도 정보 가져오기
 // brtc는 ... ai에게 질의 결과 basic regional tele-communication의 약자라고 합니다.
-// return : key=brtcCd, value=brtcNm
+// return : key=시도 코드 번호, value=시도 이름
 export const getBrtcCd = async (): Promise<{ [key: string]: string }> => {
   const params = new URLSearchParams({ serviceKey });
   const res = await fetch(BASE_URL + `/getCondBrtcCd3?` + params, {
@@ -53,7 +53,7 @@ export const getBrtcCd = async (): Promise<{ [key: string]: string }> => {
 
 // 시군구 정보 가져오기
 // sgg : 시군구
-// return : key=sggCd, value=sggNm
+// return : key=시군구 코드 번호, value=시군구 이름
 export const getSggCd = async (brtcCd: string): Promise<{ [key: string]: string }> => {
   const params = new URLSearchParams({ serviceKey, brtcCd });
   const res = await fetch(BASE_URL + `/getCondSggCd3?` + params, {
@@ -85,7 +85,7 @@ export const getSggCd = async (brtcCd: string): Promise<{ [key: string]: string 
 };
 
 // 시도, 시군구 정보 합치기
-// key=brtcCd, value=해당 시도의 getSggCd값
+// return : key=시도 코드번호, value=해당 시도의 getSggCd값
 export const getRegionInfo = async (): Promise<Map<string, { [key: string]: string }>> => {
   const regionInfo = new Map();
 
@@ -161,7 +161,6 @@ export const getHospitals = async (
   }
 
   return { items: item, totalCount: body.totalCount, maxPage: Math.ceil(body.totalCount / 10) };
-
 };
 
 // 병원 목록 가져오기 위한 input params
