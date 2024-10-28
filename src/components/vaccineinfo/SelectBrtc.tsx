@@ -96,6 +96,7 @@ const SelectBrtc = () => {
         onClick={() => {
           handleClick();
         }}
+        disabled={brtc === "" || sgg === ""}
       >
         확인
       </button>
