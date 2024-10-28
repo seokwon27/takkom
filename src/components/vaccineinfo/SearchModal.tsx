@@ -8,8 +8,7 @@ import {
   DialogTitle,
   DialogTrigger
 } from "@/components/ui/dialog";
-import SelectBrtc from "./Select/SelectBrtc";
-import SelectSGG from "./Select/SelectSGG";
+import SelectBrtc from "./SelectBrtc";
 
 export const SearchModal = () => {
   return (
@@ -24,9 +23,9 @@ export const SearchModal = () => {
           <DialogDescription>{`찾고 싶은 지역을 입력해주세요`}</DialogDescription>
         </DialogHeader>
 
-        <div className="grid gap-4 py-4">
-          <SelectBrtc />
-          <SelectSGG />
+        <div className="flex">
+          <SelectBrtc mode={"brtc"} />
+          <SelectBrtc mode={"sgg"} />
         </div>
 
         <DialogFooter>

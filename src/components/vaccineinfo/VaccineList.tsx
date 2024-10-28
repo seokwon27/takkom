@@ -1,7 +1,7 @@
 "use client";
 
 import { useVaccineInfoQuery } from "@/query/useVaccineInfoQuery";
-import { useAgeGroupStore } from "@/utils/ageGroupStore";
+import { useAgeGroupStore } from "@/utils/zustand/ageGroupStore";
 
 const VaccineList = () => {
   const { selectedAge, setThisDisease, thisDisease } = useAgeGroupStore();

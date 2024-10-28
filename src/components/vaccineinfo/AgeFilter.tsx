@@ -1,6 +1,6 @@
 "use client";
 
-import { useAgeGroupStore } from "@/utils/ageGroupStore";
+import { useAgeGroupStore } from "@/utils/zustand/ageGroupStore";
 
 const AgeFilter = () => {
   const { subAgeGroup, selectedAge, setSelectedAge } = useAgeGroupStore();

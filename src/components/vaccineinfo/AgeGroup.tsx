@@ -1,5 +1,5 @@
 "use client";
-import { useAgeGroupStore } from "@/utils/ageGroupStore";
+import { useAgeGroupStore } from "@/utils/zustand/ageGroupStore";
 
 const AgeGroup = () => {
   const { ageGroup } = useAgeGroupStore();
