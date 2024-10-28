@@ -1,6 +1,5 @@
 import { HopsitalItem } from "@/types/hospital";
 import React from "react";
-import { Button } from "../ui/button";
 import FreeTag from "./FreeTag";
 import PhoneButton from "./PhoneButton";
 
@@ -19,7 +18,7 @@ const HospitalCard = ({ info, filter }: { info: HopsitalItem; filter: string | u
       <div>
         <div className="w-[160px] h-[160px] rounded-2xl bg-gray-300" />
       </div>
-      <div className="flex flex-col flex-1 ml-4">
+      <div className="h-full flex flex-col gap-4 flex-1 mx-4">
         <FreeTag />
         <table>
           <tbody>
