@@ -1,19 +1,21 @@
 import HospitalList from "@/components/hospital/HospitalList";
 import SearchForm from "@/components/hospital/SearchForm";
 import { getBrtcCd, getRegionInfo } from "@/utils/hospital/server-action";
+import { Suspense } from "react";
 
-const page = async () => {
+const HospitalSearchPage = async () => {
   const brtcObj = await getBrtcCd();
   const regionInfo = await getRegionInfo();
 
   return (
     <div className="container flex flex-col items-center mx-auto">
       <p>병원검색페이지</p>
-      <SearchForm brtcObj={brtcObj} regionInfo={regionInfo} >
+      <SearchForm brtcObj={brtcObj} regionInfo={regionInfo} />
+      <Suspense fallback={<div>Loading...</div>}>
         <HospitalList />
-      </SearchForm>
+      </Suspense>
     </div>
   );
 };
 
-export default page;
+export default HospitalSearchPage;

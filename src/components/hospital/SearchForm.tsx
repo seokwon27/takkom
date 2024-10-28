@@ -1,27 +1,24 @@
 "use client";
 
-import React, { ReactNode, useState } from "react";
+import React, { useState } from "react";
 import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { usePathname, useRouter } from "next/navigation";
+import { BRTC, SGG } from "./constants";
 
-const BRTC = "시/도";
-const SGG = "시/군/구";
 const brtcDefault = [BRTC, BRTC];
 const sggDefault = [SGG, SGG];
 
 const SearchForm = ({
-  children,
   brtcObj,
   regionInfo
 }: {
-  children: ReactNode;
   brtcObj: { [key: string]: string };
   regionInfo: Map<string, { [key: string]: string }>;
 }) => {
-    const router = useRouter();
-    const pathname = usePathname();
+  const router = useRouter();
+  const pathname = usePathname();
   const [brtc, setBrtc] = useState<string[]>(brtcDefault);
   const [sgg, setSgg] = useState<string[]>(sggDefault);
   const [disableSgg, setDisableSgg] = useState(true);
@@ -29,26 +26,36 @@ const SearchForm = ({
   const [addr, setAddr] = useState("");
   const [org, setOrg] = useState("");
 
-  const setQueryParams = (params: {[key: string] : string}) => {
-    let newParams = `?brtcCd=${params.brtcCd}&sggCd=${params.sggCd}`;
-  
-    if (!params.brtcCd || !params.sggCd) {
-      console.log('잘못된 접근입니다.')
-      return ;
+  const setQueryParams = (params: { [key: string]: string }) => {
+    const { brtcCd, sggCd, addr, org, disease, pageNo } = params;
+    const searchParams = new URLSearchParams();
+
+    if (!brtcCd || !sggCd) {
+      console.log("잘못된 접근입니다.");
+      return;
     }
-    if (params.addr) {
-      newParams += `&addr=${params.addr}`
-    }
-    if (params.org) {
-      newParams += `&org=${params.org}`
-    }
-    if (params.disease) {
-      newParams += `&disease=${params.disease}`
-    }
-  
-    router.replace(`${pathname}${newParams}`);
-    return ;
-  }
+
+    if (brtcCd) searchParams.set("brtcCd", brtcCd);
+    if (sggCd) searchParams.set("sggCd", sggCd);
+    if (addr) searchParams.set("addr", addr);
+    if (org) searchParams.set("org", org);
+    if (disease) searchParams.set("disease", disease);
+    if (pageNo) searchParams.set("pageNo", "" + pageNo);
+
+    const queryString = searchParams.toString();
+    router.push(`${pathname}?${queryString}`);
+    return;
+  };
+
+  // const checkForm =  (brtc: string[], sgg: string[]) => {
+  //   if (brtc[0] === BRTC) {
+  //     setSgg(sggDefault);
+  //     setAddr('')
+  //     setOrg('')
+  //     setDisableInputs(true);
+  //     setDisableSgg(true);
+  //   }
+  // }
 
   return (
     <div className="w-full flex flex-col ">
@@ -67,9 +74,9 @@ const SearchForm = ({
               // 시/도 설정 시 시/군/구 활성화
               setBrtc([value, brtcObj[value]]);
               setDisableSgg(false);
-              setAddr('')
-              setOrg('')
-              setDisableInputs(true)
+              setAddr("");
+              setOrg("");
+              setDisableInputs(true);
             }
           }}
         >
@@ -77,7 +84,7 @@ const SearchForm = ({
             <SelectValue placeholder={BRTC} />
           </SelectTrigger>
           <SelectContent>
-            <SelectGroup>
+            <SelectGroup >
               <SelectItem value={BRTC} key={BRTC} className="w-[180px]">
                 {BRTC}
               </SelectItem>
@@ -113,7 +120,7 @@ const SearchForm = ({
               <SelectItem value={SGG} key={SGG} className="w-[180px]">
                 {SGG}
               </SelectItem>
-              {Object.entries(regionInfo.get(brtc[0]) ?? {})?.map((item) => (
+              {Object.entries(regionInfo.get(brtc[0]) || {}).map((item) => (
                 <SelectItem value={item[0]} key={item[0]} className="w-[180px]">
                   {item[0]}
                 </SelectItem>
@@ -127,61 +134,33 @@ const SearchForm = ({
           value={addr}
           onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
             // 입력값 전후 공백 제거
-            setAddr(e.target.value.trim());
+            setAddr(e.target.value);
           }}
           disabled={disableInputs}
         />
         <Input
           placeholder="병원명"
           value={org}
-          onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+          onChange={(e) => {
             // 입력값 전후 공백 제거
-            setOrg(e.target.value.trim());
+            setOrg(e.target.value);
           }}
           disabled={disableInputs}
         />
 
         <Button
-          onClick={(e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
-            // 입력값 유지하기 위해 preventDefault()
-            e.preventDefault();
-            const params = { brtcCd: brtc[0], sggCd: sgg[0], addr, org, disease: '' };
-            setQueryParams(params)
+          type="button"
+          onClick={() => {
+            const params = { brtcCd: brtc[1], sggCd: sgg[1], addr, org, disease: "", pageNo: "1" };
+            setQueryParams(params);
           }}
           disabled={disableInputs}
         >
           검색
         </Button>
       </form>
-      {children}
     </div>
   );
 };
 
 export default SearchForm;
-
-
-//====================================
-
-// const setQueryParams = (params: {[key: string] : string}) => {
-//   const router = useRouter();
-//   const pathname = usePathname();
-//   let newParams = `?brtcCd=${params.brtcCd}&sggCd=${params.sggCd}`;
-
-//   if (!params.brtcCd || !params.sggCd) {
-//     console.log('잘못된 접근입니다.')
-//     return ;
-//   }
-//   if (params.addr) {
-//     newParams += `&addr=${params.addr}`
-//   }
-//   if (params.org) {
-//     newParams += `&org=${params.org}`
-//   }
-//   if (params.disease) {
-//     newParams += `&disease=${params.disease}`
-//   }
-
-//   router.push(`${pathname}${newParams}`);
-//   return ;
-// }
