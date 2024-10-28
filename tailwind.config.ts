@@ -23,7 +23,7 @@ const config: Config = {
           600: "#636363",
           700: "#4A4A4A",
           800: "#303030",
-          900: "#171717",
+          900: "#171717"
         },
         primary: {
           50: "#F5F9FF",
@@ -36,12 +36,12 @@ const config: Config = {
           600: "#0048C2",
           700: "#00358F",
           800: "#00225C",
-          900: "#000F29",
+          900: "#000F29"
         },
         negative: "#FF4737",
         notice: "#FF961E",
         positive: "#008F5D",
-        informative: "#248DFF",
+        informative: "#248DFF"
       },
       borderRadius: {
         lg: "var(--radius)",
