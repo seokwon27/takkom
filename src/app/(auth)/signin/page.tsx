@@ -1,4 +1,4 @@
-import AuthSignIn from "@/components/auth/authsignin";
+import AuthSignIn from "@/components/auth/AuthSignIn";
 
 const SignInPage = () => {
   return (
