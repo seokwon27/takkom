@@ -1,5 +1,6 @@
 "use server";
-import { HospitalType, RegionType } from "@/types/hospital";
+
+import { HopsitalItem, HospitalType, RegionType } from "@/types/hospital";
 import { XMLParser } from "fast-xml-parser";
 
 const serviceKey = process.env.HOSPITAL_KEY_DEC as string;
@@ -17,13 +18,15 @@ function xmlParser<T>(xmlData: string): T {
 }
 
 // 시도 정보 가져오기
+// brtc는 ... ai에게 질의 결과 basic regional tele-communication의 약자라고 합니다.
 export const getBrtcCd = async (): Promise<{ [key: string]: string }> => {
   const params = new URLSearchParams({ serviceKey });
   const res = await fetch(BASE_URL + `/getCondBrtcCd3?` + params, {
     method: "GET",
-    next: {
-      revalidate: 60 * 60
-    }
+    cache: "no-store"
+    // next: {
+    //   revalidate: 60 * 60
+    // }
   });
   const data = await res.text();
   const {
@@ -48,6 +51,7 @@ export const getBrtcCd = async (): Promise<{ [key: string]: string }> => {
 };
 
 // 시군구 정보 가져오기
+// sgg : 시군구
 export const getSggCd = async (brtcCd: string): Promise<{ [key: string]: string }> => {
   const params = new URLSearchParams({ serviceKey, brtcCd });
   const res = await fetch(BASE_URL + `/getCondSggCd3?` + params, {
@@ -93,31 +97,186 @@ export const getRegionInfo = async (): Promise<Map<string, { [key: string]: stri
 };
 
 // 병원 목록 가져오기 위한 input params
-type HospitalParams = {
+export type HospitalParams = {
   pageNo: string;
   numOfRows: string;
-  brtcCd: string;
-  sggCd: string;
-  sesarchTpcd?: string;
-  seasrchWord?: string;
+  brtcCd: string; // 각 시/도에 해당하는 코드
+  sggCd: string; // 각 시/군/구에 해당하는 코드
+  searchTpcd?: string; // 주소:ADDR 또는 기관명:ORG 중 하나를 입력 받는 type code
+  searchWord?: string; // 입력한 검색어 word
 };
 
+// 병원 목록 결과 type
+export type HospitalData = { items: HopsitalItem[]; totalCount: number; maxPage: number };
+
 // 병원 목록 가져오기
-export const getHospitals = async (inputs: HospitalParams) => {
-  const params = { serviceKey, ...inputs };
+export const getHospitals = async (
+  input: HospitalParams
+): Promise<{ items: HopsitalItem[]; totalCount: number; maxPage: number }> => {
+  const params = { serviceKey, ...input };
   const searchParams = new URLSearchParams(params).toString();
   const res = await fetch(BASE_URL + `/getOrgList3?` + searchParams, {
-    method: "GET"
+    method: "GET",
+    cache: "no-store"
+    // next: {
+    //   revalidate: 60 * 60,
+    // }
   });
   const data = await res.text();
   const { header, body } = xmlParser<HospitalType>(data);
-  const item = body.items.item;
-  console.log(header);
-  console.log(body);
+  // console.log(xmlParser<HospitalType>(data))
+  let item = Array.isArray(body.items.item) ? body.items.item : [body.items.item];
 
   if (header.resultCode !== 0) {
-    return "죄송합니다. 데이터를 불러오는 중에 에러가 발생했습니다.";
+    return defaultData;
   }
 
-  return item;
+  if (body.maxPage > 1) {
+    const allData = await Promise.all(
+      Array(body.maxPage - 1)
+        .fill(0)
+        .map(async (_, idx) => {
+          params.pageNo = "" + (idx + 2);
+          const searchParams = new URLSearchParams(params).toString();
+
+          const res = await fetch(BASE_URL + `/getOrgList3?` + searchParams, {
+            method: "GET",
+            cache: "no-store"
+            // next: {
+            //   revalidate: 60 * 60,
+            // }
+          });
+          const data = await res.text();
+          const { body } = xmlParser<HospitalType>(data);
+          // console.log(xmlParser<HospitalType>(data))
+          return Array.isArray(body.items.item) ? body.items.item : [body.items.item];
+        })
+    );
+    for (const data of allData) {
+      item = item.concat(data);
+    }
+  }
+
+  // if (Array.isArray(item)) {
+  return { items: item, totalCount: body.totalCount, maxPage: Math.ceil(body.totalCount / 10) };
+  // } else {
+  //   return { items: [item], totalCount: body.totalCount, maxPage: body.maxPage };
+  // }
+};
+
+// 병원 목록 가져오기 위한 input params
+export type HospitalsMutliConditionParams = {
+  pageNo: string;
+  numOfRows: string;
+  brtcCd: string; // 각 시/도에 해당하는 코드
+  sggCd: string; // 각 시/군/구에 해당하는 코드
+  addr?: string; // 주소 검색어
+  org?: string; // 병원명 검색어
+  disease?: string; // 접종명 필터
+};
+
+const defaultData: HospitalData = { items: [], totalCount: 0, maxPage: 0 };
+
+// 여러 조건에 대해 병원 모록 정보 가져오기
+export const getHospitalsMutliConditions = async (input: HospitalsMutliConditionParams) => {
+  const { brtcCd, sggCd, addr, org, disease, pageNo, numOfRows } = input;
+
+  if (!disease) {
+    if (!org && !addr) {
+      console.log('addr & org 1 :', addr, org)
+      const data = await getHospitals({ brtcCd, sggCd, pageNo, numOfRows });
+      // const { items, totalCount, maxPage } = await getHospitals({ brtcCd, sggCd, pageNo, numOfRows });
+      // let totalItems = items.concat([]);
+      // if (maxPage > 1) {
+      //   const allData = await Promise.all(
+      //     Array(maxPage - 1)
+      //       .fill(0)
+      //       .map((_, idx) => getHospitals({ brtcCd, sggCd, pageNo: "" + (idx + 2), numOfRows }))
+      //   );
+      //   for (const data of allData) {
+      //     totalItems = totalItems.concat(data.items);
+      //   }
+      // }
+
+      return data;
+    } else if (!org && addr) {
+      console.log('addr & org 2 :', addr, org)
+      const data = await getHospitals({ brtcCd, sggCd, pageNo, numOfRows, searchTpcd: "ADDR", searchWord: addr });
+      return data;
+    } else if (org && !addr) {
+      console.log('addr & org 3 :', addr, org)
+      const data = await getHospitals({ brtcCd, sggCd, pageNo, numOfRows, searchTpcd: "ORG", searchWord: org });
+      return data;
+    } else if (org && addr) { // else
+      console.log('addr & org 4 :', addr, org)
+      const tmpData = await getHospitals({ brtcCd, sggCd, pageNo, numOfRows, searchTpcd: "ORG", searchWord: org });
+      const items = tmpData.items.filter((item) => item.orgAddr.includes(addr));
+      const totalCount = items.length;
+      const maxPage = Math.ceil(totalCount / 10);
+      return { items, totalCount, maxPage };
+    } else {
+      return defaultData;
+    }
+  } else if (disease) {
+    if (!org && !addr) {
+      console.log('addr & org 5 :', addr, org)
+      const tmpData = await getHospitals({ brtcCd, sggCd, pageNo, numOfRows, searchTpcd: "ORG", searchWord: org });
+      const items = tmpData.items.filter((item) => {
+        if (Array.isArray(item.vcnList.vcnInfo)) {
+          return item.vcnList.vcnInfo.some((vcn) => vcn.vcnNm.includes(disease));
+        } else {
+          return item.vcnList.vcnInfo.vcnNm.includes(disease);
+        }
+      });
+      const totalCount = items.length;
+      const maxPage = Math.ceil(totalCount / 10);
+      return { items, totalCount, maxPage };
+    } else if (!org && addr) {
+      console.log('addr & org 6 :', addr, org)
+      const tmpData = await getHospitals({ brtcCd, sggCd, pageNo, numOfRows, searchTpcd: "ADDR", searchWord: addr });
+      const items = tmpData.items.filter((item) => {
+        if (Array.isArray(item.vcnList.vcnInfo)) {
+          return item.vcnList.vcnInfo.some((vcn) => vcn.vcnNm.includes(disease));
+        } else {
+          return item.vcnList.vcnInfo.vcnNm.includes(disease);
+        }
+      });
+      const totalCount = items.length;
+      const maxPage = Math.ceil(totalCount / 10);
+      return { items, totalCount, maxPage };
+    } else if (org && !addr) {
+      console.log('addr & org 7 :', addr, org)
+      const tmpData = await getHospitals({ brtcCd, sggCd, pageNo, numOfRows, searchTpcd: "ORG", searchWord: org });
+      const items = tmpData.items.filter((item) => {
+        if (Array.isArray(item.vcnList.vcnInfo)) {
+          return item.vcnList.vcnInfo.some((vcn) => vcn.vcnNm.includes(disease));
+        } else {
+          return item.vcnList.vcnInfo.vcnNm.includes(disease);
+        }
+      });
+      const totalCount = items.length;
+      const maxPage = Math.ceil(totalCount / 10);
+      return { items, totalCount, maxPage };
+    } else if (org && addr) { // else
+      console.log('addr & org 8 :', addr, org)
+      const tmpData = await getHospitals({ brtcCd, sggCd, pageNo, numOfRows, searchTpcd: "ORG", searchWord: org });
+      const items = tmpData.items.filter((item) => {
+        if (item.orgAddr.includes(addr)) {
+          if (Array.isArray(item.vcnList.vcnInfo)) {
+            return item.vcnList.vcnInfo.some((vcn) => vcn.vcnNm.includes(disease));
+          } else {
+            return item.vcnList.vcnInfo.vcnNm.includes(disease);
+          }
+
+        } else {
+          return false;
+        }
+      });
+      const totalCount = items.length;
+      const maxPage = Math.ceil(totalCount / 10);
+      return { items, totalCount, maxPage };
+    } else {
+      return defaultData;
+    }
+  }
 };
