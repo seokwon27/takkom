@@ -77,16 +77,16 @@ const SearchForm = ({
             }
           }}
         >
-          <SelectTrigger className="">
+          <SelectTrigger className="justify-center">
             <SelectValue placeholder={BRTC} />
           </SelectTrigger>
           <SelectContent>
             <SelectGroup>
-              <SelectItem value={BRTC} key={BRTC} className="">
+              <SelectItem value={BRTC} key={BRTC} className="justify-center">
                 {BRTC}
               </SelectItem>
               {Object.entries(brtcObj).map((item) => (
-                <SelectItem value={"" + item[0]} key={item[0]} className="">
+                <SelectItem value={"" + item[0]} key={item[0]}  className="justify-center">
                   {item[1]}
                 </SelectItem>
               ))}
@@ -108,16 +108,16 @@ const SearchForm = ({
             }
           }}
         >
-          <SelectTrigger className="" value={sgg} disabled={disableSgg}>
+          <SelectTrigger  className="justify-center" value={sgg} disabled={disableSgg}>
             <SelectValue placeholder={SGG} />
           </SelectTrigger>
           <SelectContent>
             <SelectGroup>
-              <SelectItem value={SGG} key={SGG} className="w-[180px]">
+              <SelectItem value={SGG} key={SGG} className="justify-center">
                 {SGG}
               </SelectItem>
               {Object.entries(regionInfo.get(brtc) || {}).map((item) => (
-                <SelectItem value={"" + item[0]} key={item[0]} className="w-[180px]">
+                <SelectItem value={"" + item[0]} key={item[0]}  className="justify-center">
                   {item[1]}
                 </SelectItem>
               ))}
@@ -133,6 +133,7 @@ const SearchForm = ({
             setAddr(e.target.value);
           }}
           disabled={disableInputs}
+          className="text-center"
         />
         <Input
           placeholder="병원명"
@@ -142,6 +143,7 @@ const SearchForm = ({
             setOrg(e.target.value);
           }}
           disabled={disableInputs}
+          className="text-center"
         />
 
         <Button
@@ -162,16 +164,16 @@ const SearchForm = ({
             setDisease(value);
           }}
         >
-          <SelectTrigger className="" value={disease} disabled={disableInputs}>
+          <SelectTrigger  className="justify-center" value={disease} disabled={disableInputs}>
             <SelectValue placeholder={DISEASE} />
           </SelectTrigger>
           <SelectContent>
             <SelectGroup>
-              <SelectItem value={DISEASE} key={DISEASE} className="w-[180px]">
+              <SelectItem value={DISEASE} key={DISEASE}  className="justify-center">
                 {DISEASE}
               </SelectItem>
               {DISEASE_LIST.map((name) => (
-                <SelectItem value={name} key={name} className="w-[180px]">
+                <SelectItem value={name} key={name}  className="justify-center">
                   {name}
                 </SelectItem>
               ))}
