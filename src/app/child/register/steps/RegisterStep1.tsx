@@ -37,24 +37,33 @@ const RegisterStep1 = ({ onNext }: RegisterStep1Props) => {
 
     const { name, birthday, notes } = data;
 
-    // Supabase에 데이터 삽입
-    const { error } = await supabase
-      .from("child") // 'child' 테이블에 데이터 삽입
-      .insert([
-        {
-          // user_id: userId
-          name: name,
-          birth: birthday,
-          profile: null, // 프로필 이미지 URL이 필요하면 추가하세요
-          notes: notes || "" // notes가 없을 경우 빈 문자열로 설정
-        }
-      ]);
+  //   // 현재 로그인한 사용자의 아이디 가져오기
+  //   const {
+  //     data: { user }
+  //   } = await supabase.auth.getUser();
 
-    if (error) {
-      console.error("Error inserting data:", error);
-      // 에러 핸들링 (예: 사용자에게 알림)
-      return;
-    }
+  //   if (!user) {
+  //     console.error("사용자 정보가 없습니다. 로그인이 필요합니다.");
+  //     return;
+  //   }
+
+  //   // Supabase에 데이터 삽입
+  //   const { error } = await supabase
+  //     .from("child") // 'child' 테이블에 데이터 삽입
+  //     .insert([
+  //       {
+  //         user_id: user.id,
+  //         name: name,
+  //         birth: birthday,
+  //         profile: null,
+  //         notes: notes || "" // notes가 없을 경우 빈 문자열로 설정
+  //       }
+  //     ]);
+
+  //   if (error) {
+  //     console.error("데이터 저장 오류", error);
+  //     return;
+  //   }
 
     console.log("데이터가 성공적으로 저장되었습니다.");
 
