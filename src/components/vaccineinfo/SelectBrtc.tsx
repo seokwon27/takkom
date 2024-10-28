@@ -1,51 +1,117 @@
-import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from "../ui/select";
+"use client";
 
-const SelectBrtc = ({ mode }: { mode: string }) => {
-  return mode === "brtc" ? (
-    <div className="grid grid-cols-4 items-center gap-4">
-      <Select>
-        <SelectTrigger className="w-[180px]">
-          <SelectValue placeholder="시 / 도" />
-        </SelectTrigger>
-        <SelectContent>
-          <SelectGroup>
-            <SelectItem value="서울">서울</SelectItem>
-            <SelectItem value="부산">부산</SelectItem>
-            <SelectItem value="제주">제주</SelectItem>
-            <SelectItem value="경기">경기</SelectItem>
-            <SelectItem value="인천">인천</SelectItem>
-            <SelectItem value="강원">강원</SelectItem>
-            <SelectItem value="경상">경상</SelectItem>
-            <SelectItem value="전라">전라</SelectItem>
-            <SelectItem value="충청">충청</SelectItem>
-          </SelectGroup>
-        </SelectContent>
-      </Select>{" "}
-    </div>
-  ) : (
-    <div>
-      <div className="grid grid-cols-4 items-center gap-4">
-        <Select>
-          <SelectTrigger className="w-[180px]">
-            <SelectValue placeholder="시/군/구" />
+import { useEffect, useState } from "react";
+import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from "../ui/select";
+import { getBrtcCd, getRegionInfo } from "@/utils/hospital/server-action";
+import { useAgeGroupStore } from "@/utils/zustand/ageGroupStore";
+import { useRouter } from "next/navigation";
+
+const SelectBrtc = () => {
+  const router = useRouter();
+  const [brtcObj, setBrtcObj] = useState<BrtcObj>({});
+  const [regionInfo, setRegionInfo] = useState<RegionInfo>(new Map());
+  const [brtc, setBrtc] = useState<string>("");
+  const [sgg, setSgg] = useState<string>("");
+  const { thisDisease } = useAgeGroupStore();
+
+  const getCityData = async () => {
+    const brtcRes = await getBrtcCd();
+    const regionRes = await getRegionInfo();
+    // console.log("brtcobj : ", brtcRes);
+    setBrtcObj(brtcRes);
+    // console.log("regionInfo : ", regionRes);
+    setRegionInfo(regionRes);
+  };
+  useEffect(() => {
+    getCityData();
+  }, []);
+
+  const handleClick = () => {
+    const searchParams = new URLSearchParams();
+
+    searchParams.set("brtcCd", brtc);
+    searchParams.set("sggCd", sgg);
+    searchParams.set("disease", thisDisease);
+
+    router.push(`/search?${searchParams.toString()}&pageNo=1`);
+  };
+
+  // console.log("brtc : ", brtc, "sgg :", sgg);
+
+  return (
+    <>
+      <div className="">
+        <Select
+          value={brtc}
+          onValueChange={(value) => {
+            setBrtc(value);
+            // console.log(value);
+          }}
+        >
+          <SelectTrigger className="">
+            <SelectValue placeholder="시/도" />
           </SelectTrigger>
           <SelectContent>
             <SelectGroup>
-              <SelectItem value="서울">서울</SelectItem>
-              <SelectItem value="부산">부산</SelectItem>
-              <SelectItem value="제주">제주</SelectItem>
-              <SelectItem value="경기">경기</SelectItem>
-              <SelectItem value="인천">인천</SelectItem>
-              <SelectItem value="강원">강원</SelectItem>
-              <SelectItem value="경상">경상</SelectItem>
-              <SelectItem value="전라">전라</SelectItem>
-              <SelectItem value="충청">충청</SelectItem>
+              {Object.entries(brtcObj).map((item) => {
+                return (
+                  <SelectItem value={"" + item[0]} key={item[0]}>
+                    {item[1]}
+                  </SelectItem>
+                );
+              })}
             </SelectGroup>
           </SelectContent>
         </Select>{" "}
       </div>
-    </div>
+
+      <div>
+        <div className="">
+          <Select
+            value={sgg}
+            onValueChange={(value) => {
+              setSgg(value);
+              // console.log(value);
+            }}
+          >
+            <SelectTrigger className="" disabled={brtc === ""}>
+              <SelectValue placeholder="시/군/구" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectGroup>
+                {Object.entries(regionInfo.get(brtc) || {}).map((item) => {
+                  return (
+                    <SelectItem value={"" + item[0]} key={item[0]}>
+                      {item[1]}
+                    </SelectItem>
+                  );
+                })}
+              </SelectGroup>
+            </SelectContent>
+          </Select>{" "}
+        </div>
+      </div>
+
+      <button
+        onClick={() => {
+          handleClick();
+        }}
+      >
+        확인
+      </button>
+    </>
   );
 };
+
+type BrtcObj = {
+  [key: string]: string;
+};
+
+type RegionInfo = Map<
+  string,
+  {
+    [key: string]: string;
+  }
+>;
 
 export default SelectBrtc;
