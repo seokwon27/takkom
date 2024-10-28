@@ -3,10 +3,10 @@
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import SelectBrtc from "./SelectBrtc";
-import { useState } from "react";
+// import { useState } from "react";
 
 export const SearchModal = () => {
-  const [brtc, setBrtc] = useState();
+  // const [brtc, setBrtc] = useState();
 
   return (
     <Dialog>
