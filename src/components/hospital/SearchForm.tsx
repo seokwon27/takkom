@@ -161,6 +161,7 @@ const SearchForm = ({
             setQueryParams(params);
           }}
           disabled={disableInputs}
+          className="bg-gray-700"
         >
           검색
         </Button>
