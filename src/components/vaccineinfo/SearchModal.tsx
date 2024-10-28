@@ -32,7 +32,6 @@ export const SearchModal = ({
           </div>
           <SelectBrtc />
         </div>
-        <button>확인</button>
       </div>
     </div>
   );
