@@ -5,6 +5,7 @@ import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectVa
 import { getBrtcCd, getRegionInfo } from "@/utils/hospital/server-action";
 import { useAgeGroupStore } from "@/utils/zustand/ageGroupStore";
 import { useRouter } from "next/navigation";
+import { Button } from "../ui/button";
 
 type BrtcObj = {
   [key: string]: string;
@@ -98,9 +99,9 @@ const SelectBrtc = () => {
         </Select>{" "}
       </div>
 
-      <button onClick={handleClick} disabled={!brtc || !sgg} className="mt-9">
+      <Button onClick={handleClick} disabled={!brtc || !sgg} className="mt-9">
         확인
-      </button>
+      </Button>
     </>
   );
 };
