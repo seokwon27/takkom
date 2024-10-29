@@ -52,6 +52,38 @@ const SignIn = () => {
     }
   };
 
+  const googleSignIn = async () => {
+    const { data, error } = await supabase.auth.signInWithOAuth({
+      provider: "google",
+      options: {
+        queryParams: {
+          access_type: "offline",
+          prompt: "consent"
+        }
+      }
+    });
+
+    if (data) console.log("로그인 데이터 : ", data);
+
+    if (error) console.log("로그인 실패 : ", error);
+  };
+
+  const kakaoSignIn = async () => {
+    const { data, error } = await supabase.auth.signInWithOAuth({
+      provider: "kakao",
+      options: {
+        queryParams: {
+          access_type: "offline",
+          prompt: "consent"
+        }
+      }
+    });
+
+    if (data) console.log("로그인 데이터 : ", data);
+
+    if (error) console.log("로그인 실패 : ", error);
+  };
+
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(signIn)}>
@@ -96,6 +128,8 @@ const SignIn = () => {
         />
 
         <Button type="submit">로그인</Button>
+        <Button onClick={googleSignIn}>구글로그인</Button>
+        <Button onClick={kakaoSignIn}>카카오로그인</Button>
       </form>
     </Form>
   );
