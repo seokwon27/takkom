@@ -19,11 +19,11 @@ const AgeGroup = () => {
 };
 
 const AgeCard = ({ age }: { age: string }) => {
-  const { setAgeGroup } = useAgeGroupStore();
+  const { ageGroup, setAgeGroup } = useAgeGroupStore();
 
   return (
     <div className="p-2 " onClick={() => setAgeGroup(age)}>
-      <div className="bg-gray-400 w-20 h-20 rounded-lg"></div>
+      <div className={`${age === ageGroup ? "bg-gray-400" : "bg-gray-30"}  w-20 h-20 rounded-lg`}></div>
       <p>{age}</p>
     </div>
   );
