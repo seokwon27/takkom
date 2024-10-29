@@ -45,6 +45,7 @@ const AuthForm = () => {
 
       if (error) throw error;
 
+      alert("로그인 성공!");
       console.log("로그인 데이터:", data);
     } catch (error) {
       console.error("로그인 실패:", error);

@@ -79,7 +79,7 @@ const AuthSignUp = () => {
 
       if (error) throw error;
 
-      alert("로그인 성공!");
+      alert("회원가입 성공!");
       console.log("회원가입 데이터:", data);
     } catch (error) {
       console.error("회원가입 실패:", error);
