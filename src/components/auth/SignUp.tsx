@@ -21,7 +21,7 @@ type AuthFormInputs = {
   name: string;
 };
 
-const AuthSignUp = () => {
+const SignUp = () => {
   // 비밀번호 표시 상태 관리
   const [showPassword, setShowPassword] = useState(false);
 
@@ -185,4 +185,4 @@ const AuthSignUp = () => {
   );
 };
 
-export default AuthSignUp;
+export default SignUp;

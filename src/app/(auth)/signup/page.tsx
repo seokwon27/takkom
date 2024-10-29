@@ -1,9 +1,9 @@
-import AuthSignUp from "@/components/auth/AuthSignUp";
+import SignUp from "@/components/auth/SignUp";
 
 const SignUpPage = () => {
   return (
     <section>
-      <AuthSignUp />
+      <SignUp />
     </section>
   );
 };

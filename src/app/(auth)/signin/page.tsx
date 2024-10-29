@@ -1,9 +1,9 @@
-import AuthSignIn from "@/components/auth/AuthSignIn";
+import SignIn from "@/components/auth/SignIn";
 
 const SignInPage = () => {
   return (
     <section>
-      <AuthSignIn />
+      <SignIn />
     </section>
   );
 };

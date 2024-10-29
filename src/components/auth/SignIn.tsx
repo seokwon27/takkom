@@ -18,7 +18,7 @@ type AuthFormInputs = {
   password: string;
 };
 
-const AuthSignIn = () => {
+const SignIn = () => {
   const defaultValues = {
     email: "",
     password: ""
@@ -101,4 +101,4 @@ const AuthSignIn = () => {
   );
 };
 
-export default AuthSignIn;
+export default SignIn;
