@@ -2,6 +2,19 @@
 
 import { useAgeGroupStore } from "@/utils/zustand/ageGroupStore";
 
+//연령 텍스트 전환
+const formatAgeText = (age: number) => {
+  if (age >= 48) {
+    return <p>{`만 ${Math.floor(age / 12)}세`}</p>;
+  } else if (age >= 1) {
+    return <p>{`${age}개월`}</p>;
+  } else if (age === 0) {
+    return <p>출생 직후</p>;
+  } else if (age > 0 && age < 1) {
+    return <p>4주 이내</p>;
+  }
+};
+
 const AgeFilter = () => {
   const { subAgeGroup, selectedAge, setSelectedAge } = useAgeGroupStore();
   return (
@@ -17,7 +30,7 @@ const AgeFilter = () => {
                 setSelectedAge(age);
               }}
             >
-              {age >= 48 ? <p>{`만 ${age / 12}세`}</p> : <p>{`${age}개월`}</p>}
+              {formatAgeText(age)}
             </div>
           );
         })}

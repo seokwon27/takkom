@@ -11,8 +11,7 @@ const AgeGroup = () => {
       <div className="flex text-center justify-center  gap-6 p-2">
         <AgeCard age={"신생아"} />
         <AgeCard age={"영아기"} />
-        <AgeCard age={"유아초기"} />
-        <AgeCard age={"유아중기"} />
+        <AgeCard age={"유아기"} />
         <AgeCard age={"아동기"} />
       </div>
     </>
