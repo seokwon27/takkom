@@ -16,7 +16,6 @@ type RegionInfo = Map<
     [key: string]: string;
   }
 >;
-import { getBrtcCd, getRegionInfo } from "@/api/hospitalApi";
 
 const SelectBrtc = () => {
   const router = useRouter();
