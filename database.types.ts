@@ -9,6 +9,7 @@ export type Database = {
           created_at: string;
           id: string;
           name: string | null;
+          notes: string | null;
           profile: string | null;
           updated_at: string | null;
           user_id: string | null;
@@ -18,6 +19,7 @@ export type Database = {
           created_at?: string;
           id?: string;
           name?: string | null;
+          notes?: string | null;
           profile?: string | null;
           updated_at?: string | null;
           user_id?: string | null;
@@ -27,6 +29,7 @@ export type Database = {
           created_at?: string;
           id?: string;
           name?: string | null;
+          notes?: string | null;
           profile?: string | null;
           updated_at?: string | null;
           user_id?: string | null;
@@ -38,7 +41,7 @@ export type Database = {
           created_at: string;
           email: string | null;
           id: string;
-          nickname: string | null;
+          name: string | null;
           updated_at: string | null;
           user_id: string | null;
         };
@@ -46,7 +49,7 @@ export type Database = {
           created_at?: string;
           email?: string | null;
           id?: string;
-          nickname?: string | null;
+          name?: string | null;
           updated_at?: string | null;
           user_id?: string | null;
         };
@@ -54,7 +57,7 @@ export type Database = {
           created_at?: string;
           email?: string | null;
           id?: string;
-          nickname?: string | null;
+          name?: string | null;
           updated_at?: string | null;
           user_id?: string | null;
         };
@@ -88,6 +91,39 @@ export type Database = {
           duration?: string | null;
           id?: string;
           vaccinate_date?: number | null;
+          vaccine_name?: string | null;
+          vaccine_turn?: number | null;
+        };
+        Relationships: [];
+      };
+      vaccine_duplicate: {
+        Row: {
+          additional: boolean;
+          description: string | null;
+          disease_name: string | null;
+          duration: string | null;
+          id: string;
+          vaccinate_date: string | null;
+          vaccine_name: string | null;
+          vaccine_turn: number | null;
+        };
+        Insert: {
+          additional?: boolean;
+          description?: string | null;
+          disease_name?: string | null;
+          duration?: string | null;
+          id: string;
+          vaccinate_date?: string | null;
+          vaccine_name?: string | null;
+          vaccine_turn?: number | null;
+        };
+        Update: {
+          additional?: boolean;
+          description?: string | null;
+          disease_name?: string | null;
+          duration?: string | null;
+          id?: string;
+          vaccinate_date?: string | null;
           vaccine_name?: string | null;
           vaccine_turn?: number | null;
         };
