@@ -1,6 +1,6 @@
 import AgeFilter from "@/components/vaccineinfo/AgeFilter";
 import AgeGroup from "@/components/vaccineinfo/AgeGroup";
-import { SearchModal } from "@/components/vaccineinfo/SearchModal";
+import SearchButton from "@/components/vaccineinfo/SearchButton";
 import VaccineList from "@/components/vaccineinfo/VaccineList";
 
 const VaccineInfoPage = async () => {
@@ -10,7 +10,7 @@ const VaccineInfoPage = async () => {
       <AgeGroup />
       <AgeFilter />
       <VaccineList />
-      <SearchModal />
+      <SearchButton />
     </div>
   );
 };
