@@ -51,6 +51,7 @@ const HospitalCard = ({
               </td>
               <td className="text-gray-700">
                 <VaccineNames
+                  hospitalCd={info.orgcd}
                   filter={filter}
                   vaccineNames={vaccineNames}
                 />

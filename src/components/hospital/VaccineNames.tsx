@@ -1,10 +1,8 @@
 import React from "react";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 
-const VaccineNames = ({ vaccineNames, filter }: { vaccineNames: string[]; filter: string | undefined }) => {
+const VaccineNames = ({hospitalCd, vaccineNames, filter }: {hospitalCd: number, vaccineNames: string[]; filter: string | undefined }) => {
   let filteredVaccine: string | null = null;
   if (filter) {
     filteredVaccine = vaccineNames.find((name) => name.includes(filter)) ?? null;
@@ -25,7 +23,7 @@ const VaccineNames = ({ vaccineNames, filter }: { vaccineNames: string[]; filter
             <PopoverContent align="start" className="w-80">
               <ul>
                 {vaccineNames.map((name) => (
-                  <li>{name}</li>
+                  <li key={`${hospitalCd}_${name}`}>{name}</li>
                 ))}
               </ul>
             </PopoverContent>
@@ -42,7 +40,7 @@ const VaccineNames = ({ vaccineNames, filter }: { vaccineNames: string[]; filter
             <PopoverContent align="start" className="w-80">
               <ul>
                 {vaccineNames.map((name) => (
-                  <li>{name}</li>
+                  <li key={`${hospitalCd}_${name}`}>{name}</li>
                 ))}
               </ul>
             </PopoverContent>
