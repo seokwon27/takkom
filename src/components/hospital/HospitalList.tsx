@@ -25,6 +25,7 @@ const HospitalList = () =>
     ];
     const defaultData: HospitalData = { items: [], totalCount: 0, maxPage: 0 };
     const [hospitalData, setHospitalData] = useState<HospitalData>(defaultData);
+    const [openVaccine, setOpenVaccine] = useState('');
 
     useEffect(() => {
       const fetchHospitalsMultiConditions = async (input: HospitalsMutliConditionParams) => {
@@ -48,7 +49,7 @@ const HospitalList = () =>
           <ul className="grid grid-cols-[repeat(10, 1fr)] gap-4">
             {hospitalData.items.map((info) => (
               <li key={info.orgcd}>
-                <HospitalCard info={info} filter={disease} />
+                <HospitalCard info={info} filter={disease} openVaccine={openVaccine} setOpenVaccine={setOpenVaccine}/>
               </li>
             ))}
           </ul>

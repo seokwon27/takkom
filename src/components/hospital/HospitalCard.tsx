@@ -3,7 +3,7 @@ import React from "react";
 import FreeTag from "./FreeTag";
 import PhoneButton from "./PhoneButton";
 
-const HospitalCard = ({ info, filter }: { info: HopsitalItem; filter: string | undefined }) => {
+const HospitalCard = ({ info, filter, openVaccine, setOpenVaccine}: { info: HopsitalItem; filter: string | undefined, openVaccine:string, setOpenVaccine: React.Dispatch<React.SetStateAction<string>> }) => {
   const {
     orgnm,
     orgTlno,
@@ -14,7 +14,7 @@ const HospitalCard = ({ info, filter }: { info: HopsitalItem; filter: string | u
   const vaccineNames = Array.isArray(vcnInfo) ? vcnInfo.map((info) => info.vcnNm) : [vcnInfo.vcnNm];
 
   return (
-    <div className="w-full h-[192px] flex border rounded-lg p-4 justify-between items-center">
+    <div className="w-full h-fit min-h-[192px] flex border rounded-lg p-4 justify-between items-center">
       <div>
         <div className="w-[160px] h-[160px] rounded-2xl bg-gray-300" />
       </div>
