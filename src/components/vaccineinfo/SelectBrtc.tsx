@@ -5,6 +5,7 @@ import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectVa
 import { useAgeGroupStore } from "@/utils/zustand/ageGroupStore";
 import { useRouter } from "next/navigation";
 import { getBrtcCd, getRegionInfo } from "@/api/hospitalApi";
+import { Button } from "../ui/button";
 
 type BrtcObj = {
   [key: string]: string;
@@ -66,14 +67,14 @@ const SelectBrtc = () => {
             <SelectGroup>
               {Object.entries(brtcObj).map((item) => {
                 return (
-                  <SelectItem value={"" + item[0]} key={item[0]}>
+                  <SelectItem value={item[0]} key={item[0]}>
                     {item[1]}
                   </SelectItem>
                 );
               })}
             </SelectGroup>
           </SelectContent>
-        </Select>{" "}
+        </Select>
       </div>
 
       <div>
@@ -85,32 +86,27 @@ const SelectBrtc = () => {
               // console.log(value);
             }}
           >
-            <SelectTrigger className="" disabled={brtc === ""}>
+            <SelectTrigger className="" disabled={!brtc}>
               <SelectValue placeholder="시/군/구" />
             </SelectTrigger>
             <SelectContent>
               <SelectGroup>
                 {Object.entries(regionInfo.get(brtc) || {}).map((item) => {
                   return (
-                    <SelectItem value={"" + item[0]} key={item[0]}>
+                    <SelectItem value={item[0]} key={item[0]}>
                       {item[1]}
                     </SelectItem>
                   );
                 })}
               </SelectGroup>
             </SelectContent>
-          </Select>{" "}
+          </Select>
         </div>
       </div>
 
-      <button
-        onClick={() => {
-          handleClick();
-        }}
-        disabled={brtc === "" || sgg === ""}
-      >
+      <Button onClick={handleClick} disabled={!brtc || !sgg}>
         확인
-      </button>
+      </Button>
     </>
   );
 };
