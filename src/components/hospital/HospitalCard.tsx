@@ -2,8 +2,15 @@ import { HopsitalItem } from "@/types/hospital";
 import React from "react";
 import FreeTag from "./FreeTag";
 import PhoneButton from "./PhoneButton";
+import VaccineNames from "./VaccineNames";
 
-const HospitalCard = ({ info, filter, openVaccine, setOpenVaccine}: { info: HopsitalItem; filter: string | undefined, openVaccine:string, setOpenVaccine: React.Dispatch<React.SetStateAction<string>> }) => {
+const HospitalCard = ({
+  info,
+  filter,
+}: {
+  info: HopsitalItem;
+  filter: string | undefined;
+}) => {
   const {
     orgnm,
     orgTlno,
@@ -43,30 +50,10 @@ const HospitalCard = ({ info, filter, openVaccine, setOpenVaccine}: { info: Hops
                 <p>백신 목록</p>
               </td>
               <td className="text-gray-700">
-                <ul>
-                  {
-                    filter ? (
-                      <li>
-                        {filter} {vaccineNames.length > 1 ? `외 ${vaccineNames.length - 1}개` : null}{" "}
-                      </li>
-                    ) : vaccineNames.length === 1 ? (
-                      <li>{vaccineNames[0]}</li>
-                    ) : (
-                      <li>
-                        {vaccineNames[0]} 외 {`${vaccineNames.length - 1}`}개
-                      </li>
-                    )
-                    // (
-                    //   vaccineNames.map((name, idx) => {
-                    //     if (idx === vaccineNames.length - 1) {
-                    //       return <li key={`${orgnm}_vcnNm_${name}`}>{name}</li>;
-                    //     } else {
-                    //       return <li key={`${orgnm}_vcnNm_${name}`}>{name}, </li>;
-                    //     }
-                    //   })
-                    // )
-                  }
-                </ul>
+                <VaccineNames
+                  filter={filter}
+                  vaccineNames={vaccineNames}
+                />
               </td>
             </tr>
           </tbody>
