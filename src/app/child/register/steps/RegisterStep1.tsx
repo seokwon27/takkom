@@ -6,8 +6,8 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Form, FormField, FormItem, FormLabel, FormControl, FormDescription, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { createClient } from "@/utils/supabase/client";
 import { useState } from "react";
+import browserClient from "@/utils/supabase/client";
 
 interface RegisterStep1Props {
   child: Child; // child prop 추가
@@ -34,10 +34,7 @@ const RegisterStep1 = ({ onNext }: RegisterStep1Props) => {
   const [selectedImage, setSelectedImage] = useState<File>();
 
   // Supabase 클라이언트 생성
-  const supabase = createClient();
-
-  // 테스트를 위한 유저 객체
-  // const user = {id:"6a0746a4-d1fb-405e-bb64-336ed4ef0de6"};
+  const supabase = browserClient;
 
   // 이미지 업로드 함수
   const uploadImage = async (file: File): Promise<string | null> => {
@@ -61,7 +58,7 @@ const RegisterStep1 = ({ onNext }: RegisterStep1Props) => {
     const { name, birthday, notes } = data;
 
     // 테스트를 위한 유저 아이디
-    const testUserId = "6a0746a4-d1fb-405e-bb64-336ed4ef0de6";
+    const testUserId = "4c656382-4114-4929-ab84-89ec5a6ddef9";
 
     // 현재 로그인한 사용자의 아이디 가져오기
     // const {
