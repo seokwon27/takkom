@@ -7,7 +7,7 @@ interface AgeState {
   currentDisease: string;
   setAgeGroup: (newText: string) => void;
   setSelectedAge: (newAge: number) => void;
-  setThisDisease: (newText: string) => void;
+  setCurrentDisease: (newText: string) => void;
 }
 
 // 상태 스토어 생성
@@ -24,17 +24,17 @@ export const useAgeGroupStore = create<AgeState>((set) => ({
         ageGroup: newText,
         subAgeGroup: subGroup[newText],
         selectedAge: subGroup[newText][0],
-        thisDisease: ""
+        currentDisease: ""
       };
     }), //
   setSelectedAge: (newAge: number) =>
     set(() => {
       return {
         selectedAge: newAge,
-        thisDisease: ""
+        currentDisease: ""
       };
     }),
-  setThisDisease: (newText: string) => set({ currentDisease: newText })
+  setCurrentDisease: (newText: string) => set({ currentDisease: newText })
 }));
 
 //소분류
