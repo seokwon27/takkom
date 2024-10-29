@@ -6,6 +6,7 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { BRTC, DISEASE, DISEASE_LIST, SGG } from "./constants";
+import { Info } from "lucide-react";
 
 const SearchForm = ({
   brtcObj,
@@ -58,6 +59,7 @@ const SearchForm = ({
 
   return (
     <div className="w-full flex flex-col ">
+      <Info/>
       <form className="hospital-search">
         <Select
           value={brtc}
@@ -77,16 +79,16 @@ const SearchForm = ({
             }
           }}
         >
-          <SelectTrigger className="">
-            <SelectValue placeholder={BRTC} />
+          <SelectTrigger className={`justify-center ${brtc === BRTC ? 'border-gray-300 text-gray-300' : 'border-gray-700'}`}>
+            <SelectValue placeholder={BRTC+'*'}/>
           </SelectTrigger>
           <SelectContent>
             <SelectGroup>
-              <SelectItem value={BRTC} key={BRTC} className="">
-                {BRTC}
+              <SelectItem value={BRTC} key={BRTC} className="justify-center">
+                {BRTC+'*'}
               </SelectItem>
               {Object.entries(brtcObj).map((item) => (
-                <SelectItem value={"" + item[0]} key={item[0]} className="">
+                <SelectItem value={"" + item[0]} key={item[0]}  className="justify-center">
                   {item[1]}
                 </SelectItem>
               ))}
@@ -108,16 +110,16 @@ const SearchForm = ({
             }
           }}
         >
-          <SelectTrigger className="" value={sgg} disabled={disableSgg}>
-            <SelectValue placeholder={SGG} />
+          <SelectTrigger className={`justify-center ${sgg === SGG ? 'border-gray-300 text-gray-300' : 'border-gray-700 text-gray-700'}`} value={sgg} disabled={disableSgg}>
+            <SelectValue placeholder={SGG+'*'} />
           </SelectTrigger>
           <SelectContent>
             <SelectGroup>
-              <SelectItem value={SGG} key={SGG} className="w-[180px]">
-                {SGG}
+              <SelectItem value={SGG} key={SGG} className="justify-center">
+                {SGG+'*'}
               </SelectItem>
               {Object.entries(regionInfo.get(brtc) || {}).map((item) => (
-                <SelectItem value={"" + item[0]} key={item[0]} className="w-[180px]">
+                <SelectItem value={"" + item[0]} key={item[0]}  className="justify-center">
                   {item[1]}
                 </SelectItem>
               ))}
@@ -133,6 +135,7 @@ const SearchForm = ({
             setAddr(e.target.value);
           }}
           disabled={disableInputs}
+          className={`text-center focus-visible:ring-0 focus-visible:ring-offset-0 ${addr ? 'border-gray-700 text-gray-700' : 'border-gray-300 text-gray-300'}`}
         />
         <Input
           placeholder="병원명"
@@ -142,6 +145,7 @@ const SearchForm = ({
             setOrg(e.target.value);
           }}
           disabled={disableInputs}
+          className={`text-center focus-visible:ring-0 focus-visible:ring-offset-0 ${org ? 'border-gray-700 text-gray-700' : 'border-gray-300 text-gray-300'}`}
         />
 
         <Button
@@ -151,7 +155,7 @@ const SearchForm = ({
             setQueryParams(params);
           }}
           disabled={disableInputs}
-          className="bg-gray-700 hover:bg-gray-800 disabled:bg-gray-700"
+          className="bg-gray-700 rounded-lg text-base hover:bg-gray-800 disabled:bg-gray-700"
         >
           검색
         </Button>
@@ -162,16 +166,16 @@ const SearchForm = ({
             setDisease(value);
           }}
         >
-          <SelectTrigger className="" value={disease} disabled={disableInputs}>
+          <SelectTrigger className={`justify-center ${disease === DISEASE ? 'border-gray-300 text-gray-300' : 'border-gray-700 text-gray-700'}`} value={disease} disabled={disableInputs}>
             <SelectValue placeholder={DISEASE} />
           </SelectTrigger>
           <SelectContent>
             <SelectGroup>
-              <SelectItem value={DISEASE} key={DISEASE} className="w-[180px]">
+              <SelectItem value={DISEASE} key={DISEASE}  className="justify-center">
                 {DISEASE}
               </SelectItem>
               {DISEASE_LIST.map((name) => (
-                <SelectItem value={name} key={name} className="w-[180px]">
+                <SelectItem value={name} key={name}  className="justify-center">
                   {name}
                 </SelectItem>
               ))}
