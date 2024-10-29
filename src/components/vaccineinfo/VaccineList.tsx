@@ -4,7 +4,7 @@ import { useVaccineInfoQuery } from "@/query/useVaccineInfoQuery";
 import { useAgeGroupStore } from "@/utils/zustand/ageGroupStore";
 
 const VaccineList = () => {
-  const { selectedAge, setThisDisease, currentDisease } = useAgeGroupStore();
+  const { selectedAge, setCurrentDisease, currentDisease } = useAgeGroupStore();
 
   const { data, error, isPending } = useVaccineInfoQuery();
   if (isPending) return "접종 정보 로딩중...";
@@ -23,7 +23,7 @@ const VaccineList = () => {
               key={item.disease_name}
               className={`${currentDisease === item.disease_name ? "border-black" : ""} border-[2px] gap-2 w-56 p-3`}
               onClick={() => {
-                setThisDisease(item.disease_name);
+                setCurrentDisease(item.disease_name);
               }}
             >
               <p>{item.disease_name}</p>
