@@ -1,25 +1,23 @@
 "use client";
 
-import { useMultiStore } from "@/utils/globalStore";
+import { useAgeGroupStore } from "@/utils/zustand/ageGroupStore";
 
 const AgeFilter = () => {
-  const subAgeGroup = useMultiStore((state) => state.subAgeGroup);
-  const age = useMultiStore((state) => state.selectedAge);
-  const setAge = useMultiStore((state) => state.setSelectedAge);
+  const { subAgeGroup, selectedAge, setSelectedAge } = useAgeGroupStore();
   return (
     <div>
-      <p>{`선택된 연령: ${age}`}</p>
+      <p>{`선택된 연령: ${selectedAge}`}</p>
       <div className="flex gap-3">
-        {subAgeGroup.map((el, index) => {
+        {subAgeGroup.map((age) => {
           return (
             <div
-              className={el === age ? `font-bold` : ""}
-              key={index}
+              className={age === selectedAge ? `font-bold` : ""}
+              key={`${age} 개월`}
               onClick={() => {
-                setAge(el);
+                setSelectedAge(age);
               }}
             >
-              <p>{el}</p>
+              {age >= 48 ? <p>{`만 ${age / 12}세`}</p> : <p>{`${age}개월`}</p>}
             </div>
           );
         })}
