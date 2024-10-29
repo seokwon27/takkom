@@ -2,6 +2,7 @@
 
 import { useRef, useState } from "react";
 import { SearchModal } from "./SearchModal";
+import { Button } from "../ui/button";
 
 export type ModalRef = React.RefObject<HTMLDivElement>;
 
@@ -11,14 +12,14 @@ const SearchButton = () => {
 
   return (
     <div>
-      <button
+      <Button
         onClick={() => {
           setModalOpen(true);
           console.log(isModalOpen);
         }}
       >
         병원찾기
-      </button>
+      </Button>
       {isModalOpen && (
         <SearchModal
           ModalRef={modalBg}

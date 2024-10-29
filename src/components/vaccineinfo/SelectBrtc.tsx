@@ -2,9 +2,20 @@
 
 import { useEffect, useState } from "react";
 import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from "../ui/select";
-import { getBrtcCd, getRegionInfo } from "@/api/hospitalApi";
 import { useAgeGroupStore } from "@/utils/zustand/ageGroupStore";
 import { useRouter } from "next/navigation";
+import { getBrtcCd, getRegionInfo } from "@/api/hospitalApi";
+
+type BrtcObj = {
+  [key: string]: string;
+};
+
+type RegionInfo = Map<
+  string,
+  {
+    [key: string]: string;
+  }
+>;
 
 const SelectBrtc = () => {
   const router = useRouter();
@@ -12,7 +23,7 @@ const SelectBrtc = () => {
   const [regionInfo, setRegionInfo] = useState<RegionInfo>(new Map());
   const [brtc, setBrtc] = useState<string>("");
   const [sgg, setSgg] = useState<string>("");
-  const { thisDisease } = useAgeGroupStore();
+  const { currentDisease } = useAgeGroupStore();
 
   const getCityData = async () => {
     const brtcRes = await getBrtcCd();
@@ -31,7 +42,7 @@ const SelectBrtc = () => {
 
     searchParams.set("brtcCd", brtc);
     searchParams.set("sggCd", sgg);
-    searchParams.set("disease", thisDisease);
+    searchParams.set("disease", currentDisease);
 
     router.push(`/search?${searchParams.toString()}&pageNo=1`);
   };
@@ -103,16 +114,5 @@ const SelectBrtc = () => {
     </>
   );
 };
-
-type BrtcObj = {
-  [key: string]: string;
-};
-
-type RegionInfo = Map<
-  string,
-  {
-    [key: string]: string;
-  }
->;
 
 export default SelectBrtc;
