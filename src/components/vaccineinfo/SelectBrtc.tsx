@@ -2,9 +2,9 @@
 
 import { useEffect, useState } from "react";
 import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from "../ui/select";
-import { getBrtcCd, getRegionInfo } from "@/utils/hospital/server-action";
 import { useAgeGroupStore } from "@/utils/zustand/ageGroupStore";
 import { useRouter } from "next/navigation";
+import { getBrtcCd, getRegionInfo } from "@/api/hospitalApi";
 
 const SelectBrtc = () => {
   const router = useRouter();
