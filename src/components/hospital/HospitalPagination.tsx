@@ -15,7 +15,7 @@ const HospitalPagination = ({
   currentPage,
   setCurrentPage,
   startNum,
-  setStartNum,
+  setStartNum
 }: {
   maxPage: number;
   currentPage: number;
@@ -23,9 +23,9 @@ const HospitalPagination = ({
   startNum: number;
   setStartNum: React.Dispatch<React.SetStateAction<number>>;
 }) => {
-  if (maxPage >=5 ) {
+  if (maxPage >= 5) {
     if (currentPage - 2 >= 1 && currentPage + 2 < maxPage) {
-      setStartNum(currentPage - 2)
+      setStartNum(currentPage - 2);
     } else if (currentPage + 2 >= maxPage) {
       setStartNum(maxPage - 4);
     }
@@ -99,7 +99,12 @@ const HospitalPagination = ({
             {Array(maxPage)
               .fill(null)
               .map((_, idx) => (
-                <PaginationItem key={`pagination_${idx}`}>
+                <PaginationItem
+                  key={`pagination_${idx}`}
+                  onClick={() => {
+                    setCurrentPage(startNum + idx);
+                  }}
+                >
                   <PaginationLink href="#" isActive={currentPage === startNum + idx}>
                     {startNum + idx}
                   </PaginationLink>
@@ -113,7 +118,8 @@ const HospitalPagination = ({
             if (currentPage < maxPage) {
               setCurrentPage((prev) => prev + 1);
             }
-          }}>
+          }}
+        >
           <PaginationNext href="#" />
         </PaginationItem>
       </PaginationContent>

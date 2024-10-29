@@ -9,11 +9,11 @@ import HospitalPagination from "./HospitalPagination";
 const HospitalList = () => {
   const searchParams = useSearchParams();
   const [brtcCd, sggCd, addr, org, disease] = [
-    searchParams.get("brtcCd") || '',
-    searchParams.get("sggCd") || '',
-    searchParams.get("addr") || '',
-    searchParams.get("org") || '',
-    searchParams.get("disease") || ''
+    searchParams.get("brtcCd") || "",
+    searchParams.get("sggCd") || "",
+    searchParams.get("addr") || "",
+    searchParams.get("org") || "",
+    searchParams.get("disease") || ""
   ];
   const [currentPage, setCurrentPage] = useState(1);
   const [startNum, setStartNum] = useState(1);
@@ -27,11 +27,11 @@ const HospitalList = () => {
       setHospitalData(data as HospitalData);
     };
     if (brtcCd && sggCd) {
-      setCurrentPage(1)
+      setCurrentPage(1);
       setStartNum(1);
       fetchHospitalsMultiConditions({ brtcCd, sggCd, addr, org, disease, numOfRows: "100" });
     }
-  }, [brtcCd, sggCd, addr, org, disease ]);
+  }, [brtcCd, sggCd, addr, org, disease]);
 
   return (
     <div className="w-full flex flex-col">
@@ -42,16 +42,24 @@ const HospitalList = () => {
         <p>검색 결과가 없습니다.</p>
       ) : (
         <ul className="grid grid-cols-[repeat(10, 1fr)] gap-4">
-          {hospitalData.items.slice(10*(currentPage-1), 10*currentPage).map((info) => (
+          {hospitalData.items.slice(10 * (currentPage - 1), 10 * currentPage).map((info) => (
             <li key={info.orgcd}>
               <HospitalCard info={info} filter={disease} />
             </li>
           ))}
         </ul>
       )}
-      {hospitalData.totalCount > 0 && <div>
-        <HospitalPagination maxPage={hospitalData.maxPage} currentPage={currentPage} setCurrentPage={setCurrentPage} startNum={startNum} setStartNum={setStartNum} />
-      </div>}
+      {hospitalData.totalCount > 0 && (
+        <div>
+          <HospitalPagination
+            maxPage={hospitalData.maxPage}
+            currentPage={currentPage}
+            setCurrentPage={setCurrentPage}
+            startNum={startNum}
+            setStartNum={setStartNum}
+          />
+        </div>
+      )}
     </div>
   );
 };

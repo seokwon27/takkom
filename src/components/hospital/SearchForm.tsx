@@ -19,7 +19,7 @@ const SearchForm = ({
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
-  const [params, setParams] = useState<{ brtcCd: string, sggCd: string, addr: string, org: string }>({
+  const [params, setParams] = useState<{ brtcCd: string; sggCd: string; addr: string; org: string }>({
     brtcCd: searchParams.get("brtcCd") || BRTC,
     sggCd: searchParams.get("sggCd") || SGG,
     addr: searchParams.get("addr") || "",
@@ -31,17 +31,6 @@ const SearchForm = ({
   );
   const [disease, setDisease] = useState(searchParams.get("disease") || DISEASE);
 
-
-  // const checkForm =  (brtc: string[], sgg: string[]) => {
-  //   if (brtc[0] === BRTC) {
-  //     setSgg(sggDefault);
-  //     setAddr('')
-  //     setOrg('')
-  //     setDisableInputs(true);
-  //     setDisableSgg(true);
-  //   }
-  // }
-
   return (
     <div className="w-full flex flex-col ">
       <Info />
@@ -49,9 +38,8 @@ const SearchForm = ({
         <Select
           value={params.brtcCd}
           onValueChange={(value) => {
-            setParams((prev) => {
-              const tmpParams = { ...prev, brtcCd: value, sggCd: SGG, addr: "", org: "" };
-              console.log(1, tmpParams);
+            setParams(() => {
+              const tmpParams = { brtcCd: value, sggCd: SGG, addr: "", org: "" };
               return tmpParams;
             });
             setDisease(DISEASE);
@@ -89,10 +77,10 @@ const SearchForm = ({
           onValueChange={(value) => {
             setParams((prev) => {
               const tmpParams = { ...prev };
-              tmpParams.sggCd = value
+              tmpParams.sggCd = value;
               console.log(2, tmpParams);
               if (value === SGG) {
-                // 기본값으로 바꾸면 입력값 초기화 및 비활성화
+                // 기본값으로 바꾸면 입력값 초기화
                 tmpParams.addr = "";
                 tmpParams.org = "";
                 console.log(3, tmpParams);
@@ -100,7 +88,7 @@ const SearchForm = ({
               return tmpParams;
             });
             if (value === SGG) {
-              // 기본값으로 바꾸면 입력값 초기화 및 비활성화
+              // 기본값으로 바꾸면 비활성화
               setDisableInputs(true);
             } else {
               setDisableInputs(false);
@@ -133,10 +121,8 @@ const SearchForm = ({
           placeholder="도로명/동 주소"
           value={params.addr}
           onChange={(e) => {
-            // setAddr(e.target.value);
             setParams((prev) => {
-              const tmpParams = { ...prev };
-              tmpParams.addr= e.target.value
+              const tmpParams = { ...prev, addr: e.target.value };
               return tmpParams;
             });
           }}
@@ -149,7 +135,6 @@ const SearchForm = ({
           placeholder="병원명"
           value={params.org}
           onChange={(e) => {
-            // setOrg(e.target.value);
             setParams((prev) => {
               const tmpParams = { ...prev, org: e.target.value };
               return tmpParams;
@@ -164,7 +149,6 @@ const SearchForm = ({
         <Button
           type="button"
           onClick={() => {
-            // const params = { brtcCd: brtc, sggCd: sgg, addr, org };
             setDisease(DISEASE);
             setQueryParams(params, router, pathname);
           }}
