@@ -8,6 +8,7 @@ import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
+import { useRouter } from "next/navigation";
 
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL as string;
 const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY as string;
@@ -25,6 +26,8 @@ const SignUp = () => {
   // 비밀번호 표시 상태 관리
   const [showPassword, setShowPassword] = useState(false);
   const [showPasswordCheck, setShowPasswordCheck] = useState(false);
+
+  const router = useRouter();
 
   const defaultValues = {
     email: "",
@@ -82,6 +85,7 @@ const SignUp = () => {
 
       alert("회원가입 성공!");
       console.log("회원가입 데이터:", data);
+      router.push("/onboarding");
     } catch (error) {
       console.error("회원가입 실패:", error);
       alert("이미 가입 된 정보입니다"); //error case 좀 알아보고 에러별 alert 작성해야할듯

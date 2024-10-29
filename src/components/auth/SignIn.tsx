@@ -8,6 +8,7 @@ import { Input } from "../ui/input";
 import { Button } from "../ui/button";
 import { createClient } from "@supabase/supabase-js";
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL as string;
 const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY as string;
@@ -22,6 +23,8 @@ type AuthFormInputs = {
 const SignIn = () => {
   // 비밀번호 표시 상태 관리
   const [showPassword, setShowPassword] = useState(false);
+
+  const router = useRouter();
 
   const defaultValues = {
     email: "",
@@ -51,6 +54,7 @@ const SignIn = () => {
 
       alert("로그인 성공!");
       console.log("로그인 데이터:", data);
+      router.push("/");
     } catch (error) {
       console.error("로그인 실패:", error);
     }
