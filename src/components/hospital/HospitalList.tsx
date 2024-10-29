@@ -49,9 +49,9 @@ const HospitalList = () => {
           ))}
         </ul>
       )}
-      <div>
+      {hospitalData.totalCount > 0 && <div>
         <HospitalPagination maxPage={hospitalData.maxPage} currentPage={currentPage} setCurrentPage={setCurrentPage} startNum={startNum} setStartNum={setStartNum} />
-      </div>
+      </div>}
     </div>
   );
 };
