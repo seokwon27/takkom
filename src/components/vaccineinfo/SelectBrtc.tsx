@@ -45,7 +45,7 @@ const SelectBrtc = () => {
     searchParams.set("sggCd", sgg);
     searchParams.set("disease", currentDisease);
 
-    router.push(`/search?${searchParams.toString()}&pageNo=1`);
+    router.push(`/search?${searchParams.toString()}`);
   };
 
   // console.log("brtc : ", brtc, "sgg :", sgg);
