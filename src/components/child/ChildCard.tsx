@@ -1,5 +1,6 @@
 import React from "react";
 import { Child } from "../../app/child/page";
+import Image from "next/image";
 
 interface ChildCardProps {
   child?: Child; // 등록된 child가 없으면 undefined일 수 있음
@@ -12,7 +13,12 @@ export const ChildCard = ({ child }: ChildCardProps) => {
   return (
     <>
       <div>
-        <img src={child.profileImage} alt="아이 프로필 이미지" />
+        <Image
+          src={child.profileImage || "/default-profile.png"} // 기본 이미지 설정
+          alt="아이 프로필 이미지"
+          width={150}
+          height={150}
+        />
         <h2>아이 이름: {child.name}</h2>
         <p>생년월일: {child.birthday}</p>
         {child.notes && <p>특이사항: {child.notes}</p>}

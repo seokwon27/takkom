@@ -6,11 +6,9 @@ import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
-import { createClient } from "@supabase/supabase-js";
-
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL as string;
-const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY as string;
-const supabase = createClient(supabaseUrl, supabaseKey);
+import { useState } from "react";
+import { useRouter } from "next/navigation";
+import browserClient from "@/utils/supabase/client";
 
 // 임시로 타입 지정 추후에 타입 파일에 추가 예정
 type AuthFormInputs = {
@@ -19,6 +17,11 @@ type AuthFormInputs = {
 };
 
 const SignIn = () => {
+  // 비밀번호 표시 상태 관리
+  const [showPassword, setShowPassword] = useState(false);
+
+  const router = useRouter();
+
   const defaultValues = {
     email: "",
     password: ""
@@ -38,7 +41,7 @@ const SignIn = () => {
 
   const signIn = async (data: AuthFormInputs) => {
     try {
-      const { error } = await supabase.auth.signInWithPassword({
+      const { error } = await browserClient.auth.signInWithPassword({
         email: data.email,
         password: data.password
       });
@@ -47,9 +50,42 @@ const SignIn = () => {
 
       alert("로그인 성공!");
       console.log("로그인 데이터:", data);
+      router.push("/");
     } catch (error) {
       console.error("로그인 실패:", error);
     }
+  };
+
+  const googleSignIn = async () => {
+    const { data, error } = await browserClient.auth.signInWithOAuth({
+      provider: "google",
+      options: {
+        queryParams: {
+          access_type: "offline",
+          prompt: "consent"
+        }
+      }
+    });
+
+    if (data) console.log("로그인 데이터 : ", data);
+
+    if (error) console.log("로그인 실패 : ", error);
+  };
+
+  const kakaoSignIn = async () => {
+    const { data, error } = await browserClient.auth.signInWithOAuth({
+      provider: "kakao",
+      options: {
+        queryParams: {
+          access_type: "offline",
+          prompt: "consent"
+        }
+      }
+    });
+
+    if (data) console.log("로그인 데이터 : ", data);
+
+    if (error) console.log("로그인 실패 : ", error);
   };
 
   return (
@@ -82,11 +118,19 @@ const SignIn = () => {
             <FormItem>
               <FormLabel className="text-gray-600">비밀번호</FormLabel>
               <FormControl>
-                <Input
-                  className={form.formState.errors.password ? "border-red-500" : "border-gray-300"}
-                  placeholder="PASSWORD"
-                  {...field}
-                />
+                <>
+                  <Input
+                    className={form.formState.errors.password ? "border-red-500" : "border-gray-300"}
+                    type={showPassword ? "text" : "password"}
+                    placeholder="PASSWORD"
+                    {...field}
+                  />
+                  <label>
+                    <Button type="button" onClick={() => setShowPassword(!showPassword)}>
+                      {showPassword ? <p>숨기기</p> : <p>보이기</p>}
+                    </Button>
+                  </label>
+                </>
               </FormControl>
               <FormDescription className={form.formState.errors.password ? "text-red-500" : "text-gray-600"}>
                 {form.formState.errors.password?.message}
@@ -96,7 +140,10 @@ const SignIn = () => {
         />
 
         <Button type="submit">로그인</Button>
+        <Button>회원가입</Button>
       </form>
+      <Button onClick={googleSignIn}>구글로그인</Button>
+      <Button onClick={kakaoSignIn}>카카오로그인</Button>
     </Form>
   );
 };

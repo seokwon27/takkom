@@ -48,8 +48,6 @@ const SelectBrtc = () => {
     router.push(`/search?${searchParams.toString()}`);
   };
 
-  // console.log("brtc : ", brtc, "sgg :", sgg);
-
   return (
     <>
       <div className="">
