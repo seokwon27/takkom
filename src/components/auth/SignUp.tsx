@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel } from "../ui/form";
 import { z } from "zod";
@@ -15,6 +15,8 @@ const SignUp = () => {
   // 비밀번호 표시 상태 관리
   const [showPassword, setShowPassword] = useState(false);
   const [showPasswordCheck, setShowPasswordCheck] = useState(false);
+
+  const [issignIn, setIsSignIn] = useState(false);
 
   const router = useRouter();
 
@@ -80,6 +82,29 @@ const SignUp = () => {
       alert("이미 가입 된 정보입니다"); //error case 좀 알아보고 에러별 alert 작성해야할듯
     }
   };
+
+  const getUser = async () => {
+    const { data, error } = await browserClient.auth.getSession();
+    if (error) {
+      console.log("유져 정보 가져오기 실패! : ", error);
+      return null;
+    }
+    return data?.session?.user?.id || null;
+  };
+
+  useEffect(() => {
+    const checkSignInStatus = async () => {
+      const userId = await getUser();
+      if (userId) {
+        setIsSignIn(true);
+      } else {
+        setIsSignIn(false);
+      }
+    };
+    checkSignInStatus();
+  }, []);
+
+  console.log(issignIn);
 
   return (
     <Form {...form}>

@@ -6,7 +6,7 @@ import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import browserClient from "@/utils/supabase/client";
 import { AuthFormSignIn } from "@/types/user";
@@ -14,6 +14,8 @@ import { AuthFormSignIn } from "@/types/user";
 const SignIn = () => {
   // 비밀번호 표시 상태 관리
   const [showPassword, setShowPassword] = useState(false);
+
+  const [issignIn, setIsSignIn] = useState(false);
 
   const router = useRouter();
 
@@ -82,6 +84,29 @@ const SignIn = () => {
 
     if (error) console.log("로그인 실패 : ", error);
   };
+
+  const getUser = async () => {
+    const { data, error } = await browserClient.auth.getSession();
+    if (error) {
+      console.log("유져 정보 가져오기 실패! : ", error);
+      return null;
+    }
+    return data?.session?.user?.id || null;
+  };
+
+  useEffect(() => {
+    const checkSignInStatus = async () => {
+      const userId = await getUser();
+      if (userId) {
+        setIsSignIn(true);
+      } else {
+        setIsSignIn(false);
+      }
+    };
+    checkSignInStatus();
+  }, []);
+
+  console.log(issignIn);
 
   return (
     <Form {...form}>
