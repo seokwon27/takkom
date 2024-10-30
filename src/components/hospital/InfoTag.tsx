@@ -7,7 +7,7 @@ const InfoTag = ({ isVisible }: { isVisible: boolean }) => {
     >
       <p>도로명 주소를 입력해 주세요.</p>
       <p>
-        ex. 서울특별시 관악구 <span className="text-primary-500">신림로</span>
+        ex. 서울특별시 중구 <span className="text-primary-500">중림로 37 (중림동)</span>
       </p>
     </div>
   );
