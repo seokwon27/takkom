@@ -11,7 +11,7 @@ const VaccineList = () => {
   if (error) throw new Error(`Error: ${error}`);
 
   const formattedData = data.filter((item) => JSON.parse(item.vaccinate_date || "").includes(selectedAge));
-  // console.log(data);
+  console.log(data);
 
   return (
     <div>
