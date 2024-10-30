@@ -5,7 +5,7 @@ import { Form, FormMessage } from "../ui/form";
 import { Checkbox } from "../ui/checkbox";
 import { Button } from "../ui/button";
 import { useAddVaccineRecordMutation } from "@/query/useVaccineRecordMutation";
-import { useVaccineQuery } from "@/query/useVaccineRecordQuery";
+import { useVaccineQuery, useVaccineRecordQuery } from "@/query/useVaccineRecordQuery";
 import { useRouter } from "next/navigation";
 
 interface CheckboxFormProps {
@@ -17,14 +17,15 @@ type FormValues = {
 };
 
 const CheckboxForm = ({ child_id }: CheckboxFormProps) => {
-  const { data } = useVaccineQuery();
+  const { data: vaccineData } = useVaccineQuery();
+  const { data: recordData } = useVaccineRecordQuery(child_id);
   const { mutateAsync: addVaccineRecord } = useAddVaccineRecordMutation();
 
   const router = useRouter();
 
   const form = useForm<FormValues>({
     defaultValues: {
-      selectVaccines: []
+      selectVaccines: recordData || []
     }
   });
 
@@ -39,7 +40,7 @@ const CheckboxForm = ({ child_id }: CheckboxFormProps) => {
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-        {data?.map(([diseaseName, { ids }]) => (
+        {vaccineData?.map(([diseaseName, { ids }]) => (
           <div key={diseaseName}>
             {diseaseName}
             {ids.map((id) => (
