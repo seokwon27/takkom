@@ -14,7 +14,7 @@ export const setQueryParams = (params: { [key: string]: string }, router: AppRou
   if (sggCd) searchParams.set("sggCd", sggCd);
   if (addr) searchParams.set("addr", addr);
   if (org) searchParams.set("org", org);
-  if (disease !== DISEASE && disease !== undefined) searchParams.set("disease", disease);
+  if (disease !== DISEASE && disease) searchParams.set("disease", disease);
   if (pageNo) searchParams.set("pageNo", pageNo);
 
   const queryString = searchParams.toString();
@@ -35,7 +35,7 @@ export const getStringQueryParams = (params: { [key: string]: string }, pathname
   if (sggCd) searchParams.set("sggCd", sggCd);
   if (addr) searchParams.set("addr", addr);
   if (org) searchParams.set("org", org);
-  if (disease !== DISEASE && disease !== undefined) searchParams.set("disease", disease);
+  if (disease !== DISEASE && disease) searchParams.set("disease", disease);
   if (pageNo) searchParams.set("pageNo", pageNo);
 
   const queryString = searchParams.toString();

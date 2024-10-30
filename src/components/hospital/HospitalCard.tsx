@@ -4,21 +4,18 @@ import FreeTag from "./FreeTag";
 import PhoneButton from "./PhoneButton";
 import VaccineNames from "./VaccineNames";
 
-const HospitalCard = ({
-  info,
-  filter,
-}: {
-  info: HopsitalItem;
-  filter?: string;
-}) => {
+const HospitalCard = ({ info, filter }: { info: HopsitalItem; filter?: string }) => {
   const {
     orgnm,
     orgTlno,
     orgAddr,
     vcnList: { vcnInfo }
   } = info;
-
-  const vaccineNames = Array.isArray(vcnInfo) ? vcnInfo.map((info) => info.vcnNm) : [vcnInfo.vcnNm];
+  const vaccineNames = Array.isArray(vcnInfo)
+    ? vcnInfo.map((info) => {
+        return info.vcnNm;
+      })
+    : [vcnInfo?.vcnNm ?? "접종 정보가 없습니다."];
 
   return (
     <div className="w-full h-fit min-h-[192px] flex border rounded-lg p-4 justify-between items-center">
@@ -50,11 +47,7 @@ const HospitalCard = ({
                 <p>백신 목록</p>
               </td>
               <td className="text-gray-700">
-                <VaccineNames
-                  hospitalCd={info.orgcd}
-                  filter={filter}
-                  vaccineNames={vaccineNames}
-                />
+                <VaccineNames hospitalCd={info.orgcd} filter={filter} vaccineNames={vaccineNames} />
               </td>
             </tr>
           </tbody>

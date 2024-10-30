@@ -39,13 +39,14 @@ const SearchForm = ({
           value={params.brtcCd}
           onValueChange={(value) => {
             setParams(() => {
+              // 시도 값이 바뀌면 다른 영역 모두 초기화
               const tmpParams = { brtcCd: value, sggCd: SGG, addr: "", org: "" };
               return tmpParams;
             });
-            setDisease(DISEASE);
+            // setDisease(DISEASE);
             setDisableInputs(true);
             if (value === BRTC) {
-              // 선택 값이 없으면 모든 영역 초기화
+              // 선택 값이 없으면 시/군/구 비활성화
               setDisableSgg(true);
             } else {
               // 시/도 설정 시 시/군/구 활성화
@@ -76,15 +77,8 @@ const SearchForm = ({
           value={params.sggCd}
           onValueChange={(value) => {
             setParams((prev) => {
-              const tmpParams = { ...prev };
-              tmpParams.sggCd = value;
-              console.log(2, tmpParams);
-              if (value === SGG) {
-                // 기본값으로 바꾸면 입력값 초기화
-                tmpParams.addr = "";
-                tmpParams.org = "";
-                console.log(3, tmpParams);
-              }
+              // 시/군/구 값이 바뀌면 입력값 초기화
+              const tmpParams = { ...prev, sggCd:value, addr:'', org:'' };
               return tmpParams;
             });
             if (value === SGG) {
@@ -177,7 +171,7 @@ const SearchForm = ({
               className={`justify-center ${
                 disease === DISEASE ? "border-gray-300 text-gray-300" : "border-gray-700 text-gray-700"
               }`}
-              disabled={disableInputs}
+              // disabled={disableInputs}
             >
               <SelectValue placeholder={DISEASE} />
             </SelectTrigger>
