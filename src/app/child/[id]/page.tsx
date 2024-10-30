@@ -30,7 +30,10 @@ const VaccineRecordPage = async ({ params }: VaccinatePageProps) => {
 
   await queryClient.prefetchQuery({
     queryKey: ["vaccine_record", childId],
-    queryFn: () => getVaccineRecord(serverClient, childId)
+    queryFn: async () => {
+      const records = await getVaccineRecord(serverClient, childId);
+      return records.map((record) => record.vaccine_id);
+    }
   });
 
   return (
@@ -47,7 +50,7 @@ const VaccineRecordPage = async ({ params }: VaccinatePageProps) => {
             <Button>수정하기</Button>
           </Link>
         </div>
-        <VaccineRecord />
+        <VaccineRecord childId={childId} />
       </div>
     </HydrationBoundary>
   );
