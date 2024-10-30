@@ -1,22 +1,18 @@
 import { getVaccines } from "@/api/vaccineApi";
-import { getVaccineRecord } from "@/api/vaccineRecord/vaccineRecordApi";
-import { Button } from "@/components/ui/button";
-import VaccineRecord from "@/components/vaccinerecord/VaccineRecord";
+import CheckboxForm from "@/components/vaccinerecord/FormVaccineRecord";
 
 import { createClient } from "@/utils/supabase/server";
 import { groupVaccines } from "@/utils/vaccineRecord/vaccinesRecord";
-
 import { dehydrate, HydrationBoundary, QueryClient } from "@tanstack/react-query";
-import Link from "next/link";
+import React from "react";
 
-interface VaccinatePageProps {
+interface VaccineRecordEditPageProps {
   params: {
     id: string;
   };
 }
 
-const VaccineRecordPage = async ({ params }: VaccinatePageProps) => {
-  const childId = params.id;
+const VaccineRecordEditPage = async ({ params }: VaccineRecordEditPageProps) => {
   const serverClient = createClient();
   const queryClient = new QueryClient();
 
@@ -25,14 +21,6 @@ const VaccineRecordPage = async ({ params }: VaccinatePageProps) => {
     queryFn: async () => {
       const vaccines = await getVaccines(serverClient);
       return groupVaccines(vaccines);
-    }
-  });
-
-  await queryClient.prefetchQuery({
-    queryKey: ["vaccine_record", childId],
-    queryFn: async () => {
-      const records = await getVaccineRecord(serverClient, childId);
-      return records.map((record) => record.vaccine_id);
     }
   });
 
@@ -46,14 +34,11 @@ const VaccineRecordPage = async ({ params }: VaccinatePageProps) => {
             <div>접종 완료</div>
             <div>미접종</div>
           </div>
-          <Link href={`/child/${params.id}/edit`}>
-            <Button>수정하기</Button>
-          </Link>
         </div>
-        <VaccineRecord childId={childId} />
+        <CheckboxForm child_id={params.id} />
       </div>
     </HydrationBoundary>
   );
 };
 
-export default VaccineRecordPage;
+export default VaccineRecordEditPage;

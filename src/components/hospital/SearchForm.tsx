@@ -6,6 +6,8 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { BRTC, DISEASE, DISEASE_LIST, SGG } from "./constants";
+import { Info } from "lucide-react";
+import { setQueryParams } from "./setQueryParams";
 
 const SearchForm = ({
   brtcObj,
@@ -17,55 +19,29 @@ const SearchForm = ({
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
-  const [brtc, setBrtc] = useState<string>(searchParams.get("brtcCd") || BRTC);
-  const [sgg, setSgg] = useState<string>(searchParams.get("sggCd") || SGG);
+  const [params, setParams] = useState<{ brtcCd: string; sggCd: string; addr: string; org: string }>({
+    brtcCd: searchParams.get("brtcCd") || BRTC,
+    sggCd: searchParams.get("sggCd") || SGG,
+    addr: searchParams.get("addr") || "",
+    org: searchParams.get("org") || ""
+  });
   const [disableSgg, setDisableSgg] = useState(!searchParams.has("brtcCd"));
-  const [disableInputs, setDisableInputs] = useState((!searchParams.has("brtcCd") || !searchParams.has('sggCd')) ? true : false);
-  const [addr, setAddr] = useState(searchParams.get("addr") ?? "");
-  const [org, setOrg] = useState(searchParams.get("org") ?? "");
+  const [disableInputs, setDisableInputs] = useState(
+    !searchParams.has("brtcCd") || !searchParams.has("sggCd") ? true : false
+  );
   const [disease, setDisease] = useState(searchParams.get("disease") || DISEASE);
-
-  const setQueryParams = (params: { [key: string]: string }) => {
-    const { brtcCd, sggCd, addr, org, disease, pageNo } = params;
-    const searchParams = new URLSearchParams();
-
-    if (!brtcCd || !sggCd) {
-      console.log("잘못된 접근입니다.");
-      return;
-    }
-
-    if (brtcCd) searchParams.set("brtcCd", brtcCd);
-    if (sggCd) searchParams.set("sggCd", sggCd);
-    if (addr) searchParams.set("addr", addr);
-    if (org) searchParams.set("org", org);
-    if (disease !== DISEASE) searchParams.set("disease", disease);
-    if (pageNo) searchParams.set("pageNo", "" + pageNo);
-
-    const queryString = searchParams.toString();
-    router.push(`${pathname}?${queryString}`);
-    return;
-  };
-
-  // const checkForm =  (brtc: string[], sgg: string[]) => {
-  //   if (brtc[0] === BRTC) {
-  //     setSgg(sggDefault);
-  //     setAddr('')
-  //     setOrg('')
-  //     setDisableInputs(true);
-  //     setDisableSgg(true);
-  //   }
-  // }
 
   return (
     <div className="w-full flex flex-col ">
+      <Info />
       <form className="hospital-search">
         <Select
-          value={brtc}
+          value={params.brtcCd}
           onValueChange={(value) => {
-            setBrtc(value);
-            setSgg(SGG);
-            setAddr("");
-            setOrg("");
+            setParams(() => {
+              const tmpParams = { brtcCd: value, sggCd: SGG, addr: "", org: "" };
+              return tmpParams;
+            });
             setDisease(DISEASE);
             setDisableInputs(true);
             if (value === BRTC) {
@@ -77,16 +53,18 @@ const SearchForm = ({
             }
           }}
         >
-          <SelectTrigger className="">
-            <SelectValue placeholder={BRTC} />
+          <SelectTrigger
+            className={`justify-center ${params.brtcCd === BRTC ? "border-gray-300 text-gray-300" : "border-gray-700"}`}
+          >
+            <SelectValue placeholder={BRTC + "*"} />
           </SelectTrigger>
           <SelectContent>
             <SelectGroup>
-              <SelectItem value={BRTC} key={BRTC} className="">
-                {BRTC}
+              <SelectItem value={BRTC} key={BRTC} className="justify-center">
+                {BRTC + "*"}
               </SelectItem>
               {Object.entries(brtcObj).map((item) => (
-                <SelectItem value={"" + item[0]} key={item[0]} className="">
+                <SelectItem value={String(item[0])} key={item[0]} className="justify-center">
                   {item[1]}
                 </SelectItem>
               ))}
@@ -95,29 +73,43 @@ const SearchForm = ({
         </Select>
 
         <Select
-          value={sgg}
+          value={params.sggCd}
           onValueChange={(value) => {
-            setSgg(value);
+            setParams((prev) => {
+              const tmpParams = { ...prev };
+              tmpParams.sggCd = value;
+              console.log(2, tmpParams);
+              if (value === SGG) {
+                // 기본값으로 바꾸면 입력값 초기화
+                tmpParams.addr = "";
+                tmpParams.org = "";
+                console.log(3, tmpParams);
+              }
+              return tmpParams;
+            });
             if (value === SGG) {
-              // 기본값으로 바꾸면 입력값 초기화 및 비활성화
-              setAddr("");
-              setOrg("");
+              // 기본값으로 바꾸면 비활성화
               setDisableInputs(true);
             } else {
               setDisableInputs(false);
             }
           }}
         >
-          <SelectTrigger className="" value={sgg} disabled={disableSgg}>
-            <SelectValue placeholder={SGG} />
+          <SelectTrigger
+            className={`justify-center ${
+              params.sggCd === SGG ? "border-gray-300 text-gray-300" : "border-gray-700 text-gray-700"
+            }`}
+            disabled={disableSgg}
+          >
+            <SelectValue placeholder={SGG + "*"} />
           </SelectTrigger>
           <SelectContent>
             <SelectGroup>
-              <SelectItem value={SGG} key={SGG} className="w-[180px]">
-                {SGG}
+              <SelectItem value={SGG} key={SGG} className="justify-center">
+                {SGG + "*"}
               </SelectItem>
-              {Object.entries(regionInfo.get(brtc) || {}).map((item) => (
-                <SelectItem value={"" + item[0]} key={item[0]} className="w-[180px]">
+              {Object.entries(regionInfo.get(params.brtcCd) || {}).map((item) => (
+                <SelectItem value={String(item[0])} key={item[0]} className="justify-center">
                   {item[1]}
                 </SelectItem>
               ))}
@@ -127,57 +119,82 @@ const SearchForm = ({
 
         <Input
           placeholder="도로명/동 주소"
-          value={addr}
-          onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-            // 입력값 전후 공백 제거
-            setAddr(e.target.value);
+          value={params.addr}
+          onChange={(e) => {
+            setParams((prev) => {
+              const tmpParams = { ...prev, addr: e.target.value };
+              return tmpParams;
+            });
           }}
           disabled={disableInputs}
+          className={`text-center focus-visible:ring-0 focus-visible:ring-offset-0 ${
+            params.addr ? "border-gray-700 text-gray-700" : "border-gray-300 text-gray-300"
+          }`}
         />
         <Input
           placeholder="병원명"
-          value={org}
+          value={params.org}
           onChange={(e) => {
-            // 입력값 전후 공백 제거
-            setOrg(e.target.value);
+            setParams((prev) => {
+              const tmpParams = { ...prev, org: e.target.value };
+              return tmpParams;
+            });
           }}
           disabled={disableInputs}
+          className={`text-center focus-visible:ring-0 focus-visible:ring-offset-0 ${
+            params.org ? "border-gray-700 text-gray-700" : "border-gray-300 text-gray-300"
+          }`}
         />
 
         <Button
           type="button"
           onClick={() => {
-            const params = { brtcCd: brtc, sggCd: sgg, addr, org, disease, pageNo: "1" };
-            setQueryParams(params);
+            setDisease(DISEASE);
+            setQueryParams(params, router, pathname);
           }}
           disabled={disableInputs}
-          className="bg-gray-700 hover:bg-gray-800 disabled:bg-gray-700"
+          className="bg-gray-700 rounded-lg text-base hover:bg-gray-800 disabled:bg-gray-700"
         >
           검색
         </Button>
 
-        <Select
-          value={disease}
-          onValueChange={(value) => {
-            setDisease(value);
-          }}
-        >
-          <SelectTrigger className="" value={disease} disabled={disableInputs}>
-            <SelectValue placeholder={DISEASE} />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectGroup>
-              <SelectItem value={DISEASE} key={DISEASE} className="w-[180px]">
-                {DISEASE}
-              </SelectItem>
-              {DISEASE_LIST.map((name) => (
-                <SelectItem value={name} key={name} className="w-[180px]">
-                  {name}
+        {searchParams.has("brtcCd") && searchParams.has("sggCd") && (
+          <Select
+            value={disease}
+            onValueChange={(value) => {
+              setDisease(value);
+              if (searchParams.has("brtcCd") && searchParams.has("sggCd")) {
+                const brtcCd = searchParams.get("brtcCd") || "";
+                const sggCd = searchParams.get("sggCd") || "";
+                const addr = searchParams.get("addr") || "";
+                const org = searchParams.get("org") || "";
+                const params = { brtcCd, sggCd, addr, org, disease: value };
+                setQueryParams(params, router, pathname);
+              }
+            }}
+          >
+            <SelectTrigger
+              className={`justify-center ${
+                disease === DISEASE ? "border-gray-300 text-gray-300" : "border-gray-700 text-gray-700"
+              }`}
+              disabled={disableInputs}
+            >
+              <SelectValue placeholder={DISEASE} />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectGroup>
+                <SelectItem value={DISEASE} key={DISEASE} className="justify-center">
+                  {DISEASE}
                 </SelectItem>
-              ))}
-            </SelectGroup>
-          </SelectContent>
-        </Select>
+                {DISEASE_LIST.map((name) => (
+                  <SelectItem value={name} key={name} className="justify-center">
+                    {name}
+                  </SelectItem>
+                ))}
+              </SelectGroup>
+            </SelectContent>
+          </Select>
+        )}
       </form>
     </div>
   );

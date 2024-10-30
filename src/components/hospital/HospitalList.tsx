@@ -1,92 +1,67 @@
 "use client";
 
-import {
-  getHospitalsMutliConditions,
-  HospitalData,
-  HospitalsMutliConditionParams
-} from "@/utils/hospital/server-action";
+import { getHospitalsMutliConditions, HospitalData, HospitalsMutliConditionParams } from "@/api/hospitalApi";
 import { useSearchParams } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import HospitalCard from "./HospitalCard";
+import HospitalPagination from "./HospitalPagination";
 
-const HospitalList = () =>
-  //   {
-  //   brtcObj,
-  //   regionInfo
-  // }: {
-  //   brtcObj: { [key: string]: string };
-  //   regionInfo: Map<string, { [key: string]: string }>;
-  // }
-  {
-    const searchParams = useSearchParams();
-    const [brtcCd, sggCd, pageNo, addr, org, disease] = [
-      searchParams.get("brtcCd") as string,
-      searchParams.get("sggCd") as string,
-      searchParams.get("pageNo") as string,
-      searchParams.get("addr") as string,
-      searchParams.get("org") as string,
-      searchParams.get("disease") as string
-    ];
-    const defaultData: HospitalData = { items: [], totalCount: 0, maxPage: 0 };
-    const [hospitalData, setHospitalData] = useState<HospitalData>(defaultData);
+const HospitalList = () => {
+  const searchParams = useSearchParams();
+  const [brtcCd, sggCd, addr, org, disease] = [
+    searchParams.get("brtcCd") || "",
+    searchParams.get("sggCd") || "",
+    searchParams.get("addr") || "",
+    searchParams.get("org") || "",
+    searchParams.get("disease") || ""
+  ];
+  const [currentPage, setCurrentPage] = useState(1);
+  const [startNum, setStartNum] = useState(1);
+  const defaultData: HospitalData = { items: [], totalCount: 0, maxPage: 1 };
+  const [hospitalData, setHospitalData] = useState<HospitalData>(defaultData);
 
-    useEffect(() => {
-      const fetchHospitalsMultiConditions = async (input: HospitalsMutliConditionParams) => {
-        const data = await getHospitalsMutliConditions(input);
-        console.log("hospitals :", data);
-        setHospitalData(data as HospitalData);
-      };
-      if (brtcCd && sggCd) {
-        fetchHospitalsMultiConditions({ brtcCd, sggCd, pageNo, addr, org, disease, numOfRows: "100" });
-        // if (brtcCd && sggCd && pageNo) {
-        //   const inputs: HospitalParams = {
-        //     pageNo,
-        //     numOfRows: "100",
-        //     brtcCd,
-        //     sggCd
-        //   };
-        //   if (searchParams.size === 3) {
-        //     console.log(brtcCd, sggCd);
-        //     // fetchHospitals(inputs);
-        //     fetchHospitalsMultiConditions(inputs);
-        //   } else if (searchParams.size === 4) {
-        //     if (org) {
-        //       inputs["searchTpcd"] = "ORG";
-        //       inputs["searchWord"] = org;
-        //       console.log("inputs :", inputs);
-        //       fetchHospitals(inputs);
-        //     } else if (addr) {
-        //       inputs["searchTpcd"] = "ADDR";
-        //       inputs["searchWord"] = addr;
-        //       console.log("inputs :", inputs);
-        //       fetchHospitals(inputs);
-        //     }
-        //   } else if (searchParams.size >= 5) {
+  useEffect(() => {
+    const fetchHospitalsMultiConditions = async (input: HospitalsMutliConditionParams): Promise<void> => {
+      const data = await getHospitalsMutliConditions(input);
+      console.log("hospitals :", data);
+      setHospitalData(data as HospitalData);
+    };
+    if (brtcCd && sggCd) {
+      setCurrentPage(1);
+      setStartNum(1);
+      fetchHospitalsMultiConditions({ brtcCd, sggCd, addr, org, disease, numOfRows: "100" });
+    }
+  }, [brtcCd, sggCd, addr, org, disease]);
 
-        //   }
-        // }
-        // console.log("hospitals :", hospitalList);
-      }
-    }, [brtcCd, sggCd, addr, org, disease, pageNo]);
-
-    return (
-      <div className="w-full flex flex-col">
-        <p>
-          전체 결과값 : <span>{hospitalData.totalCount}</span>
-        </p>
-        {hospitalData.totalCount === 0 ? (
-          <p>검색 결과가 없습니다.</p>
-        ) : (
-          <ul className="grid grid-cols-[repeat(10, 1fr)] gap-4">
-            {hospitalData.items.map((info) => (
-              <li key={info.orgcd}>
-                <HospitalCard info={info} />
-              </li>
-            ))}
-          </ul>
-        )}
-      </div>
-    );
-  };
+  return (
+    <div className="w-full flex flex-col">
+      <p>
+        전체 결과값 : <span>{hospitalData.totalCount}</span>
+      </p>
+      {hospitalData.totalCount === 0 ? (
+        <p>검색 결과가 없습니다.</p>
+      ) : (
+        <ul className="grid grid-cols-[repeat(10, 1fr)] gap-4">
+          {hospitalData.items.slice(10 * (currentPage - 1), 10 * currentPage).map((info) => (
+            <li key={info.orgcd}>
+              <HospitalCard info={info} filter={disease} />
+            </li>
+          ))}
+        </ul>
+      )}
+      {hospitalData.totalCount > 0 && (
+        <div>
+          <HospitalPagination
+            maxPage={hospitalData.maxPage}
+            currentPage={currentPage}
+            setCurrentPage={setCurrentPage}
+            startNum={startNum}
+            setStartNum={setStartNum}
+          />
+        </div>
+      )}
+    </div>
+  );
+};
 
 export default HospitalList;

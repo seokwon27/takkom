@@ -1,6 +1,6 @@
 import HospitalList from "@/components/hospital/HospitalList";
 import SearchForm from "@/components/hospital/SearchForm";
-import { getBrtcCd, getRegionInfo } from "@/utils/hospital/server-action";
+import { getBrtcCd, getRegionInfo } from "@/api/hospitalApi";
 import { Suspense } from "react";
 
 const HospitalSearchPage = async () => {

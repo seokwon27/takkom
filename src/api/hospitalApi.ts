@@ -19,7 +19,7 @@ function xmlParser<T>(xmlData: string): T {
 
 // 시도 정보 가져오기
 // brtc는 ... ai에게 질의 결과 basic regional tele-communication의 약자라고 합니다.
-// return : key=brtcCd, value=brtcNm
+// return : key=시도 코드 번호, value=시도 이름
 export const getBrtcCd = async (): Promise<{ [key: string]: string }> => {
   const params = new URLSearchParams({ serviceKey });
   const res = await fetch(BASE_URL + `/getCondBrtcCd3?` + params, {
@@ -53,7 +53,7 @@ export const getBrtcCd = async (): Promise<{ [key: string]: string }> => {
 
 // 시군구 정보 가져오기
 // sgg : 시군구
-// return : key=sggCd, value=sggNm
+// return : key=시군구 코드 번호, value=시군구 이름
 export const getSggCd = async (brtcCd: string): Promise<{ [key: string]: string }> => {
   const params = new URLSearchParams({ serviceKey, brtcCd });
   const res = await fetch(BASE_URL + `/getCondSggCd3?` + params, {
@@ -85,7 +85,7 @@ export const getSggCd = async (brtcCd: string): Promise<{ [key: string]: string 
 };
 
 // 시도, 시군구 정보 합치기
-// key=brtcCd, value=해당 시도의 getSggCd값
+// return : key=시도 코드번호, value=해당 시도의 getSggCd값
 export const getRegionInfo = async (): Promise<Map<string, { [key: string]: string }>> => {
   const regionInfo = new Map();
 
@@ -101,7 +101,6 @@ export const getRegionInfo = async (): Promise<Map<string, { [key: string]: stri
 
 // 병원 목록 가져오기 위한 input params
 export type HospitalParams = {
-  pageNo: string;
   numOfRows: string;
   brtcCd: string; // 각 시/도에 해당하는 코드
   sggCd: string; // 각 시/군/구에 해당하는 코드
@@ -116,7 +115,7 @@ export type HospitalData = { items: HopsitalItem[]; totalCount: number; maxPage:
 export const getHospitals = async (
   input: HospitalParams
 ): Promise<{ items: HopsitalItem[]; totalCount: number; maxPage: number }> => {
-  const params = { serviceKey, ...input };
+  const params = { serviceKey, ...input, pageNo: "1" };
   const searchParams = new URLSearchParams(params).toString();
   const res = await fetch(BASE_URL + `/getOrgList3?` + searchParams, {
     method: "GET",
@@ -161,12 +160,11 @@ export const getHospitals = async (
   }
 
   return { items: item, totalCount: body.totalCount, maxPage: Math.ceil(body.totalCount / 10) };
-
 };
 
 // 병원 목록 가져오기 위한 input params
 export type HospitalsMutliConditionParams = {
-  pageNo: string;
+  // pageNo: string;
   numOfRows: string;
   brtcCd: string; // 각 시/도에 해당하는 코드
   sggCd: string; // 각 시/군/구에 해당하는 코드
@@ -175,29 +173,29 @@ export type HospitalsMutliConditionParams = {
   disease?: string; // 접종명 필터
 };
 
-const defaultData: HospitalData = { items: [], totalCount: 0, maxPage: 0 };
+const defaultData: HospitalData = { items: [], totalCount: 0, maxPage: 1 };
 
 // 여러 조건에 대해 병원 모록 정보 가져오기
 export const getHospitalsMutliConditions = async (input: HospitalsMutliConditionParams) => {
-  const { brtcCd, sggCd, addr, org, disease, pageNo, numOfRows } = input;
+  const { brtcCd, sggCd, addr, org, disease, numOfRows } = input;
 
   if (!disease) {
     if (!org && !addr) {
       console.log("addr & org 1 :", addr, org);
-      const data = await getHospitals({ brtcCd, sggCd, pageNo, numOfRows });
+      const data = await getHospitals({ brtcCd, sggCd, numOfRows });
       return data;
     } else if (!org && addr) {
       console.log("addr & org 2 :", addr, org);
-      const data = await getHospitals({ brtcCd, sggCd, pageNo, numOfRows });
+      const data = await getHospitals({ brtcCd, sggCd, numOfRows, searchTpcd: "ADDR", searchWord: addr });
       return data;
     } else if (org && !addr) {
       console.log("addr & org 3 :", addr, org);
-      const data = await getHospitals({ brtcCd, sggCd, pageNo, numOfRows, searchTpcd: "ORG", searchWord: org });
+      const data = await getHospitals({ brtcCd, sggCd, numOfRows, searchTpcd: "ORG", searchWord: org });
       return data;
     } else if (org && addr) {
       // else
       console.log("addr & org 4 :", addr, org);
-      const tmpData = await getHospitals({ brtcCd, sggCd, pageNo, numOfRows, searchTpcd: "ORG", searchWord: org });
+      const tmpData = await getHospitals({ brtcCd, sggCd, numOfRows, searchTpcd: "ORG", searchWord: org });
       if (tmpData.totalCount === 0) {
         return defaultData;
       }
@@ -211,7 +209,7 @@ export const getHospitalsMutliConditions = async (input: HospitalsMutliCondition
   } else if (disease) {
     if (!org && !addr) {
       console.log("addr & org 5 :", addr, org);
-      const tmpData = await getHospitals({ brtcCd, sggCd, pageNo, numOfRows });
+      const tmpData = await getHospitals({ brtcCd, sggCd, numOfRows });
       if (tmpData.totalCount === 0) {
         return defaultData;
       }
@@ -227,7 +225,7 @@ export const getHospitalsMutliConditions = async (input: HospitalsMutliCondition
       return { items, totalCount, maxPage };
     } else if (!org && addr) {
       console.log("addr & org 6 :", addr, org);
-      const tmpData = await getHospitals({ brtcCd, sggCd, pageNo, numOfRows, searchTpcd: "ADDR", searchWord: addr });
+      const tmpData = await getHospitals({ brtcCd, sggCd, numOfRows, searchTpcd: "ADDR", searchWord: addr });
       if (tmpData.totalCount === 0) {
         return defaultData;
       }
@@ -243,7 +241,7 @@ export const getHospitalsMutliConditions = async (input: HospitalsMutliCondition
       return { items, totalCount, maxPage };
     } else if (org && !addr) {
       console.log("addr & org 7 :", addr, org);
-      const tmpData = await getHospitals({ brtcCd, sggCd, pageNo, numOfRows, searchTpcd: "ORG", searchWord: org });
+      const tmpData = await getHospitals({ brtcCd, sggCd, numOfRows, searchTpcd: "ORG", searchWord: org });
       if (tmpData.totalCount === 0) {
         return defaultData;
       }
@@ -260,7 +258,7 @@ export const getHospitalsMutliConditions = async (input: HospitalsMutliCondition
     } else if (org && addr) {
       // else
       console.log("addr & org 8 :", addr, org);
-      const tmpData = await getHospitals({ brtcCd, sggCd, pageNo, numOfRows, searchTpcd: "ORG", searchWord: org });
+      const tmpData = await getHospitals({ brtcCd, sggCd, numOfRows, searchTpcd: "ORG", searchWord: org });
       if (tmpData.totalCount === 0) {
         return defaultData;
       }
