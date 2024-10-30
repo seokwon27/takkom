@@ -8,6 +8,7 @@ import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { BRTC, DISEASE, DISEASE_LIST, SGG } from "./constants";
 import { Info } from "lucide-react";
 import { setQueryParams } from "./setQueryParams";
+import InfoTag from "./InfoTag";
 
 const SearchForm = ({
   brtcObj,
@@ -30,10 +31,16 @@ const SearchForm = ({
     !searchParams.has("brtcCd") || !searchParams.has("sggCd") ? true : false
   );
   const [disease, setDisease] = useState(searchParams.get("disease") || DISEASE);
+  const [showInfoTag, setShowInfoTag] = useState(true);
 
   return (
     <div className="w-full flex flex-col ">
-      <Info />
+      <div className="flex items-end">
+        <Info onClick={() => {
+          setShowInfoTag(prev => !prev)
+        }}/>
+        <InfoTag isVisible={showInfoTag} />
+      </div>
       <form className="hospital-search">
         <Select
           value={params.brtcCd}
@@ -115,6 +122,7 @@ const SearchForm = ({
           placeholder="도로명/동 주소"
           value={params.addr}
           onChange={(e) => {
+            setShowInfoTag(false)
             setParams((prev) => {
               const tmpParams = { ...prev, addr: e.target.value };
               return tmpParams;
@@ -129,6 +137,7 @@ const SearchForm = ({
           placeholder="병원명"
           value={params.org}
           onChange={(e) => {
+            setShowInfoTag(false)
             setParams((prev) => {
               const tmpParams = { ...prev, org: e.target.value };
               return tmpParams;
