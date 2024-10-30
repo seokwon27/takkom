@@ -2,6 +2,7 @@ import ChildCard from "@/components/child/ChildCard";
 import RegisterButton from "@/components/child/RegisterButton";
 
 export interface Child {
+  id: string;
   name: string;
   birthday: string;
   notes?: string;

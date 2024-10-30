@@ -1,12 +1,12 @@
 "use client";
 import { Child } from "../../page";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Form, FormField, FormItem, FormLabel, FormControl, FormDescription, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { useState } from "react";
 import browserClient from "@/utils/supabase/client";
 
 interface RegisterStep1Props {
@@ -74,32 +74,36 @@ const RegisterStep1 = ({ onNext }: RegisterStep1Props) => {
     const profileImageUrl = selectedImage ? await uploadImage(selectedImage) : null;
 
     // Supabase에 데이터 삽입
-    const { error } = await supabase
-      .from("child") // 'child' 테이블에 데이터 삽입
-      .insert([
-        {
-          // user_id: user.id,
-          user_id: testUserId, // 테스트용
-          name: name,
-          birth: birthday,
-          profile: profileImageUrl,
-          notes: notes || "" // notes가 없을 경우 빈 문자열로 설정
-        }
-      ]);
+    const { data: childData, error } = await supabase
+      .from("child")
+      .insert({
+        // user_id: user.id,
+        user_id: testUserId, // 테스트용
+        name: name,
+        birth: birthday,
+        profile: profileImageUrl,
+        notes: notes ?? "" // notes가 없을 경우 빈 문자열로 설정
+      })
+      .select() // 들어간 데이터를 가져올 수잇음
+      .single();
 
     if (error) {
-      console.error("데이터 저장 오류", error);
+      console.error("데이터 저장 오류났다...", error);
       return;
     }
-
-    console.log("데이터가 성공적으로 저장되었습니다.");
-
-    onNext({
-      name,
-      birthday,
-      notes,
-      profileImage: profileImageUrl || undefined // profileImageUrl이 null인 경우 undefined로 설정
-    });
+    console.log("childData: ", childData);
+    if (childData) {
+      console.log("데이터가 성공적으로 저장되었으면 하는데... 아이 아이디: ", childData.id);
+      onNext({
+        id: childData.id,
+        name,
+        birthday,
+        notes,
+        profileImage: profileImageUrl || undefined // profileImageUrl이 null인 경우 undefined로 설정
+      });
+    } else {
+      console.error("childData가 null입니다.");
+    }
   };
 
   return (

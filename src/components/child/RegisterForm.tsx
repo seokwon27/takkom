@@ -13,6 +13,7 @@ const RegisterForm = ({ child }: ChildCardProps) => {
   // 만약 `child`가 주어지지 않았다면 빈 객체로 초기화
   const [childInfo, setChildInfo] = useState<Child>(
     child || {
+      id: "",
       name: "",
       birthday: "",
       notes: ""
@@ -27,9 +28,9 @@ const RegisterForm = ({ child }: ChildCardProps) => {
   };
 
   // 이전 버튼 핸들러
-  const handlePrevious = () => {
-    setStep(step - 1);
-  };
+  // const handlePrevious = () => {
+  //   setStep(step - 1);
+  // };
 
   // 등록하기 버튼 핸들러
   const handleComplete = () => {
@@ -43,7 +44,7 @@ const RegisterForm = ({ child }: ChildCardProps) => {
       {step === 1 ? (
         <RegisterStep1 onNext={handleNext} child={childInfo} />
       ) : (
-        <RegisterStep2 onPrev={handlePrevious} child={childInfo} onComplete={handleComplete} />
+        <RegisterStep2 child={childInfo} />
       )}
     </div>
   );
