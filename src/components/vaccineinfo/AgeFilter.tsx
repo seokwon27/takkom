@@ -1,7 +1,7 @@
 "use client";
 
 import { useAgeGroupStore } from "@/utils/zustand/ageGroupStore";
-// import { Tabs, TabsContent, TabsList, TabsTrigger } from "../ui/tabs";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "../ui/tabs";
 
 //연령 텍스트 전환
 const formatAgeText = (age: number) => {
@@ -39,19 +39,19 @@ const AgeFilter = () => {
         </div>
       </div>
 
-      {/* <Tabs defaultValue={`${subAgeGroup[0]}`} onValueChange={(value) => setSelectedAge(Number(value))}>
+      <Tabs value={`${selectedAge}`} onValueChange={(value) => setSelectedAge(Number(value))}>
         <TabsList>
           {subAgeGroup.map((age) => {
             return (
               <TabsTrigger value={`${age}`} key={age}>
-                {formatAgeText(age)} 
+                {formatAgeText(age)}
               </TabsTrigger>
             );
           })}
         </TabsList>
         <TabsContent value="account">Make changes to your account here.</TabsContent>
         <TabsContent value="password">Change your password here.</TabsContent>
-      </Tabs> */}
+      </Tabs>
     </>
   );
 };
