@@ -26,11 +26,11 @@ const VaccineList = () => {
           >
             <div>
               <p>{item.disease_name}</p>
-              <p>{`${item.vaccine_name} ${item.vaccine_turn} 차`}</p>
+              <p>{`${item.vaccine_name} ${item.vaccine_turn}차`}</p>
             </div>
             <div className="mt-5">
-              <p>{`대상`}</p>
-              <p>{`방법: ${item.description}`}</p>
+              <p>{`대상: ${item.target}`}</p>
+              <p>{`방법: ${item.process}`}</p>
             </div>
             <p>무료접종</p>
           </div>
