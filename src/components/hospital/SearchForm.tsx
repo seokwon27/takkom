@@ -20,10 +20,10 @@ const SearchForm = ({
   const pathname = usePathname();
   const searchParams = useSearchParams();
   const [params, setParams] = useState<{ brtcCd: string; sggCd: string; addr: string; org: string }>({
-    brtcCd: searchParams.get("brtcCd") || BRTC,
-    sggCd: searchParams.get("sggCd") || SGG,
-    addr: searchParams.get("addr") || "",
-    org: searchParams.get("org") || ""
+    brtcCd: searchParams.get("brtcCd") ?? BRTC,
+    sggCd: searchParams.get("sggCd") ?? SGG,
+    addr: searchParams.get("addr") ?? "",
+    org: searchParams.get("org") ?? ""
   });
   const [disableSgg, setDisableSgg] = useState(!searchParams.has("brtcCd"));
   const [disableInputs, setDisableInputs] = useState(
@@ -150,7 +150,7 @@ const SearchForm = ({
           type="button"
           onClick={() => {
             setDisease(DISEASE);
-            setQueryParams(params, router, pathname);
+            setQueryParams({ ...params, pageNo: "1" }, router, pathname);
           }}
           disabled={disableInputs}
           className="bg-gray-700 rounded-lg text-base hover:bg-gray-800 disabled:bg-gray-700"
@@ -164,11 +164,11 @@ const SearchForm = ({
             onValueChange={(value) => {
               setDisease(value);
               if (searchParams.has("brtcCd") && searchParams.has("sggCd")) {
-                const brtcCd = searchParams.get("brtcCd") || "";
-                const sggCd = searchParams.get("sggCd") || "";
-                const addr = searchParams.get("addr") || "";
-                const org = searchParams.get("org") || "";
-                const params = { brtcCd, sggCd, addr, org, disease: value };
+                const brtcCd = searchParams.get("brtcCd") ?? "";
+                const sggCd = searchParams.get("sggCd") ?? "";
+                const addr = searchParams.get("addr") ?? "";
+                const org = searchParams.get("org") ?? "";
+                const params = { brtcCd, sggCd, addr, org, disease: value, pageNo: "1" };
                 setQueryParams(params, router, pathname);
               }
             }}

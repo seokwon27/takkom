@@ -8,15 +8,14 @@ import HospitalPagination from "./HospitalPagination";
 
 const HospitalList = () => {
   const searchParams = useSearchParams();
-  const [brtcCd, sggCd, addr, org, disease] = [
+  const [brtcCd, sggCd, addr, org, disease, currentPage] = [
     searchParams.get("brtcCd") || "",
     searchParams.get("sggCd") || "",
     searchParams.get("addr") || "",
     searchParams.get("org") || "",
-    searchParams.get("disease") || ""
+    searchParams.get("disease") || "",
+    Number(searchParams.get("pageNo")) ?? 1
   ];
-  const [currentPage, setCurrentPage] = useState(1);
-  const [startNum, setStartNum] = useState(1);
   const defaultData: HospitalData = { items: [], totalCount: 0, maxPage: 1 };
   const [hospitalData, setHospitalData] = useState<HospitalData>(defaultData);
 
@@ -27,9 +26,7 @@ const HospitalList = () => {
       setHospitalData(data as HospitalData);
     };
     if (brtcCd && sggCd) {
-      setCurrentPage(1);
-      setStartNum(1);
-      fetchHospitalsMultiConditions({ brtcCd, sggCd, addr, org, disease, numOfRows: "100" });
+      fetchHospitalsMultiConditions({ brtcCd, sggCd, addr, org, disease });
     }
   }, [brtcCd, sggCd, addr, org, disease]);
 
@@ -54,9 +51,7 @@ const HospitalList = () => {
           <HospitalPagination
             maxPage={hospitalData.maxPage}
             currentPage={currentPage}
-            setCurrentPage={setCurrentPage}
-            startNum={startNum}
-            setStartNum={setStartNum}
+            params={{ brtcCd, sggCd, addr, org, disease }}
           />
         </div>
       )}

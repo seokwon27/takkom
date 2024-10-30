@@ -9,7 +9,7 @@ const HospitalCard = ({
   filter,
 }: {
   info: HopsitalItem;
-  filter: string | undefined;
+  filter?: string;
 }) => {
   const {
     orgnm,
