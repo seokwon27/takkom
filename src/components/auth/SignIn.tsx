@@ -6,13 +6,9 @@ import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
-import { createClient } from "@supabase/supabase-js";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL as string;
-const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY as string;
-const supabase = createClient(supabaseUrl, supabaseKey);
+import browserClient from "@/utils/supabase/client";
 
 // 임시로 타입 지정 추후에 타입 파일에 추가 예정
 type AuthFormInputs = {
@@ -45,7 +41,7 @@ const SignIn = () => {
 
   const signIn = async (data: AuthFormInputs) => {
     try {
-      const { error } = await supabase.auth.signInWithPassword({
+      const { error } = await browserClient.auth.signInWithPassword({
         email: data.email,
         password: data.password
       });
@@ -61,7 +57,7 @@ const SignIn = () => {
   };
 
   const googleSignIn = async () => {
-    const { data, error } = await supabase.auth.signInWithOAuth({
+    const { data, error } = await browserClient.auth.signInWithOAuth({
       provider: "google",
       options: {
         queryParams: {
@@ -77,7 +73,7 @@ const SignIn = () => {
   };
 
   const kakaoSignIn = async () => {
-    const { data, error } = await supabase.auth.signInWithOAuth({
+    const { data, error } = await browserClient.auth.signInWithOAuth({
       provider: "kakao",
       options: {
         queryParams: {

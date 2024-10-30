@@ -1,6 +1,5 @@
 "use client";
 
-import { createClient } from "@supabase/supabase-js";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel } from "../ui/form";
@@ -9,10 +8,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
 import { useRouter } from "next/navigation";
-
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL as string;
-const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY as string;
-const supabase = createClient(supabaseUrl, supabaseKey);
+import browserClient from "@/utils/supabase/client";
 
 // 임시로 타입 지정 추후에 타입 파일에 추가 예정
 type AuthFormInputs = {
@@ -71,7 +67,7 @@ const SignUp = () => {
 
   const signUp = async (data: AuthFormInputs) => {
     try {
-      const { error } = await supabase.auth.signUp({
+      const { error } = await browserClient.auth.signUp({
         email: data.email,
         password: data.password,
         options: {
