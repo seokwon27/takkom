@@ -1,10 +1,6 @@
 "use client";
 
-import {
-  getHospitalsMutliConditions,
-  HospitalData,
-  HospitalsMutliConditionParams
-} from "@/utils/hospital/server-action";
+import { getHospitalsMutliConditions, HospitalData, HospitalsMutliConditionParams } from "@/api/hospitalApi";
 import { useSearchParams } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import HospitalCard from "./HospitalCard";
@@ -33,39 +29,11 @@ const HospitalList = () =>
     useEffect(() => {
       const fetchHospitalsMultiConditions = async (input: HospitalsMutliConditionParams) => {
         const data = await getHospitalsMutliConditions(input);
-        // console.log("hospitals :", data);
+        console.log("hospitals :", data);
         setHospitalData(data as HospitalData);
       };
       if (brtcCd && sggCd) {
         fetchHospitalsMultiConditions({ brtcCd, sggCd, pageNo, addr, org, disease, numOfRows: "100" });
-        // if (brtcCd && sggCd && pageNo) {
-        //   const inputs: HospitalParams = {
-        //     pageNo,
-        //     numOfRows: "100",
-        //     brtcCd,
-        //     sggCd
-        //   };
-        //   if (searchParams.size === 3) {
-        //     console.log(brtcCd, sggCd);
-        //     // fetchHospitals(inputs);
-        //     fetchHospitalsMultiConditions(inputs);
-        //   } else if (searchParams.size === 4) {
-        //     if (org) {
-        //       inputs["searchTpcd"] = "ORG";
-        //       inputs["searchWord"] = org;
-        //       console.log("inputs :", inputs);
-        //       fetchHospitals(inputs);
-        //     } else if (addr) {
-        //       inputs["searchTpcd"] = "ADDR";
-        //       inputs["searchWord"] = addr;
-        //       console.log("inputs :", inputs);
-        //       fetchHospitals(inputs);
-        //     }
-        //   } else if (searchParams.size >= 5) {
-
-        //   }
-        // }
-        // console.log("hospitals :", hospitalList);
       }
     }, [brtcCd, sggCd, addr, org, disease, pageNo]);
 
@@ -80,7 +48,7 @@ const HospitalList = () =>
           <ul className="grid grid-cols-[repeat(10, 1fr)] gap-4">
             {hospitalData.items.map((info) => (
               <li key={info.orgcd}>
-                <HospitalCard info={info} />
+                <HospitalCard info={info} filter={disease} />
               </li>
             ))}
           </ul>
