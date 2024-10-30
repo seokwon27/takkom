@@ -60,7 +60,8 @@ const SignIn = () => {
         queryParams: {
           access_type: "offline",
           prompt: "consent"
-        }
+        },
+        redirectTo: process.env.GOOGLE_REDIRECT_URL // 환경
       }
     });
 
@@ -76,7 +77,8 @@ const SignIn = () => {
         queryParams: {
           access_type: "offline",
           prompt: "consent"
-        }
+        },
+        redirectTo: process.env.KAKAO_REDIRECT_URL
       }
     });
 
