@@ -15,7 +15,7 @@ interface VaccinatePageProps {
   };
 }
 
-const VaccinatePage = async ({ params }: VaccinatePageProps) => {
+const VaccineRecordPage = async ({ params }: VaccinatePageProps) => {
   const childId = params.id;
   const serverClient = createClient();
   const queryClient = new QueryClient();
@@ -53,4 +53,4 @@ const VaccinatePage = async ({ params }: VaccinatePageProps) => {
   );
 };
 
-export default VaccinatePage;
+export default VaccineRecordPage;
