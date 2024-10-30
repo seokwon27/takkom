@@ -1,6 +1,5 @@
 "use client";
 
-import { createClient } from "@supabase/supabase-js";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel } from "../ui/form";
@@ -8,10 +7,8 @@ import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
-
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL as string;
-const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY as string;
-const supabase = createClient(supabaseUrl, supabaseKey);
+import { useRouter } from "next/navigation";
+import browserClient from "@/utils/supabase/client";
 
 // 임시로 타입 지정 추후에 타입 파일에 추가 예정
 type AuthFormInputs = {
@@ -24,6 +21,9 @@ type AuthFormInputs = {
 const SignUp = () => {
   // 비밀번호 표시 상태 관리
   const [showPassword, setShowPassword] = useState(false);
+  const [showPasswordCheck, setShowPasswordCheck] = useState(false);
+
+  const router = useRouter();
 
   const defaultValues = {
     email: "",
@@ -67,7 +67,7 @@ const SignUp = () => {
 
   const signUp = async (data: AuthFormInputs) => {
     try {
-      const { error } = await supabase.auth.signUp({
+      const { error } = await browserClient.auth.signUp({
         email: data.email,
         password: data.password,
         options: {
@@ -81,6 +81,7 @@ const SignUp = () => {
 
       alert("회원가입 성공!");
       console.log("회원가입 데이터:", data);
+      router.push("/onboarding");
     } catch (error) {
       console.error("회원가입 실패:", error);
       alert("이미 가입 된 정보입니다"); //error case 좀 알아보고 에러별 alert 작성해야할듯
@@ -145,12 +146,19 @@ const SignUp = () => {
             <FormItem>
               <FormLabel className="text-gray-600">비밀번호 확인</FormLabel>
               <FormControl>
-                <Input
-                  className={form.formState.errors.passwordCheck ? "border-red-500" : "border-gray-300"}
-                  type="password"
-                  placeholder="PASSWORD"
-                  {...field}
-                />
+                <>
+                  <Input
+                    className={form.formState.errors.passwordCheck ? "border-red-500" : "border-gray-300"}
+                    type={showPasswordCheck ? "text" : "password"}
+                    placeholder="PASSWORD"
+                    {...field}
+                  />
+                  <label>
+                    <Button type="button" onClick={() => setShowPasswordCheck(!showPasswordCheck)}>
+                      {showPasswordCheck ? <p>숨기기</p> : <p>보이기</p>}
+                    </Button>
+                  </label>
+                </>
               </FormControl>
               <FormDescription className={form.formState.errors.passwordCheck ? "text-red-500" : "text-gray-600"}>
                 {form.formState.errors.passwordCheck?.message}
