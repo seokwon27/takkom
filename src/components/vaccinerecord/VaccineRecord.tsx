@@ -1,28 +1,29 @@
 "use client";
 
-import { useVaccineQuery } from "@/query/useVaccineRecordQuery";
+import { useVaccineQuery, useVaccineRecordQuery } from "@/query/useVaccineRecordQuery";
 import { Checkbox } from "../ui/checkbox";
 
-// interface VaccineRecordProps {
-//   childId: string;
-// }
+interface VaccineRecordProps {
+  childId: string;
+}
 
-const VaccineRecord = () => {
+const VaccineRecord = ({ childId }: VaccineRecordProps) => {
   const { data: vaccineData, isLoading: vaccineLoading } = useVaccineQuery();
-  // const { data: vaccineRecord, isLoading: recordLoading } = useVaccineRecordQuery(childId);
+  const { data: vaccineRecord, isLoading: recordLoading } = useVaccineRecordQuery(childId);
 
-  console.log("vaccineData", vaccineData);
-  if (vaccineLoading) return <div>Loading...</div>;
+  if (vaccineLoading || recordLoading) return <div>Loading...</div>;
+
+  const vaccinated = new Set(vaccineRecord);
 
   return (
     <ul>
       {vaccineData?.map(([diseaseName, { ids }]) => (
-        <li key={diseaseName} className="flex flex-row">
+        <li key={diseaseName} className="flex flex-row gap-4">
           <div>{diseaseName}</div>
-          <div>
+          <div className="flex flex-row">
             {ids.map((id) => (
               <div key={id}>
-                <Checkbox disabled />
+                <Checkbox checked={vaccinated.has(id)} disabled />
               </div>
             ))}
           </div>
