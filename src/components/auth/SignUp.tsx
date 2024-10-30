@@ -9,14 +9,7 @@ import { Input } from "../ui/input";
 import { Button } from "../ui/button";
 import { useRouter } from "next/navigation";
 import browserClient from "@/utils/supabase/client";
-
-// 임시로 타입 지정 추후에 타입 파일에 추가 예정
-type AuthFormInputs = {
-  email: string;
-  password: string;
-  passwordCheck: string;
-  name: string;
-};
+import { AuthFormSignUp } from "@/types/user";
 
 const SignUp = () => {
   // 비밀번호 표시 상태 관리
@@ -65,7 +58,7 @@ const SignUp = () => {
     resolver: zodResolver(schema)
   });
 
-  const signUp = async (data: AuthFormInputs) => {
+  const signUp = async (data: AuthFormSignUp) => {
     try {
       const { error } = await browserClient.auth.signUp({
         email: data.email,
