@@ -39,11 +39,18 @@ const RegisterStep1 = ({ onNext, userId }: RegisterStep1Props) => {
 
   // 이미지 업로드 함수
   const uploadImage = async (file: File): Promise<string | null> => {
-    const { data, error } = await supabase.storage.from("profiles").upload(`public/${file.name}`, file, {
+    // 파일 이름 중복 방지를 위한 처리
+    const fileName = `public/${Date.now()}_${file.name}`;
+
+    // const { data, error } = await supabase.storage.from("profiles").upload(`public/${file.name}`, file, {
+    //   cacheControl: "3600",
+    //   upsert: true
+    // });
+    const { data, error } = await supabase.storage.from("profiles").upload(fileName, file, {
       cacheControl: "3600",
       upsert: true
     });
-    
+
     if (error) {
       console.error("이미지 업로드 오류:", error);
       return null;
