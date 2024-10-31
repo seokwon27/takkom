@@ -43,7 +43,7 @@ const RegisterStep2 = ({ child, onPrev, onComplete }: RegisterStep2Props) => {
 
   return (
     <div>
-      <h1>2단계ㅇㅇㅇ</h1>
+      <h1>2단계</h1>
       <h2>접종 완료한 내역을 선택해주세요.</h2>
       <CheckboxForm child_id={child?.id} />
       <Button type="button" onClick={onPrev} className="mt-4">

@@ -10,8 +10,9 @@ import { Button } from "@/components/ui/button";
 import browserClient from "@/utils/supabase/client";
 
 interface RegisterStep1Props {
-  child: Child; // child prop 추가
+  // child: Child; // child prop 추가
   onNext: (data: Partial<Child>) => void;
+  userId: string;
 }
 
 const formSchema = z.object({
@@ -21,7 +22,7 @@ const formSchema = z.object({
   profileImage: z.instanceof(File).optional()
 });
 
-const RegisterStep1 = ({ onNext }: RegisterStep1Props) => {
+const RegisterStep1 = ({ onNext, userId }: RegisterStep1Props) => {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -42,7 +43,7 @@ const RegisterStep1 = ({ onNext }: RegisterStep1Props) => {
       cacheControl: "3600",
       upsert: true
     });
-
+    
     if (error) {
       console.error("이미지 업로드 오류:", error);
       return null;
@@ -58,30 +59,31 @@ const RegisterStep1 = ({ onNext }: RegisterStep1Props) => {
     const { name, birth, notes } = data;
 
     // 테스트를 위한 유저 아이디
-    const testUserId = "4c656382-4114-4929-ab84-89ec5a6ddef9";
+    // const testUserId = "4c656382-4114-4929-ab84-89ec5a6ddef9";
 
     // 현재 로그인한 사용자의 아이디 가져오기
-    // const {
-    //   data: { user }
-    // } = await supabase.auth.getUser();
+    const {
+      data: { user }
+    } = await supabase.auth.getUser();
 
-    // if (!user) {
-    //   console.error("사용자 정보가 없습니다. 로그인이 필요합니다.");
-    //   return;
-    // }
+    if (!user) {
+      console.error("사용자 정보가 없습니다. 로그인이 필요합니다.");
+      return;
+    }
 
     // 이미지 URL 가져오기
-    const profileImageUrl = selectedImage ? await uploadImage(selectedImage) : null;
-
+    // const profileImageUrl = selectedImage ? await uploadImage(selectedImage) : null;
+    const profileImageUrl = selectedImage ? await uploadImage(selectedImage) : "";
+    
     // Supabase에 데이터 삽입
     const { data: childData, error } = await supabase
       .from("child")
       .insert({
-        // user_id: user.id,
-        user_id: testUserId, // 테스트용
+        user_id: userId,
+        // user_id: testUserId, // 테스트용
         name: name,
         birth: birth,
-        profile: profileImageUrl,
+        profile: profileImageUrl ?? "",
         notes: notes ?? "" // notes가 없을 경우 빈 문자열로 설정
       })
       .select() // 들어간 데이터를 가져올 수잇음
@@ -91,9 +93,11 @@ const RegisterStep1 = ({ onNext }: RegisterStep1Props) => {
       console.error("데이터 저장 오류났다...", error);
       return;
     }
+
     console.log("childData: ", childData);
+
     if (childData) {
-      console.log("데이터가 성공적으로 저장되었으면 하는데... 아이 아이디: ", childData.id);
+      console.log("데이터가 성공적으로 저장되었습니다. 아이 아이디: ", childData.id);
       onNext({
         id: childData.id,
         name,

@@ -7,23 +7,12 @@ import { Child } from "@/types/childType";
 
 interface ChildCardProps {
   child?: Child;
-  user_id: string;
+  userId: string;
 }
 
-const RegisterForm: React.FC<ChildCardProps> = ({ child, user_id }) => {
+const RegisterForm: React.FC<ChildCardProps> = ({ child, userId }) => {
   // 만약 `child`가 주어지지 않았다면 빈 객체로 초기화
-  const [childInfo, setChildInfo] = useState<Child>(
-    child || {
-      id: "",
-      name: "",
-      birth: "",
-      notes: "",
-      created_at: new Date().toISOString(), // 현재시간으로 초기화
-      profile: null,
-      updated_at: null,
-      user_id: user_id // 부모로부터 받은 userId 사용
-    }
-  );
+  const [childInfo, setChildInfo] = useState<Partial<Child>>({});
   const [step, setStep] = useState(1); // 기본적으로 1단계로 설정됨
 
   // 다음 버튼 핸들러
@@ -33,9 +22,9 @@ const RegisterForm: React.FC<ChildCardProps> = ({ child, user_id }) => {
   };
 
   // 이전 버튼 핸들러
-  const handlePrevious = () => {
-    setStep(step - 1);
-  };
+  // const handlePrevious = () => {
+  //   setStep(step - 1);
+  // };
 
   // 등록하기 버튼 핸들러
   const handleComplete = () => {
@@ -47,9 +36,10 @@ const RegisterForm: React.FC<ChildCardProps> = ({ child, user_id }) => {
   return (
     <div className="w-full max-w-lg mx-auto bg-white p-6 rounded-lg shadow-md">
       {step === 1 ? (
-        <RegisterStep1 onNext={handleNext} child={childInfo} />
+        // <RegisterStep1 onNext={handleNext} child={childInfo} />
+        <RegisterStep1 onNext={handleNext} userId={userId} />
       ) : (
-        <RegisterStep2 child={childInfo} onPrev={handlePrevious} onComplete={handleComplete} />
+        <RegisterStep2 child={childInfo as Child} onPrev={() => setChildInfo({})} onComplete={handleComplete} />
       )}
     </div>
   );
