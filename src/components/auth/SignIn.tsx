@@ -108,7 +108,7 @@ const SignIn = () => {
     checkSignInStatus();
   }, []);
 
-  console.log(issignIn);
+  console.log(isSignIn);
 
   return (
     <Form {...form}>
