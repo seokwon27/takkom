@@ -37,12 +37,12 @@ export const getChildren = async (supabaseClient: SupabaseDatabase, userId?: str
 
     if (error) {
       console.error(error.message);
-      return;
+      return [];
     }
 
     return data;
   } else {
-    return;
+    return [];
   }
 };
 
