@@ -4,8 +4,8 @@ import { Controller, useForm } from "react-hook-form";
 import { Form, FormMessage } from "../ui/form";
 import { Checkbox } from "../ui/checkbox";
 import { Button } from "../ui/button";
-import { useAddVaccineRecordMutation } from "@/query/useVaccineRecordMutation";
-import { useVaccineQuery } from "@/query/useVaccineRecordQuery";
+import { useAddVaccineRecordMutation, useDeleteVaccineRecordMutation } from "@/query/useVaccineRecordMutation";
+import { useVaccineQuery, useVaccineRecordQuery } from "@/query/useVaccineRecordQuery";
 import { useRouter } from "next/navigation";
 
 interface CheckboxFormProps {
@@ -17,21 +17,30 @@ type FormValues = {
 };
 
 const CheckboxForm = ({ child_id }: CheckboxFormProps) => {
-  const { data } = useVaccineQuery();
+  const { data: vaccineData } = useVaccineQuery();
+  const { data: recordData } = useVaccineRecordQuery(child_id);
   const { mutateAsync: addVaccineRecord } = useAddVaccineRecordMutation();
+  const { mutateAsync: deleteVaccineRecord } = useDeleteVaccineRecordMutation();
 
   const router = useRouter();
 
   const form = useForm<FormValues>({
     defaultValues: {
-      selectVaccines: []
+      selectVaccines: recordData || []
     }
   });
 
   const onSubmit = async (values: FormValues) => {
     const { selectVaccines } = values;
 
-    await Promise.all(selectVaccines.map((vaccine_id) => addVaccineRecord({ child_id, vaccine_id })));
+    const addVaccine = selectVaccines.filter((id) => !recordData?.includes(id));
+
+    const deleteVaccine = recordData?.filter((id) => !selectVaccines.includes(id));
+
+    await Promise.all([
+      addVaccine.map((vaccine_id) => addVaccineRecord({ child_id, vaccine_id })),
+      deleteVaccine?.map((vaccine_id) => deleteVaccineRecord({ child_id, vaccine_id }))
+    ]);
 
     router.push(`/child/${child_id}`);
   };
@@ -39,8 +48,8 @@ const CheckboxForm = ({ child_id }: CheckboxFormProps) => {
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-        {data?.map(([diseaseName, { ids }]) => (
-          <div key={diseaseName}>
+        {vaccineData?.map(([diseaseName, { ids }]) => (
+          <div key={diseaseName} className="flex flex-row">
             {diseaseName}
             {ids.map((id) => (
               <Controller
