@@ -42,10 +42,22 @@ const RegisterStep1 = ({ onNext, userId }: RegisterStep1Props) => {
     // 파일 이름 중복 방지를 위한 처리
     const fileName = `public/${Date.now()}_${file.name}`;
 
+    // 테스트 후 지울 예정 (1)
     // const { data, error } = await supabase.storage.from("profiles").upload(`public/${file.name}`, file, {
     //   cacheControl: "3600",
     //   upsert: true
     // });
+
+    //  if (error) {
+    //    console.error("이미지 업로드 오류:", error);
+    //    return null;
+    //  }
+
+    //  // 테스트 후 지울 예정 (1)
+    //  const { data: publicUrlData } = supabase.storage.from("profiles").getPublicUrl(data.path);
+
+    // return publicUrlData?.publicUrl ?? null;
+
     const { data, error } = await supabase.storage.from("profiles").upload(fileName, file, {
       cacheControl: "3600",
       upsert: true
@@ -56,8 +68,10 @@ const RegisterStep1 = ({ onNext, userId }: RegisterStep1Props) => {
       return null;
     }
 
-    const { data: publicUrlData } = supabase.storage.from("profiles").getPublicUrl(data.path);
+    // 업로드된 파일의 공개 URL 생성
+    const { data: publicUrlData } = supabase.storage.from("profiles").getPublicUrl(fileName);
 
+    // publicUrlData가 undefined일 수 있으므로 null 체크
     return publicUrlData?.publicUrl ?? null;
   };
 
