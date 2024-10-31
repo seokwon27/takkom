@@ -24,10 +24,10 @@ export const getBrtcCd = async (): Promise<{ [key: string]: string }> => {
   const params = new URLSearchParams({ serviceKey });
   const res = await fetch(BASE_URL + `/getCondBrtcCd3?` + params, {
     method: "GET",
-    cache: "no-store"
-    // next: {
-    //   revalidate: 60 * 60
-    // }
+    // cache: "no-store",
+    next: {
+      revalidate: 60 * 60
+    }
   });
   const data = await res.text();
   const {
@@ -101,7 +101,7 @@ export const getRegionInfo = async (): Promise<Map<string, { [key: string]: stri
 
 // 병원 목록 가져오기 위한 input params
 export type HospitalParams = {
-  numOfRows: string;
+  // numOfRows: string;
   brtcCd: string; // 각 시/도에 해당하는 코드
   sggCd: string; // 각 시/군/구에 해당하는 코드
   searchTpcd?: string; // 주소:ADDR 또는 기관명:ORG 중 하나를 입력 받는 type code
@@ -115,14 +115,14 @@ export type HospitalData = { items: HopsitalItem[]; totalCount: number; maxPage:
 export const getHospitals = async (
   input: HospitalParams
 ): Promise<{ items: HopsitalItem[]; totalCount: number; maxPage: number }> => {
-  const params = { serviceKey, ...input, pageNo: "1" };
+  const params = { serviceKey, ...input, numOfRows: "100", pageNo: "1" };
   const searchParams = new URLSearchParams(params).toString();
   const res = await fetch(BASE_URL + `/getOrgList3?` + searchParams, {
     method: "GET",
-    cache: "no-store"
-    // next: {
-    //   revalidate: 60 * 60,
-    // }
+    // cache: "no-store",
+    next: {
+      revalidate: 60 * 60,
+    }
   });
   const data = await res.text();
   const { header, body } = xmlParser<HospitalType>(data);
@@ -165,7 +165,7 @@ export const getHospitals = async (
 // 병원 목록 가져오기 위한 input params
 export type HospitalsMutliConditionParams = {
   // pageNo: string;
-  numOfRows: string;
+  // numOfRows: string;
   brtcCd: string; // 각 시/도에 해당하는 코드
   sggCd: string; // 각 시/군/구에 해당하는 코드
   addr?: string; // 주소 검색어
@@ -177,25 +177,25 @@ const defaultData: HospitalData = { items: [], totalCount: 0, maxPage: 1 };
 
 // 여러 조건에 대해 병원 모록 정보 가져오기
 export const getHospitalsMutliConditions = async (input: HospitalsMutliConditionParams) => {
-  const { brtcCd, sggCd, addr, org, disease, numOfRows } = input;
+  const { brtcCd, sggCd, addr, org, disease } = input;
 
   if (!disease) {
     if (!org && !addr) {
       console.log("addr & org 1 :", addr, org);
-      const data = await getHospitals({ brtcCd, sggCd, numOfRows });
+      const data = await getHospitals({ brtcCd, sggCd });
       return data;
     } else if (!org && addr) {
       console.log("addr & org 2 :", addr, org);
-      const data = await getHospitals({ brtcCd, sggCd, numOfRows, searchTpcd: "ADDR", searchWord: addr });
+      const data = await getHospitals({ brtcCd, sggCd, searchTpcd: "ADDR", searchWord: addr });
       return data;
     } else if (org && !addr) {
       console.log("addr & org 3 :", addr, org);
-      const data = await getHospitals({ brtcCd, sggCd, numOfRows, searchTpcd: "ORG", searchWord: org });
+      const data = await getHospitals({ brtcCd, sggCd, searchTpcd: "ORG", searchWord: org });
       return data;
     } else if (org && addr) {
       // else
       console.log("addr & org 4 :", addr, org);
-      const tmpData = await getHospitals({ brtcCd, sggCd, numOfRows, searchTpcd: "ORG", searchWord: org });
+      const tmpData = await getHospitals({ brtcCd, sggCd, searchTpcd: "ORG", searchWord: org });
       if (tmpData.totalCount === 0) {
         return defaultData;
       }
@@ -209,7 +209,7 @@ export const getHospitalsMutliConditions = async (input: HospitalsMutliCondition
   } else if (disease) {
     if (!org && !addr) {
       console.log("addr & org 5 :", addr, org);
-      const tmpData = await getHospitals({ brtcCd, sggCd, numOfRows });
+      const tmpData = await getHospitals({ brtcCd, sggCd });
       if (tmpData.totalCount === 0) {
         return defaultData;
       }
@@ -225,7 +225,7 @@ export const getHospitalsMutliConditions = async (input: HospitalsMutliCondition
       return { items, totalCount, maxPage };
     } else if (!org && addr) {
       console.log("addr & org 6 :", addr, org);
-      const tmpData = await getHospitals({ brtcCd, sggCd, numOfRows, searchTpcd: "ADDR", searchWord: addr });
+      const tmpData = await getHospitals({ brtcCd, sggCd, searchTpcd: "ADDR", searchWord: addr });
       if (tmpData.totalCount === 0) {
         return defaultData;
       }
@@ -241,7 +241,7 @@ export const getHospitalsMutliConditions = async (input: HospitalsMutliCondition
       return { items, totalCount, maxPage };
     } else if (org && !addr) {
       console.log("addr & org 7 :", addr, org);
-      const tmpData = await getHospitals({ brtcCd, sggCd, numOfRows, searchTpcd: "ORG", searchWord: org });
+      const tmpData = await getHospitals({ brtcCd, sggCd, searchTpcd: "ORG", searchWord: org });
       if (tmpData.totalCount === 0) {
         return defaultData;
       }
@@ -258,7 +258,7 @@ export const getHospitalsMutliConditions = async (input: HospitalsMutliCondition
     } else if (org && addr) {
       // else
       console.log("addr & org 8 :", addr, org);
-      const tmpData = await getHospitals({ brtcCd, sggCd, numOfRows, searchTpcd: "ORG", searchWord: org });
+      const tmpData = await getHospitals({ brtcCd, sggCd, searchTpcd: "ORG", searchWord: org });
       if (tmpData.totalCount === 0) {
         return defaultData;
       }

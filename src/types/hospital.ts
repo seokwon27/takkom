@@ -54,3 +54,21 @@ export type HospitalType = {
     };
   };
 };
+
+// export type OpenAPI_Error = {
+//   OpenAPI_ServiceResponse: {
+//     cmmMsgHeader: {
+//       errMsg: string,
+//       returnAuthMsg: string,
+//       returnReasonCode: number
+//     }
+//   }
+// }
+
+export type OpenAPI_Error = {
+  cmmMsgHeader: {
+    errMsg: string;
+    returnAuthMsg: string;
+    returnReasonCode: number;
+  };
+};
