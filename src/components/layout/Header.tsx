@@ -1,5 +1,6 @@
 import Link from "next/link";
 import React from "react";
+import TmpSignOut from "./TmpSignOut";
 
 const Header = async () => {
   // const user = await fetchCurrentUser();
@@ -33,6 +34,9 @@ const Header = async () => {
                 <Link className="font-medium" href={"/signup"}>
                   회원가입
                 </Link>
+              </li>
+              <li>
+                <TmpSignOut/>
               </li>
             {/* </>
           ) : (

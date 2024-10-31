@@ -1,3 +1,4 @@
+import Schedule from "@/components/child/Schedule";
 import Link from "next/link";
 
 const HomePage = () => {
@@ -17,6 +18,8 @@ const HomePage = () => {
           </Link>
         </div>
       </div>
+
+      <Schedule />
     </>
   );
 };
