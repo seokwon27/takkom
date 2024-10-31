@@ -1,3 +1,4 @@
+import Schedule from "@/components/child/Schedule";
 import Link from "next/link";
 
 const HomePage = () => {
@@ -11,6 +12,8 @@ const HomePage = () => {
         <Link href={"/signin"}>로그인</Link>
         <Link href={"/signup"}>회원가입</Link>
       </div>
+
+      <Schedule/>
     </>
   );
 };
