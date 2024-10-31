@@ -1,6 +1,16 @@
 import type { Metadata } from "next";
+import localFont from "next/font/local";
 import "./globals.css";
 import { Providers } from "./providers";
+import Header from "@/components/layout/Header";
+import Footer from "@/components/layout/Footer";
+
+const pretendard = localFont({
+  src: "./fonts/PretendardVariable.woff2",
+  display: "swap",
+  weight: "45 920",
+  variable: "--font-pretendard"
+});
 
 export const metadata: Metadata = {
   title: "따꼼",
@@ -14,8 +24,12 @@ const RootLayout = ({
 }>) => {
   return (
     <html lang="kor">
-      <body>
-        <Providers>{children}</Providers>
+      <body className={`${pretendard.className} flex flex-col min-h-screen`}>
+        <Providers>
+          <Header />
+          <main className="grow container mx-auto">{children}</main>
+          <Footer />
+        </Providers>
       </body>
     </html>
   );
