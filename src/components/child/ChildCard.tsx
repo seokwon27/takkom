@@ -1,5 +1,5 @@
 import React from "react";
-import { Child } from "../../app/child/page";
+import { Child } from "@/types/childType";
 import Image from "next/image";
 
 interface ChildCardProps {
@@ -16,7 +16,7 @@ export const ChildCard = ({ child, onEdit }: ChildCardProps) => {
     <>
       <div>
         <Image
-          src={child.profileImage || "/default-profile.png"} // 기본 이미지 설정
+          src={child.profile || "/default-profile.png"} // 기본 이미지 설정
           alt="아이 프로필 이미지"
           width={150}
           height={150}

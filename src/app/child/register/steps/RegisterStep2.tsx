@@ -1,6 +1,6 @@
 "use client";
 import { useEffect } from "react";
-import { Child } from "../../page";
+import { Child } from "@/types/childType";
 import CheckboxForm from "@/components/vaccinerecord/FormVaccineRecord";
 import browserClient from "@/utils/supabase/client";
 import { Button } from "@/components/ui/button";
@@ -45,7 +45,6 @@ const RegisterStep2 = ({ child, onPrev, onComplete }: RegisterStep2Props) => {
     <div>
       <h1>2단계ㅇㅇㅇ</h1>
       <h2>접종 완료한 내역을 선택해주세요.</h2>
-      {/* 여기에 접종 리스트 체크리스트 들어 올 예정 */}
       <CheckboxForm child_id={child?.id} />
       <Button type="button" onClick={onPrev} className="mt-4">
         이전

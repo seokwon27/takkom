@@ -1,5 +1,5 @@
 "use client";
-import { Child } from "../../page";
+import { Child } from "@/types/childType";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -99,7 +99,7 @@ const RegisterStep1 = ({ onNext }: RegisterStep1Props) => {
         name,
         birth,
         notes,
-        profileImage: profileImageUrl || undefined // profileImageUrl이 null인 경우 undefined로 설정
+        profile: profileImageUrl || undefined // profileImageUrl이 null인 경우 undefined로 설정
       });
     } else {
       console.error("childData가 null입니다.");

@@ -12,6 +12,7 @@ export type Database = {
           profile: string | null;
           updated_at: string | null;
           user_id: string | null;
+          notes: string | null;
         };
         Insert: {
           birth?: string | null;
@@ -21,6 +22,7 @@ export type Database = {
           profile?: string | null;
           updated_at?: string | null;
           user_id?: string | null;
+          notes?: string | null;
         };
         Update: {
           birth?: string | null;
@@ -30,6 +32,7 @@ export type Database = {
           profile?: string | null;
           updated_at?: string | null;
           user_id?: string | null;
+          notes?: string | null;
         };
         Relationships: [];
       };

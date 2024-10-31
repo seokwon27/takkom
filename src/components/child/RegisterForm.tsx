@@ -3,20 +3,25 @@
 import { useState } from "react";
 import RegisterStep1 from "@/app/child/register/steps/RegisterStep1";
 import RegisterStep2 from "@/app/child/register/steps/RegisterStep2";
-import { Child } from "@/app/child/page";
+import { Child } from "@/types/childType";
 
 interface ChildCardProps {
   child?: Child;
+  user_id: string;
 }
 
-const RegisterForm = ({ child }: ChildCardProps) => {
+const RegisterForm: React.FC<ChildCardProps> = ({ child, user_id }) => {
   // 만약 `child`가 주어지지 않았다면 빈 객체로 초기화
   const [childInfo, setChildInfo] = useState<Child>(
     child || {
       id: "",
       name: "",
       birth: "",
-      notes: ""
+      notes: "",
+      created_at: new Date().toISOString(), // 현재시간으로 초기화
+      profile: null,
+      updated_at: null,
+      user_id: user_id // 부모로부터 받은 userId 사용
     }
   );
   const [step, setStep] = useState(1); // 기본적으로 1단계로 설정됨
@@ -44,7 +49,7 @@ const RegisterForm = ({ child }: ChildCardProps) => {
       {step === 1 ? (
         <RegisterStep1 onNext={handleNext} child={childInfo} />
       ) : (
-        <RegisterStep2 child={childInfo} onPrev={handlePrevious}onComplete={handleComplete} />
+        <RegisterStep2 child={childInfo} onPrev={handlePrevious} onComplete={handleComplete} />
       )}
     </div>
   );
