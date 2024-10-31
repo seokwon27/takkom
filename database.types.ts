@@ -77,7 +77,7 @@ export type Database = {
           duration: string | null
           id: string
           vaccinate_date: number | null
-          vaccine_name: string | null
+          vaccine_name: string
           vaccine_turn: number | null
         }
         Insert: {
@@ -87,7 +87,7 @@ export type Database = {
           duration?: string | null
           id: string
           vaccinate_date?: number | null
-          vaccine_name?: string | null
+          vaccine_name?: string
           vaccine_turn?: number | null
         }
         Update: {
@@ -97,41 +97,41 @@ export type Database = {
           duration?: string | null
           id?: string
           vaccinate_date?: number | null
-          vaccine_name?: string | null
+          vaccine_name?: string
           vaccine_turn?: number | null
         }
         Relationships: []
       }
       vaccine_duplicate: {
         Row: {
-          additional: boolean
           description: string | null
           disease_name: string | null
-          duration: string | null
           id: string
+          process: string
+          target: string | null
           vaccinate_date: string | null
           vaccine_name: string | null
-          vaccine_turn: number | null
+          vaccine_turn: string | null
         }
         Insert: {
-          additional?: boolean
           description?: string | null
           disease_name?: string | null
-          duration?: string | null
           id: string
+          process: string
+          target?: string | null
           vaccinate_date?: string | null
           vaccine_name?: string | null
-          vaccine_turn?: number | null
+          vaccine_turn?: string | null
         }
         Update: {
-          additional?: boolean
           description?: string | null
           disease_name?: string | null
-          duration?: string | null
           id?: string
+          process?: string
+          target?: string | null
           vaccinate_date?: string | null
           vaccine_name?: string | null
-          vaccine_turn?: number | null
+          vaccine_turn?: string | null
         }
         Relationships: []
       }
