@@ -16,7 +16,7 @@ export const SearchModal = ({
   return (
     // 모달창 외부 배경
     <div
-      className="fixed  flex justify-center items-center top-0  w-full h-full z-10 bg-black/50"
+      className="fixed  flex justify-center items-center top-0 left-0  w-full h-full z-10 bg-black/50"
       ref={ModalRef}
       onClick={(e) => {
         if (e.target === ModalRef.current) {

@@ -17,7 +17,10 @@ const vaccineCard = ({
         <p>{disease}</p>
         <p>{vaccine}</p>
       </div>
-      <div></div>
+      <div>
+        <p>{target}</p>
+        <p>{process}</p>
+      </div>
     </div>
   );
 };
