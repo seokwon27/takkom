@@ -9,87 +9,87 @@ import {
   PaginationNext,
   PaginationPrevious
 } from "@/components/ui/pagination";
+import { usePathname } from "next/navigation";
+import { getStringQueryParams } from "./setQueryParams";
+
+const BASE_URL = "http://localhost:3000";
 
 const HospitalPagination = ({
   maxPage,
   currentPage,
-  setCurrentPage,
-  startNum,
-  setStartNum
+  params
 }: {
   maxPage: number;
   currentPage: number;
-  setCurrentPage: React.Dispatch<React.SetStateAction<number>>;
-  startNum: number;
-  setStartNum: React.Dispatch<React.SetStateAction<number>>;
+  params: { brtcCd: string; sggCd: string; addr: string; org: string; disease?: string };
 }) => {
+  const pathname = usePathname();
+  console.log(BASE_URL + getStringQueryParams({ ...params, pageNo: String(currentPage - 1) }, pathname));
+
+  let startNum = 1;
   if (maxPage >= 5) {
     if (currentPage - 2 >= 1 && currentPage + 2 < maxPage) {
-      setStartNum(currentPage - 2);
+      startNum = currentPage - 2;
     } else if (currentPage + 2 >= maxPage) {
-      setStartNum(maxPage - 4);
+      startNum = maxPage - 4;
     }
   }
   if (currentPage - 2 < 1) {
-    setStartNum(1);
+    startNum = 1;
   }
+
   return (
     <Pagination>
       <PaginationContent>
-        <PaginationItem
-          aria-disabled={currentPage === 1}
-          onClick={() => {
-            if (currentPage > 1) {
-              setCurrentPage((prev) => prev - 1);
+        <PaginationItem aria-disabled={currentPage === 1}>
+          <PaginationPrevious
+            href={
+              currentPage > 1
+                ? BASE_URL + getStringQueryParams({ ...params, pageNo: String(currentPage - 1) }, pathname)
+                : "#"
             }
-          }}
-        >
-          <PaginationPrevious href="#" />
+            aria-disabled={currentPage === 1}
+          />
         </PaginationItem>
         {maxPage >= 5 ? (
           <>
-            <PaginationItem
-              onClick={() => {
-                setCurrentPage(startNum);
-              }}
-            >
-              <PaginationLink href="#" isActive={currentPage === startNum}>
+            <PaginationItem>
+              <PaginationLink
+                href={BASE_URL + getStringQueryParams({ ...params, pageNo: String(startNum) }, pathname)}
+                isActive={currentPage === startNum}
+              >
                 {startNum}
               </PaginationLink>
             </PaginationItem>
-            <PaginationItem
-              onClick={() => {
-                setCurrentPage(startNum + 1);
-              }}
-            >
-              <PaginationLink href="#" isActive={currentPage === startNum + 1}>
+            <PaginationItem>
+              <PaginationLink
+                href={BASE_URL + getStringQueryParams({ ...params, pageNo: String(startNum + 1) }, pathname)}
+                isActive={currentPage === startNum + 1}
+              >
                 {startNum + 1}
               </PaginationLink>
             </PaginationItem>
-            <PaginationItem
-              onClick={() => {
-                setCurrentPage(startNum + 2);
-              }}
-            >
-              <PaginationLink href="#" isActive={currentPage === startNum + 2}>
+            <PaginationItem>
+              <PaginationLink
+                href={BASE_URL + getStringQueryParams({ ...params, pageNo: String(startNum + 2) }, pathname)}
+                isActive={currentPage === startNum + 2}
+              >
                 {startNum + 2}
               </PaginationLink>
             </PaginationItem>
-            <PaginationItem
-              onClick={() => {
-                setCurrentPage(startNum + 3);
-              }}
-            >
-              <PaginationLink href="#" isActive={currentPage === startNum + 3}>
+            <PaginationItem>
+              <PaginationLink
+                href={BASE_URL + getStringQueryParams({ ...params, pageNo: String(startNum + 3) }, pathname)}
+                isActive={currentPage === startNum + 3}
+              >
                 {startNum + 3}
               </PaginationLink>
             </PaginationItem>
-            <PaginationItem
-              onClick={() => {
-                setCurrentPage(startNum + 4);
-              }}
-            >
-              <PaginationLink href="#" isActive={currentPage === startNum + 4}>
+            <PaginationItem>
+              <PaginationLink
+                href={BASE_URL + getStringQueryParams({ ...params, pageNo: String(startNum + 4) }, pathname)}
+                isActive={currentPage === startNum + 4}
+              >
                 {startNum + 4}
               </PaginationLink>
             </PaginationItem>
@@ -99,28 +99,25 @@ const HospitalPagination = ({
             {Array(maxPage)
               .fill(null)
               .map((_, idx) => (
-                <PaginationItem
-                  key={`pagination_${idx}`}
-                  onClick={() => {
-                    setCurrentPage(startNum + idx);
-                  }}
-                >
-                  <PaginationLink href="#" isActive={currentPage === startNum + idx}>
+                <PaginationItem key={`pagination_${idx}`}>
+                  <PaginationLink
+                    href={BASE_URL + getStringQueryParams({ ...params, pageNo: String(startNum + idx) }, pathname)}
+                    isActive={currentPage === startNum + idx}
+                  >
                     {startNum + idx}
                   </PaginationLink>
                 </PaginationItem>
               ))}
           </>
         )}
-        <PaginationItem
-          aria-disabled={currentPage === maxPage}
-          onClick={() => {
-            if (currentPage < maxPage) {
-              setCurrentPage((prev) => prev + 1);
+        <PaginationItem aria-disabled={currentPage === maxPage}>
+          <PaginationNext
+            href={
+              currentPage < maxPage
+                ? BASE_URL + getStringQueryParams({ ...params, pageNo: String(currentPage + 1) }, pathname)
+                : "#"
             }
-          }}
-        >
-          <PaginationNext href="#" />
+          />
         </PaginationItem>
       </PaginationContent>
     </Pagination>

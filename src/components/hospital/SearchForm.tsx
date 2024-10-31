@@ -8,6 +8,7 @@ import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { BRTC, DISEASE, DISEASE_LIST, SGG } from "./constants";
 import { Info } from "lucide-react";
 import { setQueryParams } from "./setQueryParams";
+import InfoTag from "./InfoTag";
 
 const SearchForm = ({
   brtcObj,
@@ -20,32 +21,39 @@ const SearchForm = ({
   const pathname = usePathname();
   const searchParams = useSearchParams();
   const [params, setParams] = useState<{ brtcCd: string; sggCd: string; addr: string; org: string }>({
-    brtcCd: searchParams.get("brtcCd") || BRTC,
-    sggCd: searchParams.get("sggCd") || SGG,
-    addr: searchParams.get("addr") || "",
-    org: searchParams.get("org") || ""
+    brtcCd: searchParams.get("brtcCd") ?? BRTC,
+    sggCd: searchParams.get("sggCd") ?? SGG,
+    addr: searchParams.get("addr") ?? "",
+    org: searchParams.get("org") ?? ""
   });
   const [disableSgg, setDisableSgg] = useState(!searchParams.has("brtcCd"));
   const [disableInputs, setDisableInputs] = useState(
     !searchParams.has("brtcCd") || !searchParams.has("sggCd") ? true : false
   );
   const [disease, setDisease] = useState(searchParams.get("disease") || DISEASE);
+  const [showInfoTag, setShowInfoTag] = useState(true);
 
   return (
     <div className="w-full flex flex-col ">
-      <Info />
+      <div className="flex items-end">
+        <Info onClick={() => {
+          setShowInfoTag(prev => !prev)
+        }}/>
+        <InfoTag isVisible={showInfoTag} />
+      </div>
       <form className="hospital-search">
         <Select
           value={params.brtcCd}
           onValueChange={(value) => {
             setParams(() => {
+              // 시도 값이 바뀌면 다른 영역 모두 초기화
               const tmpParams = { brtcCd: value, sggCd: SGG, addr: "", org: "" };
               return tmpParams;
             });
-            setDisease(DISEASE);
+            // setDisease(DISEASE);
             setDisableInputs(true);
             if (value === BRTC) {
-              // 선택 값이 없으면 모든 영역 초기화
+              // 선택 값이 없으면 시/군/구 비활성화
               setDisableSgg(true);
             } else {
               // 시/도 설정 시 시/군/구 활성화
@@ -76,15 +84,8 @@ const SearchForm = ({
           value={params.sggCd}
           onValueChange={(value) => {
             setParams((prev) => {
-              const tmpParams = { ...prev };
-              tmpParams.sggCd = value;
-              console.log(2, tmpParams);
-              if (value === SGG) {
-                // 기본값으로 바꾸면 입력값 초기화
-                tmpParams.addr = "";
-                tmpParams.org = "";
-                console.log(3, tmpParams);
-              }
+              // 시/군/구 값이 바뀌면 입력값 초기화
+              const tmpParams = { ...prev, sggCd:value, addr:'', org:'' };
               return tmpParams;
             });
             if (value === SGG) {
@@ -121,6 +122,7 @@ const SearchForm = ({
           placeholder="도로명/동 주소"
           value={params.addr}
           onChange={(e) => {
+            setShowInfoTag(false)
             setParams((prev) => {
               const tmpParams = { ...prev, addr: e.target.value };
               return tmpParams;
@@ -135,6 +137,7 @@ const SearchForm = ({
           placeholder="병원명"
           value={params.org}
           onChange={(e) => {
+            setShowInfoTag(false)
             setParams((prev) => {
               const tmpParams = { ...prev, org: e.target.value };
               return tmpParams;
@@ -150,7 +153,7 @@ const SearchForm = ({
           type="button"
           onClick={() => {
             setDisease(DISEASE);
-            setQueryParams(params, router, pathname);
+            setQueryParams({ ...params, pageNo: "1" }, router, pathname);
           }}
           disabled={disableInputs}
           className="bg-gray-700 rounded-lg text-base hover:bg-gray-800 disabled:bg-gray-700"
@@ -164,11 +167,11 @@ const SearchForm = ({
             onValueChange={(value) => {
               setDisease(value);
               if (searchParams.has("brtcCd") && searchParams.has("sggCd")) {
-                const brtcCd = searchParams.get("brtcCd") || "";
-                const sggCd = searchParams.get("sggCd") || "";
-                const addr = searchParams.get("addr") || "";
-                const org = searchParams.get("org") || "";
-                const params = { brtcCd, sggCd, addr, org, disease: value };
+                const brtcCd = searchParams.get("brtcCd") ?? "";
+                const sggCd = searchParams.get("sggCd") ?? "";
+                const addr = searchParams.get("addr") ?? "";
+                const org = searchParams.get("org") ?? "";
+                const params = { brtcCd, sggCd, addr, org, disease: value, pageNo: "1" };
                 setQueryParams(params, router, pathname);
               }
             }}
@@ -177,7 +180,7 @@ const SearchForm = ({
               className={`justify-center ${
                 disease === DISEASE ? "border-gray-300 text-gray-300" : "border-gray-700 text-gray-700"
               }`}
-              disabled={disableInputs}
+              // disabled={disableInputs}
             >
               <SelectValue placeholder={DISEASE} />
             </SelectTrigger>
