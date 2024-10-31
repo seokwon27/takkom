@@ -2,7 +2,6 @@
 import { useUserQuery } from "@/api/userApi";
 import RegisterForm from "@/components/child/RegisterForm";
 import browserClient from "@/utils/supabase/client";
-import React, { useEffect, useState } from "react";
 
 const RegisterPage = () => {
   // useUserQuery를 이용하여 현재 로그인한 사용자 정보를 가져옵니다.

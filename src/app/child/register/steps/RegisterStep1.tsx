@@ -23,7 +23,7 @@ const formSchema = z.object({
   profileImage: z.instanceof(File).optional()
 });
 
-const RegisterStep1 = ({ onNext, userId, childInfo }: RegisterStep1Props) => {
+const RegisterStep1 = ({ onNext, childInfo }: RegisterStep1Props) => {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {

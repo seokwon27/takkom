@@ -34,10 +34,10 @@ const RegisterStep2 = ({ child, onPrev, onComplete }: RegisterStep2Props) => {
     fetchChildData();
   }, [child.id]);
 
-  const onSubmit = (data: Partial<Child>) => {
-    console.log("접종 내역:", data);
-    onComplete(); // 완료 처리
-  };
+  // const onSubmit = (data: Partial<Child>) => {
+  //   console.log("접종 내역:", data);
+  //   onComplete(); // 완료 처리
+  // };
 
   console.log("등록하려는 아이의 ID:", child.id);
 
@@ -49,7 +49,7 @@ const RegisterStep2 = ({ child, onPrev, onComplete }: RegisterStep2Props) => {
       <Button type="button" onClick={onPrev} className="mt-4">
         이전
       </Button>
-      <Button type="submit" className="mt-4">
+      <Button type="submit" onClick={onComplete} className="mt-4">
         완료
       </Button>
     </div>

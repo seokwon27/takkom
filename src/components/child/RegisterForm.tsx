@@ -11,7 +11,7 @@ interface ChildCardProps {
   userId: string;
 }
 
-const RegisterForm: React.FC<ChildCardProps> = ({ child, userId }) => {
+const RegisterForm: React.FC<ChildCardProps> = ({ userId }) => {
   // 만약 `child`가 주어지지 않았다면 빈 객체로 초기화
   const [childInfo, setChildInfo] = useState<Partial<Child>>({});
   const [step, setStep] = useState(1); // 기본적으로 1단계로 설정됨

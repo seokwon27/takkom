@@ -1,8 +1,6 @@
 "use client";
-import React, { useEffect, useState } from "react";
 import ChildCard from "@/components/child/ChildCard";
 import RegisterButton from "@/components/child/RegisterButton";
-import { useChildInfoQuery } from "@/query/useChildQuery";
 import browserClient from "@/utils/supabase/client";
 import { useChildrenQuery, useUserQuery } from "@/api/userApi";
 
