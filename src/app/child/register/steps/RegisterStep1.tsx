@@ -16,7 +16,7 @@ interface RegisterStep1Props {
 
 const formSchema = z.object({
   name: z.string().min(1, { message: "이름은 필수입니다." }),
-  birthday: z.string().min(1, { message: "생년월일은 필수입니다." }),
+  birth: z.string().min(1, { message: "생년월일은 필수입니다." }),
   notes: z.string().optional(),
   profileImage: z.instanceof(File).optional()
 });
@@ -26,7 +26,7 @@ const RegisterStep1 = ({ onNext }: RegisterStep1Props) => {
     resolver: zodResolver(formSchema),
     defaultValues: {
       name: "",
-      birthday: "",
+      birth: "",
       notes: ""
     }
   });
@@ -55,7 +55,7 @@ const RegisterStep1 = ({ onNext }: RegisterStep1Props) => {
 
   // supabase에 아이정보와 이미지 url 저장 함수
   const onSubmit = async (data: z.infer<typeof formSchema>) => {
-    const { name, birthday, notes } = data;
+    const { name, birth, notes } = data;
 
     // 테스트를 위한 유저 아이디
     const testUserId = "4c656382-4114-4929-ab84-89ec5a6ddef9";
@@ -80,7 +80,7 @@ const RegisterStep1 = ({ onNext }: RegisterStep1Props) => {
         // user_id: user.id,
         user_id: testUserId, // 테스트용
         name: name,
-        birth: birthday,
+        birth: birth,
         profile: profileImageUrl,
         notes: notes ?? "" // notes가 없을 경우 빈 문자열로 설정
       })
@@ -97,7 +97,7 @@ const RegisterStep1 = ({ onNext }: RegisterStep1Props) => {
       onNext({
         id: childData.id,
         name,
-        birthday,
+        birth,
         notes,
         profileImage: profileImageUrl || undefined // profileImageUrl이 null인 경우 undefined로 설정
       });
@@ -148,7 +148,7 @@ const RegisterStep1 = ({ onNext }: RegisterStep1Props) => {
 
           <FormField
             control={form.control}
-            name="birthday"
+            name="birth"
             render={({ field }) => (
               <FormItem>
                 <FormLabel>생년월일</FormLabel>

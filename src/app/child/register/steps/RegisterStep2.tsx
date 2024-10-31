@@ -3,12 +3,15 @@ import { useEffect } from "react";
 import { Child } from "../../page";
 import CheckboxForm from "@/components/vaccinerecord/FormVaccineRecord";
 import browserClient from "@/utils/supabase/client";
+import { Button } from "@/components/ui/button";
 
 interface RegisterStep2Props {
   child: Child; // child prop 추가
+  onPrev: () => void;
+  onComplete: () => void;
 }
 
-const RegisterStep2 = ({ child }: RegisterStep2Props) => {
+const RegisterStep2 = ({ child, onPrev, onComplete }: RegisterStep2Props) => {
   // Supabase 클라이언트 생성
   const supabase = browserClient;
 
@@ -31,6 +34,11 @@ const RegisterStep2 = ({ child }: RegisterStep2Props) => {
     fetchChildData();
   }, [child.id]);
 
+  const onSubmit = (data: Partial<Child>) => {
+    console.log("접종 내역:", data);
+    onComplete(); // 완료 처리
+  };
+
   console.log("등록하려는 아이의 ID:", child.id);
 
   return (
@@ -39,6 +47,12 @@ const RegisterStep2 = ({ child }: RegisterStep2Props) => {
       <h2>접종 완료한 내역을 선택해주세요.</h2>
       {/* 여기에 접종 리스트 체크리스트 들어 올 예정 */}
       <CheckboxForm child_id={child?.id} />
+      <Button type="button" onClick={onPrev} className="mt-4">
+        이전
+      </Button>
+      <Button type="submit" className="mt-4">
+        완료
+      </Button>
     </div>
   );
 };

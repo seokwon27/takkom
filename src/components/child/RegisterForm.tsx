@@ -15,7 +15,7 @@ const RegisterForm = ({ child }: ChildCardProps) => {
     child || {
       id: "",
       name: "",
-      birthday: "",
+      birth: "",
       notes: ""
     }
   );
@@ -28,9 +28,9 @@ const RegisterForm = ({ child }: ChildCardProps) => {
   };
 
   // 이전 버튼 핸들러
-  // const handlePrevious = () => {
-  //   setStep(step - 1);
-  // };
+  const handlePrevious = () => {
+    setStep(step - 1);
+  };
 
   // 등록하기 버튼 핸들러
   const handleComplete = () => {
@@ -44,7 +44,7 @@ const RegisterForm = ({ child }: ChildCardProps) => {
       {step === 1 ? (
         <RegisterStep1 onNext={handleNext} child={childInfo} />
       ) : (
-        <RegisterStep2 child={childInfo} />
+        <RegisterStep2 child={childInfo} onPrev={handlePrevious}onComplete={handleComplete} />
       )}
     </div>
   );
