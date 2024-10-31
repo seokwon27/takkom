@@ -16,19 +16,19 @@ export const getChildInfo = async (
 };
 
 // 새롭게 추가된 updateChildInfo 함수
-export const updateChildInfo = async (
-  client: SupabaseDatabase,
-  childId: string,
-  updatedInfo: Partial<Child>
-) => {
-  const { data, error } = await client
-    .from("child")
-    .update(updatedInfo)
-    .eq("id", childId)
-    .select()
-    .single();
+// export const updateChildInfo = async (
+//   client: SupabaseDatabase,
+//   childId: string,
+//   updatedInfo: Partial<Child>
+// ) => {
+//   const { data, error } = await client
+//     .from("child")
+//     .update(updatedInfo)
+//     .eq("id", childId)
+//     .select()
+//     .single();
 
-  if (error) throw new Error(error.message);
+//   if (error) throw new Error(error.message);
 
-  return data;
-};
+//   return data;
+// };

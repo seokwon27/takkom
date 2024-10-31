@@ -13,6 +13,7 @@ interface RegisterStep1Props {
   // child: Child; // child prop 추가
   onNext: (data: Partial<Child>) => void;
   userId: string;
+  childInfo: Partial<Child>;
 }
 
 const formSchema = z.object({
@@ -22,13 +23,13 @@ const formSchema = z.object({
   profileImage: z.instanceof(File).optional()
 });
 
-const RegisterStep1 = ({ onNext, userId }: RegisterStep1Props) => {
+const RegisterStep1 = ({ onNext, userId, childInfo }: RegisterStep1Props) => {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      name: "",
-      birth: "",
-      notes: ""
+      name: childInfo.name || "", 
+      birth: childInfo.birth || "",
+      notes: childInfo.notes || "" 
     }
   });
 
@@ -42,23 +43,7 @@ const RegisterStep1 = ({ onNext, userId }: RegisterStep1Props) => {
     // 파일 이름 중복 방지를 위한 처리
     const fileName = `public/${Date.now()}_${file.name}`;
 
-    // 테스트 후 지울 예정 (1)
-    // const { data, error } = await supabase.storage.from("profiles").upload(`public/${file.name}`, file, {
-    //   cacheControl: "3600",
-    //   upsert: true
-    // });
-
-    //  if (error) {
-    //    console.error("이미지 업로드 오류:", error);
-    //    return null;
-    //  }
-
-    //  // 테스트 후 지울 예정 (1)
-    //  const { data: publicUrlData } = supabase.storage.from("profiles").getPublicUrl(data.path);
-
-    // return publicUrlData?.publicUrl ?? null;
-
-    const { data, error } = await supabase.storage.from("profiles").upload(fileName, file, {
+    const { error } = await supabase.storage.from("profiles").upload(fileName, file, {
       cacheControl: "3600",
       upsert: true
     });
@@ -100,7 +85,7 @@ const RegisterStep1 = ({ onNext, userId }: RegisterStep1Props) => {
     const { data: childData, error } = await supabase
       .from("child")
       .insert({
-        user_id: userId,
+        user_id: user.id,
         // user_id: testUserId, // 테스트용
         name: name,
         birth: birth,
@@ -111,7 +96,7 @@ const RegisterStep1 = ({ onNext, userId }: RegisterStep1Props) => {
       .single();
 
     if (error) {
-      console.error("데이터 저장 오류났다...", error);
+      console.error("데이터 저장 오류: ", error);
       return;
     }
 
