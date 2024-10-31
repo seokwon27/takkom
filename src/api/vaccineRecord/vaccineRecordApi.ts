@@ -18,3 +18,13 @@ export const addVaccineRecord = async (child_id: Child["id"], vaccine_id: Vaccin
 
   return data;
 };
+
+export const deleteVaccineRecord = async (child_id: Child["id"], vaccine_id: Vaccine["id"]) => {
+  const { error } = await browserClient
+    .from("vaccine_record")
+    .delete()
+    .eq("child_id", child_id)
+    .eq("vaccine_id", vaccine_id);
+
+  if (error) throw Error(error.message);
+};
