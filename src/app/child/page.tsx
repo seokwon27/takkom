@@ -4,35 +4,21 @@ import ChildCard from "@/components/child/ChildCard";
 import RegisterButton from "@/components/child/RegisterButton";
 import { useChildInfoQuery } from "@/query/useChildQuery";
 import browserClient from "@/utils/supabase/client";
+import { useChildrenQuery, useUserQuery } from "@/api/userApi";
 
 const ChildPage = () => {
-  const [userId, setUserId] = useState<string>("");
+  // useUserQuery를 이용하여 현재 로그인한 사용자 정보를 가져옵니다.
+  const { user, isUserLoading, isUserError } = useUserQuery(browserClient);
 
-  useEffect(() => {
-    const fetchUserId = async () => {
-      const {
-        data: { user },
-        error
-      } = await browserClient.auth.getUser();
+  // userId가 설정된 후에만 useChildrenQuery 호출
+  const userId = user?.id; // 현재 로그인한 사용자의 ID를 설정
+  const { data: children, isLoading, error } = useChildrenQuery(browserClient, userId);
 
-      if (error) {
-        console.error("사용자 정보 가져오기 오류:", error);
-      } else if (user) {
-        setUserId(user.id); // 현재 로그인한 사용자의 ID를 설정
-      }
-    };
-
-    fetchUserId();
-  }, []);
-
-  // userId가 설정된 후에만 useChildInfoQuery 호출
-  const { data: children, isLoading, error } = useChildInfoQuery(userId || "");
+  // 사용자 정보를 로드하는 동안 로딩 표시
+  if (isUserLoading) return <p>로딩 중...</p>;
+  if (isUserError) return <p>사용자 정보를 가져오는 데 오류가 발생했습니다.</p>;
 
   // userId가 로드될 때까지 로딩 표시
-  if (userId === null) {
-    return <p>로딩 중...</p>;
-  }
-
   if (isLoading) return <p>로딩 중...</p>;
   if (error) return <p>오류가 발생했습니다: {error.message}</p>;
 
