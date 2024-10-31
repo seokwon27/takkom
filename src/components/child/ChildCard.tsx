@@ -1,6 +1,7 @@
 import React from "react";
 import { Child } from "@/types/childType";
 import Image from "next/image";
+import { DEFAULT_PROFILE_IMAGE_URL } from "@/utils/supabase/client";
 
 interface ChildCardProps {
   child?: Child; // 등록된 child가 없으면 undefined일 수 있음
@@ -16,7 +17,7 @@ export const ChildCard = ({ child, onEdit }: ChildCardProps) => {
     <>
       <div>
         <Image
-          src={child.profile || "/default-profile.png"} // 기본 이미지 설정
+          src={child.profile || DEFAULT_PROFILE_IMAGE_URL} // 기본 이미지 설정
           alt="아이 프로필 이미지"
           width={150}
           height={150}
