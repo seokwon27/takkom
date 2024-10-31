@@ -15,7 +15,7 @@ const SignIn = () => {
   // 비밀번호 표시 상태 관리
   const [showPassword, setShowPassword] = useState(false);
 
-  const [issignIn, setIsSignIn] = useState(false);
+  const [isSignIn, setIsSignIn] = useState(false);
 
   const router = useRouter();
 
