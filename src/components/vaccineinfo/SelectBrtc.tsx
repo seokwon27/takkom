@@ -1,41 +1,23 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from "../ui/select";
 import { useAgeGroupStore } from "@/utils/zustand/ageGroupStore";
 import { useRouter } from "next/navigation";
-import { getBrtcCd, getRegionInfo } from "@/api/hospitalApi";
-
-type BrtcObj = {
-  [key: string]: string;
-};
-
-type RegionInfo = Map<
-  string,
-  {
-    [key: string]: string;
-  }
->;
+import { Button } from "../ui/button";
+import { useCityDataQuery } from "@/query/useCityDataQuery";
 
 const SelectBrtc = () => {
   const router = useRouter();
-  const [brtcObj, setBrtcObj] = useState<BrtcObj>({});
-  const [regionInfo, setRegionInfo] = useState<RegionInfo>(new Map());
-  const [brtc, setBrtc] = useState<string>("");
-  const [sgg, setSgg] = useState<string>("");
+  const [brtc, setBrtc] = useState("");
+  const [sgg, setSgg] = useState("");
   const { currentDisease } = useAgeGroupStore();
 
-  const getCityData = async () => {
-    const brtcRes = await getBrtcCd();
-    const regionRes = await getRegionInfo();
-    // console.log("brtcobj : ", brtcRes);
-    setBrtcObj(brtcRes);
-    // console.log("regionInfo : ", regionRes);
-    setRegionInfo(regionRes);
-  };
-  useEffect(() => {
-    getCityData();
-  }, []);
+  const { data, error, isPending } = useCityDataQuery();
+  if (error) throw new Error(`Error: ${error}`);
+
+  const brtcObj = data?.brtcObj ?? [];
+  const regionInfo = Object.entries(data?.regionRes.get(brtc) ?? {});
 
   const handleClick = () => {
     const searchParams = new URLSearchParams();
@@ -62,16 +44,20 @@ const SelectBrtc = () => {
           </SelectTrigger>
           <SelectContent>
             <SelectGroup>
-              {Object.entries(brtcObj).map((item) => {
-                return (
-                  <SelectItem value={"" + item[0]} key={item[0]}>
-                    {item[1]}
-                  </SelectItem>
-                );
-              })}
+              {isPending
+                ? "도시 정보"
+                : brtcObj.map((item) => {
+                    const [brtcCd, brtcName] = item;
+
+                    return (
+                      <SelectItem value={brtcCd} key={brtcCd}>
+                        {brtcName}
+                      </SelectItem>
+                    );
+                  })}
             </SelectGroup>
           </SelectContent>
-        </Select>{" "}
+        </Select>
       </div>
 
       <div>
@@ -83,32 +69,28 @@ const SelectBrtc = () => {
               // console.log(value);
             }}
           >
-            <SelectTrigger className="" disabled={brtc === ""}>
+            <SelectTrigger className="" disabled={!brtc}>
               <SelectValue placeholder="시/군/구" />
             </SelectTrigger>
             <SelectContent>
               <SelectGroup>
-                {Object.entries(regionInfo.get(brtc) || {}).map((item) => {
+                {regionInfo.map((item) => {
+                  const [sggCd, sggName] = item;
                   return (
-                    <SelectItem value={"" + item[0]} key={item[0]}>
-                      {item[1]}
+                    <SelectItem value={sggCd} key={sggCd}>
+                      {sggName}
                     </SelectItem>
                   );
                 })}
               </SelectGroup>
             </SelectContent>
-          </Select>{" "}
+          </Select>
         </div>
       </div>
 
-      <button
-        onClick={() => {
-          handleClick();
-        }}
-        disabled={brtc === "" || sgg === ""}
-      >
+      <Button onClick={handleClick} disabled={!brtc || !sgg}>
         확인
-      </button>
+      </Button>
     </>
   );
 };

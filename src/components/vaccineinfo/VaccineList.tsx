@@ -2,9 +2,10 @@
 
 import { useVaccineInfoQuery } from "@/query/useVaccineInfoQuery";
 import { useAgeGroupStore } from "@/utils/zustand/ageGroupStore";
+import VaccineCard from "./vaccineCard";
 
 const VaccineList = () => {
-  const { selectedAge, setThisDisease, currentDisease } = useAgeGroupStore();
+  const { selectedAge } = useAgeGroupStore();
 
   const { data, error, isPending } = useVaccineInfoQuery();
   if (isPending) return "접종 정보 로딩중...";
@@ -14,24 +15,18 @@ const VaccineList = () => {
   console.log(data);
 
   return (
-    <div>
-      백신 리스트
-      <div className="flex flex-wrap gap-3">
-        {formattedData?.map((item) => {
-          return (
-            <div
-              key={item.disease_name}
-              className={`${currentDisease === item.disease_name ? "border-black" : ""} border-[2px] gap-2 w-56 p-3`}
-              onClick={() => {
-                setThisDisease(item.disease_name);
-              }}
-            >
-              <p>{item.disease_name}</p>
-              <p className="mt-2">{item.description}</p>
-            </div>
-          );
-        })}
-      </div>
+    <div className="grid grid-cols-2 gap-3">
+      {formattedData?.map((item) => {
+        return (
+          <VaccineCard
+            key={item.id}
+            disease={item.disease_name}
+            vaccine={`${item.vaccine_name} ${item.vaccine_turn}차`}
+            target={item.target}
+            process={item.process}
+          />
+        );
+      })}
     </div>
   );
 };
