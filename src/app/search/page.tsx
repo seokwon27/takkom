@@ -10,7 +10,9 @@ const HospitalSearchPage = async () => {
   return (
     <div className="container flex flex-col items-center mx-auto">
       <p>병원검색페이지</p>
-      <SearchForm brtcObj={brtcObj} regionInfo={regionInfo} />
+      <Suspense fallback={<div>Loading...</div>}>
+        <SearchForm brtcObj={brtcObj} regionInfo={regionInfo} />
+      </Suspense>
       <Suspense fallback={<div>Loading...</div>}>
         <HospitalList />
       </Suspense>
