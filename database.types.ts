@@ -11,127 +11,127 @@ export type Database = {
     Tables: {
       child: {
         Row: {
-          birth: string | null
+          birth: string
           created_at: string
           id: string
-          name: string | null
-          notes: string | null
-          profile: string | null
-          updated_at: string | null
-          user_id: string | null
+          name: string
+          notes: string
+          profile: string
+          updated_at: string
+          user_id: string
         }
         Insert: {
-          birth?: string | null
+          birth?: string
           created_at?: string
           id?: string
-          name?: string | null
-          notes?: string | null
-          profile?: string | null
-          updated_at?: string | null
-          user_id?: string | null
+          name?: string
+          notes?: string
+          profile?: string
+          updated_at?: string
+          user_id?: string
         }
         Update: {
-          birth?: string | null
+          birth?: string
           created_at?: string
           id?: string
-          name?: string | null
-          notes?: string | null
-          profile?: string | null
-          updated_at?: string | null
-          user_id?: string | null
+          name?: string
+          notes?: string
+          profile?: string
+          updated_at?: string
+          user_id?: string
         }
         Relationships: []
       }
       user: {
         Row: {
           created_at: string
-          email: string | null
+          email: string
           id: string
-          name: string | null
-          updated_at: string | null
-          user_id: string | null
+          name: string
+          updated_at: string
+          user_id: string
         }
         Insert: {
           created_at?: string
-          email?: string | null
+          email?: string
           id?: string
-          name?: string | null
-          updated_at?: string | null
-          user_id?: string | null
+          name?: string
+          updated_at?: string
+          user_id?: string
         }
         Update: {
           created_at?: string
-          email?: string | null
+          email?: string
           id?: string
-          name?: string | null
-          updated_at?: string | null
-          user_id?: string | null
+          name?: string
+          updated_at?: string
+          user_id?: string
         }
         Relationships: []
       }
       vaccine: {
         Row: {
           additional: boolean
-          description: string | null
-          disease_name: string | null
-          duration: string | null
+          description: string
+          disease_name: string
+          duration: string
           id: string
-          vaccinate_date: number | null
+          vaccinate_date: number
           vaccine_name: string
-          vaccine_turn: number | null
+          vaccine_turn: number
         }
         Insert: {
           additional?: boolean
-          description?: string | null
-          disease_name?: string | null
-          duration?: string | null
-          id: string
-          vaccinate_date?: number | null
+          description?: string
+          disease_name?: string
+          duration?: string
+          id?: string
+          vaccinate_date?: number
           vaccine_name?: string
-          vaccine_turn?: number | null
+          vaccine_turn?: number
         }
         Update: {
           additional?: boolean
-          description?: string | null
-          disease_name?: string | null
-          duration?: string | null
+          description?: string
+          disease_name?: string
+          duration?: string
           id?: string
-          vaccinate_date?: number | null
+          vaccinate_date?: number
           vaccine_name?: string
-          vaccine_turn?: number | null
+          vaccine_turn?: number
         }
         Relationships: []
       }
       vaccine_duplicate: {
         Row: {
-          description: string | null
-          disease_name: string | null
+          description: string
+          disease_name: string
           id: string
           process: string
-          target: string | null
-          vaccinate_date: string | null
-          vaccine_name: string | null
-          vaccine_turn: string | null
+          target: string
+          vaccinate_date: string
+          vaccine_name: string
+          vaccine_turn: string
         }
         Insert: {
-          description?: string | null
-          disease_name?: string | null
-          id: string
-          process: string
-          target?: string | null
-          vaccinate_date?: string | null
-          vaccine_name?: string | null
-          vaccine_turn?: string | null
-        }
-        Update: {
-          description?: string | null
-          disease_name?: string | null
+          description?: string
+          disease_name?: string
           id?: string
           process?: string
-          target?: string | null
-          vaccinate_date?: string | null
-          vaccine_name?: string | null
-          vaccine_turn?: string | null
+          target?: string
+          vaccinate_date?: string
+          vaccine_name?: string
+          vaccine_turn?: string
+        }
+        Update: {
+          description?: string
+          disease_name?: string
+          id?: string
+          process?: string
+          target?: string
+          vaccinate_date?: string
+          vaccine_name?: string
+          vaccine_turn?: string
         }
         Relationships: []
       }
@@ -146,7 +146,7 @@ export type Database = {
           child_id?: string
           created_at?: string
           id?: string
-          vaccine_id: string
+          vaccine_id?: string
         }
         Update: {
           child_id?: string
@@ -175,17 +175,17 @@ export type Database = {
         Row: {
           description: string
           disease_name: string
-          vaccinate_date: string | null
+          vaccinate_date: string
         }
         Insert: {
-          description: string
-          disease_name: string
-          vaccinate_date?: string | null
+          description?: string
+          disease_name?: string
+          vaccinate_date?: string
         }
         Update: {
           description?: string
           disease_name?: string
-          vaccinate_date?: string | null
+          vaccinate_date?: string
         }
         Relationships: []
       }
