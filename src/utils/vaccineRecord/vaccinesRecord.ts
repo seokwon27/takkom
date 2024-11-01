@@ -1,20 +1,34 @@
 import { Vaccine } from "@/types/vaccineType";
 
 export const groupVaccines = (vaccines: Vaccine[]) => {
-  const vaccineMap = new Map<string, { turns: number[]; ids: string[] }>();
+  const diseaseMap = new Map<string, Map<string, { turns: number[]; ids: string[] }>>();
 
   vaccines.forEach((vaccine) => {
-    const { disease_name, vaccine_turn, id } = vaccine;
+    const { disease_name, vaccine_turn, id, vaccine_name, additional } = vaccine;
 
-    if (!disease_name || vaccine_turn === null) return;
+    if (!disease_name || !vaccine_turn || !vaccine_name || additional) return;
 
-    if (!vaccineMap.has(disease_name)) {
-      vaccineMap.set(disease_name, { turns: [], ids: [] });
+    if (!diseaseMap.has(disease_name)) {
+      diseaseMap.set(disease_name, new Map());
     }
 
-    vaccineMap.get(disease_name)?.turns.push(vaccine_turn);
-    vaccineMap.get(disease_name)?.ids.push(id);
+    const vaccineMap = diseaseMap.get(disease_name);
+
+    if (!vaccineMap?.has(vaccine_name)) {
+      vaccineMap?.set(vaccine_name, { turns: [], ids: [] });
+    }
+    vaccineMap?.get(vaccine_name)?.turns.push(vaccine_turn);
+    vaccineMap?.get(vaccine_name)?.ids.push(id);
   });
 
-  return Array.from(vaccineMap.entries());
+  const vaccinesArray = Array.from(diseaseMap.entries()).map(([diseaseName, vaccineMap]) => ({
+    diseaseName,
+    vaccines: Array.from(vaccineMap.entries()).map(([vaccineName, data]) => ({
+      vaccineName,
+      turns: data.turns,
+      ids: data.ids
+    }))
+  }));
+
+  return vaccinesArray;
 };

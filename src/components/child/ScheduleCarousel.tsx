@@ -6,11 +6,24 @@ import { calculateSchedule, useVaccineScheduleQuery } from "@/api/vaccineApi";
 import browserClient from "@/utils/supabase/client";
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
 
-// 여기서 child id에 대한 vaccine record를 가져와서 vaccine id가 포함되어 있으면 
+// 여기서 child id에 대한 vaccine record를 가져와서 vaccine id가 포함되어 있으면
 const ScheduleCarousel = ({ child }: { child?: Tables<"child"> }) => {
   const { data: schedule, isLoading, isError } = useVaccineScheduleQuery(browserClient);
 
   const childSchedule = calculateSchedule(child?.birth, schedule);
+  console.log(childSchedule);
+
+  // '이번달'을 기준으로 시작하는 캐러셀 인덱스 설정
+  // '아이 접종 일정표'에 해당하지 않는 시점인 경우 마지막 달을 보여줌
+  const today = new Date();
+  const startIndex =
+    Array.from(childSchedule?.keys() || []).findIndex(
+      (month) => month === `${today.getFullYear()}.${("0" + today.getMonth()).slice(-2)}`
+    ) === -1
+      ? (childSchedule?.size ?? 1) - 1
+      : Array.from(childSchedule?.keys() || []).findIndex(
+          (month) => month === `${today.getFullYear()}.${("0" + today.getMonth()).slice(-2)}`
+        );
 
   if (isLoading) {
     return <div>아이 카드 접종 일정표 Loading....</div>;
@@ -20,7 +33,7 @@ const ScheduleCarousel = ({ child }: { child?: Tables<"child"> }) => {
   }
 
   return (
-    <Carousel className="w-full max-w-xs">
+    <Carousel opts={{ startIndex }} className="w-full max-w-xs">
       <CarouselContent>
         {Array.from(childSchedule?.entries() || []).map((schedule, index) => {
           const [month, vaccines] = schedule;
@@ -30,7 +43,15 @@ const ScheduleCarousel = ({ child }: { child?: Tables<"child"> }) => {
                 <p className="mx-auto">{month}</p>
                 <div>
                   <ul>
-                    {vaccines.length === 0 ? <li>접종 일정이 없습니다.</li>:vaccines.map(vaccine => (<li key={`${month}_${vaccine.id}`}>{vaccine.disease_name} - {vaccine.vaccine_name}</li>))}
+                    {vaccines.length === 0 ? (
+                      <li>접종 일정이 없습니다.</li>
+                    ) : (
+                      vaccines.map((vaccine) => (
+                        <li key={`${month}_${vaccine.id}`}>
+                          {vaccine.disease_name} - {vaccine.vaccine_name}
+                        </li>
+                      ))
+                    )}
                   </ul>
                 </div>
               </div>
@@ -38,8 +59,8 @@ const ScheduleCarousel = ({ child }: { child?: Tables<"child"> }) => {
           );
         })}
       </CarouselContent>
-      <CarouselPrevious className="top-0 left-0 translate-y-0"/>
-      <CarouselNext className="top-0 right-0 translate-y-0"/>
+      <CarouselPrevious className="top-0 left-0 translate-y-0" />
+      <CarouselNext className="top-0 right-0 translate-y-0" />
     </Carousel>
   );
 };
