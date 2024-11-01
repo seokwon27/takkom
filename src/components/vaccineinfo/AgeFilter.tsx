@@ -1,7 +1,6 @@
 "use client";
 
 import { useAgeGroupStore } from "@/utils/zustand/ageGroupStore";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "../ui/tabs";
 
 //연령 텍스트 전환
 const formatAgeText = (age: number) => {
@@ -25,42 +24,26 @@ const formatAgeText = (age: number) => {
 const AgeFilter = () => {
   const { subAgeGroup, selectedAge, setSelectedAge } = useAgeGroupStore();
   return (
-    <>
-      <div>
-        <p>{`선택된 연령: ${selectedAge}`}</p>
-        <div className="flex gap-3">
-          {subAgeGroup.length > 6
-            ? "전체"
-            : subAgeGroup.map((age) => {
-                return (
-                  <div
-                    className={age === selectedAge ? `font-bold` : ""}
-                    key={`${age} 개월`}
-                    onClick={() => {
-                      setSelectedAge(age);
-                    }}
-                  >
-                    {formatAgeText(age)}
-                  </div>
-                );
-              })}
-        </div>
+    <div className="items-start">
+      <p>{`선택된 연령: ${selectedAge}`}</p>
+      <div className="flex gap-3">
+        {subAgeGroup.length > 6
+          ? "전체"
+          : subAgeGroup.map((age) => {
+              return (
+                <div
+                  className={age === selectedAge ? `font-bold` : ""}
+                  key={`${age} 개월`}
+                  onClick={() => {
+                    setSelectedAge(age);
+                  }}
+                >
+                  {formatAgeText(age)}
+                </div>
+              );
+            })}
       </div>
-
-      <Tabs value={`${selectedAge}`} onValueChange={(value) => setSelectedAge(Number(value))}>
-        <TabsList>
-          {subAgeGroup.map((age) => {
-            return (
-              <TabsTrigger value={`${age}`} key={age}>
-                {formatAgeText(age)}
-              </TabsTrigger>
-            );
-          })}
-        </TabsList>
-        <TabsContent value="account">Make changes to your account here.</TabsContent>
-        <TabsContent value="password">Change your password here.</TabsContent>
-      </Tabs>
-    </>
+    </div>
   );
 };
 
