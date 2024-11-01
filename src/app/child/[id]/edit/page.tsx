@@ -1,5 +1,6 @@
 import { getVaccines } from "@/api/vaccineApi";
-import CheckboxForm from "@/components/vaccinerecord/FormVaccineRecord";
+
+import CheckboxFormWrap from "@/components/vaccinerecord/CheckboxFormWrap";
 
 import { createClient } from "@/utils/supabase/server";
 import { groupVaccines } from "@/utils/vaccineRecord/vaccinesRecord";
@@ -35,7 +36,7 @@ const VaccineRecordEditPage = async ({ params }: VaccineRecordEditPageProps) => 
             <div>미접종</div>
           </div>
         </div>
-        <CheckboxForm child_id={params.id} />
+        <CheckboxFormWrap child_id={params.id} />
       </div>
     </HydrationBoundary>
   );
