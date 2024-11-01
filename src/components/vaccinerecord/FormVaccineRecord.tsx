@@ -47,31 +47,46 @@ const CheckboxForm = ({ child_id }: CheckboxFormProps) => {
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-        {vaccineData?.map(([diseaseName, { ids }]) => (
-          <div key={diseaseName} className="flex flex-row">
-            {diseaseName}
-            {ids.map((id) => (
-              <Controller
-                key={id}
-                control={form.control}
-                name="selectVaccines"
-                render={({ field }) => (
-                  <div>
-                    <Checkbox
-                      checked={field.value.includes(id)}
-                      onCheckedChange={(isChecked) => {
-                        const newValue = isChecked ? [...field.value, id] : field.value.filter((v) => v !== id);
-                        console.log("newValue", newValue);
-                        field.onChange(newValue);
-                      }}
-                    />
+      <form onSubmit={form.handleSubmit(onSubmit)}>
+        <ul>
+          {vaccineData?.map((disease) => (
+            <li key={disease.diseaseName} className="flex flex-row">
+              <div>{disease.diseaseName}</div>
+
+              <div className="flex flex-col">
+                {disease.vaccines.map((vaccine) => (
+                  <div key={vaccine.vaccineName}>
+                    <div>{vaccine.vaccineName}</div>
                   </div>
-                )}
-              />
-            ))}
-          </div>
-        ))}
+                ))}
+              </div>
+
+              <div>
+                {disease.vaccines.map((vaccine) => (
+                  <div key={vaccine.vaccineName}>
+                    {vaccine.ids.map((id) => (
+                      <Controller
+                        key={id}
+                        control={form.control}
+                        name="selectVaccines"
+                        render={({ field }) => (
+                          <Checkbox
+                            checked={field.value.includes(id)}
+                            onCheckedChange={(isChecked) => {
+                              const newValue = isChecked ? [...field.value, id] : field.value.filter((v) => v !== id);
+                              console.log("newValue", newValue);
+                              field.onChange(newValue);
+                            }}
+                          />
+                        )}
+                      />
+                    ))}
+                  </div>
+                ))}
+              </div>
+            </li>
+          ))}
+        </ul>
         <FormMessage />
         <Button type="submit">Submit</Button>
       </form>
