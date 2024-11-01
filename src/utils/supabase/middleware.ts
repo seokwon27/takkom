@@ -38,7 +38,7 @@ export const updateSession = async (request: NextRequest) => {
     const protectedRoutes = ["/mypage", "/child"];
     const isProtectedRoute = protectedRoutes.includes(request.nextUrl.pathname);
 
-    if (isProtectedRoute && !user) {
+    if (isProtectedRoute && user.error) {
       return NextResponse.redirect(new URL("/signin", request.url));
     }
 
