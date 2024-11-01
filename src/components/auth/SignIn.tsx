@@ -88,12 +88,12 @@ const SignIn = () => {
   };
 
   const getUser = async () => {
-    const { data, error } = await browserClient.auth.getSession();
+    const { data, error } = await browserClient.auth.getUser();
     if (error) {
       console.log("유져 정보 가져오기 실패! : ", error);
       return null;
     }
-    return data?.session?.user?.id || null;
+    return data?.user?.id || null;
   };
 
   useEffect(() => {
