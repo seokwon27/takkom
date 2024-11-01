@@ -1,6 +1,6 @@
 import React from "react";
 
-const ChildInfoEditPage = () => {
+const ChildInfoEditPage = async () => {
   return <div>page</div>;
 };
 

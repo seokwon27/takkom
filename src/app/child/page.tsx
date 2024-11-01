@@ -25,9 +25,7 @@ const ChildPage = () => {
       <h1>우리 아이 접종</h1>
       <RegisterButton />
       {children && children.length > 0 ? ( // children 배열을 확인
-        children.map((child) => (
-          <ChildCard key={child.id} child={child} /> // 각 child 정보를 ChildCard로 전달
-        ))
+        children.map((child) => <ChildCard key={child.id} child={child} />)
       ) : (
         <p>등록된 아이가 없습니다.</p>
       )}
