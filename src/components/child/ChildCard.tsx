@@ -3,7 +3,6 @@ import { Child } from "@/types/childType";
 import Image from "next/image";
 import { DEFAULT_PROFILE_IMAGE_URL } from "@/utils/supabase/client";
 import { Button } from "../ui/button";
-import { useRouter } from "next/navigation";
 import Link from "next/link";
 
 interface ChildCardProps {
@@ -11,8 +10,6 @@ interface ChildCardProps {
   onEdit?: () => void;
 }
 export const ChildCard = ({ child, onEdit }: ChildCardProps) => {
-  const router = useRouter();
-
   // child가 없을 때를 대비한 처리
   if (!child) {
     return <div>아이가 등록되지 않았습니다.</div>;
