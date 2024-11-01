@@ -25,20 +25,23 @@ const Header = async () => {
         <ul className="flex gap-4 items-center">
           {/* {!user ? (
             <> */}
-              <li>
-                <Link className="font-medium" href={"/signin"}>
-                  로그인
-                </Link>
-              </li>
-              <li>
-                <Link className="font-medium" href={"/signup"}>
-                  회원가입
-                </Link>
-              </li>
-              <li>
-                <TmpSignOut/>
-              </li>
-            {/* </>
+          <li>
+            <Link className="font-medium" href={"/signin"}>
+              로그인
+            </Link>
+          </li>
+          <li>
+            <Link className="font-medium" href={"/signup"}>
+              회원가입
+            </Link>
+          </li>
+          <li>
+            <Link href={"/mypage"}>마이페이지</Link>
+          </li>
+          <li>
+            <TmpSignOut />
+          </li>
+          {/* </>
           ) : (
             <>
               <li className="flex gap-3 items-center">
