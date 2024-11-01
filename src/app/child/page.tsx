@@ -6,7 +6,7 @@ import { useChildrenQuery, useUserQuery } from "@/api/userApi";
 
 const ChildPage = () => {
   // useUserQuery를 이용하여 현재 로그인한 사용자 정보를 가져옵니다.
-  const { user, isUserLoading, isUserError } = useUserQuery(browserClient);
+  const { data: user, isLoading: isUserLoading, isError: isUserError } = useUserQuery(browserClient);
 
   // userId가 설정된 후에만 useChildrenQuery 호출
   const userId = user?.id; // 현재 로그인한 사용자의 ID를 설정

@@ -76,7 +76,7 @@ const SignUp = () => {
 
       alert("회원가입 성공!");
       console.log("회원가입 데이터:", data);
-      router.push("/onboarding");
+      router.push("/");
     } catch (error) {
       console.error("회원가입 실패:", error);
       alert("이미 가입 된 정보입니다"); //error case 좀 알아보고 에러별 alert 작성해야할듯
