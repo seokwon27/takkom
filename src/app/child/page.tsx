@@ -3,7 +3,6 @@ import ChildCard from "@/components/child/ChildCard";
 import RegisterButton from "@/components/child/RegisterButton";
 import browserClient from "@/utils/supabase/client";
 import { useChildrenQuery, useUserQuery } from "@/api/userApi";
-import Link from "next/link";
 
 const ChildPage = () => {
   // useUserQuery를 이용하여 현재 로그인한 사용자 정보를 가져옵니다.
