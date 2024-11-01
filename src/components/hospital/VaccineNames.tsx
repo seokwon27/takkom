@@ -1,6 +1,7 @@
 import React from "react";
 import { Button } from "@/components/ui/button";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from "./ui/select";
 
 const VaccineNames = ({hospitalCd, vaccineNames, filter }: {hospitalCd: number, vaccineNames: string[]; filter: string | undefined }) => {
   let filteredVaccine: string | null = null;
@@ -47,6 +48,26 @@ const VaccineNames = ({hospitalCd, vaccineNames, filter }: {hospitalCd: number, 
           </Popover>
         </li>
       )}
+      <li>
+      <Select
+          value={''}
+        >
+          <SelectTrigger
+            className={`h-fit p-0 justify-start border-gray-700`}
+          >
+            <SelectValue placeholder={<p><span>asdf</span></p>}/>
+          </SelectTrigger>
+          <SelectContent>
+            <SelectGroup>
+              {vaccineNames.map((name) => (
+                <SelectItem value={name} key={name} className="justify-center">
+                  {name}
+                </SelectItem>
+              ))}
+            </SelectGroup>
+          </SelectContent>
+        </Select>
+      </li>
     </ul>
   );
 };
