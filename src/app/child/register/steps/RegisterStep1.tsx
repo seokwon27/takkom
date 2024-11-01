@@ -1,33 +1,35 @@
 "use client";
-import { Child } from "../../page";
+import { Child } from "@/types/childType";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Form, FormField, FormItem, FormLabel, FormControl, FormDescription, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { useState } from "react";
 import browserClient from "@/utils/supabase/client";
 
 interface RegisterStep1Props {
-  child: Child; // child prop 추가
+  // child: Child; // child prop 추가
   onNext: (data: Partial<Child>) => void;
+  userId: string;
+  childInfo: Partial<Child>;
 }
 
 const formSchema = z.object({
   name: z.string().min(1, { message: "이름은 필수입니다." }),
-  birthday: z.string().min(1, { message: "생년월일은 필수입니다." }),
+  birth: z.string().min(1, { message: "생년월일은 필수입니다." }),
   notes: z.string().optional(),
   profileImage: z.instanceof(File).optional()
 });
 
-const RegisterStep1 = ({ onNext }: RegisterStep1Props) => {
+const RegisterStep1 = ({ onNext, childInfo }: RegisterStep1Props) => {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      name: "",
-      birthday: "",
-      notes: ""
+      name: childInfo.name || "", 
+      birth: childInfo.birth || "",
+      notes: childInfo.notes || "" 
     }
   });
 
@@ -38,7 +40,10 @@ const RegisterStep1 = ({ onNext }: RegisterStep1Props) => {
 
   // 이미지 업로드 함수
   const uploadImage = async (file: File): Promise<string | null> => {
-    const { data, error } = await supabase.storage.from("profiles").upload(`public/${file.name}`, file, {
+    // 파일 이름 중복 방지를 위한 처리
+    const fileName = `public/${Date.now()}_${file.name}`;
+
+    const { error } = await supabase.storage.from("profiles").upload(fileName, file, {
       cacheControl: "3600",
       upsert: true
     });
@@ -48,58 +53,67 @@ const RegisterStep1 = ({ onNext }: RegisterStep1Props) => {
       return null;
     }
 
-    const { data: publicUrlData } = supabase.storage.from("profiles").getPublicUrl(data.path);
+    // 업로드된 파일의 공개 URL 생성
+    const { data: publicUrlData } = supabase.storage.from("profiles").getPublicUrl(fileName);
 
+    // publicUrlData가 undefined일 수 있으므로 null 체크
     return publicUrlData?.publicUrl ?? null;
   };
 
   // supabase에 아이정보와 이미지 url 저장 함수
   const onSubmit = async (data: z.infer<typeof formSchema>) => {
-    const { name, birthday, notes } = data;
+    const { name, birth, notes } = data;
 
     // 테스트를 위한 유저 아이디
-    const testUserId = "4c656382-4114-4929-ab84-89ec5a6ddef9";
+    // const testUserId = "4c656382-4114-4929-ab84-89ec5a6ddef9";
 
     // 현재 로그인한 사용자의 아이디 가져오기
-    // const {
-    //   data: { user }
-    // } = await supabase.auth.getUser();
+    const {
+      data: { user }
+    } = await supabase.auth.getUser();
 
-    // if (!user) {
-    //   console.error("사용자 정보가 없습니다. 로그인이 필요합니다.");
-    //   return;
-    // }
-
-    // 이미지 URL 가져오기
-    const profileImageUrl = selectedImage ? await uploadImage(selectedImage) : null;
-
-    // Supabase에 데이터 삽입
-    const { error } = await supabase
-      .from("child") // 'child' 테이블에 데이터 삽입
-      .insert([
-        {
-          // user_id: user.id,
-          user_id: testUserId, // 테스트용
-          name: name,
-          birth: birthday,
-          profile: profileImageUrl ?? "",
-          notes: notes || "" // notes가 없을 경우 빈 문자열로 설정
-        }
-      ]);
-
-    if (error) {
-      console.error("데이터 저장 오류", error);
+    if (!user) {
+      console.error("사용자 정보가 없습니다. 로그인이 필요합니다.");
       return;
     }
 
-    console.log("데이터가 성공적으로 저장되었습니다.");
+    // 이미지 URL 가져오기
+    // const profileImageUrl = selectedImage ? await uploadImage(selectedImage) : null;
+    const profileImageUrl = selectedImage ? await uploadImage(selectedImage) : "";
+    
+    // Supabase에 데이터 삽입
+    const { data: childData, error } = await supabase
+      .from("child")
+      .insert({
+        user_id: user.id,
+        // user_id: testUserId, // 테스트용
+        name: name,
+        birth: birth,
+        profile: profileImageUrl ?? "",
+        notes: notes ?? "" // notes가 없을 경우 빈 문자열로 설정
+      })
+      .select() // 들어간 데이터를 가져올 수잇음
+      .single();
 
-    onNext({
-      name,
-      birthday,
-      notes,
-      profileImage: profileImageUrl || undefined // profileImageUrl이 null인 경우 undefined로 설정
-    });
+    if (error) {
+      console.error("데이터 저장 오류: ", error);
+      return;
+    }
+
+    console.log("childData: ", childData);
+
+    if (childData) {
+      console.log("데이터가 성공적으로 저장되었습니다. 아이 아이디: ", childData.id);
+      onNext({
+        id: childData.id,
+        name,
+        birth,
+        notes,
+        profile: profileImageUrl || undefined // profileImageUrl이 null인 경우 undefined로 설정
+      });
+    } else {
+      console.error("childData가 null입니다.");
+    }
   };
 
   return (
@@ -144,7 +158,7 @@ const RegisterStep1 = ({ onNext }: RegisterStep1Props) => {
 
           <FormField
             control={form.control}
-            name="birthday"
+            name="birth"
             render={({ field }) => (
               <FormItem>
                 <FormLabel>생년월일</FormLabel>
