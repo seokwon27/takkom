@@ -3,12 +3,16 @@ import { Child } from "@/types/childType";
 import Image from "next/image";
 import { DEFAULT_PROFILE_IMAGE_URL } from "@/utils/supabase/client";
 import { Button } from "../ui/button";
+import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 interface ChildCardProps {
   child?: Child; // 등록된 child가 없으면 undefined일 수 있음
   onEdit?: () => void;
 }
 export const ChildCard = ({ child, onEdit }: ChildCardProps) => {
+  const router = useRouter();
+
   // child가 없을 때를 대비한 처리
   if (!child) {
     return <div>아이가 등록되지 않았습니다.</div>;
@@ -30,8 +34,9 @@ export const ChildCard = ({ child, onEdit }: ChildCardProps) => {
       </div>
       <div>
         <h3>이번 달 접종 리스트</h3>
-        {/* 접종 리스트 컴포넌트 */}
-        <button>전체 접종 체크리스트로 이동</button>
+        <Link href={`/child/${child.id}`}>
+          <button>전체 접종 체크리스트로 이동</button>
+        </Link>
       </div>
     </>
   );
