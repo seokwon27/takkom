@@ -8,7 +8,7 @@ import { useEffect, useState } from "react";
 
 const MyPage = () => {
   const [userData, setUserData] = useState<{ name: string; email: string } | null>(null);
-  const { user, isUserLoading, isUserError } = useUserQuery(browserClient);
+  const { data: user, isLoading: isUserLoading, isError: isUserError } = useUserQuery(browserClient);
 
   const router = useRouter();
 
