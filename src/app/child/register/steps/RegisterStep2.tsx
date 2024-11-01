@@ -1,7 +1,7 @@
 "use client";
 import { useEffect } from "react";
 import { Child } from "@/types/childType";
-import CheckboxForm from "@/components/vaccinerecord/FormVaccineRecord";
+import CheckboxForm from "@/components/vaccinerecord/CheckboxForm";
 import browserClient from "@/utils/supabase/client";
 import { Button } from "@/components/ui/button";
 
