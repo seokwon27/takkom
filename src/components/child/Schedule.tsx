@@ -7,12 +7,12 @@ import ScheduleCarousel from "./ScheduleCarousel";
 
 // 나중에 input으로 받을 것
 // child: 아이 정보
-// 접종 일정도 상위에서 한번만 가져와서 같이 뿌려주면 좋을 듯
+// 접종 일정도 상위에서 한번만 가져와서 같이 뿌려주면 좋을지도..?
 
 // 추후 해야할 것
 // 접종 정보 가져와서 받은 백신 표시하기
 const Schedule = () => {
-  const { user, isUserLoading, isUserError } = useUserQuery(browserClient);
+  const { data: user, isLoading: isUserLoading, isError: isUserError } = useUserQuery(browserClient);
 
   const {
     data: childrenData,
