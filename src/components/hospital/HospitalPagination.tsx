@@ -12,8 +12,6 @@ import {
 import { usePathname } from "next/navigation";
 import { getStringQueryParams } from "./setQueryParams";
 
-const BASE_URL = "http://localhost:3000";
-
 const HospitalPagination = ({
   maxPage,
   currentPage,
@@ -24,7 +22,6 @@ const HospitalPagination = ({
   params: { brtcCd: string; sggCd: string; addr: string; org: string; disease?: string };
 }) => {
   const pathname = usePathname();
-  console.log(BASE_URL + getStringQueryParams({ ...params, pageNo: String(currentPage - 1) }, pathname));
 
   let startNum = 1;
   if (maxPage >= 5) {
@@ -45,7 +42,7 @@ const HospitalPagination = ({
           <PaginationPrevious
             href={
               currentPage > 1
-                ? BASE_URL + getStringQueryParams({ ...params, pageNo: String(currentPage - 1) }, pathname)
+                ? getStringQueryParams({ ...params, pageNo: String(currentPage - 1) }, pathname)
                 : "#"
             }
             aria-disabled={currentPage === 1}
@@ -55,7 +52,7 @@ const HospitalPagination = ({
           <>
             <PaginationItem>
               <PaginationLink
-                href={BASE_URL + getStringQueryParams({ ...params, pageNo: String(startNum) }, pathname)}
+                href={getStringQueryParams({ ...params, pageNo: String(startNum) }, pathname)}
                 isActive={currentPage === startNum}
               >
                 {startNum}
@@ -63,7 +60,7 @@ const HospitalPagination = ({
             </PaginationItem>
             <PaginationItem>
               <PaginationLink
-                href={BASE_URL + getStringQueryParams({ ...params, pageNo: String(startNum + 1) }, pathname)}
+                href={getStringQueryParams({ ...params, pageNo: String(startNum + 1) }, pathname)}
                 isActive={currentPage === startNum + 1}
               >
                 {startNum + 1}
@@ -71,7 +68,7 @@ const HospitalPagination = ({
             </PaginationItem>
             <PaginationItem>
               <PaginationLink
-                href={BASE_URL + getStringQueryParams({ ...params, pageNo: String(startNum + 2) }, pathname)}
+                href={getStringQueryParams({ ...params, pageNo: String(startNum + 2) }, pathname)}
                 isActive={currentPage === startNum + 2}
               >
                 {startNum + 2}
@@ -79,7 +76,7 @@ const HospitalPagination = ({
             </PaginationItem>
             <PaginationItem>
               <PaginationLink
-                href={BASE_URL + getStringQueryParams({ ...params, pageNo: String(startNum + 3) }, pathname)}
+                href={getStringQueryParams({ ...params, pageNo: String(startNum + 3) }, pathname)}
                 isActive={currentPage === startNum + 3}
               >
                 {startNum + 3}
@@ -87,7 +84,7 @@ const HospitalPagination = ({
             </PaginationItem>
             <PaginationItem>
               <PaginationLink
-                href={BASE_URL + getStringQueryParams({ ...params, pageNo: String(startNum + 4) }, pathname)}
+                href={getStringQueryParams({ ...params, pageNo: String(startNum + 4) }, pathname)}
                 isActive={currentPage === startNum + 4}
               >
                 {startNum + 4}
@@ -101,7 +98,7 @@ const HospitalPagination = ({
               .map((_, idx) => (
                 <PaginationItem key={`pagination_${idx}`}>
                   <PaginationLink
-                    href={BASE_URL + getStringQueryParams({ ...params, pageNo: String(startNum + idx) }, pathname)}
+                    href={getStringQueryParams({ ...params, pageNo: String(startNum + idx) }, pathname)}
                     isActive={currentPage === startNum + idx}
                   >
                     {startNum + idx}
@@ -114,7 +111,7 @@ const HospitalPagination = ({
           <PaginationNext
             href={
               currentPage < maxPage
-                ? BASE_URL + getStringQueryParams({ ...params, pageNo: String(currentPage + 1) }, pathname)
+                ? getStringQueryParams({ ...params, pageNo: String(currentPage + 1) }, pathname)
                 : "#"
             }
           />

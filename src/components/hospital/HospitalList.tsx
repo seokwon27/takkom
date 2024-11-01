@@ -1,11 +1,10 @@
 "use client";
 
-import { getHospitalsMutliConditions, HospitalData } from "@/api/hospitalApi";
 import { useSearchParams } from "next/navigation";
 import React from "react";
 import HospitalCard from "./HospitalCard";
 import HospitalPagination from "./HospitalPagination";
-import { useQuery } from "@tanstack/react-query";
+import { useHospitalQuery } from "@/query/useHospitalQuery";
 
 const HospitalList = () => {
   const searchParams = useSearchParams();
@@ -17,7 +16,6 @@ const HospitalList = () => {
     searchParams.get("disease") ?? "",
     Number(searchParams.get("pageNo")) ?? 1
   ];
-  const defaultData: HospitalData = { items: [], totalCount: 0, maxPage: 1 };
 
   const {
     data: hospitalData,
@@ -25,17 +23,7 @@ const HospitalList = () => {
     isError,
     isFetching,
     error
-  } = useQuery({
-    queryKey: ["hospital", brtcCd, sggCd, addr, org, disease],
-    queryFn: () => {
-      if (brtcCd && sggCd) 
-        return getHospitalsMutliConditions({ brtcCd, sggCd, addr, org, disease });
-      else {
-        return defaultData;
-      }
-    },
-    staleTime: Infinity
-  });
+  } = useHospitalQuery(brtcCd, sggCd, addr, org, disease)
 
   // console.log(hospitalData);
 
