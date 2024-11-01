@@ -29,13 +29,7 @@ const VaccineRecordEditPage = async ({ params }: VaccineRecordEditPageProps) => 
     <HydrationBoundary state={dehydrate(queryClient)}>
       <div className="flex flex-col gap-4">
         <h1 className="text-3xl">우리 아이 접종 내역</h1>
-        <div className="flex flex-row justify-between">
-          <div className="flex flex-row gap-2">
-            <div>전체</div>
-            <div>접종 완료</div>
-            <div>미접종</div>
-          </div>
-        </div>
+        <div className="flex flex-row justify-between"></div>
         <CheckboxFormWrap child_id={params.id} />
       </div>
     </HydrationBoundary>
