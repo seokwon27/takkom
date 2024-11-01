@@ -82,7 +82,7 @@ const RegisterStep1 = ({ onNext }: RegisterStep1Props) => {
           user_id: testUserId, // 테스트용
           name: name,
           birth: birthday,
-          profile: profileImageUrl,
+          profile: profileImageUrl ?? "",
           notes: notes || "" // notes가 없을 경우 빈 문자열로 설정
         }
       ]);
