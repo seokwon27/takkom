@@ -46,17 +46,23 @@ const CheckboxForm = ({ child_id, onSuccess }: CheckboxFormProps) => {
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)}>
-        <ul>
+        <ul className="gird gap-4">
+          <li className="grid grid-cols-[2fr_1fr] text-center gap-4">
+            <div className="bg-slate-300">예방접종명</div>
+            <div className="bg-slate-300">횟수</div>
+          </li>
           {vaccineData?.map((disease) => (
-            <li key={disease.diseaseName} className="flex flex-row">
-              <div>{disease.diseaseName}</div>
+            <li key={disease.diseaseName} className="grid grid-cols-[2fr_1fr] gap-4">
+              <div className="grid grid-cols-2">
+                <div>{disease.diseaseName}</div>
 
-              <div className="flex flex-col">
-                {disease.vaccines.map((vaccine) => (
-                  <div key={vaccine.vaccineName}>
-                    <div>{vaccine.vaccineName}</div>
-                  </div>
-                ))}
+                <div className="flex flex-col">
+                  {disease.vaccines.map((vaccine) => (
+                    <div key={vaccine.vaccineName}>
+                      <div>{vaccine.vaccineName}</div>
+                    </div>
+                  ))}
+                </div>
               </div>
 
               <div>
