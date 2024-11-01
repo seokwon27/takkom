@@ -9,6 +9,7 @@ const AgeGroup = () => {
       <p>{`선택된 연령 그룹 : ${ageGroup}`}</p>
 
       <div className="flex text-center justify-center  gap-6 p-2">
+        <AgeCard age={"전체"} />
         <AgeCard age={"신생아"} />
         <AgeCard age={"영아기"} />
         <AgeCard age={"유아기"} />

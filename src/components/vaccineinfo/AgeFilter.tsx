@@ -5,13 +5,19 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "../ui/tabs";
 
 //연령 텍스트 전환
 const formatAgeText = (age: number) => {
-  if (age >= 48) {
+  if (age === 1000) {
+    return <p>전체</p>;
+  }
+  if (age < 1000 && age >= 48) {
     return <p>{`만 ${Math.floor(age / 12)}세`}</p>;
-  } else if (age >= 1) {
+  }
+  if (age >= 1) {
     return <p>{`${age}개월`}</p>;
-  } else if (age === 0) {
+  }
+  if (age === 0) {
     return <p>출생 직후</p>;
-  } else if (age > 0 && age < 1) {
+  }
+  if (age > 0 && age < 1) {
     return <p>4주 이내</p>;
   }
 };
@@ -23,19 +29,21 @@ const AgeFilter = () => {
       <div>
         <p>{`선택된 연령: ${selectedAge}`}</p>
         <div className="flex gap-3">
-          {subAgeGroup.map((age) => {
-            return (
-              <div
-                className={age === selectedAge ? `font-bold` : ""}
-                key={`${age} 개월`}
-                onClick={() => {
-                  setSelectedAge(age);
-                }}
-              >
-                {formatAgeText(age)}
-              </div>
-            );
-          })}
+          {subAgeGroup.length > 6
+            ? "전체"
+            : subAgeGroup.map((age) => {
+                return (
+                  <div
+                    className={age === selectedAge ? `font-bold` : ""}
+                    key={`${age} 개월`}
+                    onClick={() => {
+                      setSelectedAge(age);
+                    }}
+                  >
+                    {formatAgeText(age)}
+                  </div>
+                );
+              })}
         </div>
       </div>
 
