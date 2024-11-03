@@ -25,13 +25,11 @@ export const SearchModal = ({
       }}
     >
       {/* 모달창 내부 영역 */}
-      <div className="bg-white p-[42px]">
-        <div>
-          <div className="text-left">
-            <h1>지역을 선택해 주세요.</h1>
-          </div>
-          <SelectBrtc />
+      <div className="bg-white p-[42px] rounded-xl flex flex-col gap-6">
+        <div className="text-left">
+          <h1>지역을 선택해 주세요.</h1>
         </div>
+        <SelectBrtc />
       </div>
     </div>
   );
