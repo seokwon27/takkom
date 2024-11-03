@@ -1,5 +1,6 @@
 import { SupabaseDatabase } from "@/types/supabaseDataType";
-import { useQuery } from "@tanstack/react-query";
+import { User } from "@supabase/supabase-js";
+import { useQuery, UseQueryResult } from "@tanstack/react-query";
 
 // supabase에서 로그인 정보 가져오기
 export const getUser = async (supabaseClient: SupabaseDatabase) => {
@@ -17,7 +18,7 @@ export const getUser = async (supabaseClient: SupabaseDatabase) => {
 };
 
 // 로그인 정보 가져오기
-export const useUserQuery = (supabaseClient: SupabaseDatabase) => {
+export const useUserQuery = (supabaseClient: SupabaseDatabase): UseQueryResult<User> => {
   return useQuery({
     queryKey: ["user", "client"],
     queryFn: () => getUser(supabaseClient)
