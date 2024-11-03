@@ -2,16 +2,23 @@
 
 import React from "react";
 import { Tables } from "../../../database.types";
-import { calculateSchedule, useVaccineScheduleQuery } from "@/api/vaccineApi";
+import { calculateSchedule } from "@/api/vaccineApi";
 import browserClient from "@/utils/supabase/client";
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
+import { useVaccineRecordQuery, useVaccineScheduleQuery } from "@/query/useVaccineRecordQuery";
 
 // 여기서 child id에 대한 vaccine record를 가져와서 vaccine id가 포함되어 있으면
 const ScheduleCarousel = ({ child }: { child?: Tables<"child"> }) => {
-  const { data: schedule, isLoading, isError } = useVaccineScheduleQuery(browserClient);
+  const {
+    data: schedule,
+    isLoading: isScheduleLoading,
+    isError: isScheduleError
+  } = useVaccineScheduleQuery(browserClient);
+  const {data: vaccineRecord, isLoading: isVaccineRecordLoading, isError: isVaccineRecordError} = useVaccineRecordQuery(child?.id);
+
+  console.log(vaccineRecord)
 
   const childSchedule = calculateSchedule(child?.birth, schedule);
-  console.log(childSchedule);
 
   // '이번달'을 기준으로 시작하는 캐러셀 인덱스 설정
   // '아이 접종 일정표'에 해당하지 않는 시점인 경우 마지막 달을 보여줌
@@ -22,10 +29,10 @@ const ScheduleCarousel = ({ child }: { child?: Tables<"child"> }) => {
       ? (childSchedule?.size ?? 1) - 1
       : Array.from(childSchedule?.keys() ?? []).findIndex((month) => month === currentMonth);
 
-  if (isLoading) {
+  if (isScheduleLoading || isVaccineRecordLoading) {
     return <div>아이 카드 접종 일정표 Loading....</div>;
   }
-  if (isError) {
+  if (isScheduleError || isVaccineRecordError) {
     return <div>아이 카드 접종 일정표 Error</div>;
   }
 
@@ -45,7 +52,7 @@ const ScheduleCarousel = ({ child }: { child?: Tables<"child"> }) => {
                     ) : (
                       vaccines.map((vaccine) => (
                         <li key={`${month}_${vaccine.id}`}>
-                          {vaccine.disease_name} - {vaccine.vaccine_name}
+                          <p className={`${vaccineRecord?.includes(vaccine.id) && 'line-through'}`}>{vaccine.disease_name} - {vaccine.vaccine_name}</p>
                         </li>
                       ))
                     )}
