@@ -1,5 +1,6 @@
 import { useAgeGroupStore } from "@/utils/zustand/ageGroupStore";
 import React from "react";
+import VaccinateTag from "./VaccinateTag";
 
 const VaccineCard = ({
   disease,
@@ -16,21 +17,33 @@ const VaccineCard = ({
 
   return (
     <div
-      className={`${vaccineId === vaccine ? "border-black" : ""} border-[2px] gap-2 p-3`}
+      className={`${
+        vaccineId === vaccine ? "border-primary-400" : ""
+      } border-[2px] border-gray-100 px-14 py-16 flex flex-col gap-8 rounded-3xl`}
       onClick={() => {
         setCurrentDisease(disease ?? "");
         setVaccineId(vaccine);
       }}
     >
-      <div>
-        <p>{disease}</p>
-        <p>{vaccine}</p>
+      <div className="flex flex-col gap-10">
+        <div className="flex flex-col gap-2">
+          <p className="text-2xl font-bold">{disease}</p>
+          <p className="text-base font-normal text-gray-600">{vaccine}</p>
+        </div>
+        <div className="flex flex-col gap-2">
+          <div className="flex gap-3">
+            <p className="text-base font-semibold text-gray-800">{`대상`}</p>
+            <p className="text-base font-normal text-gray-600">{target}</p>
+          </div>
+          <div className="flex gap-3">
+            <p className="text-base font-semibold text-gray-800">{`방법`}</p>
+            <p className="text-base font-normal text-gray-600">{process}</p>
+          </div>
+        </div>
       </div>
-      <div className="mt-5">
-        <p>{`대상: ${target}`}</p>
-        <p>{`방법: ${process}`}</p>
+      <div className="flex gap-2">
+        <VaccinateTag mode="무료" />
       </div>
-      <p>무료접종</p>
     </div>
   );
 };
