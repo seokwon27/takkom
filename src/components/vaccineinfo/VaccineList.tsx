@@ -11,8 +11,9 @@ const VaccineList = () => {
   if (isPending) return "접종 정보 로딩중...";
   if (error) throw new Error(`Error: ${error}`);
 
-  const formattedData = data.filter((item) => JSON.parse(item.vaccinate_date || "").includes(selectedAge));
-  console.log(data);
+  const formattedData =
+    selectedAge === 1000 ? data : data.filter((item) => JSON.parse(item.vaccinate_date || "").includes(selectedAge));
+  // console.log(data);
 
   return (
     <div className="grid grid-cols-2 gap-3">

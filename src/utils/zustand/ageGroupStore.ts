@@ -13,8 +13,8 @@ interface AgeState {
 // 상태 스토어 생성
 export const useAgeGroupStore = create<AgeState>((set) => ({
   // 초기 상태
-  ageGroup: "신생아",
-  subAgeGroup: [0, 0.4],
+  ageGroup: "전체",
+  subAgeGroup: [0, 0.4, 1, 2, 4, 6, 12, 15, 18, 19, 24, 48, 72, 132, 144],
   selectedAge: 0,
   currentDisease: "",
   // 상태변환 함수
@@ -39,6 +39,7 @@ export const useAgeGroupStore = create<AgeState>((set) => ({
 
 //소분류
 const subGroup: { [key: string]: number[] } = {
+  전체: [1000],
   신생아: [0, 0.4],
   영아기: [1, 2, 4, 6],
   유아기: [12, 15, 18, 19, 24, 48],
