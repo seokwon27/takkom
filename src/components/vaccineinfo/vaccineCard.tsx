@@ -12,13 +12,14 @@ const VaccineCard = ({
   target: string;
   process: string;
 }) => {
-  const { setCurrentDisease, currentDisease } = useAgeGroupStore();
+  const { setCurrentDisease, setVaccineId, vaccineId } = useAgeGroupStore();
 
   return (
     <div
-      className={`${currentDisease === disease ? "border-black" : ""} border-[2px] gap-2 p-3`}
+      className={`${vaccineId === vaccine ? "border-black" : ""} border-[2px] gap-2 p-3`}
       onClick={() => {
         setCurrentDisease(disease ?? "");
+        setVaccineId(vaccine);
       }}
     >
       <div>
