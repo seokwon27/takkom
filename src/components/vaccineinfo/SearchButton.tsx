@@ -17,8 +17,10 @@ const SearchButton = () => {
           setModalOpen(true);
           console.log(isModalOpen);
         }}
+        variant={"vaccineinfo"}
+        className="p-6"
       >
-        병원찾기
+        <p>접종 가능한 병원 찾기</p>
       </Button>
       {isModalOpen && (
         <SearchModal
