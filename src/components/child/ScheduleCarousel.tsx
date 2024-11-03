@@ -16,14 +16,11 @@ const ScheduleCarousel = ({ child }: { child?: Tables<"child"> }) => {
   // '이번달'을 기준으로 시작하는 캐러셀 인덱스 설정
   // '아이 접종 일정표'에 해당하지 않는 시점인 경우 마지막 달을 보여줌
   const today = new Date();
+  const currentMonth = `${today.getFullYear()}.${("0" + (today.getMonth() + 1)).slice(-2)}`;
   const startIndex =
-    Array.from(childSchedule?.keys() || []).findIndex(
-      (month) => month === `${today.getFullYear()}.${("0" + today.getMonth()).slice(-2)}`
-    ) === -1
+    Array.from(childSchedule?.keys() ?? []).findIndex((month) => month === currentMonth) === -1
       ? (childSchedule?.size ?? 1) - 1
-      : Array.from(childSchedule?.keys() || []).findIndex(
-          (month) => month === `${today.getFullYear()}.${("0" + today.getMonth()).slice(-2)}`
-        );
+      : Array.from(childSchedule?.keys() ?? []).findIndex((month) => month === currentMonth);
 
   if (isLoading) {
     return <div>아이 카드 접종 일정표 Loading....</div>;
