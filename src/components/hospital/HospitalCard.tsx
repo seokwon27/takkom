@@ -47,7 +47,7 @@ const HospitalCard = ({ info, filter }: { info: HopsitalItem; filter?: string })
                 <p>백신 목록</p>
               </td>
               <td className="text-gray-700">
-                <VaccineNames hospitalCd={info.orgcd} filter={filter} vaccineNames={vaccineNames} />
+                <VaccineNames filter={filter} vaccineNames={vaccineNames} />
               </td>
             </tr>
           </tbody>
