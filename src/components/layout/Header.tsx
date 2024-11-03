@@ -4,8 +4,7 @@ import React from "react";
 const Header = async () => {
   // const user = await fetchCurrentUser();
   return (
-    <header className={`sticky top-0 left-0 right-0 z-[100] bg-white`}>
-      <div className="container h-full flex justify-between items-center mx-auto">
+    <header className={`w-full max-w-[1200px] flex justify-between items-center mx-auto sticky top-0 left-0 right-0 z-[100] bg-white`}>
         <Link className="font-bold" href={"/"}>
           따꼼
         </Link>
@@ -49,7 +48,6 @@ const Header = async () => {
             </>
           )} */}
         </ul>
-      </div>
     </header>
   );
 };

@@ -16,8 +16,6 @@ const ScheduleCarousel = ({ child }: { child?: Tables<"child"> }) => {
   } = useVaccineScheduleQuery(browserClient);
   const {data: vaccineRecord, isLoading: isVaccineRecordLoading, isError: isVaccineRecordError} = useVaccineRecordQuery(child?.id);
 
-  console.log(vaccineRecord)
-
   const childSchedule = calculateSchedule(child?.birth, schedule);
 
   // '이번달'을 기준으로 시작하는 캐러셀 인덱스 설정
