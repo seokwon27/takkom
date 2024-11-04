@@ -14,7 +14,11 @@ const ScheduleCarousel = ({ child }: { child?: Tables<"child"> }) => {
     isLoading: isScheduleLoading,
     isError: isScheduleError
   } = useVaccineScheduleQuery(browserClient);
-  const {data: vaccineRecord, isLoading: isVaccineRecordLoading, isError: isVaccineRecordError} = useVaccineRecordQuery(child?.id);
+  const {
+    data: vaccineRecord,
+    isLoading: isVaccineRecordLoading,
+    isError: isVaccineRecordError
+  } = useVaccineRecordQuery(child?.id);
 
   const childSchedule = calculateSchedule(child?.birth, schedule);
 
@@ -50,7 +54,9 @@ const ScheduleCarousel = ({ child }: { child?: Tables<"child"> }) => {
                     ) : (
                       vaccines.map((vaccine) => (
                         <li key={`${month}_${vaccine.id}`}>
-                          <p className={`${vaccineRecord?.includes(vaccine.id) && 'line-through'}`}>{vaccine.disease_name} - {vaccine.vaccine_name}</p>
+                          <p className={`${vaccineRecord?.includes(vaccine.id) && "line-through"}`}>
+                            {vaccine.disease_name} - {vaccine.vaccine_name}
+                          </p>
                         </li>
                       ))
                     )}

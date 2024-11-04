@@ -7,10 +7,12 @@ import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
 const MyPage = () => {
-  const [userData, setUserData] = useState<{ name: string; email: string } | null>(null);
-  const { data: user, isLoading: isUserLoading, isError: isUserError } = useUserQuery(browserClient);
+  const [userData, setUserData] = useState<{ name: string; email: string } | null>(null); // 제네릭
+  const { data: user, isLoading: isUserLoading, isError: isUserError } = useUserQuery(browserClient); // 타입으로 함수를 반환해서 쓰기
 
   const router = useRouter();
+
+  console.log(user?.email);
 
   useEffect(() => {
     if (isUserLoading) return;
@@ -18,12 +20,9 @@ const MyPage = () => {
       router.push("/signin");
       return;
     }
-
     const userInfo = async () => {
       const { data, error } = await browserClient.from("user").select("*").eq("id", user.id);
-
       console.log("로그인 정보 : ", user);
-
       if (error) {
         console.log("유저 정보 가져오기 에러: ", error);
       } else if (data && data.length > 0) {
