@@ -16,7 +16,7 @@ const VaccineList = () => {
   // console.log(data);
 
   return (
-    <div className="grid grid-cols-2 gap-6">
+    <div className="grid grid-cols-2 gap-6 min-h-[800px]">
       {formattedData?.map((item) => {
         return (
           <VaccineCard
