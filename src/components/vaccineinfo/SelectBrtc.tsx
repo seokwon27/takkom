@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from "../ui/select";
+import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useAgeGroupStore } from "@/utils/zustand/ageGroupStore";
 import { useRouter } from "next/navigation";
 import { Button } from "../ui/button";
@@ -30,68 +30,73 @@ const SelectBrtc = () => {
   };
 
   return (
-    <>
-      <div className="">
-        <Select
-          value={brtc}
-          onValueChange={(value) => {
-            setBrtc(value);
-            // console.log(value);
-          }}
-        >
-          <SelectTrigger className="">
-            <SelectValue placeholder="시/도" />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectGroup>
-              {isPending
-                ? "도시 정보"
-                : brtcObj.map((item) => {
-                    const [brtcCd, brtcName] = item;
-
-                    return (
-                      <SelectItem value={brtcCd} key={brtcCd}>
-                        {brtcName}
-                      </SelectItem>
-                    );
-                  })}
-            </SelectGroup>
-          </SelectContent>
-        </Select>
-      </div>
-
-      <div>
-        <div className="">
+    <div className="flex flex-col gap-12">
+      <div className="flex gap-2">
+        <div className=" w-32">
           <Select
-            value={sgg}
+            value={brtc}
             onValueChange={(value) => {
-              setSgg(value);
+              setBrtc(value);
               // console.log(value);
             }}
           >
-            <SelectTrigger className="" disabled={!brtc}>
-              <SelectValue placeholder="시/군/구" />
+            <SelectTrigger className="justify-center">
+              <SelectValue placeholder="시/도" />
             </SelectTrigger>
             <SelectContent>
               <SelectGroup>
-                {regionInfo.map((item) => {
-                  const [sggCd, sggName] = item;
-                  return (
-                    <SelectItem value={sggCd} key={sggCd}>
-                      {sggName}
-                    </SelectItem>
-                  );
-                })}
+                {isPending
+                  ? "도시 정보"
+                  : brtcObj.map((item) => {
+                      const [brtcCd, brtcName] = item;
+
+                      return (
+                        <SelectItem className="justify-center" value={brtcCd} key={brtcCd}>
+                          {brtcName}
+                        </SelectItem>
+                      );
+                    })}
               </SelectGroup>
             </SelectContent>
           </Select>
         </div>
-      </div>
 
-      <Button onClick={handleClick} disabled={!brtc || !sgg}>
-        확인
+        <div>
+          <div className=" w-32">
+            <Select
+              value={sgg}
+              onValueChange={(value) => {
+                setSgg(value);
+                // console.log(value);
+              }}
+            >
+              <SelectTrigger className="justify-center" disabled={!brtc}>
+                <SelectValue placeholder="시/군/구" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectGroup>
+                  {regionInfo.map((item) => {
+                    const [sggCd, sggName] = item;
+                    return (
+                      <SelectItem className="justify-center" value={sggCd} key={sggCd}>
+                        {sggName}
+                      </SelectItem>
+                    );
+                  })}
+                </SelectGroup>
+              </SelectContent>
+            </Select>
+          </div>
+        </div>
+      </div>
+      <Button
+        className="text-white p-6 bg-primary-400 hover:bg-primary-300 disabled:bg-primary-100"
+        onClick={handleClick}
+        disabled={!brtc || !sgg}
+      >
+        찾기
       </Button>
-    </>
+    </div>
   );
 };
 
