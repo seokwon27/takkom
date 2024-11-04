@@ -3,7 +3,10 @@ import { SupabaseDatabase } from "@/types/supabaseDataType";
 import { Vaccine } from "@/types/vaccineType";
 import browserClient from "@/utils/supabase/client";
 
-export const getVaccineRecord = async (supabaseClient: SupabaseDatabase, childId: string) => {
+export const getVaccineRecord = async (supabaseClient: SupabaseDatabase, childId?: string) => {
+  if (!childId) {
+    throw new Error('childId가 없습니다.')
+  }
   const { data, error } = await supabaseClient.from("vaccine_record").select("vaccine_id").eq("child_id", childId);
 
   if (error) throw Error(error.message);

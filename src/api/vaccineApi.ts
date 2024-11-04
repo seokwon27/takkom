@@ -1,7 +1,7 @@
 import { SupabaseDatabase } from "@/types/supabaseDataType";
-import { useQuery } from "@tanstack/react-query";
 import { Tables } from "../../database.types";
 import { addDays, addMonths, format, isBefore, isEqual } from "date-fns";
+import { vaccineSchedule } from "@/types/vaccineType";
 
 export const getVaccines = async (supabaseClient: SupabaseDatabase) => {
   const { data, error } = await supabaseClient.from("vaccine").select().order("vaccine_turn", { ascending: true });
@@ -24,21 +24,11 @@ export const getVaccineSchedule = async (supabaseClient: SupabaseDatabase) => {
   return data;
 };
 
-export const useVaccineScheduleQuery = (supabaseClient: SupabaseDatabase) => {
-  return useQuery({
-    queryKey: ["vaccine_schedule"],
-    queryFn: () => getVaccineSchedule(supabaseClient),
-    staleTime: Infinity
-  });
-};
-
-export interface vaccineSchedule extends Omit<Tables<'vaccine'>, 'vaccinae_date' | 'duration'> {
-  startDate: string;
-  endDate: string;
-};
-
 // 생일에 따라 접종 일정 계산하기
-export const calculateSchedule = (date?: string, schedules?: Tables<"vaccine">[]): Map<string, vaccineSchedule[]> | null => {
+export const calculateSchedule = (
+  date?: string,
+  schedules?: Tables<"vaccine">[]
+): Map<string, vaccineSchedule[]> | null => {
   if (!date || !schedules) {
     return null;
   }
