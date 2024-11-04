@@ -10,6 +10,8 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import browserClient from "@/utils/supabase/client";
 import { AuthFormSignIn } from "@/types/user";
+import { Eye, EyeOff } from "lucide-react";
+import Link from "next/link";
 
 const SignIn = () => {
   // 비밀번호 표시 상태 관리
@@ -149,7 +151,7 @@ const SignIn = () => {
                   />
                   <label>
                     <Button type="button" onClick={() => setShowPassword(!showPassword)}>
-                      {showPassword ? <p>숨기기</p> : <p>보이기</p>}
+                      {showPassword ? <EyeOff /> : <Eye />}
                     </Button>
                   </label>
                 </>
@@ -162,8 +164,8 @@ const SignIn = () => {
         />
 
         <Button type="submit">로그인</Button>
-        <Button>회원가입</Button>
       </form>
+      <Link href={"/signup"}>회원가입</Link>
       <Button onClick={googleSignIn}>구글로그인</Button>
       <Button onClick={kakaoSignIn}>카카오로그인</Button>
     </Form>
