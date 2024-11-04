@@ -3,6 +3,7 @@ import { Child } from "@/types/childType";
 import Image from "next/image";
 import { DEFAULT_PROFILE_IMAGE_URL } from "@/utils/supabase/client";
 import Link from "next/link";
+import Schedule from "./Schedule";
 
 interface ChildCardProps {
   child?: Child; // 등록된 child가 없으면 undefined일 수 있음
@@ -32,6 +33,7 @@ export const ChildCard = ({ child }: ChildCardProps) => {
       </div>
       <div>
         <h3>이번 달 접종 리스트</h3>
+        <Schedule />
         <Link href={`/child/${child.id}`}>
           <button>전체 접종 체크리스트로 이동</button>
         </Link>

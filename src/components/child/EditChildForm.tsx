@@ -2,7 +2,7 @@
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import browserClient from "@/utils/supabase/client";
+import browserClient, { DEFAULT_PROFILE_IMAGE_URL } from "@/utils/supabase/client";
 import { Child } from "@/types/childType";
 import { Form, FormField, FormItem, FormLabel, FormControl, FormDescription, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
@@ -31,7 +31,7 @@ const EditChildForm = ({ child, onComplete }: EditFormProps) => {
       name: child.name,
       birth: child.birth,
       notes: child.notes || "",
-      profile: child.profile,
+      profile: child.profile || DEFAULT_PROFILE_IMAGE_URL,
     }
   });
 
@@ -76,6 +76,28 @@ const EditChildForm = ({ child, onComplete }: EditFormProps) => {
     onComplete(); // 완료 후 부모 컴포넌트에 통보
   };
 
+  const handleDeleteImage = async () => {
+    // 프로필 이미지를 삭제하고 기본 이미지로 변경
+    const { error } = await browserClient.storage.from("profiles").remove([child.profile]); // 기존 이미지를 삭제합니다.
+
+    if (error) {
+      console.error("이미지 삭제 오류:", error);
+      return;
+    }
+
+    // 기본 이미지로 업데이트
+    const supabase = browserClient;
+    await supabase
+      .from("child")
+      .update({
+        profile: DEFAULT_PROFILE_IMAGE_URL
+      })
+      .eq("id", child.id);
+
+    // 기본 이미지가 설정되었으므로 상태 업데이트 및 완료 처리
+    onComplete();
+  };
+
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
@@ -94,6 +116,10 @@ const EditChildForm = ({ child, onComplete }: EditFormProps) => {
               </FormControl>
               <FormDescription>아이의 프로필 이미지를 업로드해 주세요.</FormDescription>
               <FormMessage />
+              {child.profile && <img src={child.profile} alt="Current Profile" />}
+              <Button type="button" onClick={handleDeleteImage} className="mt-2">
+                이미지 삭제
+              </Button>
             </FormItem>
           )}
         />
@@ -105,7 +131,7 @@ const EditChildForm = ({ child, onComplete }: EditFormProps) => {
             <FormItem>
               <FormLabel>이름</FormLabel>
               <FormControl>
-                <Input placeholder="이름을 입력하세요"  {...field}  />
+                <Input placeholder="이름을 입력하세요" {...field} />
               </FormControl>
               <FormDescription>아이의 이름을 입력해 주세요.</FormDescription>
               <FormMessage />
