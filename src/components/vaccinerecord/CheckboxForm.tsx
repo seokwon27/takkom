@@ -3,20 +3,22 @@
 import { Controller, useForm } from "react-hook-form";
 import { Form, FormMessage } from "../ui/form";
 import { Checkbox } from "../ui/checkbox";
-import { Button } from "../ui/button";
+
 import { useAddVaccineRecordMutation, useDeleteVaccineRecordMutation } from "@/query/useVaccineRecordMutation";
 import { useVaccineQuery, useVaccineRecordQuery } from "@/query/useVaccineRecordQuery";
+import { ReactNode } from "react";
 
 interface CheckboxFormProps {
   child_id: string;
   onSuccess: () => void;
+  children: ReactNode;
 }
 
 type FormValues = {
   selectVaccines: string[];
 };
 
-const CheckboxForm = ({ child_id, onSuccess }: CheckboxFormProps) => {
+const CheckboxForm = ({ child_id, onSuccess, children }: CheckboxFormProps) => {
   const { data: vaccineData } = useVaccineQuery();
   const { data: recordData } = useVaccineRecordQuery(child_id);
   const { mutateAsync: addVaccineRecord } = useAddVaccineRecordMutation();
@@ -91,8 +93,8 @@ const CheckboxForm = ({ child_id, onSuccess }: CheckboxFormProps) => {
             </li>
           ))}
         </ul>
+        {children}
         <FormMessage />
-        <Button type="submit">Submit</Button>
       </form>
     </Form>
   );
