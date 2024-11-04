@@ -4,11 +4,9 @@ import React, { useState } from "react";
 import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from "./ui/select";
 
 const VaccineNames = ({
-  // hospitalCd,
   vaccineNames,
   filter
 }: {
-  // hospitalCd: number;
   vaccineNames: string[];
   filter: string | undefined;
 }) => {

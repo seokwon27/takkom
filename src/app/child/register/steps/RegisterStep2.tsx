@@ -51,13 +51,14 @@ const RegisterStep2 = ({ child, onPrev, onComplete }: RegisterStep2Props) => {
     <div>
       <h1>2단계</h1>
       <h2>접종 완료한 내역을 선택해주세요.</h2>
-      <CheckboxForm child_id={child?.id} onSuccess={onSuccess} />
-      <Button type="button" onClick={onPrev} className="mt-4">
-        이전
-      </Button>
-      <Button type="submit" onClick={onComplete} className="mt-4">
-        완료
-      </Button>
+      <CheckboxForm child_id={child?.id} onSuccess={onSuccess}>
+        <Button type="button" onClick={onPrev} className="mt-4">
+          이전
+        </Button>
+        <Button type="submit" onClick={onComplete} className="mt-4">
+          완료
+        </Button>
+      </CheckboxForm>
     </div>
   );
 };
