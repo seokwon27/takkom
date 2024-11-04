@@ -1,9 +1,10 @@
 "use client";
 import { useEffect } from "react";
 import { Child } from "@/types/childType";
-import CheckboxForm from "@/components/vaccinerecord/FormVaccineRecord";
+import CheckboxForm from "@/components/vaccinerecord/CheckboxForm";
 import browserClient from "@/utils/supabase/client";
 import { Button } from "@/components/ui/button";
+import { useRouter } from "next/navigation";
 
 interface RegisterStep2Props {
   child: Child; // child prop 추가
@@ -41,11 +42,16 @@ const RegisterStep2 = ({ child, onPrev, onComplete }: RegisterStep2Props) => {
 
   console.log("등록하려는 아이의 ID:", child.id);
 
+  const router = useRouter();
+  const onSuccess = () => {
+    router.push(`/child`);
+  };
+
   return (
     <div>
       <h1>2단계</h1>
       <h2>접종 완료한 내역을 선택해주세요.</h2>
-      <CheckboxForm child_id={child?.id} />
+      <CheckboxForm child_id={child?.id} onSuccess={onSuccess} />
       <Button type="button" onClick={onPrev} className="mt-4">
         이전
       </Button>
