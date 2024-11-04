@@ -1,12 +1,13 @@
 "use client";
 
 import React, { useState } from "react";
+import Image from "next/image";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { BRTC, DISEASE, DISEASE_LIST, SGG } from "./constants";
-import { Info } from "lucide-react";
+import infoCircle from "../../../public/infoCircle.svg";
 import { setQueryParams } from "./setQueryParams";
 import InfoTag from "./InfoTag";
 
@@ -35,13 +36,17 @@ const SearchForm = ({
 
   return (
     <div className="w-full flex flex-col ">
-      <div className="flex items-end">
-        <Info onClick={() => {
-          setShowInfoTag(prev => !prev)
-        }}/>
+      <div className="flex gap-2 items-end mb-3">
+        <Image
+          src={infoCircle}
+          alt="정보"
+          onClick={() => {
+            setShowInfoTag((prev) => !prev);
+          }}
+        />
         <InfoTag isVisible={showInfoTag} />
       </div>
-      <form className="hospital-search">
+      <form className="grid grid-cols-[144fr_144fr_144fr_195fr_100fr] gap-4 mb-4">
         <Select
           value={params.brtcCd}
           onValueChange={(value) => {
@@ -62,7 +67,9 @@ const SearchForm = ({
           }}
         >
           <SelectTrigger
-            className={`justify-center ${params.brtcCd === BRTC ? "border-gray-300 text-gray-300" : "border-gray-700"}`}
+            className={`justify-center text-base font-semibold ${
+              params.brtcCd === BRTC ? "border-gray-300 text-gray-300" : "border-primary-400 text-primary-400"
+            }`}
           >
             <SelectValue placeholder={BRTC + "*"} />
           </SelectTrigger>
@@ -85,7 +92,7 @@ const SearchForm = ({
           onValueChange={(value) => {
             setParams((prev) => {
               // 시/군/구 값이 바뀌면 입력값 초기화
-              const tmpParams = { ...prev, sggCd:value, addr:'', org:'' };
+              const tmpParams = { ...prev, sggCd: value, addr: "", org: "" };
               return tmpParams;
             });
             if (value === SGG) {
@@ -97,8 +104,8 @@ const SearchForm = ({
           }}
         >
           <SelectTrigger
-            className={`justify-center ${
-              params.sggCd === SGG ? "border-gray-300 text-gray-300" : "border-gray-700 text-gray-700"
+            className={`justify-center text-base font-semibold ${
+              params.sggCd === SGG ? "border-gray-300 text-gray-300" : "border-primary-400 text-primary-400"
             }`}
             disabled={disableSgg}
           >
@@ -119,17 +126,17 @@ const SearchForm = ({
         </Select>
 
         <Input
-          placeholder="도로명/동 주소"
+          placeholder="주소"
           value={params.addr}
           onChange={(e) => {
-            setShowInfoTag(false)
+            setShowInfoTag(false);
             setParams((prev) => {
               const tmpParams = { ...prev, addr: e.target.value };
               return tmpParams;
             });
           }}
           disabled={disableInputs}
-          className={`text-center focus-visible:ring-0 focus-visible:ring-offset-0 ${
+          className={`text-center font-semibold focus-visible:ring-0 focus-visible:ring-offset-0 ${
             params.addr ? "border-gray-700 text-gray-700" : "border-gray-300 text-gray-300"
           }`}
         />
@@ -137,14 +144,14 @@ const SearchForm = ({
           placeholder="병원명"
           value={params.org}
           onChange={(e) => {
-            setShowInfoTag(false)
+            setShowInfoTag(false);
             setParams((prev) => {
               const tmpParams = { ...prev, org: e.target.value };
               return tmpParams;
             });
           }}
           disabled={disableInputs}
-          className={`text-center focus-visible:ring-0 focus-visible:ring-offset-0 ${
+          className={`text-center font-semibold focus-visible:ring-0 focus-visible:ring-offset-0 ${
             params.org ? "border-gray-700 text-gray-700" : "border-gray-300 text-gray-300"
           }`}
         />
@@ -156,11 +163,13 @@ const SearchForm = ({
             setQueryParams({ ...params, pageNo: "1" }, router, pathname);
           }}
           disabled={disableInputs}
-          className="bg-gray-700 rounded-lg text-base hover:bg-gray-800 disabled:bg-gray-700"
+          className="bg-primary-400 rounded-lg text-base font-semibold hover:bg-primary-400 disabled:bg-primary-400"
         >
           검색
         </Button>
 
+      </form>
+      <div className="w-full">
         {searchParams.has("brtcCd") && searchParams.has("sggCd") && (
           <Select
             value={disease}
@@ -177,14 +186,14 @@ const SearchForm = ({
             }}
           >
             <SelectTrigger
-              className={`justify-center ${
+              className={`w-fit ml-auto ${
                 disease === DISEASE ? "border-gray-300 text-gray-300" : "border-gray-700 text-gray-700"
               }`}
               // disabled={disableInputs}
             >
               <SelectValue placeholder={DISEASE} />
             </SelectTrigger>
-            <SelectContent>
+            <SelectContent align="end">
               <SelectGroup>
                 <SelectItem value={DISEASE} key={DISEASE} className="justify-center">
                   {DISEASE}
@@ -197,8 +206,7 @@ const SearchForm = ({
               </SelectGroup>
             </SelectContent>
           </Select>
-        )}
-      </form>
+        )}</div>
     </div>
   );
 };

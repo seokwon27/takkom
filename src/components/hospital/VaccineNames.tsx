@@ -21,20 +21,19 @@ const VaccineNames = ({
   }
 
   const placeHolder = (
-    <p>
-      <span className={`${filteredVaccineIndex !== -1 && "text-primary-400"}`}>{`${
+    <span className="text-sm">
+      <span className={`${filteredVaccineIndex !== -1 && "font-semibold"}`}>{`${
         filteredVaccine || duplicatedVaccineNames[0]
       }`}</span>
       {!isOpen && ` 외 ${duplicatedVaccineNames.length}개`}
-    </p>
+    </span>
   );
 
   return (
-    <ul>
+    <>
       {vaccineNames.length === 1 ? (
-        <li className={`${filteredVaccineIndex !== -1 && "text-primary-400"}`}>{vaccineNames[0]}</li>
+        <p><span className={`${filteredVaccineIndex !== -1 && "font-semibold"}`}>{vaccineNames[0]}</span> 접종 가능</p>
       ) : filter ? (
-        <li>
           <Select
             value={""}
             onOpenChange={(open) => {
@@ -42,24 +41,21 @@ const VaccineNames = ({
             }}
           >
             <SelectTrigger
-              className={`h-fit p-1 justify-start border-0 rounded-none bg-gray-30`}
-              disabled={!(vaccineNames.length + 1)}
+              className={`h-fit p-0 justify-start border-0 rounded-none bg-gray-30 text-sm`}
             >
-              <SelectValue placeholder={placeHolder} />
+              <SelectValue placeholder={placeHolder} className="p-0"/>
             </SelectTrigger>
-            <SelectContent className="max-h-[100px] mt-0 p-0 rounded-none" side="bottom">
+            <SelectContent className="max-h-[100px] mt-0 p-0 rounded-none text-sm">
               <SelectGroup>
                 {duplicatedVaccineNames.map((name) => (
-                  <SelectItem value={name} key={name} className="justify-start h-fit max-w-fit p-0 pl-4 pb-2">
+                  <SelectItem value={name} key={name} className="max-w-fit h-fit justify-start p-0 pl-5 pb-2 text-sm">
                     {name}
                   </SelectItem>
                 ))}
               </SelectGroup>
             </SelectContent>
           </Select>
-        </li>
       ) : (
-        <li>
           <Select
             value={""}
             onOpenChange={(open) => {
@@ -68,7 +64,6 @@ const VaccineNames = ({
           >
             <SelectTrigger
               className={`h-fit p-1 justify-start border-0 rounded-none bg-gray-30`}
-              disabled={!(vaccineNames.length + 1)}
             >
               <SelectValue placeholder={placeHolder} />
             </SelectTrigger>
@@ -82,9 +77,8 @@ const VaccineNames = ({
               </SelectGroup>
             </SelectContent>
           </Select>
-        </li>
       )}
-    </ul>
+    </>
   );
 };
 

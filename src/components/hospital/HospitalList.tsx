@@ -35,14 +35,11 @@ const HospitalList = () => {
   }
 
   return (
-    <div className="w-full flex flex-col">
-      <p>
-        전체 결과값 : <span>{hospitalData.totalCount}</span>
-      </p>
+    <div className="w-full flex flex-col mt-16">
       {hospitalData.totalCount === 0 ? (
         <p>검색 결과가 없습니다.</p>
       ) : (
-        <ul className="grid grid-cols-[repeat(10, 1fr)] gap-4">
+        <ul className="grid grid-cols-[repeat(10, 1fr)] gap-6">
           {hospitalData.items.slice(10 * (currentPage - 1), 10 * currentPage).map((info) => (
             <li key={info.orgcd}>
               <HospitalCard info={info} filter={disease} />
