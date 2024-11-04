@@ -6,23 +6,21 @@ import { Checkbox } from "../ui/checkbox";
 import { Button } from "../ui/button";
 import { useAddVaccineRecordMutation, useDeleteVaccineRecordMutation } from "@/query/useVaccineRecordMutation";
 import { useVaccineQuery, useVaccineRecordQuery } from "@/query/useVaccineRecordQuery";
-import { useRouter } from "next/navigation";
 
 interface CheckboxFormProps {
   child_id: string;
+  onSuccess: () => void;
 }
 
 type FormValues = {
   selectVaccines: string[];
 };
 
-const CheckboxForm = ({ child_id }: CheckboxFormProps) => {
+const CheckboxForm = ({ child_id, onSuccess }: CheckboxFormProps) => {
   const { data: vaccineData } = useVaccineQuery();
   const { data: recordData } = useVaccineRecordQuery(child_id);
   const { mutateAsync: addVaccineRecord } = useAddVaccineRecordMutation();
   const { mutateAsync: deleteVaccineRecord } = useDeleteVaccineRecordMutation();
-
-  const router = useRouter();
 
   const form = useForm<FormValues>({
     defaultValues: {
@@ -42,23 +40,29 @@ const CheckboxForm = ({ child_id }: CheckboxFormProps) => {
       deleteVaccine?.map((vaccine_id) => deleteVaccineRecord({ child_id, vaccine_id }))
     ]);
 
-    router.push(`/child/${child_id}`);
+    onSuccess();
   };
 
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)}>
-        <ul>
+        <ul className="gird gap-4">
+          <li className="grid grid-cols-[2fr_1fr] text-center gap-4">
+            <div className="bg-slate-300">예방접종명</div>
+            <div className="bg-slate-300">횟수</div>
+          </li>
           {vaccineData?.map((disease) => (
-            <li key={disease.diseaseName} className="flex flex-row">
-              <div>{disease.diseaseName}</div>
+            <li key={disease.diseaseName} className="grid grid-cols-[2fr_1fr] gap-4">
+              <div className="grid grid-cols-2">
+                <div>{disease.diseaseName}</div>
 
-              <div className="flex flex-col">
-                {disease.vaccines.map((vaccine) => (
-                  <div key={vaccine.vaccineName}>
-                    <div>{vaccine.vaccineName}</div>
-                  </div>
-                ))}
+                <div className="flex flex-col">
+                  {disease.vaccines.map((vaccine) => (
+                    <div key={vaccine.vaccineName}>
+                      <div>{vaccine.vaccineName}</div>
+                    </div>
+                  ))}
+                </div>
               </div>
 
               <div>
