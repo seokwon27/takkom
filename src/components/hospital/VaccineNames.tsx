@@ -1,50 +1,87 @@
-import React from "react";
-import { Button } from "@/components/ui/button";
-import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+"use client";
 
-const VaccineNames = ({hospitalCd, vaccineNames, filter }: {hospitalCd: number, vaccineNames: string[]; filter: string | undefined }) => {
-  let filteredVaccine: string | null = null;
+import React, { useState } from "react";
+import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from "./ui/select";
+
+const VaccineNames = ({
+  vaccineNames,
+  filter
+}: {
+  vaccineNames: string[];
+  filter: string | undefined;
+}) => {
+  const [isOpen, setIsOpen] = useState(false);
+  const duplicatedVaccineNames = [...vaccineNames];
+  let filteredVaccineIndex = -1;
+  let filteredVaccine: string = "";
   if (filter) {
-    filteredVaccine = vaccineNames.find((name) => name.includes(filter)) ?? null;
+    filteredVaccineIndex = vaccineNames.findIndex((name) => name.includes(filter));
+    filteredVaccine = vaccineNames[filteredVaccineIndex];
+    duplicatedVaccineNames.splice(filteredVaccineIndex, 1);
   }
+
+  const placeHolder = (
+    <p>
+      <span className={`${filteredVaccineIndex !== -1 && "text-primary-400"}`}>{`${
+        filteredVaccine || duplicatedVaccineNames[0]
+      }`}</span>
+      {!isOpen && ` 외 ${duplicatedVaccineNames.length}개`}
+    </p>
+  );
 
   return (
     <ul>
       {vaccineNames.length === 1 ? (
-        <li className={`${filteredVaccine && "text-primary-400"}`}>{vaccineNames[0]}</li>
+        <li className={`${filteredVaccineIndex !== -1 && "text-primary-400"}`}>{vaccineNames[0]}</li>
       ) : filter ? (
         <li>
-          <Popover>
-            <PopoverTrigger asChild>
-              <Button className="bg-transparent text-base text-gray-700 w-fit h-fit p-0 m-0 hover:bg-transparent">
-                <span className="text-primary-400">{filteredVaccine}</span> 외 {vaccineNames.length - 1}개
-              </Button>
-            </PopoverTrigger>
-            <PopoverContent align="start" className="w-80">
-              <ul>
-                {vaccineNames.map((name) => (
-                  <li key={`${hospitalCd}_${name}`}>{name}</li>
+          <Select
+            value={""}
+            onOpenChange={(open) => {
+              setIsOpen(open);
+            }}
+          >
+            <SelectTrigger
+              className={`h-fit p-1 justify-start border-0 rounded-none bg-gray-30`}
+              disabled={!(vaccineNames.length + 1)}
+            >
+              <SelectValue placeholder={placeHolder} />
+            </SelectTrigger>
+            <SelectContent className="max-h-[100px] mt-0 p-0 rounded-none" side="bottom">
+              <SelectGroup>
+                {duplicatedVaccineNames.map((name) => (
+                  <SelectItem value={name} key={name} className="justify-start h-fit max-w-fit p-0 pl-4 pb-2">
+                    {name}
+                  </SelectItem>
                 ))}
-              </ul>
-            </PopoverContent>
-          </Popover>
+              </SelectGroup>
+            </SelectContent>
+          </Select>
         </li>
       ) : (
         <li>
-          <Popover>
-            <PopoverTrigger asChild>
-              <Button className="bg-transparent text-base text-gray-700 w-fit h-fit p-0 m-0 hover:bg-transparent">
-                {vaccineNames[0]} 외 {vaccineNames.length - 1}개
-              </Button>
-            </PopoverTrigger>
-            <PopoverContent align="start" className="w-80">
-              <ul>
-                {vaccineNames.map((name) => (
-                  <li key={`${hospitalCd}_${name}`}>{name}</li>
+          <Select
+            value={""}
+            onOpenChange={(open) => {
+              setIsOpen(open);
+            }}
+          >
+            <SelectTrigger
+              className={`h-fit p-1 justify-start border-0 rounded-none bg-gray-30`}
+              disabled={!(vaccineNames.length + 1)}
+            >
+              <SelectValue placeholder={placeHolder} />
+            </SelectTrigger>
+            <SelectContent className="max-h-[100px] mt-0 p-0 rounded-none" side="bottom">
+              <SelectGroup>
+                {duplicatedVaccineNames.slice(1).map((name) => (
+                  <SelectItem value={name} key={name} className="justify-start h-fit max-w-fit p-0 pl-4 pb-2">
+                    {name}
+                  </SelectItem>
                 ))}
-              </ul>
-            </PopoverContent>
-          </Popover>
+              </SelectGroup>
+            </SelectContent>
+          </Select>
         </li>
       )}
     </ul>
