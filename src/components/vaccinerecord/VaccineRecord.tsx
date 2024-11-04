@@ -1,7 +1,10 @@
 "use client";
 
 import { useVaccineQuery, useVaccineRecordQuery } from "@/query/useVaccineRecordQuery";
-import { Checkbox } from "../ui/checkbox";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "../ui/tabs";
+import VaccineRecordList from "./VaccineRecordList";
+import Link from "next/link";
+import { Button } from "../ui/button";
 
 interface VaccineRecordProps {
   childId: string;
@@ -11,40 +14,51 @@ const VaccineRecord = ({ childId }: VaccineRecordProps) => {
   const { data: vaccineData, isLoading: vaccineLoading } = useVaccineQuery();
   const { data: vaccineRecord, isLoading: recordLoading } = useVaccineRecordQuery(childId);
 
-  console.log("vaccineData", vaccineData);
-
   if (vaccineLoading || recordLoading) return <div>Loading...</div>;
 
   const vaccinated = new Set(vaccineRecord);
 
+  const getFilteredVaccineData = (filter: "전체" | "접종 완료" | "미접종") => {
+    if (filter === "전체") return vaccineData;
+
+    return vaccineData?.filter((disease) => {
+      const allCheckedVaccine = disease.vaccines.every((vaccine) => vaccine.ids.every((id) => vaccinated.has(id)));
+
+      if (filter === "접종 완료") return allCheckedVaccine;
+
+      if (filter === "미접종") return !allCheckedVaccine;
+    });
+  };
+
   return (
-    <ul>
-      {vaccineData?.map((disease) => (
-        <li key={disease.diseaseName} className="flex flex-row gap-4">
-          <div>{disease.diseaseName}</div>
+    <Tabs defaultValue="전체">
+      <TabsList className="flex flex-row justify-between bg-transparent">
+        <div>
+          <TabsTrigger value="전체" className="rounded-md border">
+            전체
+          </TabsTrigger>
+          <TabsTrigger value="접종 완료" className="rounded-md border">
+            접종완료
+          </TabsTrigger>
+          <TabsTrigger value="미접종" className="rounded-md border">
+            미접종
+          </TabsTrigger>
+        </div>
+        <Link href={`/child/${childId}/edit2`}>
+          <Button>수정하기</Button>
+        </Link>
+      </TabsList>
 
-          {/* 2번째 칼럼 (백신명) */}
-          <div className="flex flex-col">
-            {disease.vaccines.map((vaccine) => (
-              <div key={vaccine.vaccineName}>
-                <div>{vaccine.vaccineName}</div>
-              </div>
-            ))}
-          </div>
-
-          {/* 3번째 칼럼 (checkbox) */}
-          <div>
-            {disease.vaccines.map((vaccine) => (
-              <div key={vaccine.vaccineName}>
-                {vaccine.ids.map((id) => (
-                  <Checkbox key={id} checked={vaccinated.has(id)} disabled />
-                ))}
-              </div>
-            ))}
-          </div>
-        </li>
-      ))}
-    </ul>
+      <TabsContent value="전체">
+        <VaccineRecordList data={getFilteredVaccineData("전체")} vaccinated={vaccinated} />
+      </TabsContent>
+      <TabsContent value="접종 완료">
+        <VaccineRecordList data={getFilteredVaccineData("접종 완료")} vaccinated={vaccinated} />
+      </TabsContent>
+      <TabsContent value="미접종">
+        <VaccineRecordList data={getFilteredVaccineData("미접종")} vaccinated={vaccinated} />
+      </TabsContent>
+    </Tabs>
   );
 };
 

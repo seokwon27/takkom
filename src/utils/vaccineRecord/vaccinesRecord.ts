@@ -4,9 +4,9 @@ export const groupVaccines = (vaccines: Vaccine[]) => {
   const diseaseMap = new Map<string, Map<string, { turns: number[]; ids: string[] }>>();
 
   vaccines.forEach((vaccine) => {
-    const { disease_name, vaccine_turn, id, vaccine_name, additional } = vaccine;
+    const { disease_name, vaccine_turn, id, vaccine_name } = vaccine;
 
-    if (!disease_name || !vaccine_turn || !vaccine_name || additional) return;
+    if (!disease_name || !vaccine_turn || !vaccine_name) return;
 
     if (!diseaseMap.has(disease_name)) {
       diseaseMap.set(disease_name, new Map());
