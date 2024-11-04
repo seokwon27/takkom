@@ -2,7 +2,7 @@ import { Form, FormField, FormItem, FormLabel, FormControl, FormDescription, For
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { z } from "zod";
-import { UseFormReturn } from "react-hook-form";
+import { ControllerRenderProps, UseFormReturn } from "react-hook-form";
 import { formSchema } from "@/app/child/register/steps/RegisterStep1";
 
 interface RegisterStep1FormProps {
@@ -12,6 +12,23 @@ interface RegisterStep1FormProps {
 }
 
 const RegisterStep1Form = ({ form, onSubmit, setSelectedImage }: RegisterStep1FormProps) => {
+
+  const handleDateChange = (
+    e: React.ChangeEvent<HTMLInputElement>,
+    field: ControllerRenderProps<z.infer<typeof formSchema>, "birth">
+  ) => {
+    const dateValue = e.target.value;
+    const [year, month, day] = dateValue.split("-");
+
+    // 연도가 4자리를 초과하지 않도록 설정
+    if (year.length > 4) {
+      const formattedDate = `${year.slice(0, 4)}-${month || ""}-${day || ""}`;
+      field.onChange(formattedDate);
+    } else {
+      field.onChange(dateValue);
+    }
+  };
+
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
@@ -56,7 +73,7 @@ const RegisterStep1Form = ({ form, onSubmit, setSelectedImage }: RegisterStep1Fo
             <FormItem>
               <FormLabel>생년월일</FormLabel>
               <FormControl>
-                <Input type="date" {...field} />
+                <Input type="date" {...field} onChange={(e) => handleDateChange(e, field)} />
               </FormControl>
               <FormDescription>아이의 생년월일을 입력해 주세요.</FormDescription>
               <FormMessage />

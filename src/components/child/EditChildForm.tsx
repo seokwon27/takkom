@@ -8,7 +8,7 @@ import { Form, FormField, FormItem, FormLabel, FormControl, FormDescription, For
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
-
+import Image from "next/image";
 
 interface EditFormProps {
   child: Child;
@@ -24,14 +24,14 @@ const formSchema = z.object({
 
 const EditChildForm = ({ child, onComplete }: EditFormProps) => {
   const [selectedImage, setSelectedImage] = useState<File | undefined>(undefined);
-    
+
   const form = useForm({
     resolver: zodResolver(formSchema),
     defaultValues: {
       name: child.name,
       birth: child.birth,
       notes: child.notes || "",
-      profile: child.profile || DEFAULT_PROFILE_IMAGE_URL,
+      profile: child.profile || DEFAULT_PROFILE_IMAGE_URL
     }
   });
 
@@ -116,7 +116,9 @@ const EditChildForm = ({ child, onComplete }: EditFormProps) => {
               </FormControl>
               <FormDescription>아이의 프로필 이미지를 업로드해 주세요.</FormDescription>
               <FormMessage />
-              {child.profile && <img src={child.profile} alt="Current Profile" />}
+              {child.profile && (
+                <Image src={child.profile} alt="Current Profile" width={100} height={100} unoptimized />
+              )}
               <Button type="button" onClick={handleDeleteImage} className="mt-2">
                 이미지 삭제
               </Button>

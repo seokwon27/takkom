@@ -33,7 +33,8 @@ const RegisterStep2 = ({ child, onPrev, onComplete }: RegisterStep2Props) => {
     };
 
     fetchChildData();
-  }, [child.id]);
+  // }, [child.id]);
+  }, [supabase, child.id]); // 빌드 경고 해결 테스트: supabase를 의존성 배열에 추가
 
   // const onSubmit = (data: Partial<Child>) => {
   //   console.log("접종 내역:", data);
