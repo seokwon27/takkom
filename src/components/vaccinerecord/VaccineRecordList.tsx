@@ -1,14 +1,18 @@
 "use client";
 
+import { Control, Controller } from "react-hook-form";
 import { Checkbox } from "../ui/checkbox";
 import { groupVaccinesData } from "@/types/vaccineType";
+import { FormValues } from "./CheckboxForm";
 
 interface VaccineRecordListProps {
   data: groupVaccinesData;
   vaccinated: Set<string>;
+  edit: boolean;
+  control?: Control<FormValues>;
 }
 
-const VaccineRecordList = ({ data, vaccinated }: VaccineRecordListProps) => {
+const VaccineRecordList = ({ data, vaccinated, edit, control }: VaccineRecordListProps) => {
   return (
     <ul className="grid gap-4">
       <li className="grid grid-cols-[2fr_1fr] text-center gap-4">
@@ -34,9 +38,26 @@ const VaccineRecordList = ({ data, vaccinated }: VaccineRecordListProps) => {
           <div>
             {disease.vaccines.map((vaccine) => (
               <div key={vaccine.vaccineName}>
-                {vaccine.ids.map((id) => (
-                  <Checkbox key={id} checked={vaccinated.has(id)} disabled />
-                ))}
+                {vaccine.ids.map((id) =>
+                  edit && control ? (
+                    <Controller
+                      key={id}
+                      control={control}
+                      name="selectVaccines"
+                      render={({ field }) => (
+                        <Checkbox
+                          checked={field.value.includes(id)}
+                          onCheckedChange={(isChecked) => {
+                            const newValue = isChecked ? [...field.value, id] : field.value.filter((v) => v !== id);
+                            field.onChange(newValue);
+                          }}
+                        />
+                      )}
+                    />
+                  ) : (
+                    <Checkbox key={id} checked={vaccinated.has(id)} disabled />
+                  )
+                )}
               </div>
             ))}
           </div>

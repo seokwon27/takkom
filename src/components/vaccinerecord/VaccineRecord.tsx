@@ -50,13 +50,13 @@ const VaccineRecord = ({ childId }: VaccineRecordProps) => {
       </TabsList>
 
       <TabsContent value="전체">
-        <VaccineRecordList data={getFilteredVaccineData("전체")} vaccinated={vaccinated} />
+        <VaccineRecordList data={getFilteredVaccineData("전체")} vaccinated={vaccinated} edit={false} />
       </TabsContent>
       <TabsContent value="접종 완료">
-        <VaccineRecordList data={getFilteredVaccineData("접종 완료")} vaccinated={vaccinated} />
+        <VaccineRecordList data={getFilteredVaccineData("접종 완료")} vaccinated={vaccinated} edit={false} />
       </TabsContent>
       <TabsContent value="미접종">
-        <VaccineRecordList data={getFilteredVaccineData("미접종")} vaccinated={vaccinated} />
+        <VaccineRecordList data={getFilteredVaccineData("미접종")} vaccinated={vaccinated} edit={false} />
       </TabsContent>
     </Tabs>
   );
