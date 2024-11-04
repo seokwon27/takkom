@@ -1,4 +1,5 @@
 import { getVaccines } from "@/api/vaccineApi";
+import { getVaccineRecord } from "@/api/vaccineRecord/vaccineRecordApi";
 
 import CheckboxFormWrap from "@/components/vaccinerecord/CheckboxFormWrap";
 
@@ -14,6 +15,7 @@ interface VaccineRecordEditPageProps {
 }
 
 const VaccineRecordEditPage = async ({ params }: VaccineRecordEditPageProps) => {
+  const childId = params.id;
   const serverClient = createClient();
   const queryClient = new QueryClient();
 
@@ -25,12 +27,20 @@ const VaccineRecordEditPage = async ({ params }: VaccineRecordEditPageProps) => 
     }
   });
 
+  await queryClient.prefetchQuery({
+    queryKey: ["vaccine_record", childId],
+    queryFn: async () => {
+      const records = await getVaccineRecord(serverClient, childId);
+      return records.map((record) => record.vaccine_id);
+    }
+  });
+
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>
       <div className="flex flex-col gap-4">
         <h1 className="text-3xl">우리 아이 접종 내역</h1>
         <div className="flex flex-row justify-between"></div>
-        <CheckboxFormWrap child_id={params.id} />
+        <CheckboxFormWrap childId={params.id} />
       </div>
     </HydrationBoundary>
   );

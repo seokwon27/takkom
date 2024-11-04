@@ -9,7 +9,7 @@ import { useVaccineQuery, useVaccineRecordQuery } from "@/query/useVaccineRecord
 import { ReactNode } from "react";
 
 interface CheckboxFormProps {
-  child_id: string;
+  childId: string;
   onSuccess: () => void;
   children: ReactNode;
 }
@@ -18,9 +18,9 @@ type FormValues = {
   selectVaccines: string[];
 };
 
-const CheckboxForm = ({ child_id, onSuccess, children }: CheckboxFormProps) => {
+const CheckboxForm = ({ childId, onSuccess, children }: CheckboxFormProps) => {
   const { data: vaccineData } = useVaccineQuery();
-  const { data: recordData } = useVaccineRecordQuery(child_id);
+  const { data: recordData } = useVaccineRecordQuery(childId);
   const { mutateAsync: addVaccineRecord } = useAddVaccineRecordMutation();
   const { mutateAsync: deleteVaccineRecord } = useDeleteVaccineRecordMutation();
 
@@ -38,8 +38,8 @@ const CheckboxForm = ({ child_id, onSuccess, children }: CheckboxFormProps) => {
     const deleteVaccine = recordData?.filter((id) => !selectVaccines.includes(id));
 
     await Promise.all([
-      addVaccine.map((vaccine_id) => addVaccineRecord({ child_id, vaccine_id })),
-      deleteVaccine?.map((vaccine_id) => deleteVaccineRecord({ child_id, vaccine_id }))
+      addVaccine.map((vaccineId) => addVaccineRecord({ childId, vaccineId })),
+      deleteVaccine?.map((vaccineId) => deleteVaccineRecord({ childId, vaccineId }))
     ]);
 
     onSuccess();
