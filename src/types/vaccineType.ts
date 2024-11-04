@@ -6,3 +6,15 @@ export interface vaccineSchedule extends Omit<Vaccine, 'vaccinae_date' | 'durati
   startDate: string;
   endDate: string;
 };
+export type groupVaccinesData = groupVaccines[] | undefined;
+
+export interface groupVaccines {
+  diseaseName: string;
+  vaccines: VaccinesDetail[];
+}
+
+export interface VaccinesDetail {
+  vaccineName: string;
+  turns: number[];
+  ids: string[];
+}
