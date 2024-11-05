@@ -31,36 +31,54 @@ const VaccineRecord = ({ childId }: VaccineRecordProps) => {
   };
 
   return (
-    <div className="flex flex-col items-start p-[40px 32px] gap-2 self-stretch">
-      <Tabs defaultValue="전체" className="flex flex-col items-start gap-4 self-stretch">
-        <TabsList className="flex flex-row justify-between items-end self-stretch bg-transparent">
-          <div>
-            <TabsTrigger value="전체" className="rounded-md border">
+    <Tabs defaultValue="전체" className="flex flex-col items-start gap-4 self-stretch relative w-full flex-[0_0_auto]">
+      <TabsList className="flex justify-between items-center px-8 py-0 self-stretch w-full bg-transparent">
+        <div className="inline-flex items-center gap-2 relative ">
+          <TabsTrigger
+            value="전체"
+            className="group flex w-20 items-center justify-center gap-2.5 p-2 relative rounded-none data-[state=active]:border-b-2 data-[state=active]:border-gray-700"
+          >
+            <p className="relative w-fit mt-[-2.00px] text-gray-300 group-data-[state=active]:text-gray-700 whitespace-nowrap hover:text-gray-700">
               전체
-            </TabsTrigger>
-            <TabsTrigger value="접종 완료" className="rounded-md border">
+            </p>
+          </TabsTrigger>
+          <TabsTrigger
+            value="접종 완료"
+            className="group flex w-20 items-center justify-center gap-2.5 p-2 relative rounded-none data-[state=active]:border-b-2 data-[state=active]:border-gray-700 data-[state=active]:text-gray-700"
+          >
+            <p className="relative w-fit mt-[-2.00px] text-gray-300 group-data-[state=active]:text-gray-700 whitespace-nowrap hover:text-gray-700">
               접종완료
-            </TabsTrigger>
-            <TabsTrigger value="미접종" className="rounded-md border">
+            </p>
+          </TabsTrigger>
+          <TabsTrigger
+            value="미접종"
+            className="group flex w-20 items-center justify-center gap-2.5 p-2 relative rounded-none data-[state=active]:border-b-2 data-[state=active]:border-gray-700"
+          >
+            <p className="relative w-fit mt-[-2.00px] text-gray-300 group-data-[state=active]:text-gray-700 whitespace-nowrap hover:text-gray-700">
               미접종
-            </TabsTrigger>
-          </div>
-          <Link href={`/child/${childId}/edit2`}>
-            <Button>수정하기</Button>
-          </Link>
-        </TabsList>
+            </p>
+          </TabsTrigger>
+        </div>
+        <Link
+          href={`/child/${childId}/edit2`}
+          className="inline-flex justify-center gap-2.5 px-3 py-1.5 rounded-[15px] items-center"
+        >
+          <Button className="w-fit mt-[-1.00px] text-primary-300 whitespace-nowrap bg-transparent hover:bg-primary-50">
+            수정하기
+          </Button>
+        </Link>
+      </TabsList>
 
-        <TabsContent value="전체">
-          <VaccineRecordList data={getFilteredVaccineData("전체")} vaccinated={vaccinated} edit={false} />
-        </TabsContent>
-        <TabsContent value="접종 완료">
-          <VaccineRecordList data={getFilteredVaccineData("접종 완료")} vaccinated={vaccinated} edit={false} />
-        </TabsContent>
-        <TabsContent value="미접종">
-          <VaccineRecordList data={getFilteredVaccineData("미접종")} vaccinated={vaccinated} edit={false} />
-        </TabsContent>
-      </Tabs>
-    </div>
+      <TabsContent value="전체">
+        <VaccineRecordList data={getFilteredVaccineData("전체")} vaccinated={vaccinated} edit={false} />
+      </TabsContent>
+      <TabsContent value="접종 완료">
+        <VaccineRecordList data={getFilteredVaccineData("접종 완료")} vaccinated={vaccinated} edit={false} />
+      </TabsContent>
+      <TabsContent value="미접종">
+        <VaccineRecordList data={getFilteredVaccineData("미접종")} vaccinated={vaccinated} edit={false} />
+      </TabsContent>
+    </Tabs>
   );
 };
 

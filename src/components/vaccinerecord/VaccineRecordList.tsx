@@ -44,9 +44,19 @@ const VaccineRecordList = ({ data, vaccinated, edit, control }: VaccineRecordLis
           disease.map(({ diseaseName, ids, additions }) => (
             <li key={vaccineName} className="flex items-center gap-10 self-stretch px-4 rounded">
               <VaccineLabel additions={additions} />
-              <div>{diseaseName}</div>
+              <div className="inline-flex items-center gap-10 relative flex-[0_0_auto]">
+                <div className="flex w-[184px] items-center justify-center gap-2.5">
+                  <p className="flex-1 h-6 mt-[-1.00px] text-gray-700">{diseaseName}</p>
+                </div>
 
-              <div>{vaccineName}</div>
+                <div className="flex flex-col w-[132px] items-start gap-2.5 relative">
+                  <div className="flex w-[50px] h-6 items-start gap-2.5">
+                    <div className="flex items-center justify-center gap-2.5 px-2 py-0.5 self-stretch w-full flex-[0_0_auto]">
+                      <p className="w-fit text-gray-500 whitespace-nowrap">{vaccineName}</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
 
               <div className="flex items-center gap-3 flex-[1 0 0]">
                 {ids.map((id) =>
