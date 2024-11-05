@@ -7,7 +7,7 @@ const HomePage = () => {
       <div className="flex gap-6 mt-[77px] w-full max-w-[1200px] m-auto">
         <Link
           href={"/vaccineinfo"}
-          className="flex bg-[url('/vaccineInfoBg.svg')] px-12 py-20 rounded-3xl text-white w-[736px] h-[472px] relative"
+          className="flex bg-[url('/hompage/vaccineInfoBg.svg')] px-12 py-20 rounded-3xl text-white w-[736px] h-[472px] relative"
         >
           <img src="/hompage/linkPerson.svg" className="absolute -bottom-12 right-11" />
           <div className="flex flex-col justify-center gap-6">
