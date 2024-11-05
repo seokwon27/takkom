@@ -30,12 +30,20 @@ const ChildInfoEditPage = () => {
 
   return (
     <>
-      <h1>아이 정보 수정하기</h1>
-      {child ? (
-        <EditChildForm child={child} onComplete={() => router.push(`/child/`)} />
-      ) : (
-        <p>아이 정보를 불러올 수 없습니다.</p>
-      )}
+      <div className="flex flex-col justify-start items-start w-[588px] gap-20">
+        <div className="flex flex-col justify-start items-start flex-grow-0 flex-shrink-0 w-[207px] gap-6">
+          <div className="flex flex-col justify-start items-start self-stretch flex-grow-0 flex-shrink-0 relative gap-3">
+            <p className="self-stretch flex-grow-0 flex-shrink-0 w-[207px] text-[40px] font-bold text-left text-[#303030]">
+              수정하기
+            </p>
+          </div>
+        </div>
+        {child ? (
+          <EditChildForm child={child} onComplete={() => router.push(`/child/`)} />
+        ) : (
+          <p>아이 정보를 불러올 수 없습니다.</p>
+        )}
+      </div>
     </>
   );
 };

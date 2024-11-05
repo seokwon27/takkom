@@ -100,7 +100,7 @@ const EditChildForm = ({ child, onComplete }: EditFormProps) => {
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8  w-full">
         <FormField
           control={form.control}
           name="profile"
@@ -114,7 +114,7 @@ const EditChildForm = ({ child, onComplete }: EditFormProps) => {
                   onChange={(e) => setSelectedImage(e.target.files?.[0] ?? undefined)}
                 />
               </FormControl>
-              <FormDescription>아이의 프로필 이미지를 업로드해 주세요.</FormDescription>
+
               <FormMessage />
               {child.profile && (
                 <Image src={child.profile} alt="Current Profile" width={200} height={200} unoptimized />
@@ -135,7 +135,6 @@ const EditChildForm = ({ child, onComplete }: EditFormProps) => {
               <FormControl>
                 <Input placeholder="이름을 입력하세요" {...field} />
               </FormControl>
-              <FormDescription>아이의 이름을 입력해 주세요.</FormDescription>
               <FormMessage />
             </FormItem>
           )}
@@ -149,7 +148,6 @@ const EditChildForm = ({ child, onComplete }: EditFormProps) => {
               <FormControl>
                 <Input type="date" {...field} />
               </FormControl>
-              <FormDescription>아이의 생년월일을 입력해 주세요.</FormDescription>
               <FormMessage />
             </FormItem>
           )}
@@ -160,16 +158,18 @@ const EditChildForm = ({ child, onComplete }: EditFormProps) => {
           name="notes"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>특이사항</FormLabel>
+              <FormLabel>특이사항(선택)</FormLabel>
               <FormControl>
                 <Input placeholder="특이사항을 입력하세요" {...field} />
               </FormControl>
-              <FormDescription>아이에 대한 특이사항을 입력해 주세요.</FormDescription>
               <FormMessage />
             </FormItem>
           )}
         />
-        <Button type="submit" className="mt-4">
+        <Button
+          type="submit"
+          className="w-full h-14 text-lg font-semibold text-white rounded-xl p-6 bg-primary-400 hover:bg-primary-500"
+        >
           완료
         </Button>
       </form>
