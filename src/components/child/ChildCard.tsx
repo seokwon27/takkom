@@ -51,7 +51,7 @@ export const ChildCard = ({ child }: ChildCardProps) => {
                       <Image src="/birthdayIcon.svg" width={18} height={18} alt="케이크 아이콘" />
 
                       {/* 아이 생일 */}
-                      <p className="flex-grow-0 flex-shrink-0 text-xs font-medium text-center text-[#969696]">
+                      <p className="flex-grow-0 flex-shrink-0 text-xs font-medium text-center text-gray-400">
                         {child.birth}
                       </p>
                     </div>
@@ -64,9 +64,9 @@ export const ChildCard = ({ child }: ChildCardProps) => {
                   </p>
 
                   {/* 수정하기 */}
-                  <div className="flex justify-center items-center self-stretch flex-grow-0 flex-shrink-0 h-8 relative gap-[8.890547752380371px] p-[7.112438201904297px] rounded-[7.11px] bg-[#f2f2f2]">
+                  <div className="flex justify-center items-center self-stretch flex-grow-0 flex-shrink-0 h-8 relative gap-[8.890547752380371px] p-[7.112438201904297px] rounded-[7.11px] bg-gray-30">
                     <Link key={child.id} href={`/child/${child.id}/edit1`}>
-                      <button className="flex-grow-0 flex-shrink-0 text-xs font-medium text-center text-[#4a4a4a]">
+                      <button className="flex-grow-0 flex-shrink-0 text-xs font-medium text-center text-gray-700">
                         수정하기
                       </button>
                     </Link>
@@ -86,7 +86,7 @@ export const ChildCard = ({ child }: ChildCardProps) => {
           {/* 아이 기본 정보 컨테이너 끝 */}
 
           {/* 우리아이 접종 내역 전체 컨테이너 */}
-          <div className="flex justify-center items-start flex-grow h-52 gap-[288.0537414550781px] p-4 rounded-2xl bg-[#5c99ff]">
+          <div className="flex justify-center items-start flex-grow h-52 gap-[288.0537414550781px] p-4 rounded-2xl bg-primary-300">
             <div className="flex flex-col justify-between items-end self-stretch flex-grow">
               <div className="flex flex-col justify-start items-start self-stretch flex-grow gap-3">
                 {/* 우리 아이 접종 내역 타이틀 컨테이너 */}
@@ -112,7 +112,7 @@ export const ChildCard = ({ child }: ChildCardProps) => {
                   {/* <div className="flex justify-start items-start self-stretch flex-grow gap-2">
                     <div className="flex justify-center items-center self-stretch flex-grow relative gap-4 p-4 rounded-xl bg-white">
                       <div className="flex flex-col justify-center items-center self-stretch flex-grow relative gap-4">
-                        <p className="flex-grow-0 flex-shrink-0 text-base font-semibold text-left text-[#636363]">
+                        <p className="flex-grow-0 flex-shrink-0 text-base font-semibold text-left text-gray-600">
                           필수 접종
                         </p>
                         <p className="flex-grow-0 flex-shrink-0 text-sm font-semibold text-left text-[#ff7664]">4개</p>
@@ -162,8 +162,8 @@ export const ChildCard = ({ child }: ChildCardProps) => {
               </div>
 
               {/*  월 */}
-              {/* <div className="flex justify-start items-center flex-grow-0 flex-shrink-0 relative px-1.5 py-0.5 rounded bg-[#f2f2f2]">
-                <p className="flex-grow-0 flex-shrink-0 text-sm font-semibold text-left text-[#636363]">10월</p>
+              {/* <div className="flex justify-start items-center flex-grow-0 flex-shrink-0 relative px-1.5 py-0.5 rounded bg-gray-300">
+                <p className="flex-grow-0 flex-shrink-0 text-sm font-semibold text-left text-gray-600">10월</p>
                 <Image src={checkListIcon} alt="체크리스트 아이콘" />
               </div> */}
             </div>
