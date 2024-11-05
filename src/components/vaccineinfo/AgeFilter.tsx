@@ -24,25 +24,22 @@ const formatAgeText = (age: number) => {
 const AgeFilter = () => {
   const { subAgeGroup, selectedAge, setSelectedAge } = useAgeGroupStore();
   return (
-    <div className="items-start">
-      <p>{`선택된 연령: ${selectedAge}`}</p>
-      <div className="flex gap-3">
-        {subAgeGroup.length > 6
-          ? "전체"
-          : subAgeGroup.map((age) => {
-              return (
-                <div
-                  className={age === selectedAge ? `font-bold` : ""}
-                  key={`${age} 개월`}
-                  onClick={() => {
-                    setSelectedAge(age);
-                  }}
-                >
-                  {formatAgeText(age)}
-                </div>
-              );
-            })}
-      </div>
+    <div className="flex gap-3">
+      {subAgeGroup.length > 6
+        ? "전체"
+        : subAgeGroup.map((age) => {
+            return (
+              <div
+                className={age === selectedAge ? `font-bold` : ""}
+                key={`${age} 개월`}
+                onClick={() => {
+                  setSelectedAge(age);
+                }}
+              >
+                {formatAgeText(age)}
+              </div>
+            );
+          })}
     </div>
   );
 };
