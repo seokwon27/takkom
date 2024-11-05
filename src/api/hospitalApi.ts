@@ -180,20 +180,20 @@ export const getHospitalsMutliConditions = async (input: HospitalsMutliCondition
 
   if (!disease) {
     if (!org && !addr) {
-      console.log("addr & org 1 :", addr, org);
+      // console.log("addr & org 1 :", addr, org);
       const data = await getHospitals({ brtcCd, sggCd });
       return data;
     } else if (!org && addr) {
-      console.log("addr & org 2 :", addr, org);
+      // console.log("addr & org 2 :", addr, org);
       const data = await getHospitals({ brtcCd, sggCd, searchTpcd: "ADDR", searchWord: addr });
       return data;
     } else if (org && !addr) {
-      console.log("addr & org 3 :", addr, org);
+      // console.log("addr & org 3 :", addr, org);
       const data = await getHospitals({ brtcCd, sggCd, searchTpcd: "ORG", searchWord: org });
       return data;
     } else if (org && addr) {
       // else
-      console.log("addr & org 4 :", addr, org);
+      // console.log("addr & org 4 :", addr, org);
       const tmpData = await getHospitals({ brtcCd, sggCd, searchTpcd: "ORG", searchWord: org });
       if (tmpData.totalCount === 0) {
         return defaultHospitalData;
@@ -207,7 +207,7 @@ export const getHospitalsMutliConditions = async (input: HospitalsMutliCondition
     }
   } else if (disease) {
     if (!org && !addr) {
-      console.log("addr & org 5 :", addr, org);
+      // console.log("addr & org 5 :", addr, org);
       const tmpData = await getHospitals({ brtcCd, sggCd });
       if (tmpData.totalCount === 0) {
         return defaultHospitalData;
@@ -223,7 +223,7 @@ export const getHospitalsMutliConditions = async (input: HospitalsMutliCondition
       const maxPage = Math.ceil(totalCount / NUM_OF_CARDS_PER_PAGE);
       return { items, totalCount, maxPage };
     } else if (!org && addr) {
-      console.log("addr & org 6 :", addr, org);
+      // console.log("addr & org 6 :", addr, org);
       const tmpData = await getHospitals({ brtcCd, sggCd, searchTpcd: "ADDR", searchWord: addr });
       if (tmpData.totalCount === 0) {
         return defaultHospitalData;
@@ -239,7 +239,7 @@ export const getHospitalsMutliConditions = async (input: HospitalsMutliCondition
       const maxPage = Math.ceil(totalCount / NUM_OF_CARDS_PER_PAGE);
       return { items, totalCount, maxPage };
     } else if (org && !addr) {
-      console.log("addr & org 7 :", addr, org);
+      // console.log("addr & org 7 :", addr, org);
       const tmpData = await getHospitals({ brtcCd, sggCd, searchTpcd: "ORG", searchWord: org });
       if (tmpData.totalCount === 0) {
         return defaultHospitalData;
@@ -256,7 +256,7 @@ export const getHospitalsMutliConditions = async (input: HospitalsMutliCondition
       return { items, totalCount, maxPage };
     } else if (org && addr) {
       // else
-      console.log("addr & org 8 :", addr, org);
+      // console.log("addr & org 8 :", addr, org);
       const tmpData = await getHospitals({ brtcCd, sggCd, searchTpcd: "ORG", searchWord: org });
       if (tmpData.totalCount === 0) {
         return defaultHospitalData;
