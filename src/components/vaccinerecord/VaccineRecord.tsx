@@ -69,13 +69,13 @@ const VaccineRecord = ({ childId }: VaccineRecordProps) => {
         </Link>
       </TabsList>
 
-      <TabsContent value="전체">
+      <TabsContent value="전체" className="w-full">
         <VaccineRecordList data={getFilteredVaccineData("전체")} vaccinated={vaccinated} edit={false} />
       </TabsContent>
-      <TabsContent value="접종 완료">
+      <TabsContent value="접종 완료" className="w-full">
         <VaccineRecordList data={getFilteredVaccineData("접종 완료")} vaccinated={vaccinated} edit={false} />
       </TabsContent>
-      <TabsContent value="미접종">
+      <TabsContent value="미접종" className="w-full">
         <VaccineRecordList data={getFilteredVaccineData("미접종")} vaccinated={vaccinated} edit={false} />
       </TabsContent>
     </Tabs>
