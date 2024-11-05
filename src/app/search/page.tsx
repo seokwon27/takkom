@@ -8,7 +8,7 @@ const HospitalSearchPage = async () => {
   const regionInfo = await getRegionInfo();
 
   return (
-    <div className="w-full max-w-[792px] flex flex-col items-center mx-auto">
+    <div className="w-full max-w-[792px] grow flex flex-col items-center mx-auto">
       <Suspense fallback={<div>Loading...</div>}>
         <SearchForm brtcObj={brtcObj} regionInfo={regionInfo} />
       </Suspense>

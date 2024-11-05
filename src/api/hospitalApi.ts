@@ -1,6 +1,6 @@
 "use server";
 
-import { defaultHospitalData } from "@/components/hospital/constants";
+import { defaultHospitalData, NUM_OF_CARDS_PER_PAGE } from "@/components/hospital/constants";
 import { HopsitalItem, HospitalType, RegionType } from "@/types/hospital";
 import { XMLParser } from "fast-xml-parser";
 
@@ -160,7 +160,7 @@ export const getHospitals = async (
     }
   }
 
-  return { items: item, totalCount: body.totalCount, maxPage: Math.ceil(body.totalCount / 10) };
+  return { items: item, totalCount: body.totalCount, maxPage: Math.ceil(body.totalCount / NUM_OF_CARDS_PER_PAGE) };
 };
 
 // 병원 목록 가져오기 위한 input params
@@ -200,7 +200,7 @@ export const getHospitalsMutliConditions = async (input: HospitalsMutliCondition
       }
       const items = tmpData.items.filter((item) => item.orgAddr.includes(addr));
       const totalCount = items.length;
-      const maxPage = Math.ceil(totalCount / 10);
+      const maxPage = Math.ceil(totalCount / NUM_OF_CARDS_PER_PAGE);
       return { items, totalCount, maxPage };
     } else {
       return defaultHospitalData;
@@ -220,7 +220,7 @@ export const getHospitalsMutliConditions = async (input: HospitalsMutliCondition
         }
       });
       const totalCount = items.length;
-      const maxPage = Math.ceil(totalCount / 10);
+      const maxPage = Math.ceil(totalCount / NUM_OF_CARDS_PER_PAGE);
       return { items, totalCount, maxPage };
     } else if (!org && addr) {
       console.log("addr & org 6 :", addr, org);
@@ -236,7 +236,7 @@ export const getHospitalsMutliConditions = async (input: HospitalsMutliCondition
         }
       });
       const totalCount = items.length;
-      const maxPage = Math.ceil(totalCount / 10);
+      const maxPage = Math.ceil(totalCount / NUM_OF_CARDS_PER_PAGE);
       return { items, totalCount, maxPage };
     } else if (org && !addr) {
       console.log("addr & org 7 :", addr, org);
@@ -252,7 +252,7 @@ export const getHospitalsMutliConditions = async (input: HospitalsMutliCondition
         }
       });
       const totalCount = items.length;
-      const maxPage = Math.ceil(totalCount / 10);
+      const maxPage = Math.ceil(totalCount / NUM_OF_CARDS_PER_PAGE);
       return { items, totalCount, maxPage };
     } else if (org && addr) {
       // else
@@ -273,7 +273,7 @@ export const getHospitalsMutliConditions = async (input: HospitalsMutliCondition
         }
       });
       const totalCount = items.length;
-      const maxPage = Math.ceil(totalCount / 10);
+      const maxPage = Math.ceil(totalCount / NUM_OF_CARDS_PER_PAGE);
       return { items, totalCount, maxPage };
     } else {
       return defaultHospitalData;

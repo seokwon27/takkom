@@ -23,3 +23,5 @@ export const DISEASE_LIST = [
   "b형헤모필루스인플루엔자",
   "B형간염"
 ];
+
+export const NUM_OF_CARDS_PER_PAGE = 5;

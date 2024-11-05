@@ -20,7 +20,7 @@ const HospitalCard = ({ info, filter }: { info: HopsitalItem; filter?: string })
     : [vcnInfo?.vcnNm ?? "접종 정보가 없습니다."];
   //  drop-shadow-[0px_0px_16px_rgba(114,114,114,0.1)]
   return (
-    <div className="w-full h-fit min-h-[200px] flex border border-gray-30 rounded-3xl p-4 justify-between items-start shadow shadow-[0px_0px_16px_rgba(114,114,114,0.1)]">
+    <div className="w-full h-fit min-h-[200px] flex border border-gray-30 rounded-3xl p-4 justify-between items-start shadow-[0px_0px_16px_rgba(114,114,114,0.1)]">
       <div className="w-[160px] flex justify-center items-center bg-gray-10 rounded-xl aspect-square">
         <Image src={ambulance} alt="병원 이미지" />
       </div>

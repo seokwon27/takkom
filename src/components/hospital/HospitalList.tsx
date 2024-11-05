@@ -5,6 +5,7 @@ import React from "react";
 import HospitalCard from "./HospitalCard";
 import HospitalPagination from "./HospitalPagination";
 import { useHospitalQuery } from "@/query/useHospitalQuery";
+import { NUM_OF_CARDS_PER_PAGE } from "./constants";
 
 const HospitalList = () => {
   const searchParams = useSearchParams();
@@ -35,12 +36,12 @@ const HospitalList = () => {
   }
 
   return (
-    <div className="w-full flex flex-col mt-16">
+    <div className="w-full grow flex flex-col justify-between mt-16 mb-6">
       {hospitalData.totalCount === 0 ? (
         <p>검색 결과가 없습니다.</p>
       ) : (
         <ul className="grid grid-cols-[repeat(10, 1fr)] gap-6">
-          {hospitalData.items.slice(10 * (currentPage - 1), 10 * currentPage).map((info) => (
+          {hospitalData.items.slice(NUM_OF_CARDS_PER_PAGE * (currentPage - 1), NUM_OF_CARDS_PER_PAGE * currentPage).map((info) => (
             <li key={info.orgcd}>
               <HospitalCard info={info} filter={disease} />
             </li>
@@ -48,7 +49,7 @@ const HospitalList = () => {
         </ul>
       )}
       {hospitalData.totalCount > 0 && (
-        <div>
+        <div className="mt-6">
           <HospitalPagination
             maxPage={hospitalData.maxPage}
             currentPage={currentPage}
