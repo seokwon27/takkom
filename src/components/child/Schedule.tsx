@@ -3,7 +3,7 @@
 import { useChildrenQuery, useUserQuery } from "@/api/userApi";
 import browserClient from "@/utils/supabase/client";
 import React from "react";
-import ScheduleCarousel from "./ScheduleCarousel";
+import ScheduleTable from "./ScheduleTable";
 
 // 나중에 input으로 받을 것
 // child: 아이 정보
@@ -31,7 +31,7 @@ const Schedule = () => {
   return (
     <div className="mx-auto">
       <p>Schedule</p>
-      <ScheduleCarousel child={childrenData?.[0]} />
+      <ScheduleTable child={childrenData?.[0]} />
     </div>
   );
 };
