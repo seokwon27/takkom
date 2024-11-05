@@ -27,11 +27,11 @@ const AgeCard = ({ age }: { age: string }) => {
 };
 
 const CategorySvg: { [key: string]: string } = {
-  전체: "/category.svg",
-  신생아: "/newbornBaby.svg",
-  영아기: "/yeong-a.svg",
-  유아기: "/yua.svg",
-  아동기: "/children.svg"
+  전체: "/ageGroup/category.svg",
+  신생아: "/ageGroup/newbornBaby.svg",
+  영아기: "/ageGroup/yeong-a.svg",
+  유아기: "/ageGroup/yua.svg",
+  아동기: "/ageGroup/children.svg"
 };
 
 export default AgeGroup;
