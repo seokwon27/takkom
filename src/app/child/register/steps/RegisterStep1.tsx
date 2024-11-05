@@ -24,9 +24,9 @@ const RegisterStep1 = ({ onNext, childInfo }: RegisterStep1Props) => {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      name: childInfo.name || "",
-      birth: childInfo.birth || "",
-      notes: childInfo.notes || ""
+      name: childInfo.name ?? "",
+      birth: childInfo.birth ?? "",
+      notes: childInfo.notes ?? ""
     }
   });
 

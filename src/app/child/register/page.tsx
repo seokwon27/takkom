@@ -13,7 +13,7 @@ const RegisterPage = () => {
   return (
     <div className="flex justify-center items-center h-screen">
       <div>아이 등록하기 페이지</div>
-      <RegisterForm userId={user?.id || ""} />
+      <RegisterForm userId={user?.id ?? ""} />
     </div>
   );
 };

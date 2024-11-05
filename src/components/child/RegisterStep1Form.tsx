@@ -22,7 +22,7 @@ const RegisterStep1Form = ({ form, onSubmit, setSelectedImage }: RegisterStep1Fo
 
     // 연도가 4자리를 초과하지 않도록 설정
     if (year.length > 4) {
-      const formattedDate = `${year.slice(0, 4)}-${month || ""}-${day || ""}`;
+      const formattedDate = `${year.slice(0, 4)}-${month ?? ""}-${day ?? ""}`;
       field.onChange(formattedDate);
     } else {
       field.onChange(dateValue);
