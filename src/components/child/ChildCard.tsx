@@ -59,7 +59,7 @@ export const ChildCard = ({ child }: ChildCardProps) => {
                   {/* 이름 & 생년월일 끝 */}
 
                   {/* 아이 특이사항 */}
-                  <p className="self-stretch flex-grow-0 flex-shrink-0 w-40 h-[50px] text-xs font-medium text-left text-[#636363]">
+                  <p className="self-stretch flex-grow-0 flex-shrink-0 w-40 h-[50px] text-xs font-medium text-left text-gray-600">
                     {child.notes && <p>{child.notes}</p>}
                   </p>
 
@@ -119,7 +119,7 @@ export const ChildCard = ({ child }: ChildCardProps) => {
                       </div>
                       
                       <div className="flex flex-col justify-center items-center self-stretch flex-grow relative gap-4">
-                        <p className="flex-grow-0 flex-shrink-0 text-base font-semibold text-left text-[#636363]">
+                        <p className="flex-grow-0 flex-shrink-0 text-base font-semibold text-left text-gray-600">
                           선택 접종
                         </p>
                         <p className="flex-grow-0 flex-shrink-0 text-sm font-semibold text-left text-[#5ebe15]">2개</p>
@@ -158,7 +158,7 @@ export const ChildCard = ({ child }: ChildCardProps) => {
             <div className="flex justify-start items-center self-stretch flex-grow-0 flex-shrink-0 gap-2.5">
               <div className="flex justify-start items-center flex-grow-0 flex-shrink-0 relative gap-1">
                 <Image width={24} height={24} src="/checkListIcon.svg" alt="체크리스트 아이콘" />
-                <p className="flex-grow-0 flex-shrink-0 text-lg font-bold text-left text-[#4a4a4a]">접종 체크리스트</p>
+                <p className="flex-grow-0 flex-shrink-0 text-lg font-bold text-left text-gray-700">접종 체크리스트</p>
               </div>
 
               {/*  월 */}
