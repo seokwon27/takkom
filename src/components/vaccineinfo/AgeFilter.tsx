@@ -17,20 +17,20 @@ const formatAgeText = (age: number) => {
     return <p>출생 직후</p>;
   }
   if (age > 0 && age < 1) {
-    return <p>4주 이내</p>;
+    return <p>4주이내</p>;
   }
 };
 
 const AgeFilter = () => {
   const { subAgeGroup, selectedAge, setSelectedAge } = useAgeGroupStore();
   return (
-    <div className="flex gap-3">
+    <div className="flex gap-2 mt-20 mb-16">
       {subAgeGroup.length > 6
         ? "전체"
         : subAgeGroup.map((age) => {
             return (
               <div
-                className={age === selectedAge ? `font-bold` : ""}
+                className={`${age === selectedAge ? `font-bold border-gray-700 border-b-2` : ""} p-2`}
                 key={`${age} 개월`}
                 onClick={() => {
                   setSelectedAge(age);
