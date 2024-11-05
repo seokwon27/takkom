@@ -4,7 +4,12 @@ import { addDays, addMonths, format, isBefore, isEqual } from "date-fns";
 import { vaccineSchedule } from "@/types/vaccineType";
 
 export const getVaccines = async (supabaseClient: SupabaseDatabase) => {
-  const { data, error } = await supabaseClient.from("vaccine").select().order("vaccine_turn", { ascending: true });
+  const { data, error } = await supabaseClient
+    .from("vaccine")
+    .select()
+    .order("vaccine_turn", { ascending: true })
+    .order("disease_name", { ascending: true })
+    .order("additional", { ascending: false });
 
   if (error) throw Error(error.message);
 
