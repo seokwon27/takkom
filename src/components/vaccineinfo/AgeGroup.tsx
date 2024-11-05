@@ -19,7 +19,7 @@ const AgeCard = ({ age }: { age: string }) => {
   const { ageGroup, setAgeGroup } = useAgeGroupStore();
 
   return (
-    <div className="hover:cursor-pointer" onClick={() => setAgeGroup(age)}>
+    <div className="flex flex-col gap-3 hover:cursor-pointer text-lg font-semibold" onClick={() => setAgeGroup(age)}>
       <img src={`${CategorySvg[age]}`} alt={`${age}`} width="100" height="100" />
       <p className={`${age === ageGroup ? "text-[#303030]" : "text-[#B0B0B0]"}  text-lg font-semibold`}>{age}</p>
     </div>

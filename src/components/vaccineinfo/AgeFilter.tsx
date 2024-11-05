@@ -31,8 +31,8 @@ const AgeFilter = () => {
             return (
               <div
                 className={`${
-                  age === selectedAge ? `font-bold border-gray-700 border-b-2` : ""
-                } p-2 hover:cursor-pointer`}
+                  age === selectedAge ? ` border-gray-700 border-b-2 text-gray-700` : "text-gray-300"
+                } p-2 hover:cursor-pointer font-bold`}
                 key={`${age} 개월`}
                 onClick={() => {
                   setSelectedAge(age);
