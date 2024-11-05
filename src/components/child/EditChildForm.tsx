@@ -31,7 +31,7 @@ const EditChildForm = ({ child, onComplete }: EditFormProps) => {
       name: child.name,
       birth: child.birth,
       notes: child.notes ?? "",
-      profile: child.profile || DEFAULT_PROFILE_IMAGE_URL
+      profile: child.profile ?? DEFAULT_PROFILE_IMAGE_URL
     }
   });
 
