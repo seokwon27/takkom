@@ -6,7 +6,6 @@ import VaccineList from "@/components/vaccineinfo/VaccineList";
 const VaccineInfoPage = async () => {
   return (
     <div className="container flex flex-col max-w-[800px] mx-auto justify-center">
-      접종 정보 페이지
       <AgeGroup />
       <AgeFilter />
       <VaccineList />
