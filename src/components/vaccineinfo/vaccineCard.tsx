@@ -19,7 +19,7 @@ const VaccineCard = ({
     <div
       className={`${
         vaccineId === vaccine ? "border-primary-400" : ""
-      } border-[2px] border-gray-100 px-14 py-16 flex flex-col gap-8 rounded-3xl`}
+      } border-[2px] border-gray-100 px-14 py-16 flex flex-col gap-8 rounded-3xl max-h-[358px]`}
       onClick={() => {
         setCurrentDisease(disease ?? "");
         setVaccineId(vaccine);
