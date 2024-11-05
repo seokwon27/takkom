@@ -20,7 +20,7 @@ const VaccineNames = ({ vaccineNames, filter }: { vaccineNames: string[]; filter
       <span className={`${filteredVaccineIndex !== -1 && "font-semibold"}`}>{`${
         filteredVaccine || duplicatedVaccineNames[0]
       }`}</span>
-      {!isOpen && ` 외 ${duplicatedVaccineNames.length}개`}
+      {!isOpen && ` 외 ${filter ? duplicatedVaccineNames.length : duplicatedVaccineNames.length -1}개`}
     </span>
   );
 
@@ -47,7 +47,7 @@ const VaccineNames = ({ vaccineNames, filter }: { vaccineNames: string[]; filter
                 <SelectItem
                   value={name}
                   key={name}
-                  className="justify-start h-fit max-w-fit p-0 pl-[29px] pb-2 text-sm last:pb-0"
+                  className="justify-start h-fit max-w-fit p-0 pl-7 pb-2 last:pb-0 text-sm"
                 >
                   {name}
                 </SelectItem>
@@ -72,7 +72,7 @@ const VaccineNames = ({ vaccineNames, filter }: { vaccineNames: string[]; filter
                 <SelectItem
                   value={name}
                   key={name}
-                  className="justify-start h-fit max-w-fit p-0 pl-[29px] pb-2 text-sm last:pb-0"
+                  className="justify-start h-fit max-w-fit p-0 pl-7 pb-2 text-sm last:pb-0"
                 >
                   {name}
                 </SelectItem>
