@@ -21,7 +21,7 @@ const VaccineRecordPage = async ({ params }: VaccinatePageProps) => {
   await queryClient.prefetchQuery({
     queryKey: ["vaccines"],
     queryFn: async () => {
-      const vaccines = await serverClient;
+      const vaccines = await getVaccines(serverClient);
       return groupVaccines(vaccines);
     }
   });

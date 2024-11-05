@@ -36,7 +36,7 @@ const RegisterStep2 = ({ child, onPrev, onComplete }: RegisterStep2Props) => {
   // }, [child.id]);
   }, [supabase, child.id]); // 빌드 경고 해결 테스트: supabase를 의존성 배열에 추가
 
-  console.log("등록하려는 아이의 ID:", child.id);
+  // console.log("등록하려는 아이의 ID:", child.id);
 
   const router = useRouter();
   const onSuccess = () => {

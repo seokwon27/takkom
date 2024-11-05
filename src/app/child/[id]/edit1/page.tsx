@@ -18,7 +18,7 @@ const ChildInfoEditPage = () => {
   const userId = user?.id;
   const childId = Array.isArray(id) ? id[0] : id;
   const { data: child, isLoading, error } = useChildInfoQuery(userId, childId);
-  console.log(child);
+  // console.log(child);
 
   // 사용자 정보를 로드하는 동안 로딩 표시
   if (isUserLoading) return <p>로딩 중...</p>;

@@ -85,7 +85,7 @@ const RegisterStep1 = ({ onNext, childInfo }: RegisterStep1Props) => {
     }
 
     if (childData) {
-      console.log("데이터가 성공적으로 저장되었습니다. 아이 아이디: ", childData.id);
+      // console.log("데이터가 성공적으로 저장되었습니다. 아이 아이디: ", childData.id);
       onNext({
         id: childData.id,
         name,
