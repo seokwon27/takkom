@@ -9,7 +9,7 @@ const Header = async () => {
 
   return (
     <header
-      className={`w-full max-w-[1200px] flex justify-between items-center mx-auto sticky top-0 left-0 right-0 z-[100] bg-white mt-12`}
+      className={`w-full max-w-[1200px] flex justify-between items-center mx-auto pt-12 pb-4 sticky top-0 left-0 right-0 z-[100] bg-white`}
     >
       <Link href={"/"} className="max-w-[92px] max-h-[32px]">
         <img src="/따꼼.svg" />
