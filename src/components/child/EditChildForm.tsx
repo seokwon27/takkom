@@ -117,7 +117,7 @@ const EditChildForm = ({ child, onComplete }: EditFormProps) => {
               <FormDescription>아이의 프로필 이미지를 업로드해 주세요.</FormDescription>
               <FormMessage />
               {child.profile && (
-                <Image src={child.profile} alt="Current Profile" width={100} height={100} unoptimized />
+                <Image src={child.profile} alt="Current Profile" width={200} height={200} unoptimized />
               )}
               <Button type="button" onClick={handleDeleteImage} className="mt-2">
                 이미지 삭제
