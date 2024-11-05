@@ -30,7 +30,9 @@ const AgeFilter = () => {
         : subAgeGroup.map((age) => {
             return (
               <div
-                className={`${age === selectedAge ? `font-bold border-gray-700 border-b-2` : ""} p-2`}
+                className={`${
+                  age === selectedAge ? `font-bold border-gray-700 border-b-2` : ""
+                } p-2 hover:cursor-pointer`}
                 key={`${age} 개월`}
                 onClick={() => {
                   setSelectedAge(age);
