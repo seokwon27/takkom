@@ -36,7 +36,7 @@ const VaccineRecordPage = async ({ params }: VaccinatePageProps) => {
 
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>
-      <div className="flex flex-col gap-4">
+      <div className="flex flex-col gap-20 items-start self-stretch">
         <h1 className="text-3xl">우리 아이 접종 내역</h1>
         <VaccineRecord childId={childId} />
       </div>

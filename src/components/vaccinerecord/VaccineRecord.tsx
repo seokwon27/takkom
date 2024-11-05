@@ -21,8 +21,8 @@ const VaccineRecord = ({ childId }: VaccineRecordProps) => {
   const getFilteredVaccineData = (filter: "전체" | "접종 완료" | "미접종") => {
     if (filter === "전체") return vaccineData;
 
-    return vaccineData?.filter((disease) => {
-      const allCheckedVaccine = disease.vaccines.every((vaccine) => vaccine.ids.every((id) => vaccinated.has(id)));
+    return vaccineData?.filter((vaccine) => {
+      const allCheckedVaccine = vaccine.disease.every((disease) => disease.ids.every((id) => vaccinated.has(id)));
 
       if (filter === "접종 완료") return allCheckedVaccine;
 
@@ -31,34 +31,36 @@ const VaccineRecord = ({ childId }: VaccineRecordProps) => {
   };
 
   return (
-    <Tabs defaultValue="전체">
-      <TabsList className="flex flex-row justify-between bg-transparent">
-        <div>
-          <TabsTrigger value="전체" className="rounded-md border">
-            전체
-          </TabsTrigger>
-          <TabsTrigger value="접종 완료" className="rounded-md border">
-            접종완료
-          </TabsTrigger>
-          <TabsTrigger value="미접종" className="rounded-md border">
-            미접종
-          </TabsTrigger>
-        </div>
-        <Link href={`/child/${childId}/edit2`}>
-          <Button>수정하기</Button>
-        </Link>
-      </TabsList>
+    <div className="flex flex-col items-start p-[40px 32px] gap-2 self-stretch">
+      <Tabs defaultValue="전체" className="flex flex-col items-start gap-4 self-stretch">
+        <TabsList className="flex flex-row justify-between items-end self-stretch bg-transparent">
+          <div>
+            <TabsTrigger value="전체" className="rounded-md border">
+              전체
+            </TabsTrigger>
+            <TabsTrigger value="접종 완료" className="rounded-md border">
+              접종완료
+            </TabsTrigger>
+            <TabsTrigger value="미접종" className="rounded-md border">
+              미접종
+            </TabsTrigger>
+          </div>
+          <Link href={`/child/${childId}/edit2`}>
+            <Button>수정하기</Button>
+          </Link>
+        </TabsList>
 
-      <TabsContent value="전체">
-        <VaccineRecordList data={getFilteredVaccineData("전체")} vaccinated={vaccinated} edit={false} />
-      </TabsContent>
-      <TabsContent value="접종 완료">
-        <VaccineRecordList data={getFilteredVaccineData("접종 완료")} vaccinated={vaccinated} edit={false} />
-      </TabsContent>
-      <TabsContent value="미접종">
-        <VaccineRecordList data={getFilteredVaccineData("미접종")} vaccinated={vaccinated} edit={false} />
-      </TabsContent>
-    </Tabs>
+        <TabsContent value="전체">
+          <VaccineRecordList data={getFilteredVaccineData("전체")} vaccinated={vaccinated} edit={false} />
+        </TabsContent>
+        <TabsContent value="접종 완료">
+          <VaccineRecordList data={getFilteredVaccineData("접종 완료")} vaccinated={vaccinated} edit={false} />
+        </TabsContent>
+        <TabsContent value="미접종">
+          <VaccineRecordList data={getFilteredVaccineData("미접종")} vaccinated={vaccinated} edit={false} />
+        </TabsContent>
+      </Tabs>
+    </div>
   );
 };
 
