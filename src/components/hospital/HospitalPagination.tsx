@@ -46,7 +46,7 @@ const HospitalPagination = ({
               currentPage > 1 ? getStringQueryParams({ ...params, pageNo: String(currentPage - 1) }, pathname) : "#"
             }
             aria-disabled={currentPage === 1}
-            className="w-10 h-10 p-0 text-gray-300 ml-4"
+            className="w-10 h-10 p-0 text-gray-300 mr-4"
           />
         </PaginationItem>
         {maxPage >= 5 ? (

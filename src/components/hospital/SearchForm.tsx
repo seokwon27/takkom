@@ -31,7 +31,6 @@ const SearchForm = ({
   });
   const [disease, setDisease] = useState(searchParams.get("disease") || DISEASE);
   const [showInfoTag, setShowInfoTag] = useState(true);
-  const [isVaccineFilterOpen, setIsVaccineFilterOpen] = useState(false);
 
   return (
     <div className="w-full flex flex-col ">
@@ -122,7 +121,7 @@ const SearchForm = ({
           }}
           disabled={params.brtcCd === BRTC || params.sggCd === SGG}
           className={`text-center font-semibold focus-visible:ring-0 focus-visible:ring-offset-0 ${
-            params.addr ? "border-gray-700 text-gray-700" : "border-gray-300 text-gray-300"
+            params.addr ? "border-primary-400 text-primary-400" : "border-gray-300 text-gray-300"
           }`}
         />
         <Input
@@ -137,7 +136,7 @@ const SearchForm = ({
           }}
           disabled={params.brtcCd === BRTC || params.sggCd === SGG}
           className={`text-center font-semibold focus-visible:ring-0 focus-visible:ring-offset-0 ${
-            params.org ? "border-gray-700 text-gray-700" : "border-gray-300 text-gray-300"
+            params.org ? "border-primary-400 text-primary-400" : "border-gray-300 text-gray-300"
           }`}
         />
 
@@ -156,19 +155,8 @@ const SearchForm = ({
       <div className="w-full flex justify-end items-center">
         {searchParams.has("brtcCd") && searchParams.has("sggCd") && (
           <>
-            {disease !== DISEASE && (
-              <p
-                className="h-fit px-3 py-[6px] mr-2 bg-primary-50 ring-inset ring-1 ring-primary-400 rounded-[18px] text-primary-400 text-base"
-                onClick={() => {
-                  setIsVaccineFilterOpen((prev) => !prev);
-                }}
-              >
-                {disease}
-              </p>
-            )}
             <Select
               value={disease}
-              open={isVaccineFilterOpen}
               onValueChange={(value) => {
                 setDisease(value);
                 if (searchParams.has("brtcCd") && searchParams.has("sggCd")) {
@@ -181,53 +169,32 @@ const SearchForm = ({
                 }
               }}
             >
-              <SelectTrigger
-                className={`w-fit p-2 border-0 mr-2`}
-                onClick={() => {
-                  setIsVaccineFilterOpen((prev) => !prev);
-                }}
-              >
+              <SelectTrigger className={`w-fit p-2 border-0`}>
+                {disease !== DISEASE && (
+                  <p className="h-fit px-3 py-[6px] mr-4 bg-primary-50 ring-inset ring-1 ring-primary-400 rounded-[18px] text-primary-400 text-base">
+                    {disease}
+                  </p>
+                )}
                 {/* <SelectValue placeholder={DISEASE} /> */}
                 {disease === DISEASE ? (
                   <Image src={vaccineFilterOffIcon} alt="백신 찾기" />
                 ) : (
                   <Image src={vaccineFilterOnIcon} alt="백신 찾기" />
                 )}
-                <span
-                  className="ml-2 text-gray-700"
-                  onClick={() => {
-                    setIsVaccineFilterOpen((prev) => !prev);
-                  }}
-                >
-                  백신 찾기
-                </span>
+                <span className="ml-2 text-gray-700">백신 찾기</span>
               </SelectTrigger>
               <SelectContent
-                align="center"
+                align="end"
                 className="shadow-[0px_0px_16px_rgba(114,114,114,0.1)]"
                 avoidCollisions={false}
               >
                 {/** avoidCollision : 충돌이 발생하는 방향의 반대로 select가 열리게 하는 속성, 항상 아래로 열리도록 false로 변경 */}
                 <SelectGroup>
-                  <SelectItem
-                    value={DISEASE}
-                    key={DISEASE}
-                    className="justify-center"
-                    onClick={() => {
-                      setIsVaccineFilterOpen((prev) => !prev);
-                    }}
-                  >
+                  <SelectItem value={DISEASE} key={DISEASE} className="justify-center">
                     {DISEASE}
                   </SelectItem>
                   {DISEASE_LIST.map((name) => (
-                    <SelectItem
-                      value={name}
-                      key={name}
-                      className="justify-center"
-                      onClick={() => {
-                        setIsVaccineFilterOpen((prev) => !prev);
-                      }}
-                    >
+                    <SelectItem value={name} key={name} className="justify-center">
                       {name}
                     </SelectItem>
                   ))}

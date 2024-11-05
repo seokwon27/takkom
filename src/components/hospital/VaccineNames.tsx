@@ -16,7 +16,7 @@ const VaccineNames = ({ vaccineNames, filter }: { vaccineNames: string[]; filter
   }
 
   const placeHolder = (
-    <span className="text-sm">
+    <span className="text-sm line-clamp-1">
       <span className={`${filteredVaccineIndex !== -1 && "font-semibold"}`}>{`${
         filteredVaccine || duplicatedVaccineNames[0]
       }`}</span>
@@ -27,7 +27,7 @@ const VaccineNames = ({ vaccineNames, filter }: { vaccineNames: string[]; filter
   return (
     <>
       {vaccineNames.length === 1 ? (
-        <p>
+        <p  className="line-clamp-1">
           <span className={`${filteredVaccineIndex !== -1 && "font-semibold"}`}>{vaccineNames[0]}</span> 접종 가능
         </p>
       ) : filter ? (
@@ -62,7 +62,7 @@ const VaccineNames = ({ vaccineNames, filter }: { vaccineNames: string[]; filter
             setIsOpen(open);
           }}
         >
-        <SelectTrigger className={cn('h-fit p-1 justify-start border-0 rounded-none  bg-gray-10 text-sm', isOpen ? 'rounded-t': 'rounded')}>
+        <SelectTrigger className={cn('h-fit p-1 justify-start border-0 rounded-none  bg-gray-10 text-sm line', isOpen ? 'rounded-t': 'rounded')}>
           <SelectValue placeholder={placeHolder} />
         </SelectTrigger>
         <SelectContent className="max-h-[85px] mt-0 p-0 bg-gray-10 rounded-none rounded-b text-sm" avoidCollisions={false}>
