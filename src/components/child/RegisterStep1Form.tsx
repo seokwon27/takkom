@@ -45,7 +45,6 @@ const RegisterStep1Form = ({ form, onSubmit, setSelectedImage }: RegisterStep1Fo
                   onChange={(e) => setSelectedImage(e.target.files?.[0] ?? undefined)}
                 />
               </FormControl>
-              {/* <FormDescription>아이의 프로필 이미지를 업로드해 주세요.</FormDescription> */}
               <FormMessage />
             </FormItem>
           )}
@@ -60,7 +59,6 @@ const RegisterStep1Form = ({ form, onSubmit, setSelectedImage }: RegisterStep1Fo
               <FormControl>
                 <Input placeholder="ex. 김따꼼" {...field} className="w-full" />
               </FormControl>
-              {/* <FormDescription>아이의 이름을 입력해 주세요.</FormDescription> */}
               <FormMessage />
             </FormItem>
           )}
@@ -75,7 +73,6 @@ const RegisterStep1Form = ({ form, onSubmit, setSelectedImage }: RegisterStep1Fo
               <FormControl>
                 <Input type="date" {...field} onChange={(e) => handleDateChange(e, field)} />
               </FormControl>
-              {/* <FormDescription>아이의 생년월일을 입력해 주세요.</FormDescription> */}
               <FormMessage />
             </FormItem>
           )}
@@ -90,7 +87,6 @@ const RegisterStep1Form = ({ form, onSubmit, setSelectedImage }: RegisterStep1Fo
               <FormControl>
                 <Input placeholder="최대 200자" {...field} maxLength={200} />
               </FormControl>
-              {/* <FormDescription>아이에 대한 특이사항을 입력해 주세요.</FormDescription> */}
               <FormMessage />
             </FormItem>
           )}
