@@ -37,7 +37,7 @@ const MyPage = () => {
   }, [isUserLoading, isUserError, user, router]);
 
   return (
-    <section className="grid place-items-center gap-6 mt-[77px] w-full max-w-[1200px] m-auto">
+    <div className="grid place-items-center gap-6 mt-[77px] w-full max-w-[1200px] m-auto">
       <div className="w-[588.42px] h-[442.98px] flex-col justify-start items-start gap-16 inline-flex">
         {userData ? (
           <div className="w-[588px] h-[111.71px] bg-[#f4f8ff] rounded-[13.86px]">
@@ -62,11 +62,7 @@ const MyPage = () => {
               >
                 아이 정보 수정하기
               </Link>
-<<<<<<< HEAD
               <hr className="bg-gray-800 w-full" />
-=======
-
->>>>>>> 42ad4f3d5dacd551b685c5d7cd340a8412303bf1
               <Link
                 href={"/"}
                 className="self-stretch text-[#303030] text-base font-normal font-['ABeeZee'] leading-normal"
@@ -85,7 +81,7 @@ const MyPage = () => {
         </div>
       </div>
       <SignOut />
-    </section>
+    </div>
   );
 };
 
