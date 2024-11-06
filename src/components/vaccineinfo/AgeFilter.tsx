@@ -25,23 +25,25 @@ const AgeFilter = () => {
   const { subAgeGroup, selectedAge, setSelectedAge } = useAgeGroupStore();
   return (
     <div className="flex gap-2 mt-20 mb-16">
-      {subAgeGroup.length > 6
-        ? "전체"
-        : subAgeGroup.map((age) => {
-            return (
-              <div
-                className={`${
-                  age === selectedAge ? ` border-gray-700 border-b-2 text-gray-700` : "text-gray-300"
-                } p-2 hover:cursor-pointer font-bold`}
-                key={`${age} 개월`}
-                onClick={() => {
-                  setSelectedAge(age);
-                }}
-              >
-                {formatAgeText(age)}
-              </div>
-            );
-          })}
+      {subAgeGroup.length > 6 ? (
+        <p className=" border-gray-700 border-b-2 text-gray-700 p-2 hover:cursor-pointer font-bold">전체</p>
+      ) : (
+        subAgeGroup.map((age) => {
+          return (
+            <div
+              className={`${
+                age === selectedAge ? ` border-gray-700 border-b-2 text-gray-700` : "text-gray-300"
+              } p-2 hover:cursor-pointer font-bold`}
+              key={`${age} 개월`}
+              onClick={() => {
+                setSelectedAge(age);
+              }}
+            >
+              {formatAgeText(age)}
+            </div>
+          );
+        })
+      )}
     </div>
   );
 };
