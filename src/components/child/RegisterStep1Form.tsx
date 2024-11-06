@@ -1,4 +1,4 @@
-import { Form, FormField, FormItem, FormLabel, FormControl, FormDescription, FormMessage } from "@/components/ui/form";
+import { Form, FormField, FormItem, FormLabel, FormControl, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { z } from "zod";
@@ -31,7 +31,7 @@ const RegisterStep1Form = ({ form, onSubmit, setSelectedImage }: RegisterStep1Fo
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8 w-full">
         <FormField
           control={form.control}
           name="profileImage"
@@ -45,7 +45,6 @@ const RegisterStep1Form = ({ form, onSubmit, setSelectedImage }: RegisterStep1Fo
                   onChange={(e) => setSelectedImage(e.target.files?.[0] ?? undefined)}
                 />
               </FormControl>
-              <FormDescription>아이의 프로필 이미지를 업로드해 주세요.</FormDescription>
               <FormMessage />
             </FormItem>
           )}
@@ -58,9 +57,8 @@ const RegisterStep1Form = ({ form, onSubmit, setSelectedImage }: RegisterStep1Fo
             <FormItem>
               <FormLabel>이름</FormLabel>
               <FormControl>
-                <Input placeholder="이름을 입력하세요" {...field} />
+                <Input placeholder="ex. 김따꼼" {...field} className="w-full" />
               </FormControl>
-              <FormDescription>아이의 이름을 입력해 주세요.</FormDescription>
               <FormMessage />
             </FormItem>
           )}
@@ -75,7 +73,6 @@ const RegisterStep1Form = ({ form, onSubmit, setSelectedImage }: RegisterStep1Fo
               <FormControl>
                 <Input type="date" {...field} onChange={(e) => handleDateChange(e, field)} />
               </FormControl>
-              <FormDescription>아이의 생년월일을 입력해 주세요.</FormDescription>
               <FormMessage />
             </FormItem>
           )}
@@ -86,17 +83,19 @@ const RegisterStep1Form = ({ form, onSubmit, setSelectedImage }: RegisterStep1Fo
           name="notes"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>특이사항</FormLabel>
+              <FormLabel>특이사항(선택)</FormLabel>
               <FormControl>
-                <Input placeholder="특이사항을 입력하세요" {...field} />
+                <Input placeholder="최대 200자" {...field} maxLength={200} />
               </FormControl>
-              <FormDescription>아이에 대한 특이사항을 입력해 주세요.</FormDescription>
               <FormMessage />
             </FormItem>
           )}
         />
 
-        <Button type="submit" className="mt-4">
+
+        <Button
+          type="submit"
+          className="w-full h-14 text-lg font-semibold text-white rounded-xl p-6 bg-primary-400 hover:bg-primary-500">
           다음
         </Button>
       </form>

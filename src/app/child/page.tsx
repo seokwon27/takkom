@@ -21,14 +21,26 @@ const ChildPage = () => {
   if (error) return <p>오류가 발생했습니다: {error.message}</p>;
 
   return (
-    <div>
-      <h1>우리 아이 접종</h1>
-      <RegisterButton />
-      {children && children.length > 0 ? ( // children 배열을 확인
-        children.map((child) => <ChildCard key={child.id} child={child} />)
-      ) : (
-        <p>등록된 아이가 없습니다.</p>
-      )}
+    <div className="flex justify-center px-8 lg:px-12">
+      <div className="flex gap-8 max-w-[1200px] w-full">
+        {/* 좌측 사이드바 영역 */}
+        <aside className="w-1/4 flex-shrink-0">
+          <RegisterButton />
+        </aside>
+
+        {/* 메인 콘텐츠 영역 */}
+        <main className="flex-grow">
+          {children && children.length > 0 ? ( // children 배열을 확인
+            <div className="flex flex-col gap-4">
+              {children.map((child) => (
+                <ChildCard key={child.id} child={child} />
+              ))}
+            </div>
+          ) : (
+            <p>등록된 아이가 없습니다.</p>
+          )}
+        </main>
+      </div>
     </div>
   );
 };

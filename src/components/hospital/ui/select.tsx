@@ -25,7 +25,7 @@ const SelectTrigger = React.forwardRef<
     {...props}
   >
     <SelectPrimitive.Icon asChild>
-      <ChevronDown className="h-4 w-4 opacity-50" />
+      <ChevronDown className="h-4 w-7 text-gray-400 font-bold" color="#969696" strokeWidth={2.8}/>
     </SelectPrimitive.Icon>
     {children}
   </SelectPrimitive.Trigger>
@@ -81,7 +81,7 @@ const SelectContent = React.forwardRef<
         className={cn(
           "p-1",
           position === "popper" &&
-            "h-[var(--radix-select-trigger-height)] w-full min-w-[var(--radix-select-trigger-width)]"
+            "h-[var(--radix-select-trigger-height)] w-full w-[var(--radix-select-trigger-width)]"
         )}
       >
         {children}
