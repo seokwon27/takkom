@@ -55,19 +55,21 @@ const MyPage = () => {
         )}
         <div className="self-stretch h-[267.27px] flex-col justify-start items-center gap-20 flex">
           <div className="self-stretch h-[163.27px] flex-col justify-start items-start gap-6 flex">
-            <div className="self-stretch h-[45.63px] flex-col justify-start items-start gap-[21.63px] flex">
+            <div className="h-[45.63px] w-[588.42px] flex-col justify-start items-start gap-[21.63px] flex">
               <Link
                 href={"/child"}
                 className="self-stretch text-[#303030] text-base font-normal font-['ABeeZee'] leading-normal"
               >
                 아이 정보 수정하기
               </Link>
+              <hr className="bg-gray-800 w-full" />
               <Link
                 href={"/"}
                 className="self-stretch text-[#303030] text-base font-normal font-['ABeeZee'] leading-normal"
               >
                 개인정보 처리방침
               </Link>
+              <hr className="bg-gray-800 w-full" />
               <Link
                 href={"/"}
                 className="self-stretch text-[#303030] text-base font-normal font-['ABeeZee'] leading-normal"
@@ -77,9 +79,8 @@ const MyPage = () => {
             </div>
           </div>
         </div>
-
-        <SignOut />
       </div>
+      <SignOut />
     </section>
   );
 };
