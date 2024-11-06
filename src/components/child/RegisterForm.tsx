@@ -16,18 +16,18 @@ const RegisterForm: React.FC<ChildCardProps> = ({ userId }) => {
   const [childInfo, setChildInfo] = useState<Partial<Child>>({});
   const [step, setStep] = useState(1); // 기본적으로 1단계로 설정됨
 
-  // 다음 버튼 핸들러
+  // 다음 단계로 이동하는 함수
   const handleNext = (data: Partial<Child>) => {
     setChildInfo((prev) => ({ ...prev, ...data }));
     setStep(step + 1);
   };
 
-  // 이전 버튼 핸들러
+  // 이전 단계로 돌아가는 함수
   const handlePrevious = () => {
     setStep(step - 1);
   };
 
-  // 등록하기 버튼 핸들러
+  // 아이 정보를 최종 등록하는 함수
   const handleComplete = async () => {
     try {
       const supabase = browserClient;
@@ -35,16 +35,15 @@ const RegisterForm: React.FC<ChildCardProps> = ({ userId }) => {
       // 아이 정보 등록
       const { data, error } = await supabase
         .from("child") // "child" 테이블에 데이터 추가
-        .insert([{ ...childInfo, user_id: userId }]); // userId도 함께 전송
+        .insert([{ ...childInfo, user_id: userId }]); // userId를 포함하여 등록
 
       if (error) {
         throw error; // 에러 발생 시 예외 처리
       }
 
-      console.log("아이 등록 완료:", data); // 등록 완료 후 데이터 출력
-      // 페이지 이동 또는 상태 업데이트 등 추가 로직 처리
+      console.log("아이 등록 완료:", data); // 등록 완료 로그
     } catch (error) {
-      console.error("아이 등록 중 오류 발생:", error); // 에러 출력
+      console.error("아이 등록 중 오류 발생:", error); // 등록 오류 처리
     }
   };
 

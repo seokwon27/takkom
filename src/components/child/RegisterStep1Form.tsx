@@ -6,13 +6,13 @@ import { ControllerRenderProps, UseFormReturn } from "react-hook-form";
 import { formSchema } from "@/app/child/register/steps/RegisterStep1";
 
 interface RegisterStep1FormProps {
-  form: UseFormReturn<z.infer<typeof formSchema>>; // form prop의 타입 수정
-  onSubmit: (data: z.infer<typeof formSchema>) => Promise<void>; // 수정된 데이터 타입 사용
-  setSelectedImage: (file: File | undefined) => void;
+  form: UseFormReturn<z.infer<typeof formSchema>>; // form prop의 타입 지정
+  onSubmit: (data: z.infer<typeof formSchema>) => Promise<void>; // 데이터 제출 함수의 타입
+  setSelectedImage: (file: File | undefined) => void; // 프로필 이미지 선택 함수
 }
 
 const RegisterStep1Form = ({ form, onSubmit, setSelectedImage }: RegisterStep1FormProps) => {
-
+  // 생년월일 입력 시 형식을 맞추기 위한 함수
   const handleDateChange = (
     e: React.ChangeEvent<HTMLInputElement>,
     field: ControllerRenderProps<z.infer<typeof formSchema>, "birth">
@@ -32,6 +32,7 @@ const RegisterStep1Form = ({ form, onSubmit, setSelectedImage }: RegisterStep1Fo
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8 w-full">
+        {/* 프로필 이미지 입력 필드 */}
         <FormField
           control={form.control}
           name="profileImage"
@@ -50,6 +51,7 @@ const RegisterStep1Form = ({ form, onSubmit, setSelectedImage }: RegisterStep1Fo
           )}
         />
 
+        {/* 이름 입력 필드 */}
         <FormField
           control={form.control}
           name="name"
@@ -64,6 +66,7 @@ const RegisterStep1Form = ({ form, onSubmit, setSelectedImage }: RegisterStep1Fo
           )}
         />
 
+        {/* 생년월일 입력 필드 */}
         <FormField
           control={form.control}
           name="birth"
@@ -78,6 +81,7 @@ const RegisterStep1Form = ({ form, onSubmit, setSelectedImage }: RegisterStep1Fo
           )}
         />
 
+        {/* 특이사항 입력 필드 */}
         <FormField
           control={form.control}
           name="notes"
@@ -92,10 +96,11 @@ const RegisterStep1Form = ({ form, onSubmit, setSelectedImage }: RegisterStep1Fo
           )}
         />
 
-
+        {/* 다음 버튼 */}
         <Button
           type="submit"
-          className="w-full h-14 text-lg font-semibold text-white rounded-xl p-6 bg-primary-400 hover:bg-primary-500">
+          className="w-full h-14 text-lg font-semibold text-white rounded-xl p-6 bg-primary-400 hover:bg-primary-500"
+        >
           다음
         </Button>
       </form>
