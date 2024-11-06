@@ -1,7 +1,7 @@
 import { Checkbox } from "@/components/ui/checkbox";
-import BlankChecked from "../../../assets/icons/checkbox/blank-checkbox.svg";
-import RequiredChecked from "../../../assets/icons/checkbox/required-checkbox.svg";
-import NotRequiredChecked from "../../../assets/icons/checkbox/not-required-checkbox.svg";
+import BlankChecked from "../../../../public/icons/checkbox/blank-checkbox.svg";
+import RequiredChecked from "../../../../public/icons/checkbox/required-checkbox.svg";
+import NotRequiredChecked from "../../../../public/icons/checkbox/not-required-checkbox.svg";
 import Image from "next/image";
 
 interface CustomCheckboxProps {
