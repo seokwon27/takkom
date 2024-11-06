@@ -11,6 +11,7 @@ export const useHospitalQuery = (brtcCd: string, sggCd: string, addr: string, or
         return defaultHospitalData;
       }
     },
+    enabled: !!brtcCd && !!sggCd,
     staleTime: Infinity
   });
 };

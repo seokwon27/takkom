@@ -1,6 +1,8 @@
 import React from "react";
 import Image from "next/image";
 import { TableRow } from "@/components/ui/table";
+import selectiveIcon from "../../../public/child/selective-icon.svg"
+import essentialIcon from "../../../public/child/essential-icon.svg"
 
 type SchduleTableRowParams = {
   data: { disease: string; vaccineName: string; startDate: string; endDate: string; additional: boolean };
@@ -16,9 +18,9 @@ const ScheduleTableRow = ({ data }: SchduleTableRowParams) => {
         <p>{vaccineName}</p>
         <p>{date}</p>
         {additional ? (
-          <Image src={"/selectiveIcon.svg"} alt="선택" width={40} height={24} className="w-[40px] h-[24px]" />
+          <Image src={selectiveIcon} alt="선택" width={40} height={24} className="w-[40px] h-[24px]" />
         ) : (
-          <Image src={"/essentialIcon.svg"} alt="필수" width={40} height={24} className="w-[40px] h-[24px]" />
+          <Image src={essentialIcon} alt="필수" width={40} height={24} className="w-[40px] h-[24px]" />
         )}
       </div>
     </TableRow>

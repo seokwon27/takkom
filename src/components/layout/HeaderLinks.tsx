@@ -21,9 +21,9 @@ const HeaderLinks = () => {
       </li>
       <li>
         <Link
-          href={"/search"}
+          href={"/hospital"}
           className={`${
-            pathName.includes("/search") ? "font-bold text-primary-400" : "font-medium text-gray-800"
+            pathName.includes("/hospital") ? "font-bold text-primary-400" : "font-medium text-gray-800"
           } p-[10px]   `}
         >
           동네 병원 찾기
