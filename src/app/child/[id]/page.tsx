@@ -8,8 +8,8 @@ import { groupVaccines } from "@/utils/vaccineRecord/vaccinesRecord";
 import { dehydrate, HydrationBoundary, QueryClient } from "@tanstack/react-query";
 
 import Image from "next/image";
-import Vaccination11 from "../../../../public/images/vaccinerecord/vaccination1-1.svg";
-import Vaccination12 from "../../../../public/images/vaccinerecord/vaccination1-2.svg";
+import Vaccination11 from "../../../../public/vaccinerecord/vaccination1-1.svg";
+import Vaccination12 from "../../../../public/vaccinerecord/vaccination1-2.svg";
 
 interface VaccinatePageProps {
   params: {
@@ -45,7 +45,9 @@ const VaccineRecordPage = async ({ params }: VaccinatePageProps) => {
           <div className="inline-flex flex-col items-start gap-12">
             <Image src={Vaccination11} alt="Vaccination" className="w-20 h-20 object-cover relative" />
             <div className="inline-flex flex-col items-start gap-3 relative">
-              <h1 className="self-stretch mt-[-1.00px] text-gray-900 text-[32px] font-bold">우리 아이 접종 내역</h1>
+              <h1 className="self-stretch mt-[-1.00px] text-gray-900 text-[32px] font-bold">
+                우리 아이 접종 체크리스트
+              </h1>
             </div>
             <Image
               src={Vaccination12}
