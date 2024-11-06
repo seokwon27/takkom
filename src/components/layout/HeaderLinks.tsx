@@ -13,7 +13,7 @@ const HeaderLinks = () => {
         <Link
           href={"/vaccineinfo"}
           className={`${
-            pathName === "/vaccineinfo" ? "font-bold text-primary-400" : "font-medium text-gray-800"
+            pathName.includes("/vaccineinfo") ? "font-bold text-primary-400" : "font-medium text-gray-800"
           } p-[10px]   `}
         >
           연령별 예방접종 정보
@@ -23,7 +23,7 @@ const HeaderLinks = () => {
         <Link
           href={"/hospital"}
           className={`${
-            pathName === "/hospital" ? "font-bold text-primary-400" : "font-medium text-gray-800"
+            pathName.includes("/hospital") ? "font-bold text-primary-400" : "font-medium text-gray-800"
           } p-[10px]   `}
         >
           동네 병원 찾기
@@ -33,7 +33,7 @@ const HeaderLinks = () => {
         <Link
           href={"/child"}
           className={`${
-            pathName === "/child" ? "font-bold text-primary-400" : "font-medium text-gray-800"
+            pathName.includes("/child") ? "font-bold text-primary-400" : "font-medium text-gray-800"
           } p-[10px]   `}
         >
           우리 아이 맞춤형 플랜

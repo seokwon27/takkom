@@ -18,7 +18,7 @@ const SearchButton = () => {
           console.log(isModalOpen);
         }}
         variant={"vaccineinfo"}
-        className="p-6 hover:bg-primary-300"
+        className="p-6 hover:bg-primary-300 my-10"
       >
         <p>접종 가능한 병원 찾기</p>
       </Button>

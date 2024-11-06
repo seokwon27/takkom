@@ -4,6 +4,7 @@ import { useVaccineInfoQuery } from "@/query/useVaccineInfoQuery";
 import { useAgeGroupStore } from "@/utils/zustand/ageGroupStore";
 import VaccineCard from "./vaccineCard";
 import { useMemo, useState } from "react";
+import SearchButton from "./SearchButton";
 import {
   Pagination,
   PaginationContent,
@@ -66,7 +67,9 @@ const VaccineList = () => {
           />
         ))}
       </div>
-      <Pagination>
+      <SearchButton />
+
+      <Pagination className="mt-10">
         <PaginationContent>
           <PaginationItem>
             <PaginationPrevious href="#" onClick={() => handlePage(page - 1)} isActive={page > 1} />
