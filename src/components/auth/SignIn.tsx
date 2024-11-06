@@ -192,11 +192,11 @@ const SignIn = () => {
             <div className="self-stretch text-center text-[#4a4a4a] text-base font-normal font-['ABeeZee'] leading-normal mb-[24px] mt-[80px]">
               간편 로그인
             </div>
-            <div className="flex flex-row justify-center items-center gap-[24px] mb-[200px]">
-              <Button onClick={googleSignIn} className="bg-current hover:bg-current">
+            <div className="flex flex-row justify-center items-center gap-[24px] mb-[100px]">
+              <Button onClick={googleSignIn} className="bg-transparent hover:bg-transparent">
                 <Image src={google} alt="구글 소셜 로그인" />
               </Button>
-              <Button onClick={kakaoSignIn} className="bg-current hover:bg-current">
+              <Button onClick={kakaoSignIn} className="bg-transparent hover:bg-transparent">
                 <Image src={kakao} alt="카카오 소셜 로그인" />
               </Button>
             </div>

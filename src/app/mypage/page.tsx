@@ -40,8 +40,8 @@ const MyPage = () => {
     <div className="grid place-items-center gap-6 mt-[77px] w-full max-w-[1200px] m-auto">
       <div className="w-[588.42px] h-[442.98px] flex-col justify-start items-start gap-16 inline-flex">
         {userData ? (
-          <div className="w-[588px] h-[111.71px] bg-[#f4f8ff] rounded-[13.86px]">
-            <div className="grid place-items-center">
+          <div className="w-[588px] h-[112px] bg-[#f4f8ff] rounded-[13.86px]">
+            <div className="grid place-items-start ml-[24px] mt-[24px]">
               <div className="text-[#303030] text-lg font-bold font-['Pretendard'] leading-normal">
                 {userData.name}님 반갑습니다!
               </div>
