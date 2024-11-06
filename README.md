@@ -35,13 +35,15 @@
     <td align="center"><b>Designer</b></td>
   </tr>
   <tr>
-    <td align="center"><img src="https://avatars.githubusercontent.com/seokwon27" width="100px" /></td>
-    <td align="center"><img src="https://avatars.githubusercontent.com/joycie416" width="100px" /></td>
-    <td align="center"><img src="https://avatars.githubusercontent.com/sehee-jang" width="100px" /></td>
-    <td align="center"><img src="https://avatars.githubusercontent.com/stopbrother" width="100px" /></td>
-    <td align="center"><img src="https://avatars.githubusercontent.com/leeyeram84" width="100px" /></td>
-     <td align="center"><img src="https://avatars.githubusercontent.com/sehee-jang" width="100px" /></td>
+    <td align="center"><img width="94" alt="Sehee" src="https://github.com/user-attachments/assets/58793047-dde4-45c4-bc31-d1473935864f"></td>
+    <td align="center"><img width="94" alt="Sehee" src="https://github.com/user-attachments/assets/58793047-dde4-45c4-bc31-d1473935864f"></td>
+    <td align="center"><img width="94" alt="Sehee" src="https://github.com/user-attachments/assets/58793047-dde4-45c4-bc31-d1473935864f"></td>
+    <td align="center"><img width="94" alt="Sehee" src="https://github.com/user-attachments/assets/58793047-dde4-45c4-bc31-d1473935864f"></td>
+    <td align="center"><img width="94" alt="Sehee" src="https://github.com/user-attachments/assets/58793047-dde4-45c4-bc31-d1473935864f"></td>
+     <td align="center"><img width="94" alt="Sehee" src="https://github.com/user-attachments/assets/58793047-dde4-45c4-bc31-d1473935864f"></td>
   </tr>
+
+
   <tr>
     <td align="center"><b><a href="https://github.com/seokwon27">이석원</a></b></td>
     <td align="center"><b><a href="https://github.com/joycie416">조해인</a></b></td>
@@ -52,38 +54,62 @@
   </tr>
 </table>
 
-## 📅개발기간
-10/18~10/25: 주제 및 기획 선정 완료
-10/28~11/04: UI 컴포넌트의 기본 기능 개발
-11/04~11/07: MVP 기능 구현 완료 및 배포
-11/08~11/15: UT 테스트 기반 기능 개선 및 버그 수정 (예정)
-11/18~11/21: 최종 발표회 (예정)
+## 📅 개발 기간
+- **10/18 ~ 10/25**: 주제 및 기획 선정 완료
+- **10/28 ~ 11/04**: UI 컴포넌트의 기본 기능 개발
+- **11/04 ~ 11/07**: MVP 기능 구현 완료 및 배포
+- **11/08 ~ 11/15**: UT 테스트 기반 기능 개선 및 버그 수정 (예정)
+- **11/18 ~ 11/21**: 최종 발표회 (예정)
 
-## 기술스택
-<div style="text-align: left;">
-  <div style="margin: ; text-align: left;" "text-align: left;">
-    <img src="https://img.shields.io/badge/Next-black?style=for-the-badge&logo=next.js&logoColor=white">
-    <img src="https://img.shields.io/badge/React-61DAFB?style=for-the-badge&logo=react&logoColor=white">
-    <img src="https://img.shields.io/badge/TypeScript-007ACC?style=for-the-badge&logo=typescript&logoColor=white">
-     <img src="https://img.shields.io/badge/TanStack%20Query-0078D7?style=for-the-badge&logo=react-query&logoColor=white">
-    <img src="https://img.shields.io/badge/Zustand-2E7D32?style=for-the-badge&logo=zustand&logoColor=white">
-    <img src="https://img.shields.io/badge/Supabase-3ECF8E?style=for-the-badge&logo=supabase&logoColor=white">
-    <img src="https://img.shields.io/badge/ShadCN-4B0082?style=for-the-badge&logo=shadcn&logoColor=white">
-    <img src="https://img.shields.io/badge/React%20Form-61DAFB?style=for-the-badge&logo=react&logoColor=white">
-    <img src="https://img.shields.io/badge/Zod-2D3748?style=for-the-badge&logo=typescript&logoColor=white">
-    <img src="https://img.shields.io/badge/PWA-FFD700?style=for-the-badge&logo=progressive-web-apps&logoColor=black">
-    <img src="https://img.shields.io/badge/tailwindcss-%2338B2AC.svg?style=for-the-badge&logo=tailwind-css&logoColor=white">
-    <img src="https://img.shields.io/badge/fast--xml--parser-4F46B8?style=for-the-badge&logo=xml&logoColor=white">
-    <img src="https://img.shields.io/badge/date--fns-5A67D8?style=for-the-badge&logo=javascript&logoColor=white">
-    <img src="https://img.shields.io/badge/lucide--react-FF5555?style=for-the-badge&logo=lucide&logoColor=white">
-  <br/></div>
+
+## 기술 스택
+
+### 프론트엔드 프레임워크/라이브러리
+<div>
+  <img src="https://img.shields.io/badge/Next-black?style=for-the-badge&logo=next.js&logoColor=white">
+  <img src="https://img.shields.io/badge/React-61DAFB?style=for-the-badge&logo=react&logoColor=white">
+  <img src="https://img.shields.io/badge/TypeScript-007ACC?style=for-the-badge&logo=typescript&logoColor=white">
 </div>
 
-## 개발 환경 
-<div style="text-align: left;">
-  <div style="margin: ; text-align: left;" "text-align: left;">
-    <img src="https://img.shields.io/badge/Visual%20Studio%20Code-0078d7.svg?style=for-the-badge&logo=visual-studio-code&logoColor=white">
-    <img src="https://img.shields.io/badge/Github-181717?style=for-the-badge&logo=Github&logoColor=white">
-    <img src="https://img.shields.io/badge/Figma-F24E1E?style=for-the-badge&logo=Figma&logoColor=white">
-  <br/></div>
+### 상태 관리
+<div>
+  <img src="https://img.shields.io/badge/TanStack%20Query-0078D7?style=for-the-badge&logo=react-query&logoColor=white">
+  <img src="https://img.shields.io/badge/Zustand-2E7D32?style=for-the-badge&logo=zustand&logoColor=white">
 </div>
+
+### 데이터베이스 및 백엔드
+<div>
+  <img src="https://img.shields.io/badge/Supabase-3ECF8E?style=for-the-badge&logo=supabase&logoColor=white">
+</div>
+
+### UI 및 스타일링
+<div>
+  <img src="https://img.shields.io/badge/ShadCN-4B0082?style=for-the-badge&logo=shadcn&logoColor=white">
+  <img src="https://img.shields.io/badge/tailwindcss-%2338B2AC.svg?style=for-the-badge&logo=tailwind-css&logoColor=white">
+  <img src="https://img.shields.io/badge/lucide--react-FF5555?style=for-the-badge&logo=lucide&logoColor=white">
+</div>
+
+### 폼 및 데이터 유효성 검증
+<div>
+  <img src="https://img.shields.io/badge/React%20Form-61DAFB?style=for-the-badge&logo=react&logoColor=white">
+  <img src="https://img.shields.io/badge/Zod-2D3748?style=for-the-badge&logo=typescript&logoColor=white">
+</div>
+
+### PWA
+<div>
+  <img src="https://img.shields.io/badge/PWA-FFD700?style=for-the-badge&logo=progressive-web-apps&logoColor=black">
+</div>
+
+### 도구
+<div>
+  <img src="https://img.shields.io/badge/Visual%20Studio%20Code-0078d7.svg?style=for-the-badge&logo=visual-studio-code&logoColor=white">
+  <img src="https://img.shields.io/badge/Github-181717?style=for-the-badge&logo=Github&logoColor=white">
+  <img src="https://img.shields.io/badge/Figma-F24E1E?style=for-the-badge&logo=Figma&logoColor=white">
+</div>
+
+### 기타 유틸리티
+<div>
+  <img src="https://img.shields.io/badge/fast--xml--parser-4F46B8?style=for-the-badge&logo=xml&logoColor=white">
+  <img src="https://img.shields.io/badge/date--fns-5A67D8?style=for-the-badge&logo=javascript&logoColor=white">
+</div>
+
