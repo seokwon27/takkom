@@ -30,7 +30,7 @@ const ChildInfoEditPage = () => {
 
   return (
     <>
-      <div className="flex flex-col justify-start items-start w-[588px] gap-20">
+      <div className="flex flex-col justify-start items-start w-[588px] gap-20 mx-auto">
         <div className="flex flex-col justify-start items-start flex-grow-0 flex-shrink-0 w-[207px] gap-6">
           <div className="flex flex-col justify-start items-start self-stretch flex-grow-0 flex-shrink-0 relative gap-3">
             <p className="self-stretch flex-grow-0 flex-shrink-0 w-[207px] text-[40px] font-bold text-left text-[#303030]">
