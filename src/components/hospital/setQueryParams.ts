@@ -28,7 +28,7 @@ export const getStringQueryParams = (params: { [key: string]: string }, pathname
 
   if (!brtcCd || !sggCd) {
     console.error("잘못된 접근입니다.");
-    return;
+    return pathname;
   }
 
   if (brtcCd) searchParams.set("brtcCd", brtcCd);

@@ -1,5 +1,6 @@
 "use server";
 
+import { defaultHospitalData, NUM_OF_CARDS_PER_PAGE } from "@/components/hospital/constants";
 import { HopsitalItem, HospitalType, RegionType } from "@/types/hospital";
 import { XMLParser } from "fast-xml-parser";
 
@@ -121,7 +122,7 @@ export const getHospitals = async (
     method: "GET",
     // cache: "no-store",
     next: {
-      revalidate: 60 * 60,
+      revalidate: 60 * 60
     }
   });
   const data = await res.text();
@@ -130,7 +131,7 @@ export const getHospitals = async (
   let item = Array.isArray(body.items.item) ? body.items.item : [body.items.item];
 
   if (header.resultCode !== 0) {
-    return defaultData;
+    return defaultHospitalData;
   }
 
   if (body.maxPage > 1) {
@@ -159,7 +160,7 @@ export const getHospitals = async (
     }
   }
 
-  return { items: item, totalCount: body.totalCount, maxPage: Math.ceil(body.totalCount / 10) };
+  return { items: item, totalCount: body.totalCount, maxPage: Math.ceil(body.totalCount / NUM_OF_CARDS_PER_PAGE) };
 };
 
 // 병원 목록 가져오기 위한 input params
@@ -173,45 +174,43 @@ export type HospitalsMutliConditionParams = {
   disease?: string; // 접종명 필터
 };
 
-const defaultData: HospitalData = { items: [], totalCount: 0, maxPage: 1 };
-
 // 여러 조건에 대해 병원 모록 정보 가져오기
 export const getHospitalsMutliConditions = async (input: HospitalsMutliConditionParams) => {
   const { brtcCd, sggCd, addr, org, disease } = input;
 
   if (!disease) {
     if (!org && !addr) {
-      console.log("addr & org 1 :", addr, org);
+      // console.log("addr & org 1 :", addr, org);
       const data = await getHospitals({ brtcCd, sggCd });
       return data;
     } else if (!org && addr) {
-      console.log("addr & org 2 :", addr, org);
+      // console.log("addr & org 2 :", addr, org);
       const data = await getHospitals({ brtcCd, sggCd, searchTpcd: "ADDR", searchWord: addr });
       return data;
     } else if (org && !addr) {
-      console.log("addr & org 3 :", addr, org);
+      // console.log("addr & org 3 :", addr, org);
       const data = await getHospitals({ brtcCd, sggCd, searchTpcd: "ORG", searchWord: org });
       return data;
     } else if (org && addr) {
       // else
-      console.log("addr & org 4 :", addr, org);
+      // console.log("addr & org 4 :", addr, org);
       const tmpData = await getHospitals({ brtcCd, sggCd, searchTpcd: "ORG", searchWord: org });
       if (tmpData.totalCount === 0) {
-        return defaultData;
+        return defaultHospitalData;
       }
       const items = tmpData.items.filter((item) => item.orgAddr.includes(addr));
       const totalCount = items.length;
-      const maxPage = Math.ceil(totalCount / 10);
+      const maxPage = Math.ceil(totalCount / NUM_OF_CARDS_PER_PAGE);
       return { items, totalCount, maxPage };
     } else {
-      return defaultData;
+      return defaultHospitalData;
     }
   } else if (disease) {
     if (!org && !addr) {
-      console.log("addr & org 5 :", addr, org);
+      // console.log("addr & org 5 :", addr, org);
       const tmpData = await getHospitals({ brtcCd, sggCd });
       if (tmpData.totalCount === 0) {
-        return defaultData;
+        return defaultHospitalData;
       }
       const items = tmpData.items.filter((item) => {
         if (Array.isArray(item.vcnList.vcnInfo)) {
@@ -221,13 +220,13 @@ export const getHospitalsMutliConditions = async (input: HospitalsMutliCondition
         }
       });
       const totalCount = items.length;
-      const maxPage = Math.ceil(totalCount / 10);
+      const maxPage = Math.ceil(totalCount / NUM_OF_CARDS_PER_PAGE);
       return { items, totalCount, maxPage };
     } else if (!org && addr) {
-      console.log("addr & org 6 :", addr, org);
+      // console.log("addr & org 6 :", addr, org);
       const tmpData = await getHospitals({ brtcCd, sggCd, searchTpcd: "ADDR", searchWord: addr });
       if (tmpData.totalCount === 0) {
-        return defaultData;
+        return defaultHospitalData;
       }
       const items = tmpData.items.filter((item) => {
         if (Array.isArray(item.vcnList.vcnInfo)) {
@@ -237,13 +236,13 @@ export const getHospitalsMutliConditions = async (input: HospitalsMutliCondition
         }
       });
       const totalCount = items.length;
-      const maxPage = Math.ceil(totalCount / 10);
+      const maxPage = Math.ceil(totalCount / NUM_OF_CARDS_PER_PAGE);
       return { items, totalCount, maxPage };
     } else if (org && !addr) {
-      console.log("addr & org 7 :", addr, org);
+      // console.log("addr & org 7 :", addr, org);
       const tmpData = await getHospitals({ brtcCd, sggCd, searchTpcd: "ORG", searchWord: org });
       if (tmpData.totalCount === 0) {
-        return defaultData;
+        return defaultHospitalData;
       }
       const items = tmpData.items.filter((item) => {
         if (Array.isArray(item.vcnList.vcnInfo)) {
@@ -253,14 +252,14 @@ export const getHospitalsMutliConditions = async (input: HospitalsMutliCondition
         }
       });
       const totalCount = items.length;
-      const maxPage = Math.ceil(totalCount / 10);
+      const maxPage = Math.ceil(totalCount / NUM_OF_CARDS_PER_PAGE);
       return { items, totalCount, maxPage };
     } else if (org && addr) {
       // else
-      console.log("addr & org 8 :", addr, org);
+      // console.log("addr & org 8 :", addr, org);
       const tmpData = await getHospitals({ brtcCd, sggCd, searchTpcd: "ORG", searchWord: org });
       if (tmpData.totalCount === 0) {
-        return defaultData;
+        return defaultHospitalData;
       }
       const items = tmpData.items.filter((item) => {
         if (item.orgAddr.includes(addr)) {
@@ -274,10 +273,10 @@ export const getHospitalsMutliConditions = async (input: HospitalsMutliCondition
         }
       });
       const totalCount = items.length;
-      const maxPage = Math.ceil(totalCount / 10);
+      const maxPage = Math.ceil(totalCount / NUM_OF_CARDS_PER_PAGE);
       return { items, totalCount, maxPage };
     } else {
-      return defaultData;
+      return defaultHospitalData;
     }
   }
 };

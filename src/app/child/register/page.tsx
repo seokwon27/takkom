@@ -12,7 +12,6 @@ const RegisterPage = () => {
   if (isUserError) return <p>사용자 정보를 가져오는 데 오류가 발생했습니다.</p>;
   return (
     <div className="flex justify-center items-center h-screen">
-      <div>아이 등록하기 페이지</div>
       <RegisterForm userId={user?.id ?? ""} />
     </div>
   );
