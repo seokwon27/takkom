@@ -24,4 +24,4 @@ export const DISEASE_LIST = [
   "B형간염"
 ];
 
-export const NUM_OF_CARDS_PER_PAGE = 5;
+export const NUM_OF_CARDS_PER_PAGE = 10;

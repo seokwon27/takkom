@@ -7,11 +7,12 @@ import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectVa
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { BRTC, DISEASE, DISEASE_LIST, SGG } from "./constants";
-import infoCircle from "../../../public/infoCircle.svg";
-import { setQueryParams } from "./setQueryParams";
+import { setQueryParams } from "../../utils/hospital/setHospitalQueryParams";
 import InfoTag from "./InfoTag";
-import vaccineFilterOffIcon from "../../../public/vaccineFilterOffIcon.svg";
-import vaccineFilterOnIcon from "../../../public/vaccineFilterOnIcon.svg";
+import infoCircle from "../../../public/hospital/info-circle.svg";
+import vaccineFilterOffIcon from "../../../public/hospital/vaccine-filter-off-icon.svg";
+import vaccineFilterOnIcon from "../../../public/hospital/vaccine-filter-on-icon.svg";
+import { cn } from "@/lib/utils";
 
 const SearchForm = ({
   brtcObj,
@@ -44,7 +45,7 @@ const SearchForm = ({
         />
         <InfoTag isVisible={showInfoTag} />
       </div>
-      <form className="grid grid-cols-[144fr_144fr_144fr_195fr_100fr] gap-4 mb-4">
+      <form className="grid grid-cols-[144fr_144fr_144fr_196fr_100fr] gap-4 mb-4">
         <Select
           value={params.brtcCd}
           onValueChange={(value) => {
@@ -120,9 +121,12 @@ const SearchForm = ({
             });
           }}
           disabled={params.brtcCd === BRTC || params.sggCd === SGG}
-          className={`text-center font-semibold focus-visible:ring-0 focus-visible:ring-offset-0 ${
-            params.addr ? "border-primary-400 text-primary-400" : "border-gray-300 text-gray-300"
-          }`}
+          className={cn(
+            "bg-gray-30 border-0 text-gray-500 text-center font-semibold placeholder:text-gray-500",
+            "focus-visible:bg-white focus-visible:text-gray-600 focus-visible:placeholder:text-gray-600",
+            "focus-visible:ring-offset-0 focus-visible:ring-1 focus-visible:ring-inset focus-visible:ring-gray-700"
+            // params.addr ? "border-primary-400 text-primary-400" : "border-gray-300 text-gray-300"
+          )}
         />
         <Input
           placeholder="병원명"
@@ -135,9 +139,12 @@ const SearchForm = ({
             });
           }}
           disabled={params.brtcCd === BRTC || params.sggCd === SGG}
-          className={`text-center font-semibold focus-visible:ring-0 focus-visible:ring-offset-0 ${
-            params.org ? "border-primary-400 text-primary-400" : "border-gray-300 text-gray-300"
-          }`}
+          className={cn(
+            "bg-gray-30 border-0 text-gray-500 text-center font-semibold placeholder:text-gray-500",
+            "focus-visible:bg-white focus-visible:text-gray-600 focus-visible:placeholder:text-gray-600",
+            "focus-visible:ring-offset-0 focus-visible:ring-1 focus-visible:ring-inset focus-visible:ring-gray-700"
+            // params.org ? "border-primary-400 text-primary-400" : "border-gray-300 text-gray-300"
+          )}
         />
 
         <Button
@@ -153,56 +160,48 @@ const SearchForm = ({
         </Button>
       </form>
       <div className="w-full flex justify-end items-center">
-        {searchParams.has("brtcCd") && searchParams.has("sggCd") && (
-          <>
-            <Select
-              value={disease}
-              onValueChange={(value) => {
-                setDisease(value);
-                if (searchParams.has("brtcCd") && searchParams.has("sggCd")) {
-                  const brtcCd = searchParams.get("brtcCd") ?? "";
-                  const sggCd = searchParams.get("sggCd") ?? "";
-                  const addr = searchParams.get("addr") ?? "";
-                  const org = searchParams.get("org") ?? "";
-                  const params = { brtcCd, sggCd, addr, org, disease: value, pageNo: "1" };
-                  setQueryParams(params, router, pathname);
-                }
-              }}
-            >
-              <SelectTrigger className={`w-fit p-2 border-0`}>
-                {disease !== DISEASE && (
-                  <p className="h-fit px-3 py-[6px] mr-4 bg-primary-50 ring-inset ring-1 ring-primary-400 rounded-[18px] text-primary-400 text-base">
-                    {disease}
-                  </p>
-                )}
-                {/* <SelectValue placeholder={DISEASE} /> */}
-                {disease === DISEASE ? (
-                  <Image src={vaccineFilterOffIcon} alt="백신 찾기" />
-                ) : (
-                  <Image src={vaccineFilterOnIcon} alt="백신 찾기" />
-                )}
-                <span className="ml-2 text-gray-700">백신 찾기</span>
-              </SelectTrigger>
-              <SelectContent
-                align="end"
-                className="shadow-[0px_0px_16px_rgba(114,114,114,0.1)]"
-                avoidCollisions={false}
-              >
-                {/** avoidCollision : 충돌이 발생하는 방향의 반대로 select가 열리게 하는 속성, 항상 아래로 열리도록 false로 변경 */}
-                <SelectGroup>
-                  <SelectItem value={DISEASE} key={DISEASE} className="justify-center">
-                    {DISEASE}
-                  </SelectItem>
-                  {DISEASE_LIST.map((name) => (
-                    <SelectItem value={name} key={name} className="justify-center">
-                      {name}
-                    </SelectItem>
-                  ))}
-                </SelectGroup>
-              </SelectContent>
-            </Select>
-          </>
-        )}
+        <Select
+          value={disease}
+          onValueChange={(value) => {
+            setDisease(value);
+            if (searchParams.has("brtcCd") && searchParams.has("sggCd")) {
+              const brtcCd = searchParams.get("brtcCd") ?? "";
+              const sggCd = searchParams.get("sggCd") ?? "";
+              const addr = searchParams.get("addr") ?? "";
+              const org = searchParams.get("org") ?? "";
+              const params = { brtcCd, sggCd, addr, org, disease: value, pageNo: "1" };
+              setQueryParams(params, router, pathname);
+            }
+          }}
+        >
+          <SelectTrigger className={`w-fit p-2 border-0`}>
+            {disease !== DISEASE && (
+              <p className="h-fit px-3 py-[6px] mr-4 bg-primary-50 ring-inset ring-1 ring-primary-400 rounded-[18px] text-primary-400 text-base">
+                {disease}
+              </p>
+            )}
+            {/* <SelectValue placeholder={DISEASE} /> */}
+            {disease === DISEASE ? (
+              <Image src={vaccineFilterOffIcon} alt="백신 찾기" />
+            ) : (
+              <Image src={vaccineFilterOnIcon} alt="백신 찾기" />
+            )}
+            <span className="ml-2 text-gray-700">백신 찾기</span>
+          </SelectTrigger>
+          <SelectContent align="end" className="shadow-[0px_0px_16px_rgba(114,114,114,0.1)]" avoidCollisions={false}>
+            {/** avoidCollision : 충돌이 발생하는 방향의 반대로 select가 열리게 하는 속성, 항상 아래로 열리도록 false로 변경 */}
+            <SelectGroup>
+              <SelectItem value={DISEASE} key={DISEASE} className="justify-center">
+                {DISEASE}
+              </SelectItem>
+              {DISEASE_LIST.map((name) => (
+                <SelectItem value={name} key={name} className="justify-center">
+                  {name}
+                </SelectItem>
+              ))}
+            </SelectGroup>
+          </SelectContent>
+        </Select>
       </div>
     </div>
   );
