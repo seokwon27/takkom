@@ -1,7 +1,9 @@
 "use client";
 
+import Image from "next/image";
 import { ModalRef } from "./SearchButton";
 import SelectBrtc from "./SelectBrtc";
+import closeBtn from "../../../public/icon/close-btn.svg";
 
 export const SearchModal = ({
   isOpen,
@@ -29,7 +31,7 @@ export const SearchModal = ({
         <div className="text-left">
           <div className="text-right">
             <button onClick={() => onClose()} className="w-6 h-6">
-              <img src="/icon/closeBtn.svg" alt="closeBtn" />
+              <Image src={closeBtn} alt="closeBtn" />
             </button>
           </div>
           <h1 className="text-gray-800 text-lg font-semibold">지역을 선택해 주세요.</h1>
