@@ -8,8 +8,8 @@ import { groupVaccines } from "@/utils/vaccineRecord/vaccinesRecord";
 import { dehydrate, HydrationBoundary, QueryClient } from "@tanstack/react-query";
 
 import Image from "next/image";
-import Vaccination11 from "../../../../assets/images/vaccinerecord/vaccination-1-1.png";
-import Vaccination12 from "../../../../assets/images/vaccinerecord/vaccination-1-2.png";
+import Vaccination11 from "../../../../../public/images/vaccinerecord/vaccination1-1.svg";
+import Vaccination12 from "../../../../../public/images/vaccinerecord/vaccination1-2.svg";
 
 interface VaccineRecordEditPageProps {
   params: {
