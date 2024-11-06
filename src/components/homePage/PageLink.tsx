@@ -5,6 +5,9 @@ import searchIcon from "../../../public/homepage/Search-icon.svg";
 import handHeart from "../../../public/homepage/child-link-icon.svg";
 import addCircle from "../../../public/homepage/add-circle.svg";
 import hospital from "../../../public/homepage/hospital.svg";
+import ambulance from "../../../public/homepage/ambule-small.svg";
+import injector from "../../../public/homepage/injector.svg";
+import pill from "../../../public/homepage/pill.svg";
 
 const PageLink = () => {
   return (
@@ -53,7 +56,11 @@ const PageLink = () => {
                 <p className="text-[#008F5D] text-lg font-semibold">어디에서 접종 하나요?</p>
                 <p className="text-gray-800 text-[32px] font-bold">우리 동네 병원 찾기</p>
               </div>
-              <div>아이콘</div>
+              <div className="flex gap-2">
+                <Image src={injector} alt="주사기" />
+                <Image src={ambulance} alt="구급차" />
+                <Image src={pill} alt="약" />
+              </div>
             </div>
             <div>
               <Image src={hospital} alt="병원" className="" />
