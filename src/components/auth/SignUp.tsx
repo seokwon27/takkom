@@ -12,7 +12,7 @@ import browserClient from "@/utils/supabase/client";
 import { AuthFormSignUp } from "@/types/user";
 import { Eye, EyeOff } from "lucide-react";
 import Image from "next/image";
-import kkom from "../../../public/따꼼.svg";
+import kkom from "../../../public/logo.svg";
 
 const SignUp = () => {
   // 비밀번호 표시 상태 관리

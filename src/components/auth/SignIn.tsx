@@ -14,7 +14,7 @@ import { Eye, EyeOff } from "lucide-react";
 import Link from "next/link";
 import google from "../../../public/Auth/signin/google.png";
 import kakao from "../../../public/Auth/signin/kakaotalk.svg";
-import kkom from "../../../public/따꼼.svg";
+import kkom from "../../../public/logo.svg";
 import Image from "next/image";
 
 const SignIn = () => {
