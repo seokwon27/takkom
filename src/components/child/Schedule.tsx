@@ -29,7 +29,7 @@ const Schedule = () => {
   }
 
   return (
-    <div className="mx-auto">
+    <div className="mx-auto w-full">
       <ScheduleTable child={childrenData?.[0]} />
     </div>
   );

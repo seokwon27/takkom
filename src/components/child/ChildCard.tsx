@@ -4,6 +4,9 @@ import Image from "next/image";
 import { DEFAULT_PROFILE_IMAGE_URL } from "@/utils/supabase/client";
 import Link from "next/link";
 import Schedule from "./Schedule";
+import cakeIcon from "../../../public/child/cake-icon.svg";
+import injectorIcon from "../../../public/child/injector-icon.svg";
+import rightArrowIcon from "../../../public/child/right-arrow-icon.svg";
 
 interface ChildCardProps {
   child?: Child; // 등록된 child가 없으면 undefined일 수 있음
@@ -48,7 +51,7 @@ export const ChildCard = ({ child }: ChildCardProps) => {
                     {/* 아이 생일 영역 */}
                     <div className="flex justify-center items-center flex-grow-0 flex-shrink-0 relative gap-1">
                       {/* 케이크 아이콘 */}
-                      <Image src="/birthdayIcon.svg" width={18} height={18} alt="케이크 아이콘" />
+                      <Image src={cakeIcon} alt="케이크 아이콘" />
 
                       {/* 아이 생일 */}
                       <p className="flex-grow-0 flex-shrink-0 text-xs font-medium text-center text-gray-400">
@@ -79,7 +82,7 @@ export const ChildCard = ({ child }: ChildCardProps) => {
 
               {/* 카메라 아이콘 */}
               {/* <div className="flex flex-col justify-center items-center flex-grow-0 flex-shrink-0 h-10 w-10 absolute left-[124px] top-[124px] overflow-hidden gap-2.5 p-0.5 rounded-[20px] bg-white">
-                <Image src="/cameraIcon.svg" width={40} height={40} alt="카메라 아이콘" />
+                <Image src={cameraIcon} alt="카메라 아이콘" />
               </div> */}
             </div>
           </div>
@@ -91,8 +94,7 @@ export const ChildCard = ({ child }: ChildCardProps) => {
               <div className="flex flex-col justify-start items-start self-stretch flex-grow gap-3">
                 {/* 우리 아이 접종 내역 타이틀 컨테이너 */}
                 <div className="flex justify-center items-center self-stretch flex-grow-0 flex-shrink-0 relative gap-4">
-                  <Image src="/injectorIcon.svg" width={40} height={40} alt="주사기 아이콘" />
-
+                  <Image src={injectorIcon} alt="주사기 아이콘" />
                   <div className="flex flex-col justify-center items-start flex-grow relative gap-1">
                     <p className="flex-grow-0 flex-shrink-0 text-xl font-bold text-left text-white">
                       우리 아이 접종 내역
@@ -105,7 +107,7 @@ export const ChildCard = ({ child }: ChildCardProps) => {
                 <div className="flex flex-col justify-start items-start self-stretch flex-grow gap-2">
                   {/* 필수 접종 & 선택 접종 */}
                   {/* <p className="text-white">아이의 접종 내역을 한눈에 확인하세요!</p> */}
-                  <p className="text-white">
+                  <p className="text-white text-sm">
                     접종 완료 내역과 앞으로의 접종 일정을 간편하게 관리하세요! 아이의 건강 기록을 손쉽게 확인할 수
                     있습니다.
                   </p>
@@ -136,7 +138,7 @@ export const ChildCard = ({ child }: ChildCardProps) => {
                         </p>
                       </Link>
                     </div>
-                    <Image src="/rightArrowIcon.svg" width={18} height={18} alt="오른쪽 화살표 아이콘" />
+                    <Image src={rightArrowIcon} alt="오른쪽 화살표 아이콘" />
                   </div>
                   {/* 자세히 보기 컨테이너 끝 */}
                 </div>
@@ -149,29 +151,7 @@ export const ChildCard = ({ child }: ChildCardProps) => {
         {/* 아이 기본 정보 & 우리 아이 접종 내역 컨테이너 끝*/}
 
         {/* 접종 체크리스트 */}
-
-        <div
-          className="flex flex-col justify-start items-center self-stretch flex-grow-0 flex-shrink-0 h-[276px] overflow-hidden gap-2.5 p-6 rounded-2xl bg-white"
-          style={{ boxShadow: "0px 0px 12px 0 rgba(114,114,114,0.1)" }}
-        >
-          <div className="flex flex-col justify-start items-start self-stretch flex-grow-0 flex-shrink-0 gap-6">
-            <div className="flex justify-start items-center self-stretch flex-grow-0 flex-shrink-0 gap-2.5">
-              <div className="flex justify-start items-center flex-grow-0 flex-shrink-0 relative gap-1">
-                <Image width={24} height={24} src="/checkListIcon.svg" alt="체크리스트 아이콘" />
-                <p className="flex-grow-0 flex-shrink-0 text-lg font-bold text-left text-gray-700">접종 체크리스트</p>
-              </div>
-
-              {/*  월 */}
-              {/* <div className="flex justify-start items-center flex-grow-0 flex-shrink-0 relative px-1.5 py-0.5 rounded bg-gray-300">
-                <p className="flex-grow-0 flex-shrink-0 text-sm font-semibold text-left text-gray-600">10월</p>
-                <Image src={checkListIcon} alt="체크리스트 아이콘" />
-              </div> */}
-            </div>
-            <div>
-              <Schedule />
-            </div>
-          </div>
-        </div>
+        <Schedule />
       </div>
     </>
   );
