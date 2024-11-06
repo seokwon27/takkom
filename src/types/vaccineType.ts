@@ -2,19 +2,21 @@ import { Tables } from "../../database.types";
 
 export type Vaccine = Tables<"vaccine">;
 
-export interface vaccineSchedule extends Omit<Vaccine, 'vaccinae_date' | 'duration'> {
+export interface vaccineSchedule extends Omit<Vaccine, "vaccinae_date" | "duration"> {
   startDate: string;
   endDate: string;
-};
+}
+
 export type groupVaccinesData = groupVaccines[] | undefined;
 
 export interface groupVaccines {
-  diseaseName: string;
-  vaccines: VaccinesDetail[];
+  vaccineName: string;
+  disease: DiseaseDetail[];
 }
 
-export interface VaccinesDetail {
-  vaccineName: string;
+export interface DiseaseDetail {
+  diseaseName: string;
   turns: number[];
   ids: string[];
+  additions: boolean[];
 }
