@@ -6,19 +6,23 @@ import { useRouter } from "next/navigation";
 import { Button } from "../ui/button";
 
 interface CheckboxFormWrapProps {
-  child_id: string;
+  childId: string;
 }
 
-const CheckboxFormWrap = ({ child_id }: CheckboxFormWrapProps) => {
+const CheckboxFormWrap = ({ childId }: CheckboxFormWrapProps) => {
   const router = useRouter();
 
   const onSuccess = () => {
-    router.push(`/child/${child_id}`);
+    router.push(`/child/${childId}`);
   };
 
   return (
-    <CheckboxForm child_id={child_id} onSuccess={onSuccess}>
-      <Button>등록하기</Button>
+    <CheckboxForm childId={childId} onSuccess={onSuccess}>
+      <div className="flex flex-col items-start gap-6 relative self-stretch w-full mt-20">
+        <Button className="flex h-[72px] p-[16px 24px] justify-center items-center gap-[10px] self-stretch rounded-xl bg-[#2979FF]">
+          등록 완료
+        </Button>
+      </div>
     </CheckboxForm>
   );
 };
