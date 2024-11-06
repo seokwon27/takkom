@@ -1,98 +1,127 @@
 "use client";
 
-import { Controller, useForm } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { Form, FormMessage } from "../ui/form";
-import { Checkbox } from "../ui/checkbox";
 
 import { useAddVaccineRecordMutation, useDeleteVaccineRecordMutation } from "@/query/useVaccineRecordMutation";
 import { useVaccineQuery, useVaccineRecordQuery } from "@/query/useVaccineRecordQuery";
 import { ReactNode } from "react";
+import VaccineRecordList from "./VaccineRecordList";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "../ui/tabs";
 
 interface CheckboxFormProps {
-  child_id: string;
+  childId: string;
   onSuccess: () => void;
   children: ReactNode;
 }
 
-type FormValues = {
+export type FormValues = {
   selectVaccines: string[];
 };
 
-const CheckboxForm = ({ child_id, onSuccess, children }: CheckboxFormProps) => {
+const CheckboxForm = ({ childId, onSuccess, children }: CheckboxFormProps) => {
   const { data: vaccineData } = useVaccineQuery();
-  const { data: recordData } = useVaccineRecordQuery(child_id);
+  const { data: vaccineRecord } = useVaccineRecordQuery(childId);
   const { mutateAsync: addVaccineRecord } = useAddVaccineRecordMutation();
   const { mutateAsync: deleteVaccineRecord } = useDeleteVaccineRecordMutation();
 
+  const vaccinated = new Set(vaccineRecord || []);
+
   const form = useForm<FormValues>({
     defaultValues: {
-      selectVaccines: recordData || []
+      selectVaccines: Array.from(vaccinated)
     }
   });
 
   const onSubmit = async (values: FormValues) => {
-    const { selectVaccines } = values;
+    const selected = new Set(values.selectVaccines);
 
-    const addVaccine = selectVaccines.filter((id) => !recordData?.includes(id));
+    const addVaccine = Array.from(selected).filter((id) => !vaccinated.has(id));
 
-    const deleteVaccine = recordData?.filter((id) => !selectVaccines.includes(id));
+    const deleteVaccine = Array.from(vaccinated).filter((id) => !selected.has(id));
 
     await Promise.all([
-      addVaccine.map((vaccine_id) => addVaccineRecord({ child_id, vaccine_id })),
-      deleteVaccine?.map((vaccine_id) => deleteVaccineRecord({ child_id, vaccine_id }))
+      addVaccine.map((vaccineId) => addVaccineRecord({ childId, vaccineId })),
+      deleteVaccine?.map((vaccineId) => deleteVaccineRecord({ childId, vaccineId }))
     ]);
 
     onSuccess();
   };
 
+  const getFilteredVaccineData = (filter: "전체" | "접종 완료" | "미접종") => {
+    if (filter === "전체") return vaccineData;
+
+    return vaccineData?.filter((vaccine) => {
+      const allCheckedVaccine = vaccine.disease.every((disease) => disease.ids.every((id) => vaccinated.has(id)));
+
+      if (filter === "접종 완료") return allCheckedVaccine;
+
+      if (filter === "미접종") return !allCheckedVaccine;
+    });
+  };
+
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)}>
-        <ul className="gird gap-4">
-          <li className="grid grid-cols-[2fr_1fr] text-center gap-4">
-            <div className="bg-slate-300">예방접종명</div>
-            <div className="bg-slate-300">횟수</div>
-          </li>
-          {vaccineData?.map((disease) => (
-            <li key={disease.diseaseName} className="grid grid-cols-[2fr_1fr] gap-4">
-              <div className="grid grid-cols-2">
-                <div>{disease.diseaseName}</div>
+        <Tabs
+          defaultValue="전체"
+          className="flex flex-col items-start gap-4 self-stretch relative w-full flex-[0_0_auto]"
+        >
+          <TabsList className="flex justify-between items-center px-8 py-0 self-stretch w-full bg-transparent">
+            <div className="inline-flex items-center gap-2 relative ">
+              <TabsTrigger
+                value="전체"
+                className="group flex w-20 items-center justify-center gap-2.5 p-2 relative rounded-none data-[state=active]:border-b-2 data-[state=active]:border-gray-700"
+              >
+                <p className="relative w-fit mt-[-2.00px] text-gray-300 group-data-[state=active]:text-gray-700 whitespace-nowrap hover:text-gray-700">
+                  전체
+                </p>
+              </TabsTrigger>
+              <TabsTrigger
+                value="접종 완료"
+                className="group flex w-20 items-center justify-center gap-2.5 p-2 relative rounded-none data-[state=active]:border-b-2 data-[state=active]:border-gray-700 data-[state=active]:text-gray-700"
+              >
+                <p className="relative w-fit mt-[-2.00px] text-gray-300 group-data-[state=active]:text-gray-700 whitespace-nowrap hover:text-gray-700">
+                  접종완료
+                </p>
+              </TabsTrigger>
+              <TabsTrigger
+                value="미접종"
+                className="group flex w-20 items-center justify-center gap-2.5 p-2 relative rounded-none data-[state=active]:border-b-2 data-[state=active]:border-gray-700"
+              >
+                <p className="relative w-fit mt-[-2.00px] text-gray-300 group-data-[state=active]:text-gray-700 whitespace-nowrap hover:text-gray-700">
+                  미접종
+                </p>
+              </TabsTrigger>
+            </div>
+          </TabsList>
 
-                <div className="flex flex-col">
-                  {disease.vaccines.map((vaccine) => (
-                    <div key={vaccine.vaccineName}>
-                      <div>{vaccine.vaccineName}</div>
-                    </div>
-                  ))}
-                </div>
-              </div>
+          <TabsContent value="전체" className="w-full">
+            <VaccineRecordList
+              data={getFilteredVaccineData("전체")}
+              vaccinated={vaccinated}
+              edit={true}
+              control={form.control}
+            />
+          </TabsContent>
+          <TabsContent value="접종 완료" className="w-full">
+            <VaccineRecordList
+              data={getFilteredVaccineData("접종 완료")}
+              vaccinated={vaccinated}
+              edit={true}
+              control={form.control}
+            />
+          </TabsContent>
+          <TabsContent value="미접종" className="w-full">
+            <VaccineRecordList
+              data={getFilteredVaccineData("미접종")}
+              vaccinated={vaccinated}
+              edit={true}
+              control={form.control}
+            />
+          </TabsContent>
+        </Tabs>
 
-              <div>
-                {disease.vaccines.map((vaccine) => (
-                  <div key={vaccine.vaccineName}>
-                    {vaccine.ids.map((id) => (
-                      <Controller
-                        key={id}
-                        control={form.control}
-                        name="selectVaccines"
-                        render={({ field }) => (
-                          <Checkbox
-                            checked={field.value.includes(id)}
-                            onCheckedChange={(isChecked) => {
-                              const newValue = isChecked ? [...field.value, id] : field.value.filter((v) => v !== id);
-                              console.log("newValue", newValue);
-                              field.onChange(newValue);
-                            }}
-                          />
-                        )}
-                      />
-                    ))}
-                  </div>
-                ))}
-              </div>
-            </li>
-          ))}
-        </ul>
         {children}
         <FormMessage />
       </form>
