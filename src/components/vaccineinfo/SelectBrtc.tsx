@@ -30,9 +30,9 @@ const SelectBrtc = () => {
   };
 
   return (
-    <div className="flex flex-col gap-12">
-      <div className="flex gap-2">
-        <div className=" w-32">
+    <div className="flex flex-col gap-10 ">
+      <div className="flex gap-2 w-full">
+        <div className="w-[144px]">
           <Select
             value={brtc}
             onValueChange={(value) => {
@@ -44,7 +44,7 @@ const SelectBrtc = () => {
               <SelectValue placeholder="시/도" />
             </SelectTrigger>
             <SelectContent>
-              <SelectGroup>
+              <SelectGroup className="z-[100]">
                 {isPending
                   ? "도시 정보"
                   : brtcObj.map((item) => {
@@ -62,7 +62,7 @@ const SelectBrtc = () => {
         </div>
 
         <div>
-          <div className=" w-32">
+          <div className="w-[144px]">
             <Select
               value={sgg}
               onValueChange={(value) => {

@@ -1,6 +1,5 @@
 "use client";
 import { useAgeGroupStore } from "@/utils/zustand/ageGroupStore";
-import SampleSVG from "../../../public/sampleIcon.svg";
 
 const AgeGroup = () => {
   return (
@@ -20,11 +19,19 @@ const AgeCard = ({ age }: { age: string }) => {
   const { ageGroup, setAgeGroup } = useAgeGroupStore();
 
   return (
-    <div onClick={() => setAgeGroup(age)}>
-      <img src={SampleSVG.src} alt={`${age}sample`} width="140" height="140" />
-      <p className={`${age === ageGroup ? "border-gray-400" : "border-gray-30"} mt-1  border-b-2`}>{age}</p>
+    <div className="flex flex-col gap-3 hover:cursor-pointer text-lg font-semibold" onClick={() => setAgeGroup(age)}>
+      <img src={`${CategorySvg[age]}`} alt={`${age}`} width="100" height="100" />
+      <p className={`${age === ageGroup ? "text-[#303030]" : "text-[#B0B0B0]"}  text-lg font-semibold`}>{age}</p>
     </div>
   );
+};
+
+const CategorySvg: { [key: string]: string } = {
+  전체: "/ageGroup/category.svg",
+  신생아: "/ageGroup/newbornBaby.svg",
+  영아기: "/ageGroup/yeong-a.svg",
+  유아기: "/ageGroup/yua.svg",
+  아동기: "/ageGroup/children.svg"
 };
 
 export default AgeGroup;
