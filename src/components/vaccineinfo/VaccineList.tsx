@@ -55,7 +55,7 @@ const VaccineList = () => {
 
   return (
     <>
-      <div className="grid grid-cols-2 gap-6 min-h-[800px]">
+      <div className="grid grid-cols-2 gap-6 min-h-[800px] mb-4">
         {currentPageData.map((item) => (
           <VaccineCard
             key={item.id}
