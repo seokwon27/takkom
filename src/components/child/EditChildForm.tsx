@@ -11,47 +11,51 @@ import { useState } from "react";
 import Image from "next/image";
 
 interface EditFormProps {
-  child: Child;
-  onComplete: () => void;
+  child: Child; // 수정할 자식 데이터
+  onComplete: () => void; // 수정 완료 후 호출될 함수
 }
 
+// 입력값 검증을 위한 Zod 스키마 정의
 const formSchema = z.object({
-  name: z.string().min(1, { message: "이름은 필수입니다." }),
-  birth: z.string().min(1, { message: "생년월일은 필수입니다." }),
-  notes: z.string().optional(),
-  profile: z.union([z.instanceof(File), z.string()]).optional()
+  name: z.string().min(1, { message: "이름은 필수입니다." }), // 이름 필드 검증
+  birth: z.string().min(1, { message: "생년월일은 필수입니다." }), // 생년월일 필드 검증
+  notes: z.string().optional(), // 특이사항은 선택 항목
+  profile: z.union([z.instanceof(File), z.string()]).optional() // 프로필 이미지 (파일 또는 URL)
 });
 
 const EditChildForm = ({ child, onComplete }: EditFormProps) => {
+  // 이미지 파일 상태 관리
   const [selectedImage, setSelectedImage] = useState<File | undefined>(undefined);
 
+  // react-hook-form 초기화
   const form = useForm({
-    resolver: zodResolver(formSchema),
+    resolver: zodResolver(formSchema), // Zod 스키마를 사용한 폼 유효성 검사
     defaultValues: {
-      name: child.name,
-      birth: child.birth,
-      notes: child.notes ?? "",
-      profile: child.profile ?? DEFAULT_PROFILE_IMAGE_URL
+      name: child.name, // 기본 값: 기존 자식의 이름
+      birth: child.birth, // 기본 값: 기존 자식의 생년월일
+      notes: child.notes ?? "", // 기본 값: 기존 자식의 특이사항 (없을 경우 빈 문자열)
+      profile: child.profile ?? DEFAULT_PROFILE_IMAGE_URL // 기본 값: 기존 자식의 프로필 이미지, 없으면 기본 이미지
     }
   });
 
   // 이미지 업로드 함수
   const uploadImage = async (file: File): Promise<string | null> => {
-    const fileName = `public/${Date.now()}_${file.name}`;
+    const fileName = `public/${Date.now()}_${file.name}`; // 파일 이름 생성: 파일 이름 중복을 방지하기 위해 '등록현재날짜_파일이름' 형식으로 지정
     const { error } = await browserClient.storage.from("profiles").upload(fileName, file, {
-      cacheControl: "3600",
-      upsert: true
+      cacheControl: "3600", // 1시간 동안 캐시 유지
+      upsert: true // 기존 파일이 있으면 덮어씌움
     });
 
     if (error) {
-      console.error("이미지 업로드 오류:", error);
+      console.error("이미지 업로드 오류:", error); // 업로드 오류 처리
       return null;
     }
 
     const { data: publicUrlData } = browserClient.storage.from("profiles").getPublicUrl(fileName);
-    return publicUrlData?.publicUrl ?? null;
+    return publicUrlData?.publicUrl ?? null; // 이미지 URL 반환
   };
 
+  // 폼 제출 함수
   const onSubmit = async (data: z.infer<typeof formSchema>) => {
     const supabase = browserClient;
     const profileImageUrl = selectedImage ? await uploadImage(selectedImage) : child.profile;
@@ -61,27 +65,28 @@ const EditChildForm = ({ child, onComplete }: EditFormProps) => {
     const { error } = await supabase
       .from("child")
       .update({
-        name: data.name,
-        birth: data.birth,
-        notes: data.notes,
-        profile: profileUrl
+        name: data.name, // 이름 업데이트
+        birth: data.birth, // 생년월일 업데이트
+        notes: data.notes, // 특이사항 업데이트
+        profile: profileUrl // 프로필 이미지 업데이트
       })
-      .eq("id", child.id);
+      .eq("id", child.id); // 해당 자식 ID에 대한 업데이트
 
     if (error) {
-      console.error("수정 중 오류 발생:", error);
+      console.error("수정 중 오류 발생:", error); // 오류 처리
       return;
     }
 
     onComplete(); // 완료 후 부모 컴포넌트에 통보
   };
 
+  // 프로필 이미지 삭제 함수
   const handleDeleteImage = async () => {
     // 프로필 이미지를 삭제하고 기본 이미지로 변경
     const { error } = await browserClient.storage.from("profiles").remove([child.profile]); // 기존 이미지를 삭제합니다.
 
     if (error) {
-      console.error("이미지 삭제 오류:", error);
+      console.error("이미지 삭제 오류:", error); // 삭제 오류 처리
       return;
     }
 
@@ -90,7 +95,7 @@ const EditChildForm = ({ child, onComplete }: EditFormProps) => {
     await supabase
       .from("child")
       .update({
-        profile: DEFAULT_PROFILE_IMAGE_URL
+        profile: DEFAULT_PROFILE_IMAGE_URL // 기본 이미지로 변경
       })
       .eq("id", child.id);
 
@@ -101,6 +106,7 @@ const EditChildForm = ({ child, onComplete }: EditFormProps) => {
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8  w-full">
+        {/* 프로필 이미지 업로드 필드 */}
         <FormField
           control={form.control}
           name="profile"
@@ -110,7 +116,7 @@ const EditChildForm = ({ child, onComplete }: EditFormProps) => {
               <FormControl>
                 <Input
                   type="file"
-                  accept="image/*"
+                  accept="image/*" // 이미지 파일만 업로드 가능
                   onChange={(e) => setSelectedImage(e.target.files?.[0] ?? undefined)}
                 />
               </FormControl>
@@ -126,6 +132,7 @@ const EditChildForm = ({ child, onComplete }: EditFormProps) => {
           )}
         />
 
+        {/* 이름 입력 필드 */}
         <FormField
           control={form.control}
           name="name"
@@ -139,6 +146,8 @@ const EditChildForm = ({ child, onComplete }: EditFormProps) => {
             </FormItem>
           )}
         />
+
+        {/* 생년월일 입력 필드 */}
         <FormField
           control={form.control}
           name="birth"
@@ -153,6 +162,7 @@ const EditChildForm = ({ child, onComplete }: EditFormProps) => {
           )}
         />
 
+        {/* 특이사항 입력 필드 (선택 항목) */}
         <FormField
           control={form.control}
           name="notes"
@@ -166,6 +176,8 @@ const EditChildForm = ({ child, onComplete }: EditFormProps) => {
             </FormItem>
           )}
         />
+
+        {/* 완료 버튼 */}
         <Button
           type="submit"
           className="w-full h-14 text-lg font-semibold text-white rounded-xl p-6 bg-primary-400 hover:bg-primary-500"
