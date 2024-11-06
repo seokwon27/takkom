@@ -17,7 +17,7 @@ const PageLink = () => {
         className="flex bg-[url('/homepage/vaccineInfo-bg.svg')] px-12 py-20 rounded-3xl text-white w-[736px] h-[472px] relative"
       >
         <Image src={linkPerson} alt="사람아이콘" className="absolute -bottom-12 right-11" />
-        <div className="flex flex-col justify-center gap-6">
+        <div className="flex flex-col justify-start gap-6 pt-6">
           <div className="z-10">
             <p className="text-[32px] font-bold">지금 아이에게 필요한</p>
             <p className="text-[40px] font-bold">예방 접종 정보 확인하기</p>
