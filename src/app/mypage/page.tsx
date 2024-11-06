@@ -62,7 +62,11 @@ const MyPage = () => {
               >
                 아이 정보 수정하기
               </Link>
+<<<<<<< HEAD
               <hr className="bg-gray-800 w-full" />
+=======
+
+>>>>>>> 42ad4f3d5dacd551b685c5d7cd340a8412303bf1
               <Link
                 href={"/"}
                 className="self-stretch text-[#303030] text-base font-normal font-['ABeeZee'] leading-normal"
