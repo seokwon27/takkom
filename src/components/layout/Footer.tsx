@@ -75,7 +75,7 @@ const Footer = () => {
                 </Link>
 
                 <Link
-                  href={"/search"}
+                  href={"/hospital"}
                   className="relative self-stretch font-label-XL font-[number:var(--label-XL-font-weight)] text-gray-600 text-[length:var(--label-XL-font-size)] tracking-[var(--label-XL-letter-spacing)] leading-[var(--label-XL-line-height)] [font-style:var(--label-XL-font-style)]"
                 >
                   동네 병원 찾기

@@ -4,7 +4,7 @@ import React, { useState } from "react";
 import { Button } from "../ui/button";
 import Image from "next/image";
 import PhoneModal from "./PhoneModal";
-import callImg from "../../../public/callImg.svg"
+import callImg from "../../../public/hospital/call.svg"
 
 const PhoneButton = ({ phoneNumber }: { phoneNumber: string }) => {
   const [showModal, setShowModal] = useState(false);

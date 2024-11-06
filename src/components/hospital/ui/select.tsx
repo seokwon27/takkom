@@ -24,9 +24,9 @@ const SelectTrigger = React.forwardRef<
     )}
     {...props}
   >
-    <SelectPrimitive.Icon asChild>
+    {/* <SelectPrimitive.Icon asChild>
       <ChevronDown className="h-4 w-7 text-gray-400 font-bold" color="#969696" strokeWidth={2.8}/>
-    </SelectPrimitive.Icon>
+    </SelectPrimitive.Icon> */}
     {children}
   </SelectPrimitive.Trigger>
 ));
@@ -80,8 +80,7 @@ const SelectContent = React.forwardRef<
       <SelectPrimitive.Viewport
         className={cn(
           "p-1",
-          position === "popper" &&
-            "h-[var(--radix-select-trigger-height)] w-full w-[var(--radix-select-trigger-width)]"
+          position === "popper" && "h-[var(--radix-select-trigger-height)] w-full w-[var(--radix-select-trigger-width)]"
         )}
       >
         {children}
@@ -112,7 +111,6 @@ const SelectItem = React.forwardRef<
     )}
     {...props}
   >
-
     <SelectPrimitive.ItemText>{children}</SelectPrimitive.ItemText>
   </SelectPrimitive.Item>
 ));

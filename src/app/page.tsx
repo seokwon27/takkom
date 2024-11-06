@@ -38,7 +38,7 @@ const HomePage = () => {
               </div>
             </div>
           </Link>
-          <Link href={"/search"} className="">
+          <Link href={"/hospital"} className="">
             <img src="/homepage/hospital-link.svg" />
           </Link>
         </div>

@@ -1,7 +1,16 @@
 import { DISEASE } from "@/components/hospital/constants";
 import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
 
-export const setQueryParams = (params: { [key: string]: string }, router: AppRouterInstance, pathname: string) => {
+type HospitalQueryParams = {
+  brtcCd?: string;
+  sggCd?: string;
+  addr?: string;
+  org?: string;
+  disease?: string;
+  pageNo?: string;
+};
+
+export const setQueryParams = (params: HospitalQueryParams, router: AppRouterInstance, pathname: string) => {
   const { brtcCd, sggCd, addr, org, disease, pageNo } = params;
   const searchParams = new URLSearchParams();
 
@@ -22,7 +31,7 @@ export const setQueryParams = (params: { [key: string]: string }, router: AppRou
   return;
 };
 
-export const getStringQueryParams = (params: { [key: string]: string }, pathname: string) => {
+export const getStringQueryParams = (params: HospitalQueryParams, pathname: string) => {
   const { brtcCd, sggCd, addr, org, disease, pageNo } = params;
   const searchParams = new URLSearchParams();
 
