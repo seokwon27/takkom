@@ -13,6 +13,7 @@ const config: Config = {
         background: "var(--background)",
         foreground: "var(--foreground)",
         gray: {
+          10: "#FAFAFA",
           30: "#F2F2F2",
           50: "#E3E3E3",
           100: "#D9D9D9",

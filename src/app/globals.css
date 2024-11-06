@@ -25,7 +25,7 @@ body {
 @layer components {
   .hospital-search {
     display: grid;
-    grid-template-columns: repeat(5, 1fr);
+    grid-template-columns: 144fr 144fr 144fr 195fr 100fr;
     grid-template-rows: 1fr 0.7fr;
   }
 }
