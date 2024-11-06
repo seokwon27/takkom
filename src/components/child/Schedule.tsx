@@ -30,7 +30,6 @@ const Schedule = () => {
 
   return (
     <div className="mx-auto">
-      <p>Schedule</p>
       <ScheduleCarousel child={childrenData?.[0]} />
     </div>
   );

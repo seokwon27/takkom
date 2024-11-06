@@ -1,11 +1,11 @@
 "use client";
 
-import { getHospitalsMutliConditions, HospitalData } from "@/api/hospitalApi";
 import { useSearchParams } from "next/navigation";
 import React from "react";
 import HospitalCard from "./HospitalCard";
 import HospitalPagination from "./HospitalPagination";
-import { useQuery } from "@tanstack/react-query";
+import { useHospitalQuery } from "@/query/useHospitalQuery";
+import { NUM_OF_CARDS_PER_PAGE } from "./constants";
 
 const HospitalList = () => {
   const searchParams = useSearchParams();
@@ -17,7 +17,6 @@ const HospitalList = () => {
     searchParams.get("disease") ?? "",
     Number(searchParams.get("pageNo")) ?? 1
   ];
-  const defaultData: HospitalData = { items: [], totalCount: 0, maxPage: 1 };
 
   const {
     data: hospitalData,
@@ -25,17 +24,7 @@ const HospitalList = () => {
     isError,
     isFetching,
     error
-  } = useQuery({
-    queryKey: ["hospital", brtcCd, sggCd, addr, org, disease],
-    queryFn: () => {
-      if (brtcCd && sggCd) 
-        return getHospitalsMutliConditions({ brtcCd, sggCd, addr, org, disease });
-      else {
-        return defaultData;
-      }
-    },
-    staleTime: Infinity
-  });
+  } = useHospitalQuery(brtcCd, sggCd, addr, org, disease)
 
   // console.log(hospitalData);
 
@@ -47,15 +36,12 @@ const HospitalList = () => {
   }
 
   return (
-    <div className="w-full flex flex-col">
-      <p>
-        전체 결과값 : <span>{hospitalData.totalCount}</span>
-      </p>
+    <div className="w-full grow flex flex-col justify-between mt-16 mb-6">
       {hospitalData.totalCount === 0 ? (
         <p>검색 결과가 없습니다.</p>
       ) : (
-        <ul className="grid grid-cols-[repeat(10, 1fr)] gap-4">
-          {hospitalData.items.slice(10 * (currentPage - 1), 10 * currentPage).map((info) => (
+        <ul className="grid grid-cols-[repeat(10, 1fr)] gap-6">
+          {hospitalData.items.slice(NUM_OF_CARDS_PER_PAGE * (currentPage - 1), NUM_OF_CARDS_PER_PAGE * currentPage).map((info) => (
             <li key={info.orgcd}>
               <HospitalCard info={info} filter={disease} />
             </li>
@@ -63,7 +49,7 @@ const HospitalList = () => {
         </ul>
       )}
       {hospitalData.totalCount > 0 && (
-        <div>
+        <div className="mt-6">
           <HospitalPagination
             maxPage={hospitalData.maxPage}
             currentPage={currentPage}
