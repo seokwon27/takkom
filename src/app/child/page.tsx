@@ -12,6 +12,8 @@ const ChildPage = () => {
   const userId = user?.id; // 현재 로그인한 사용자의 ID를 설정
   const { data: children, isLoading, error } = useChildrenQuery(browserClient, userId);
 
+  console.log("children: ", children);
+
   // 사용자 정보를 로드하는 동안 로딩 표시
   if (isUserLoading) return <p>로딩 중...</p>;
   if (isUserError) return <p>사용자 정보를 가져오는 데 오류가 발생했습니다.</p>;

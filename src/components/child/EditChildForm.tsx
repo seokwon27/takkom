@@ -107,30 +107,42 @@ const EditChildForm = ({ child, onComplete }: EditFormProps) => {
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8  w-full">
         {/* 프로필 이미지 업로드 필드 */}
-        <FormField
-          control={form.control}
-          name="profile"
-          render={() => (
-            <FormItem>
-              <FormLabel>프로필 이미지</FormLabel>
-              <FormControl>
-                <Input
-                  type="file"
-                  accept="image/*" // 이미지 파일만 업로드 가능
-                  onChange={(e) => setSelectedImage(e.target.files?.[0] ?? undefined)}
-                />
-              </FormControl>
+        <div className="mb-20">
+          <FormField
+            control={form.control}
+            name="profile"
+            render={() => (
+              <FormItem>
+                {/* <FormLabel>프로필 이미지</FormLabel> */}
+                <div className="flex items-end justify-center">
+                  {child.profile && (
+                    <Image
+                      src={child.profile}
+                      alt="Current Profile"
+                      width={200}
+                      height={200}
+                      className="flex-grow-0 flex-shrink-0 w-44 h-44 object-cover rounded-[13.2px]"
+                      unoptimized
+                    />
+                  )}
+                  <Button type="button" onClick={handleDeleteImage} className="ml-2">
+                    이미지 삭제
+                  </Button>
+                </div>
 
-              <FormMessage />
-              {child.profile && (
-                <Image src={child.profile} alt="Current Profile" width={200} height={200} unoptimized />
-              )}
-              <Button type="button" onClick={handleDeleteImage} className="mt-2">
-                이미지 삭제
-              </Button>
-            </FormItem>
-          )}
-        />
+                <FormControl>
+                  <Input
+                    type="file"
+                    accept="image/*" // 이미지 파일만 업로드 가능
+                    onChange={(e) => setSelectedImage(e.target.files?.[0] ?? undefined)}
+                  />
+                </FormControl>
+
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+        </div>
 
         {/* 이름 입력 필드 */}
         <FormField

@@ -14,6 +14,7 @@ interface ChildCardProps {
 }
 
 export const ChildCard = ({ child }: ChildCardProps) => {
+  console.log("child: ", child)
   // child가 없을 때를 대비한 처리
   if (!child) {
     return <div>아이가 등록되지 않았습니다.</div>;
@@ -151,7 +152,7 @@ export const ChildCard = ({ child }: ChildCardProps) => {
         {/* 아이 기본 정보 & 우리 아이 접종 내역 컨테이너 끝*/}
 
         {/* 접종 체크리스트 */}
-        <Schedule />
+        <Schedule child={child} />
       </div>
     </>
   );
