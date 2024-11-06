@@ -6,6 +6,7 @@ import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import RegisterStep1Form from "@/components/child/RegisterStep1Form";
 import browserClient from "@/utils/supabase/client";
+import Image from "next/image";
 
 interface RegisterStep1Props {
   onNext: (data: Partial<Child>) => void;
@@ -83,7 +84,7 @@ const RegisterStep1 = ({ onNext, childInfo }: RegisterStep1Props) => {
     }
 
     if (childData) {
-      console.log("데이터가 성공적으로 저장되었습니다. 아이 아이디: ", childData.id);
+      // console.log("데이터가 성공적으로 저장되었습니다. 아이 아이디: ", childData.id);
       onNext({
         id: childData.id,
         name,
@@ -97,9 +98,18 @@ const RegisterStep1 = ({ onNext, childInfo }: RegisterStep1Props) => {
   };
 
   return (
-    <div>
-      <h1>1단계</h1>
-      <h2>정보를 입력해 주세요.</h2>
+    <div className="flex flex-col justify-start items-start self-stretch flex-grow-0 flex-shrink-0 gap-20">
+      <div className="flex flex-col justify-start items-start flex-grow-0 flex-shrink-0 w-[207px] relative gap-12">
+        <Image src="/Register1Icon.svg" width={80} height={80} alt="체크리스트 아이콘" />
+        <div className="flex flex-col justify-start items-start self-stretch flex-grow-0 flex-shrink-0 relative gap-3">
+          <p className="self-stretch flex-grow-0 flex-shrink-0 w-[207px] text-[32px] font-bold text-left text-[#303030]">
+            1단계
+          </p>
+          <p className="flex-grow-0 flex-shrink-0 text-lg font-semibold text-left text-[#969696]">
+            정보를 입력해 주세요.
+          </p>
+        </div>
+      </div>
       <RegisterStep1Form form={form} onSubmit={handleFormSubmit} setSelectedImage={setSelectedImage} />
     </div>
   );
