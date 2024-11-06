@@ -14,7 +14,6 @@ interface ChildCardProps {
 }
 
 export const ChildCard = ({ child }: ChildCardProps) => {
-  console.log("child: ", child)
   // child가 없을 때를 대비한 처리
   if (!child) {
     return <div>아이가 등록되지 않았습니다.</div>;
@@ -37,7 +36,7 @@ export const ChildCard = ({ child }: ChildCardProps) => {
                   alt="아이 프로필 이미지"
                   width={176}
                   height={176}
-                  className="flex-grow-0 flex-shrink-0 w-44 h-44 object-cover rounded-[13.2px]"
+                  className="flex-grow-0 flex-shrink-0 w-44 h-44 object-cover rounded-[13px]"
                 />
 
                 {/* 우측: 기본 정보 & 수정하기 버튼 */}
@@ -68,13 +67,13 @@ export const ChildCard = ({ child }: ChildCardProps) => {
                   </p>
 
                   {/* 수정하기 */}
-                  <div className="flex justify-center items-center self-stretch flex-grow-0 flex-shrink-0 h-8 relative gap-[8.890547752380371px] p-[7.112438201904297px] rounded-[7.11px] bg-gray-30">
-                    <Link key={child.id} href={`/child/${child.id}/edit1`}>
+                  <Link key={child.id} href={`/child/${child.id}/edit1`}>
+                    <div className="flex justify-center items-center self-stretch flex-grow-0 flex-shrink-0 h-8 relative gap-[8px] p-[7px] rounded-[7px] bg-gray-30 w-[180px]">
                       <button className="flex-grow-0 flex-shrink-0 text-xs font-medium text-center text-gray-700">
                         수정하기
                       </button>
-                    </Link>
-                  </div>
+                    </div>
+                  </Link>
                   {/* 수정하기 끝*/}
                 </div>
                 {/* 우측: 기본 정보 & 수정하기 버튼 끝 */}
@@ -90,7 +89,7 @@ export const ChildCard = ({ child }: ChildCardProps) => {
           {/* 아이 기본 정보 컨테이너 끝 */}
 
           {/* 우리아이 접종 내역 전체 컨테이너 */}
-          <div className="flex justify-center items-start flex-grow h-52 gap-[288.0537414550781px] p-4 rounded-2xl bg-primary-300">
+          <div className="flex justify-center items-start flex-grow h-52 gap-[288px] p-4 rounded-2xl bg-primary-300">
             <div className="flex flex-col justify-between items-end self-stretch flex-grow">
               <div className="flex flex-col justify-start items-start self-stretch flex-grow gap-3">
                 {/* 우리 아이 접종 내역 타이틀 컨테이너 */}
