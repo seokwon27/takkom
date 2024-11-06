@@ -17,32 +17,31 @@ const formatAgeText = (age: number) => {
     return <p>출생 직후</p>;
   }
   if (age > 0 && age < 1) {
-    return <p>4주 이내</p>;
+    return <p>4주이내</p>;
   }
 };
 
 const AgeFilter = () => {
   const { subAgeGroup, selectedAge, setSelectedAge } = useAgeGroupStore();
   return (
-    <div className="items-start">
-      <p>{`선택된 연령: ${selectedAge}`}</p>
-      <div className="flex gap-3">
-        {subAgeGroup.length > 6
-          ? "전체"
-          : subAgeGroup.map((age) => {
-              return (
-                <div
-                  className={age === selectedAge ? `font-bold` : ""}
-                  key={`${age} 개월`}
-                  onClick={() => {
-                    setSelectedAge(age);
-                  }}
-                >
-                  {formatAgeText(age)}
-                </div>
-              );
-            })}
-      </div>
+    <div className="flex gap-2 mt-20 mb-16">
+      {subAgeGroup.length > 6
+        ? "전체"
+        : subAgeGroup.map((age) => {
+            return (
+              <div
+                className={`${
+                  age === selectedAge ? ` border-gray-700 border-b-2 text-gray-700` : "text-gray-300"
+                } p-2 hover:cursor-pointer font-bold`}
+                key={`${age} 개월`}
+                onClick={() => {
+                  setSelectedAge(age);
+                }}
+              >
+                {formatAgeText(age)}
+              </div>
+            );
+          })}
     </div>
   );
 };
