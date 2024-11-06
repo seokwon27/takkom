@@ -27,7 +27,7 @@ const RootLayout = ({
       <body className={`${pretendard.className} flex flex-col min-h-screen`}>
         <Providers>
           <Header />
-          <main className="grow flex flex-col w-full max-w-[1200px] mx-auto">{children}</main>
+          <main className="grow flex flex-col w-full max-w-[1200px] mx-auto mb-[100px]">{children}</main>
           <Footer />
         </Providers>
       </body>
