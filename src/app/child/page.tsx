@@ -21,10 +21,10 @@ const ChildPage = () => {
   if (error) return <p>오류가 발생했습니다: {error.message}</p>;
 
   return (
-    <div className="flex justify-center px-8 lg:px-12">
-      <div className="flex gap-8 max-w-[1200px] w-full">
+    <div className="flex justify-center px-8 lg:px-12 mx-auto">
+      <div className="flex gap-8 max-w-[996px] w-full">
         {/* 좌측 사이드바 영역 */}
-        <aside className="w-1/4 flex-shrink-0">
+        <aside className="flex-shrink-0">
           <RegisterButton />
         </aside>
 

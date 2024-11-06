@@ -105,7 +105,7 @@ export const ChildCard = ({ child }: ChildCardProps) => {
                 <div className="flex flex-col justify-start items-start self-stretch flex-grow gap-2">
                   {/* 필수 접종 & 선택 접종 */}
                   {/* <p className="text-white">아이의 접종 내역을 한눈에 확인하세요!</p> */}
-                  <p className="text-white">
+                  <p className="text-white text-sm">
                     접종 완료 내역과 앞으로의 접종 일정을 간편하게 관리하세요! 아이의 건강 기록을 손쉽게 확인할 수
                     있습니다.
                   </p>
