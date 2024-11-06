@@ -11,9 +11,9 @@ const EventLink = () => {
         <h1 className="text-[40px] text-gray-800 font-bold">따꼼만의 이벤트</h1>
       </div>
       <div className="flex w-full justify-between">
-        <div className="flex flex-col justify-center items-center w-[360px] h-[278px] bg-gray-10 rounded-3xl px-[37px] py-6 gap-10">
+        <div className="flex flex-col justify-center items-center w-[360px] h-[278px] bg-gray-10 rounded-3xl px-[37px] py-6 gap-10 relative">
           <div>
-            <Image src={ambulance} alt="앰뷸런스" width={120} height={120} />
+            <Image src={ambulance} alt="앰뷸런스" className="h-[120px]" />
           </div>
           <div className="flex flex-col gap-2 text-center">
             <h2 className="text-[##393939] text-2xl font-bold">따꼼을 첫 방문 했다면?</h2>
@@ -22,7 +22,7 @@ const EventLink = () => {
         </div>
         <div className="flex flex-col justify-center items-center w-[360px] h-[278px] bg-gray-10 rounded-3xl px-[37px] py-6 gap-10">
           <div>
-            <Image src={mapIcon} alt="맵아이콘" width={120} height={120} />
+            <Image src={mapIcon} alt="맵아이콘" />
           </div>
           <div className="flex flex-col gap-2 text-center">
             <h2 className="text-[##393939] text-2xl font-bold">방문했던 병원을 추천해요!</h2>
@@ -31,7 +31,7 @@ const EventLink = () => {
         </div>
         <div className="flex flex-col justify-center items-center w-[360px] h-[278px] bg-gray-10 rounded-3xl px-[37px] py-6 gap-10">
           <div>
-            <Image src={calendarIcon} alt="달력" width={120} height={120} />
+            <Image src={calendarIcon} alt="달력" />
           </div>
           <div className="flex flex-col gap-2 text-center">
             <h2 className="text-[##393939] text-2xl font-bold">EVERY 출석 이벤트</h2>
