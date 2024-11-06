@@ -11,6 +11,8 @@ import { useRouter } from "next/navigation";
 import browserClient from "@/utils/supabase/client";
 import { AuthFormSignUp } from "@/types/user";
 import { Eye, EyeOff } from "lucide-react";
+import Image from "next/image";
+import kkom from "../../../public/logo.svg";
 
 const SignUp = () => {
   // 비밀번호 표시 상태 관리
@@ -36,11 +38,11 @@ const SignUp = () => {
         .max(30, { message: "30글자 이하로 입력해주세요." }),
       password: z
         .string()
-        .min(8, { message: "8글자 이상 입력해주세요," })
+        .min(8, { message: "8글자 이상 입력해주세요." })
         .max(16, { message: "16글자 이하로 입력해주세요." }),
       passwordCheck: z
         .string()
-        .min(8, { message: "8글자 이상 입력해주세요," })
+        .min(8, { message: "8글자 이상 입력해주세요." })
         .max(16, { message: "16글자 이하로 입력해주세요." }),
       name: z.string().min(1, { message: "이름을 입력해주세요." })
     })
@@ -50,6 +52,12 @@ const SignUp = () => {
         ctx.addIssue({
           code: z.ZodIssueCode.custom,
           message: "비밀번호가 일치하지 않습니다.",
+          path: ["passwordCheck"]
+        });
+      } else {
+        ctx.addIssue({
+          code: z.ZodIssueCode.custom,
+          message: "비밀번호가 일치합니다.",
           path: ["passwordCheck"]
         });
       }
@@ -105,110 +113,145 @@ const SignUp = () => {
     checkSignInStatus();
   }, []);
 
+  const passCheck = () => {
+    if (form.formState.errors.passwordCheck?.message === "비밀번호가 일치합니다.") {
+      return "text-informative";
+    } else {
+      return "text-negative";
+    }
+  };
+
   console.log(issignIn);
 
   return (
-    <Form {...form}>
-      <form onSubmit={form.handleSubmit(signUp)}>
-        <FormField
-          control={form.control}
-          name="email"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel className="text-gray-600">이메일</FormLabel>
-              <FormControl>
-                <Input
-                  className={form.formState.errors.email ? "border-red-500" : "border-gray-300"}
-                  placeholder="email@email.com"
-                  {...field}
-                />
-              </FormControl>
-              <FormDescription className={form.formState.errors.email ? "text-red-500" : "text-gray-600"}>
-                {form.formState.errors.email?.message}
-              </FormDescription>
-            </FormItem>
-          )}
-        />
+    <div className="flex flex-col justify-center items-center gap-3">
+      <Form {...form}>
+        <Image src={kkom} alt="따꼼 로고" className="mb-[80px]" />
+        <form onSubmit={form.handleSubmit(signUp)}>
+          <FormField
+            control={form.control}
+            name="email"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel className="text-gray-600">이메일</FormLabel>
+                <FormControl>
+                  <div className="relative w-96">
+                    <Input
+                      className={`w-full h-14 px-6 py-4 ${
+                        form.formState.errors.email ? "border-red-500" : "border-gray-300"
+                      }`}
+                      placeholder="이메일을 입력해주세요."
+                      {...field}
+                    />
+                  </div>
+                </FormControl>
+                <FormDescription className={form.formState.errors.email ? "text-red-500" : "text-gray-600"}>
+                  {form.formState.errors.email?.message}
+                </FormDescription>
+              </FormItem>
+            )}
+          />
 
-        <FormField
-          control={form.control}
-          name="password"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel className="text-gray-600">비밀번호</FormLabel>
-              <FormControl>
-                <>
-                  <Input
-                    className={form.formState.errors.password ? "border-red-500" : "border-gray-300"}
-                    type={showPassword ? "text" : "password"}
-                    placeholder="PASSWORD"
-                    {...field}
-                  />
-                  <label>
-                    <Button type="button" onClick={() => setShowPassword(!showPassword)}>
-                      {showPassword ? <EyeOff /> : <Eye />}
-                    </Button>
-                  </label>
-                </>
-              </FormControl>
-              <FormDescription className={form.formState.errors.password ? "text-red-500" : "text-gray-600"}>
-                {form.formState.errors.password?.message}
-              </FormDescription>
-            </FormItem>
-          )}
-        />
+          <FormField
+            control={form.control}
+            name="password"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel className="text-gray-600">비밀번호</FormLabel>
+                <FormControl>
+                  <div className="relative w-96">
+                    <Input
+                      className={`w-full h-14 px-6 py-4 ${
+                        form.formState.errors.password ? "border-red-500" : "border-gray-300"
+                      }`}
+                      type={showPassword ? "text" : "password"}
+                      placeholder="비밀번호를 입력해주세요."
+                      {...field}
+                    />
+                    <label>
+                      <Button
+                        type="button"
+                        onClick={() => setShowPassword(!showPassword)}
+                        className="absolute right-3 top-1/2 transform -translate-y-1/2 bg-transparent text-gray-600 hover:bg-transparent hover:text-black"
+                      >
+                        {showPassword ? <Eye /> : <EyeOff />}
+                      </Button>
+                    </label>
+                  </div>
+                </FormControl>
+                <FormDescription className={form.formState.errors.password ? "text-negative" : "text-gray-600"}>
+                  {form.formState.errors.password?.message}
+                </FormDescription>
+              </FormItem>
+            )}
+          />
 
-        <FormField
-          control={form.control}
-          name="passwordCheck"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel className="text-gray-600">비밀번호 확인</FormLabel>
-              <FormControl>
-                <>
-                  <Input
-                    className={form.formState.errors.passwordCheck ? "border-red-500" : "border-gray-300"}
-                    type={showPasswordCheck ? "text" : "password"}
-                    placeholder="PASSWORD"
-                    {...field}
-                  />
-                  <label>
-                    <Button type="button" onClick={() => setShowPasswordCheck(!showPasswordCheck)}>
-                      {showPasswordCheck ? <EyeOff /> : <Eye />}
-                    </Button>
-                  </label>
-                </>
-              </FormControl>
-              <FormDescription className={form.formState.errors.passwordCheck ? "text-red-500" : "text-gray-600"}>
-                {form.formState.errors.passwordCheck?.message}
-              </FormDescription>
-            </FormItem>
-          )}
-        />
+          <FormField
+            control={form.control}
+            name="passwordCheck"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel className="text-gray-600">비밀번호 확인</FormLabel>
+                <FormControl>
+                  <div className="relative w-96">
+                    <Input
+                      className={`w-full h-14 px-6 py-4 ${
+                        form.formState.errors.passwordCheck ? "border-red-500" : "border-gray-300"
+                      }`}
+                      type={showPasswordCheck ? "text" : "password"}
+                      placeholder="비밀번호를 재입력 해주세요."
+                      {...field}
+                    />
+                    <label>
+                      <Button
+                        type="button"
+                        onClick={() => setShowPasswordCheck(!showPasswordCheck)}
+                        className="absolute right-3 top-1/2 transform -translate-y-1/2 bg-transparent text-gray-600 hover:bg-transparent hover:text-black"
+                      >
+                        {showPasswordCheck ? <Eye /> : <EyeOff />}
+                      </Button>
+                    </label>
+                  </div>
+                </FormControl>
+                <FormDescription className={form.formState.errors.passwordCheck ? passCheck() : "text-gray-600"}>
+                  {form.formState.errors.passwordCheck?.message}
+                </FormDescription>
+              </FormItem>
+            )}
+          />
 
-        <FormField
-          control={form.control}
-          name="name"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel className="text-gray-600">이름</FormLabel>
-              <FormControl>
-                <Input
-                  className={form.formState.errors.name ? "border-red-500" : "border-gray-300"}
-                  placeholder="NAME"
-                  {...field}
-                />
-              </FormControl>
-              <FormDescription className={form.formState.errors.name ? "text-red-500" : "text-gray-600"}>
-                {form.formState.errors.name?.message}
-              </FormDescription>
-            </FormItem>
-          )}
-        />
-
-        <Button type="submit">회원가입</Button>
-      </form>
-    </Form>
+          <FormField
+            control={form.control}
+            name="name"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel className="text-gray-600">이름</FormLabel>
+                <FormControl>
+                  <div className="relative w-96">
+                    <Input
+                      className={`w-full h-14 px-6 py-4 ${
+                        form.formState.errors.name ? "border-red-500" : "border-gray-300"
+                      }`}
+                      placeholder="이름을 입력해주세요."
+                      {...field}
+                    />
+                  </div>
+                </FormControl>
+                <FormDescription className={form.formState.errors.name ? "text-red-500" : "text-gray-600"}>
+                  {form.formState.errors.name?.message}
+                </FormDescription>
+              </FormItem>
+            )}
+          />
+          <Button
+            type="submit"
+            className="w-96 h-14 px-6 py-4 mt-[40px] mb-[141px] bg-[#c1d8ff] rounded-xl flex-col justify-center items-center gap-2.5 inline-flex hover:bg-primary-400 text-lg"
+          >
+            회원가입
+          </Button>
+        </form>
+      </Form>
+    </div>
   );
 };
 
