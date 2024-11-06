@@ -63,7 +63,7 @@ const PageLink = () => {
               </div>
             </div>
             <div>
-              <Image src={hospital} alt="병원" className="" />
+              <Image src={hospital} alt="병원" />
             </div>
           </div>
         </Link>
