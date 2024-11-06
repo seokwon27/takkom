@@ -1,5 +1,11 @@
 "use client";
 import { useAgeGroupStore } from "@/utils/zustand/ageGroupStore";
+import category from "../../../public/ageGroup/category.svg";
+import newborn from "../../../public/ageGroup/newborn-baby.svg";
+import yeonga from "../../../public/ageGroup/yeong-a.svg";
+import yua from "../../../public/ageGroup/yua.svg";
+import children from "../../../public/ageGroup/children.svg";
+import Image from "next/image";
 
 const AgeGroup = () => {
   return (
@@ -20,18 +26,18 @@ const AgeCard = ({ age }: { age: string }) => {
 
   return (
     <div className="flex flex-col gap-3 hover:cursor-pointer text-lg font-semibold" onClick={() => setAgeGroup(age)}>
-      <img src={`${CategorySvg[age]}`} alt={`${age}`} width="100" height="100" />
+      <Image src={`${CategorySvg[age]}`} alt={`${age}`} />
       <p className={`${age === ageGroup ? "text-[#303030]" : "text-[#B0B0B0]"}  text-lg font-semibold`}>{age}</p>
     </div>
   );
 };
 
 const CategorySvg: { [key: string]: string } = {
-  전체: "/ageGroup/category.svg",
-  신생아: "/ageGroup/newbornBaby.svg",
-  영아기: "/ageGroup/yeong-a.svg",
-  유아기: "/ageGroup/yua.svg",
-  아동기: "/ageGroup/children.svg"
+  전체: category,
+  신생아: newborn,
+  영아기: yeonga,
+  유아기: yua,
+  아동기: children
 };
 
 export default AgeGroup;
