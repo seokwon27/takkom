@@ -3,6 +3,7 @@
 import { useUserQuery } from "@/api/userApi";
 import SignOut from "@/components/auth/SignOut";
 import browserClient from "@/utils/supabase/client";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
@@ -36,18 +37,29 @@ const MyPage = () => {
   }, [isUserLoading, isUserError, user, router]);
 
   return (
-    <div>
+    <section className="grid place-items-center gap-6 mt-[77px] w-full max-w-[1200px] m-auto">
       {userData ? (
-        <div>
-          <div>{userData.name}님 반갑습니다!</div>
-          <div>email : {userData.email}</div>
+        <div className="w-[588px] h-[111.71px] bg-[#f4f8ff] rounded-[13.86px]">
+          <div className="grid place-items-center">
+            <div className="text-[#303030] text-lg font-bold font-['Pretendard'] leading-normal">
+              {userData.name}님 반갑습니다!
+            </div>
+            <div className="text-[#7c7c7c] text-sm font-normal font-['ABeeZee'] leading-[21px]">
+              email : {userData.email}
+            </div>
+          </div>
         </div>
       ) : (
         <div>로딩 중...</div>
       )}
+      <div className="grid place-items-center m-auto">
+        <Link href={"/child"}>아이 정보 수정하기</Link>
+        <Link href={"/"}>개인정보 처리방침</Link>
+        <Link href={"/"}>이용 약관</Link>
+      </div>
 
       <SignOut />
-    </div>
+    </section>
   );
 };
 
