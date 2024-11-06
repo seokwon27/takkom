@@ -8,6 +8,8 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import { Select, SelectContent, SelectItem, SelectTrigger } from "@/components/ui/select";
 import { useVaccineRecordQuery, useVaccineScheduleQuery } from "@/query/useVaccineRecordQuery";
 import ScheduleTableRow from "./ScheduleTableRow";
+import checkListIcon from "../../../public/child/checklist-icon.svg";
+import Image from "next/image";
 
 // 여기서 child id에 대한 vaccine record를 가져와서 vaccine id가 포함되어 있으면
 const ScheduleTable = ({ child }: { child?: Tables<"child"> }) => {
@@ -40,6 +42,7 @@ const ScheduleTable = ({ child }: { child?: Tables<"child"> }) => {
   return (
     <div className="flex flex-col p-6 bg-white rounded-3xl shadow-[0px_0px_12px_rgba(114,114,114,0.1)]">
       <div className="flex gap-[10px]">
+        <Image src={checkListIcon} alt="체크리스트 아이콘" />
         <p>접종 체크리스트</p>
         <Select value={month} onValueChange={setMonth}>
           <SelectTrigger className="w-[120px] h-[26px] justify-center text-sm font-semibold border-0 bg-gray-30 text-gray-600">
