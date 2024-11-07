@@ -16,4 +16,16 @@ body {
   :root {
     --radius: 0.5rem;
   }
+  
+  * {
+    box-sizing: border-box;
+  }
+}
+
+@layer components {
+  .hospital-search {
+    display: grid;
+    grid-template-columns: 144fr 144fr 144fr 195fr 100fr;
+    grid-template-rows: 1fr 0.7fr;
+  }
 }

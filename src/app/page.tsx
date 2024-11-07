@@ -1,14 +1,13 @@
-import Link from "next/link";
+import EventLink from "@/components/homePage/EventLink";
+import PageLink from "@/components/homePage/PageLink";
 
-export default function Home() {
+const HomePage = () => {
   return (
-    <>
-      <div>로고</div>
-      <div className="flex gap-2">
-        <Link href={"/search"}>병원검색</Link>
-        <Link href={"/vaccineinfo"}>접종 정보</Link>
-        <Link href={"child"}>우리 아이 맞춤형</Link>
-      </div>
-    </>
+    <div className="flex flex-col gap-40">
+      <PageLink />
+      <EventLink />
+    </div>
   );
-}
+};
+
+export default HomePage;

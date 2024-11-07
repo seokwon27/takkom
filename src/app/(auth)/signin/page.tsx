@@ -1,5 +1,11 @@
-const page = () => {
-  return <div>로그인페이지</div>;
+import SignIn from "@/components/auth/SignIn";
+
+const SignInPage = () => {
+  return (
+    <section className="grid place-items-center gap-6 mt-[77px] w-full max-w-[1200px] m-auto">
+      <SignIn />
+    </section>
+  );
 };
 
-export default page;
+export default SignInPage;
