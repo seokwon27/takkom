@@ -14,7 +14,7 @@ const SignOut = () => {
   return (
     <Button
       onClick={handleSignOut}
-      className="text-[#636363] text-base font-normal font-['ABeeZee'] leading-normal m-[12px] bg-transparent hover:bg-transparent hover:text-black"
+      className="text-[#636363] text-base font-normal leading-normal m-[12px] bg-transparent hover:bg-transparent hover:text-black"
     >
       로그아웃
     </Button>
