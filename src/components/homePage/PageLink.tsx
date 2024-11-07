@@ -47,7 +47,7 @@ const PageLink = () => {
           </div>
         </Link>
         <Link
-          href={"/search"}
+          href={"/hospital"}
           className="flex justify-center items-center px-9 w-[440px] h-[224px] rounded-3xl border-[0.6px] border-gray-30 shadow-[0px_0px_16px_0px_rgba(114,114,114,0.10)] relative"
         >
           <div className="flex w-full justify-between">

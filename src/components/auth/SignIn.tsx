@@ -16,6 +16,7 @@ import google from "../../../public/Auth/signin/google.png";
 import kakao from "../../../public/Auth/signin/kakaotalk.svg";
 import kkom from "../../../public/logo.svg";
 import Image from "next/image";
+import { signin } from "@/api/server-action";
 
 const SignIn = () => {
   // 비밀번호 표시 상태 관리
@@ -42,12 +43,23 @@ const SignIn = () => {
 
   const signIn = async (data: AuthFormSignIn) => {
     try {
-      const { error } = await browserClient.auth.signInWithPassword({
+      // const { error } = await browserClient.auth.signInWithPassword({
+      //   email: data.email,
+      //   password: data.password,
+      //   options: {
+      //     data: {
+      //       name: data.name
+      //     }
+      //   }
+      // });
+
+      // if (error) throw error;
+
+      // server-action으로 변경
+      await signin({
         email: data.email,
         password: data.password
       });
-
-      if (error) throw error;
 
       alert("로그인 성공!");
       // console.log("로그인 데이터:", data);
@@ -58,7 +70,7 @@ const SignIn = () => {
   };
 
   const googleSignIn = async () => {
-    const { data, error } = await browserClient.auth.signInWithOAuth({
+    const { error } = await browserClient.auth.signInWithOAuth({
       provider: "google",
       options: {
         queryParams: {
@@ -69,13 +81,13 @@ const SignIn = () => {
       }
     });
 
-    if (data) console.log("로그인 데이터 : ", data);
+    // if (data) console.log("로그인 데이터 : ", data);
 
     if (error) console.log("로그인 실패 : ", error);
   };
 
   const kakaoSignIn = async () => {
-    const { data, error } = await browserClient.auth.signInWithOAuth({
+    const { error } = await browserClient.auth.signInWithOAuth({
       provider: "kakao",
       options: {
         queryParams: {
@@ -86,21 +98,22 @@ const SignIn = () => {
       }
     });
 
-    if (data) console.log("로그인 데이터 : ", data);
+    // if (data) console.log("로그인 데이터 : ", data);
 
     if (error) console.log("로그인 실패 : ", error);
   };
 
-  const getUser = async () => {
-    const { data, error } = await browserClient.auth.getUser();
-    if (error) {
-      console.log("유져 정보 가져오기 실패! : ", error);
-      return null;
-    }
-    return data?.user?.id || null;
-  };
+  // console.log()만하시고 사용을 안하시네요?
+  // const getUser = async () => {
+  //   const { data, error } = await browserClient.auth.getUser();
+  //   if (error) {
+  //     console.log("유져 정보 가져오기 실패! : ", error);
+  //     return null;
+  //   }
+  //   return data?.user?.id || null;
+  // };
 
-  console.log(getUser);
+  // console.log(getUser);
 
   return (
     <div className="flex flex-col justify-center items-center gap-3">

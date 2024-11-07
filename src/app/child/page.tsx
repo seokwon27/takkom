@@ -37,7 +37,9 @@ const ChildPage = () => {
               ))}
             </div>
           ) : (
-            <p>등록된 아이가 없습니다.</p>
+            <div className="min-w-[792px]">
+              <p className="text-center p-8">등록된 아이가 없습니다.</p>
+            </div>
           )}
         </main>
       </div>

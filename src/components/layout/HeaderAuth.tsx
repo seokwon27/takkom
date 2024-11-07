@@ -1,7 +1,12 @@
-import { User } from "@supabase/supabase-js";
+import { createClient } from "@/utils/supabase/server";
 import Link from "next/link";
 
-const HeaderAuth = ({ user }: { user: User | null }) => {
+const HeaderAuth = async () => {
+  const supabaseClient = createClient();
+  const {
+    data: { user }
+  } = await supabaseClient.auth.getUser();
+
   return (
     <ul className="flex gap-4 items-center">
       {!user ? (
