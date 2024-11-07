@@ -50,7 +50,7 @@ const SignIn = () => {
       if (error) throw error;
 
       alert("로그인 성공!");
-      console.log("로그인 데이터:", data);
+      // console.log("로그인 데이터:", data);
       router.push("/");
     } catch (error) {
       console.error("로그인 실패:", error);
@@ -65,7 +65,7 @@ const SignIn = () => {
           access_type: "offline",
           prompt: "consent"
         },
-        redirectTo: process.env.GOOGLE_REDIRECT_URL // 환경
+        redirectTo: process.env.NEXT_PUBLIC_GOOGLE_REDIRECT_URL // 환경
       }
     });
 
@@ -82,7 +82,7 @@ const SignIn = () => {
           access_type: "offline",
           prompt: "consent"
         },
-        redirectTo: process.env.KAKAO_REDIRECT_URL
+        redirectTo: process.env.NEXT_PUBLIC_KAKAO_REDIRECT_URL
       }
     });
 
@@ -176,20 +176,14 @@ const SignIn = () => {
               </div>
             </form>
             <div className="flex justify-center items-center gap-2.5 p-3 md-[12px]">
-              <Link
-                href={"/"}
-                className="text-[#636363] text-base font-normal font-['ABeeZee'] leading-normal m-[12px]"
-              >
+              <Link href={"/"} className="text-[#636363] text-base font-normal leading-normal m-[12px]">
                 비밀번호 찾기
               </Link>
-              <Link
-                href={"/signup"}
-                className="text-[#636363] text-base font-normal font-['ABeeZee'] leading-normal m-[12px]"
-              >
+              <Link href={"/signup"} className="text-[#636363] text-base font-normal leading-normal m-[12px]">
                 회원가입
               </Link>
             </div>
-            <div className="self-stretch text-center text-[#4a4a4a] text-base font-normal font-['ABeeZee'] leading-normal mb-[24px] mt-[80px]">
+            <div className="self-stretch text-center text-[#4a4a4a] text-base font-normal leading-normal mb-[24px] mt-[80px]">
               간편 로그인
             </div>
             <div className="flex flex-row justify-center items-center gap-[24px] mb-[100px]">
