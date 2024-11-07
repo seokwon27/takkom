@@ -1,9 +1,13 @@
-# 따꼼
-
+# 따꼼 ![logo](https://github.com/user-attachments/assets/88499428-0a72-49c2-949b-e03e25b65cb7)
+<br /><br /><br />
+![takkom](https://github.com/user-attachments/assets/f5b9493d-41c2-48fd-87f8-9187a15378bc)
+![takkom2](https://github.com/user-attachments/assets/e95eb4bc-4fd5-47e1-848f-2afaef677a19)
+![takkom3](https://github.com/user-attachments/assets/fe1193e3-e2d4-4b1d-bcbc-836a3b8dacc9)
+<br /><br /><br />
 ## 🔗 배포 링크
-
 https://takkom.vercel.app/
 <br /><br /><br />
+
 
 ## 📖 목차
 
@@ -141,6 +145,7 @@ https://takkom.vercel.app/
 - 서비스명 '따꼼' : 어린아이에게 '아프다'라는 말 대신 '아야'하는거야 라고 말해주듯, 주사를 아이의 관점으로 '따꼼' 하는 것에서 착안해 서비스명을 '따꼼'으로 지었습니다.
 - 마스코트 '따꼬미' : 주사를 맞으면 머리가 쭈뼛서고, 따끔한 것을 이미지화 하여 표현하였습니다.
 - 직관적이고 심플한 UI : 생소할 수 있는 접종명, 백신명 등을 이해하기 쉽게 표시하고, 전반적인 서비스 이용이 어렵지 않도록 구성하였습니다.
+<br /><br /><br />
 
 ## 서비스 구조
 
@@ -170,8 +175,10 @@ https://takkom.vercel.app/
     <br/><br/><br/>
 
 ## 와이어프레임
-
-(이미지 업로드)
+![1 홈페이지](https://github.com/user-attachments/assets/45258cdf-67b7-40c0-a2b2-db37bcf37213)
+![2 접종 리스트](https://github.com/user-attachments/assets/38f38ade-805c-4098-a39c-08f789bcad3c)
+![2 페이지 이동](https://github.com/user-attachments/assets/36640b0f-b22f-4106-8ecb-fcb0eb459585)
+![3 병원검색페이지](https://github.com/user-attachments/assets/819e6b5b-c9d1-426a-b926-004fd667f9bc)
 <br/><br/><br/>
 
 ## API 명세서
@@ -777,3 +784,5 @@ https://takkom.vercel.app/
 <br /><br /><br />
 
 ## 프로젝트 소감
+<img width="691" alt="Screenshot 2024-11-06 at 8 31 36 PM" src="https://github.com/user-attachments/assets/86d45e55-5e9a-479a-a77d-49a9724a0e62">
+
