@@ -23,6 +23,7 @@ https://takkom.vercel.app/
     <br /><br /><br />
 
 ## 프로젝트 소개
+
 프로젝트 "따꼼"은 어린이 필수 예방접종 정보를 제공하고, 체크리스트와 캘린더를 통해 예방접종 진행 상황을 확인할 수 있는 웹 플랫폼을 만드는 프로젝트로, 예방접종 관련 데이터를 질병 관리청의 API를 통해 제공받아 사용자들에게 편리한 기능을 제공합니다.
 <br /><br /><br />
 
@@ -62,7 +63,7 @@ https://takkom.vercel.app/
 - 예방 접종 가능한 병원 검색
 - 등록된 아이 접종 일정 정보 및 접종 체크리스트 제공
 - 로그인 시 아이 정보 저장 가능
-<br /><br /><br />
+  <br /><br /><br />
 
 ## 개발 기간
 
@@ -99,7 +100,7 @@ https://takkom.vercel.app/
 ### UI 및 스타일링
 
 <div>
-  <img src="https://img.shields.io/badge/ShadCN-4B0082?style=for-the-badge&logo=shadcn&logoColor=white">
+  <img src="https://img.shields.io/badge/shadcn%2Fui-000?logo=shadcnui&logoColor=fff&style=for-the-badge">
   <img src="https://img.shields.io/badge/tailwindcss-%2338B2AC.svg?style=for-the-badge&logo=tailwind-css&logoColor=white">
   <img src="https://img.shields.io/badge/lucide--react-FF5555?style=for-the-badge&logo=lucide&logoColor=white">
 </div>
@@ -158,14 +159,15 @@ https://takkom.vercel.app/
 - 마이페이지
   - 사용자 정보 확인
   - 로그아웃
-<br/><br/><br/>
+    <br/><br/><br/>
 
 ## 디자인 컨셉
+
 아기에게 필요한 예방접종 정보를 알려주는 서비스인 만큼 어린아이의 눈높이에 맞는 컨셉을 가지려 했습니다.
+
 - 서비스명 '따꼼' : 어린아이에게 '아프다'라는 말 대신 '아야'하는거야 라고 말해주듯, 주사를 아이의 관점으로 '따꼼' 하는 것에서 착안해 서비스명을 '따꼼'으로 지었습니다.
 - 마스코트 '따꼬미' : 주사를 맞으면 머리가 쭈뼛서고, 따끔한 것을 이미지화 하여 표현하였습니다.
 - 직관적이고 심플한 UI : 생소할 수 있는 접종명, 백신명 등을 이해하기 쉽게 표시하고, 전반적인 서비스 이용이 어렵지 않도록 구성하였습니다.
-
 
 ## 와이어프레임
 
@@ -180,9 +182,10 @@ https://takkom.vercel.app/
 ## 기능 설명
 
 ### [연령별 예방접종 정보]
+
 1. 연령별 예방 접종 정보 필터 가능
-<br>- 대분류: 전체, 신생아, 영아기, 유아기, 아동기
-<br>- 중분류: 개월수, 나이
+   <br>- 대분류: 전체, 신생아, 영아기, 유아기, 아동기
+   <br>- 중분류: 개월수, 나이
 2. 해당 예방접종이 가능한 병원을 모달창을 통해 검색 후 병원찾기 페이지로 이동
 
 ### [동네 병원 찾기]
@@ -194,79 +197,83 @@ https://takkom.vercel.app/
 3. 병원 정보 제공(주소, 전화번호, 접종 목록)
 
 ### [우리아이 맞춤형 플랜]
+
 1. 사용자의 아이 등록 1단계: 이름(필수), 생년월일(필수), 특이사항(선택), 프로필 이미지(선택)
 2. 사용자의 아이 등록 2단계: 접종 체크리스트를 통해 이미 맞은 접종을 체크
 3. 아이 정보 등록/수정 기능
 4. 접종 일정표를 통해 월별 접종 일정 확인
 
 ### [로그인/회원가입]
+
 1. 일반 로그인: 아이디, 비밀번호
 2. 소셜 로그인: 구글, 카카오톡
 3. 인증/인가 및 유효성 검사
 
 ### [마이페이지]
+
 1. 유저 정보 확인
 2. 로그아웃 기능
-<br/><br/><br/>
+   <br/><br/><br/>
 
 ## 자랑하고 싶은 코드
+
 ### [연령별 예방 접종 정보]
+
 - 데이터 필터링을 위한 분류별 연결을 위한 전역상태관리
 - 대분류에 따른 소분류 변동과 병명 초기화 작동
 
-```tsx
-// 연령별 예방 접종 데이터 필터링
-// 'ageGroup'을 기준으로 'subAgeGroup'과 'selectedAge'를 업데이트하고,
-// 'currentDisease'는 초기화합니다.
-setAgeGroup: (newText: string) =>
-    set(() => {
-      return {
-        ageGroup: newText,
-        subAgeGroup: subGroup[newText],   // 대분류에 따른 소분류 데이터 설정
-        selectedAge: subGroup[newText][0], // 첫 번째 연령 선택
-        currentDisease: "" // 병명 초기화
-      };
-    }),
+  ```tsx
+  // 연령별 예방 접종 데이터 필터링
+  // 'ageGroup'을 기준으로 'subAgeGroup'과 'selectedAge'를 업데이트하고,
+  // 'currentDisease'는 초기화합니다.
+  setAgeGroup: (newText: string) =>
+      set(() => {
+        return {
+          ageGroup: newText,
+          subAgeGroup: subGroup[newText],   // 대분류에 따른 소분류 데이터 설정
+          selectedAge: subGroup[newText][0], // 첫 번째 연령 선택
+          currentDisease: "" // 병명 초기화
+        };
+      }),
 
-const subGroup: { [key: string]: number[] } = {
-  전체: [1000],
-  신생아: [0, 0.4],
-  영아기: [1, 2, 4, 6],
-  유아기: [12, 15, 18, 19, 24, 48],
-  아동기: [72, 132, 144]
-};
-```
+  const subGroup: { [key: string]: number[] } = {
+    전체: [1000],
+    신생아: [0, 0.4],
+    영아기: [1, 2, 4, 6],
+    유아기: [12, 15, 18, 19, 24, 48],
+    아동기: [72, 132, 144]
+  };
+  ```
 
 - 성능 향상을 위한 메모이제이션 적용
 - 의존성 배열 설정을 통해 불필요한 리렌더링을 방지해보고자 함
 
-```tsx
-// 선택된 연령에 따라 데이터 필터링
-const filteredData = useMemo(() => {
-  if (!allData) return [];
-  return selectedAge === 1000
-  ? allData
-  : allData.filter((item) => JSON.parse(item.vaccinate_date || "[]").includes(selectedAge));
+  ```tsx
+  // 선택된 연령에 따라 데이터 필터링
+  const filteredData = useMemo(() => {
+    if (!allData) return [];
+    return selectedAge === 1000
+      ? allData
+      : allData.filter((item) => JSON.parse(item.vaccinate_date || "[]").includes(selectedAge));
   }, [allData, selectedAge]);
 
-// 총 페이지 수 계산
-const totalPages = Math.ceil(filteredData.length / ITEMS_PER_PAGE);
+  // 총 페이지 수 계산
+  const totalPages = Math.ceil(filteredData.length / ITEMS_PER_PAGE);
 
-// 현재 페이지에 해당하는 데이터 계산
-const currentPageData = useMemo(() => {
-  const startIndex = (page - 1) * ITEMS_PER_PAGE;
-  const endIndex = startIndex + ITEMS_PER_PAGE;
-  return filteredData.slice(startIndex, endIndex);
-}, [filteredData, page]);
+  // 현재 페이지에 해당하는 데이터 계산
+  const currentPageData = useMemo(() => {
+    const startIndex = (page - 1) * ITEMS_PER_PAGE;
+    const endIndex = startIndex + ITEMS_PER_PAGE;
+    return filteredData.slice(startIndex, endIndex);
+  }, [filteredData, page]);
 
-// 페이지가 유효 범위를 벗어나면 첫 페이지로 리셋
-useMemo(() => {
-  if (page > totalPages) {
-    setPage(1);
-  }
-}, [totalPages, page]);
-
-```
+  // 페이지가 유효 범위를 벗어나면 첫 페이지로 리셋
+  useMemo(() => {
+    if (page > totalPages) {
+      setPage(1);
+    }
+  }, [totalPages, page]);
+  ```
 
 ### [동네 병원 찾기]
 
@@ -274,229 +281,231 @@ useMemo(() => {
 
 - 아래 코드는 첫 100개의 데이터를 불러와 추가 데이터가 있는지 확인한 후 `Promise.all`을 사용해 남은 데이터를 불러와 합쳐주는 코드입니다. Api에서 '시도, 시군구', '시도, 시군구, 주소' 또는 '시도, 시군구, 병원명' 검색까지만 지원해, 저희가 제공하려는 서비스보다 기능이 부족해 위 과정을 거치게 되었습니다. 이후 `useQuery` 커스텀 훅을 통해 데이터를 캐싱하여 불필요한 요청을 하지 않도록 했습니다. 자주 변동되는 데이터는 아니지만 업데이트 될 수 있으므로 1시간마다 `revalidate`하도록 했습니다.
 
-```tsx
-// 병원 목록 가져오기
-export const getHospitals = async (
-  input: HospitalParams
-): Promise<HospitalData> => {
-  const params = { serviceKey, ...input, numOfRows: "100", pageNo: "1" };
-  const searchParams = new URLSearchParams(params).toString();
-  const res = await fetch(BASE_URL + `/getOrgList3?` + searchParams, {
-    method: "GET",
-    next: {
-      revalidate: 60 * 60
-    }
-  });
-  
-  ...
+  ```tsx
+  // 병원 목록 가져오기
+  export const getHospitals = async (
+    input: HospitalParams
+  ): Promise<HospitalData> => {
+    const params = { serviceKey, ...input, numOfRows: "100", pageNo: "1" };
+    const searchParams = new URLSearchParams(params).toString();
+    const res = await fetch(BASE_URL + `/getOrgList3?` + searchParams, {
+      method: "GET",
+      next: {
+        revalidate: 60 * 60
+      }
+    });
 
-  if (body.maxPage > 1) {
-    const allData = await Promise.all(
-      Array(body.maxPage - 1)
-        .fill(0)
-        .map(async (_, idx) => {
-          params.pageNo = String(idx + 2);
-          const searchParams = new URLSearchParams(params).toString();
+    ...
 
-          const res = await fetch(BASE_URL + `/getOrgList3?` + searchParams, {...});
-          ...
-        })
-    );
-    for (const data of allData) {
-      item = item.concat(data);
-    }
-  }
+    if (body.maxPage > 1) {
+      const allData = await Promise.all(
+        Array(body.maxPage - 1)
+          .fill(0)
+          .map(async (_, idx) => {
+            params.pageNo = String(idx + 2);
+            const searchParams = new URLSearchParams(params).toString();
 
-  return { items: item, totalCount: body.totalCount, maxPage: Math.ceil(body.totalCount / NUM_OF_CARDS_PER_PAGE) };
-};
-
-```
-
-
-
-### [우리 아이 맞춤형 플랜]
-1. Custom Hooks 활용 (useChildrenQuery, useUserQuery)
-  - useChildrenQuery, useUserQuery라는 custom hooks으로 분리하여 코드의 재사용성을 높이고, 각 데이터 fetch 로직을 더 직관적으로 만들었습니다. 이 방식은 코드의 유지보수를 쉽게 하고, 추후 다른 페이지에서도 재사용 가능이 가능합니다. Custom hook을 통한 코드 분리는 다른 개발자들이 코드를 빠르게 이해할 수 있게 하며, 이로 인해 협업에서도 유리한 점이 많습니다.
-
-2. 자녀 정보 입력과 유효성 검사 (RegisterStep1)
-  - formSchema는 zod를 사용하여 이름과 생년월일을 필수로 설정하며, 추가로 메모와 프로필 이미지는 선택 사항입니다.
-  - useForm에서 zodResolver를 사용해 쉽게 유효성 검사를 설정하고, form.handleSubmit을 통해 제출 시 검사를 실행합니다.
-```tsx
-import { useForm } from "react-hook-form";
-import { z } from "zod";
-import { zodResolver } from "@hookform/resolvers/zod";
-
-export const formSchema = z.object({
-  name: z.string().min(1, { message: "이름은 필수입니다." }),
-  birth: z.string().min(1, { message: "생년월일은 필수입니다." }),
-  notes: z.string().optional(),
-  profileImage: z.instanceof(File).optional()
-});
-
-const RegisterStep1 = ({ onNext, childInfo }) => {
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
-    defaultValues: {
-      name: childInfo.name ?? "",
-      birth: childInfo.birth ?? "",
-      notes: childInfo.notes ?? ""
-    }
-  });
-
-  const handleFormSubmit = async (data) => {
-    onNext(data);
-  };
-
-  return (
-    <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8 w-full">
-        {/* 프로필 이미지 입력 필드 */}
-        <FormField
-          control={form.control}
-          name="profileImage"
-          render={() => (
-            <FormItem>
-              <FormLabel>프로필 이미지</FormLabel>
-              <FormControl>
-                <Input
-                  type="file"
-                  accept="image/*"
-                  onChange={(e) => setSelectedImage(e.target.files?.[0] ?? undefined)}
-                />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-
-        {/* 이름 입력 필드 */}
-        <FormField
-          control={form.control}
-          name="name"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>이름</FormLabel>
-              <FormControl>
-                <Input placeholder="ex. 김따꼼" {...field} className="w-full" />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        {/* 다음 버튼 */}
-        <Button type="submit">
-          다음
-        </Button>
-      </form>
-    </Form>
-  );
-};
-
-```
-3. 접종 체크리스트: 데이터 그룹화
-- Map 자료구조를 통하여 데이터를 백신이름과 질병별로 그룹화
-- 중복되는 백신이름을 통합하여 각 백신의 질병이름과 접종차수, id, 추가정보를 담고 있는 객체 배열로 반환
-```tsx
-export const groupVaccines = (vaccines: Vaccine[]) => {
-  const vaccineMap = new Map<string, Map<string, { turns: number[]; ids: string[]; additions: boolean[] }>>();
-  vaccines.forEach((vaccine) => {
-    const { disease_name, vaccine_turn, id, vaccine_name, additional } = vaccine;
-    if (!disease_name || !vaccine_turn || !vaccine_name) return;
-    if (!vaccineMap.has(vaccine_name)) {
-      vaccineMap.set(vaccine_name, new Map());
-    }
-    const diseaseMap = vaccineMap.get(vaccine_name);
-    if (!diseaseMap?.has(disease_name)) {
-      diseaseMap?.set(disease_name, { turns: [], ids: [], additions: [] });
-    }
-    diseaseMap?.get(disease_name)?.turns.push(vaccine_turn);
-    diseaseMap?.get(disease_name)?.ids.push(id);
-    diseaseMap?.get(disease_name)?.additions.push(additional);
-  });
-  const vaccinesArray = Array.from(vaccineMap.entries()).map(([vaccineName, diseaseMap]) => ({
-    vaccineName,
-    disease: Array.from(diseaseMap.entries()).map(([diseaseName, data]) => ({
-      diseaseName,
-      turns: data.turns,
-      ids: data.ids,
-      additions: data.additions
-    }))
-  }));
-  return vaccinesArray;
-};
-```
-
-
-
-4. 접종 일정표
-- supabase에 저장한 접종 일정표를 기준으로 아이 생일에 맞는 접종 일정표를 제공합니다. 접종이 완료된 경우 목록에서 제거되며 선택, 해당 백신을 접종해야 하는 날짜와 추가/필수 접종 여부를 제공합니다.
-
-- 접종 일정표를 계산하는 핵심 로직은 다음과 같습니다. 각 접종 일정에 포함된 달에 해당 접종 일정을 저장해 월별 접종 일정표를 반환해줍니다. `date-fns` 라이브러리를 사용하여 날짜 계산을 효율적으로 처리할 수 있었습니다.
-
-```tsx
-// 생일에 따라 접종 일정 계산하기
-export const calculateSchedule = (
-  date?: string,
-  schedules?: Tables<"vaccine">[]
-): Map<string, vaccineSchedule[]> | null => {
-  if (!date || !schedules) {
-    return null;
-  }
-  const birthday = new Date(date);
-  const mySchedule = new Map();
-  // 접종일정표 상 가장 나중 일정의 마지막 일자
-  const lastMonth = addDays(addMonths(addMonths(birthday, 12 * 12), 12), -1);
-
-  // 비어 있는 달이 존재할 수 이어서 key를 먼저 생성
-  let currentDate = birthday;
-  while (isBefore(currentDate, lastMonth) || isEqual(addDays(currentDate, -1), lastMonth)) {
-    mySchedule.set(format(currentDate, "yyyy.MM"), []);
-    currentDate = addMonths(currentDate, 1);
-  }
-
-  for (const schedule of schedules) {
-    const { id, vaccine_name, disease_name, vaccinate_date, duration, additional, vaccine_turn } = schedule;
-    const [after, unit] = duration.split(" ");
-    const startDate = addMonths(birthday, vaccinate_date);
-    const startDateFormatted = format(startDate, "yyyy.MM.dd");
-
-    if (unit === "일") {
-      // 일 단위
-      const startDate = addMonths(birthday, vaccinate_date);
-      const startDateFormatted = format(startDate, "yyyy.MM.dd");
-      const startMonthFormatted = format(startDate, "yyyy.MM");
-      mySchedule.set(
-        startMonthFormatted,
-        mySchedule.get(startMonthFormatted).concat([...])
+            const res = await fetch(BASE_URL + `/getOrgList3?` + searchParams, {...});
+            ...
+          })
       );
-    } else {
-      // 개월 단위
-      const endDate = addDays(addMonths(addMonths(birthday, vaccinate_date), Number(after)), -1);
-      const endDateFormatted = format(endDate, "yyyy.MM.dd");
-
-      // 위에서 key를 생성한 로직과 동일
-      // 일정이 시작하는 달부터 끝나는 달까지 해당 접종 일정을 추가함
-      let currentDate = startDate;
-      while (isBefore(currentDate, endDate) || isEqual(addDays(currentDate, -1), endDate)) {
-        const currentMonthFormatted = format(currentDate, "yyyy.MM");
-        mySchedule.set(
-          currentMonthFormatted,
-          mySchedule.get(currentMonthFormatted).concat([...])
-        );
-        currentDate = addMonths(currentDate, 1);
+      for (const data of allData) {
+        item = item.concat(data);
       }
     }
-  }
 
-  return mySchedule;
-};
-```
+    return { items: item, totalCount: body.totalCount, maxPage: Math.ceil(body.totalCount / NUM_OF_CARDS_PER_PAGE) };
+  };
+  ```
+
+### [우리 아이 맞춤형 플랜]
+
+1. Custom Hooks 활용 (useChildrenQuery, useUserQuery)
+
+   - useChildrenQuery, useUserQuery라는 custom hooks으로 분리하여 코드의 재사용성을 높이고, 각 데이터 fetch 로직을 더 직관적으로 만들었습니다. 이 방식은 코드의 유지보수를 쉽게 하고, 추후 다른 페이지에서도 재사용 가능이 가능합니다. Custom hook을 통한 코드 분리는 다른 개발자들이 코드를 빠르게 이해할 수 있게 하며, 이로 인해 협업에서도 유리한 점이 많습니다.
+
+2. 자녀 정보 입력과 유효성 검사 (RegisterStep1)
+
+   - formSchema는 zod를 사용하여 이름과 생년월일을 필수로 설정하며, 추가로 메모와 프로필 이미지는 선택 사항입니다.
+   - useForm에서 zodResolver를 사용해 쉽게 유효성 검사를 설정하고, form.handleSubmit을 통해 제출 시 검사를 실행합니다.
+
+   ```tsx
+   import { useForm } from "react-hook-form";
+   import { z } from "zod";
+   import { zodResolver } from "@hookform/resolvers/zod";
+
+   export const formSchema = z.object({
+     name: z.string().min(1, { message: "이름은 필수입니다." }),
+     birth: z.string().min(1, { message: "생년월일은 필수입니다." }),
+     notes: z.string().optional(),
+     profileImage: z.instanceof(File).optional()
+   });
+
+   const RegisterStep1 = ({ onNext, childInfo }) => {
+     const form = useForm<z.infer<typeof formSchema>>({
+       resolver: zodResolver(formSchema),
+       defaultValues: {
+         name: childInfo.name ?? "",
+         birth: childInfo.birth ?? "",
+         notes: childInfo.notes ?? ""
+       }
+     });
+
+     const handleFormSubmit = async (data) => {
+       onNext(data);
+     };
+
+     return (
+       <Form {...form}>
+         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8 w-full">
+           {/* 프로필 이미지 입력 필드 */}
+           <FormField
+             control={form.control}
+             name="profileImage"
+             render={() => (
+               <FormItem>
+                 <FormLabel>프로필 이미지</FormLabel>
+                 <FormControl>
+                   <Input
+                     type="file"
+                     accept="image/*"
+                     onChange={(e) => setSelectedImage(e.target.files?.[0] ?? undefined)}
+                   />
+                 </FormControl>
+                 <FormMessage />
+               </FormItem>
+             )}
+           />
+
+           {/* 이름 입력 필드 */}
+           <FormField
+             control={form.control}
+             name="name"
+             render={({ field }) => (
+               <FormItem>
+                 <FormLabel>이름</FormLabel>
+                 <FormControl>
+                   <Input placeholder="ex. 김따꼼" {...field} className="w-full" />
+                 </FormControl>
+                 <FormMessage />
+               </FormItem>
+             )}
+           />
+           {/* 다음 버튼 */}
+           <Button type="submit">다음</Button>
+         </form>
+       </Form>
+     );
+   };
+   ```
+
+3. 접종 체크리스트: 데이터 그룹화
+
+- Map 자료구조를 통하여 데이터를 백신이름과 질병별로 그룹화
+- 중복되는 백신이름을 통합하여 각 백신의 질병이름과 접종차수, id, 추가정보를 담고 있는 객체 배열로 반환
+
+  ```tsx
+  export const groupVaccines = (vaccines: Vaccine[]) => {
+    const vaccineMap = new Map<string, Map<string, { turns: number[]; ids: string[]; additions: boolean[] }>>();
+    vaccines.forEach((vaccine) => {
+      const { disease_name, vaccine_turn, id, vaccine_name, additional } = vaccine;
+      if (!disease_name || !vaccine_turn || !vaccine_name) return;
+      if (!vaccineMap.has(vaccine_name)) {
+        vaccineMap.set(vaccine_name, new Map());
+      }
+      const diseaseMap = vaccineMap.get(vaccine_name);
+      if (!diseaseMap?.has(disease_name)) {
+        diseaseMap?.set(disease_name, { turns: [], ids: [], additions: [] });
+      }
+      diseaseMap?.get(disease_name)?.turns.push(vaccine_turn);
+      diseaseMap?.get(disease_name)?.ids.push(id);
+      diseaseMap?.get(disease_name)?.additions.push(additional);
+    });
+    const vaccinesArray = Array.from(vaccineMap.entries()).map(([vaccineName, diseaseMap]) => ({
+      vaccineName,
+      disease: Array.from(diseaseMap.entries()).map(([diseaseName, data]) => ({
+        diseaseName,
+        turns: data.turns,
+        ids: data.ids,
+        additions: data.additions
+      }))
+    }));
+    return vaccinesArray;
+  };
+  ```
+
+4. 접종 일정표
+
+   - supabase에 저장한 접종 일정표를 기준으로 아이 생일에 맞는 접종 일정표를 제공합니다. 접종이 완료된 경우 목록에서 제거되며 선택, 해당 백신을 접종해야 하는 날짜와 추가/필수 접종 여부를 제공합니다.
+
+   - 접종 일정표를 계산하는 핵심 로직은 다음과 같습니다. 각 접종 일정에 포함된 달에 해당 접종 일정을 저장해 월별 접종 일정표를 반환해줍니다. `date-fns` 라이브러리를 사용하여 날짜 계산을 효율적으로 처리할 수 있었습니다.
+
+   ```tsx
+   // 생일에 따라 접종 일정 계산하기
+   export const calculateSchedule = (
+     date?: string,
+     schedules?: Tables<"vaccine">[]
+   ): Map<string, vaccineSchedule[]> | null => {
+     if (!date || !schedules) {
+       return null;
+     }
+     const birthday = new Date(date);
+     const mySchedule = new Map();
+     // 접종일정표 상 가장 나중 일정의 마지막 일자
+     const lastMonth = addDays(addMonths(addMonths(birthday, 12 * 12), 12), -1);
+
+     // 비어 있는 달이 존재할 수 이어서 key를 먼저 생성
+     let currentDate = birthday;
+     while (isBefore(currentDate, lastMonth) || isEqual(addDays(currentDate, -1), lastMonth)) {
+       mySchedule.set(format(currentDate, "yyyy.MM"), []);
+       currentDate = addMonths(currentDate, 1);
+     }
+
+     for (const schedule of schedules) {
+       const { id, vaccine_name, disease_name, vaccinate_date, duration, additional, vaccine_turn } = schedule;
+       const [after, unit] = duration.split(" ");
+       const startDate = addMonths(birthday, vaccinate_date);
+       const startDateFormatted = format(startDate, "yyyy.MM.dd");
+
+       if (unit === "일") {
+         // 일 단위
+         const startDate = addMonths(birthday, vaccinate_date);
+         const startDateFormatted = format(startDate, "yyyy.MM.dd");
+         const startMonthFormatted = format(startDate, "yyyy.MM");
+         mySchedule.set(
+           startMonthFormatted,
+           mySchedule.get(startMonthFormatted).concat([...])
+         );
+       } else {
+         // 개월 단위
+         const endDate = addDays(addMonths(addMonths(birthday, vaccinate_date), Number(after)), -1);
+         const endDateFormatted = format(endDate, "yyyy.MM.dd");
+
+         // 위에서 key를 생성한 로직과 동일
+         // 일정이 시작하는 달부터 끝나는 달까지 해당 접종 일정을 추가함
+         let currentDate = startDate;
+         while (isBefore(currentDate, endDate) || isEqual(addDays(currentDate, -1), endDate)) {
+           const currentMonthFormatted = format(currentDate, "yyyy.MM");
+           mySchedule.set(
+             currentMonthFormatted,
+             mySchedule.get(currentMonthFormatted).concat([...])
+           );
+           currentDate = addMonths(currentDate, 1);
+         }
+       }
+     }
+
+     return mySchedule;
+   };
+   ```
 
 ### [회원가입-유효성검사]
+
 - zod를 이용해 복잡한 schema를 설정하였고, superRefine 매서드를 이용해 강력한 유효성 검사를 시도한 부분입니다.
 - superRefine 매서드의 첫 번째 인자는 콜백함수가, 두 번째 인자에는 이슈를 생성하는 ctx가 들어갑니다. 이때, ctx에는 기존에 zod에서 제공하는 이슈도 있지만, 개발자가 직접 커스텀 할 수 있는 기능이 있어 해당 기능을 사용해 우리에게 맞는 이슈를 생성하였습니다.
-```tsx
-const schema = z
+
+  ```tsx
+  const schema = z
     .object({
       email: z
         .string()
@@ -528,9 +537,12 @@ const schema = z
         });
       }
     });
-```
+  ```
+
+  <br /><br /><br />
 
 ## Trouble Shooting
+
 ### 1. 접종 정보 페이지: 페이지네이션
 
 - 문제: 페이지네이션 적용한 정보 리스트에서 필터링 적용 시 최초 전체 로딩에서 설정된 페이지에 데이터가 고정되는 현상
@@ -539,120 +551,210 @@ const schema = z
 
 ### 2. 동네 병원 찾기
 
-- 문제: 검색창과 페이지네이션에 사용할 state를 너무 많이 설정해, React에서 오류가 발생
+- 문제상황: 검색창과 페이지네이션에 사용할 state를 너무 많이 설정해, React에서 오류가 발생
 - 해결방법: 검색창에 입력된 정보를 모두 하나의 state로 합치고, 페이지네이션에 필요한 정보는 쿼리스트링으로 넘기게 되었습니다.
 - 이전에는 `brtcCd`, `sggCd`, `addr`, `org`에 대한 state가 별도로 존재하지만 아래 처럼 `params`라는 이름의 state로 합쳤습니다.
 
-```tsx
-const SearchForm = (...) => {
-  ...
-  const searchParams = useSearchParams();
-  const [params, setParams] = useState<{ brtcCd: string; sggCd: string; addr: string; org: string }>({
-    brtcCd: searchParams.get("brtcCd") ?? BRTC,
-    sggCd: searchParams.get("sggCd") ?? SGG,
-    addr: searchParams.get("addr") ?? "",
-    org: searchParams.get("org") ?? ""
-  });
-  const [disease, setDisease] = useState(searchParams.get("disease") || DISEASE);
-  const [showInfoTag, setShowInfoTag] = useState(true);
-
-  return (
+  ```tsx
+  const SearchForm = (...) => {
     ...
-  )
-};
-```
+    const searchParams = useSearchParams();
+    const [params, setParams] = useState<{ brtcCd: string; sggCd: string; addr: string; org: string }>({
+      brtcCd: searchParams.get("brtcCd") ?? BRTC,
+      sggCd: searchParams.get("sggCd") ?? SGG,
+      addr: searchParams.get("addr") ?? "",
+      org: searchParams.get("org") ?? ""
+    });
+    const [disease, setDisease] = useState(searchParams.get("disease") || DISEASE);
+    const [showInfoTag, setShowInfoTag] = useState(true);
+
+    return (
+      ...
+    )
+  };
+  ```
+
 - 페이지내이션은 상위컴포넌트에서 `currentPage`와 `startNum`을 저장해 state를 prop으로 넘겨주었지만, 데이터를 불러오는 과정과 렌더링되는 과정에서 오류와 경고가 발생해 쿼리스트링으로 불러오게 되었습니다. 쿼리 스트링을 사용하니 한층 더 간결하게 페이지네이션을 구현할 수 있었습니다.
 
-```tsx
-// 상위 컴포넌트
-const HospitalList = () => {
-  const searchParams = useSearchParams();
-  const [brtcCd, sggCd, addr, org, disease, currentPage] = [
-    searchParams.get("brtcCd") ?? "",
-    searchParams.get("sggCd") ?? "",
-    searchParams.get("addr") ?? "",
-    searchParams.get("org") ?? "",
-    searchParams.get("disease") ?? "",
-    Number(searchParams.get("pageNo")) ?? 1
-  ];
+  ```tsx
+  // 상위 컴포넌트
+  const HospitalList = () => {
+    const searchParams = useSearchParams();
+    const [brtcCd, sggCd, addr, org, disease, currentPage] = [
+      searchParams.get("brtcCd") ?? "",
+      searchParams.get("sggCd") ?? "",
+      searchParams.get("addr") ?? "",
+      searchParams.get("org") ?? "",
+      searchParams.get("disease") ?? "",
+      Number(searchParams.get("pageNo")) ?? 1
+    ];
 
-  ...
-
-  return (
     ...
-        <HospitalPagination
-          maxPage={hospitalData.maxPage}
-          currentPage={currentPage}
-          params={{ brtcCd, sggCd, addr, org, disease }}
-        />
-    ...
-  );
-};
 
-export default HospitalList;
+    return (
+      ...
+          <HospitalPagination
+            maxPage={hospitalData.maxPage}
+            currentPage={currentPage}
+            params={{ brtcCd, sggCd, addr, org, disease }}
+          />
+      ...
+    );
+  };
 
-// 페이지네이션 컴포넌트
-const HospitalPagination = ({
-  maxPage,
-  currentPage,
-  params
-}: {
-  maxPage: number;
-  currentPage: number;
-  params: { brtcCd: string; sggCd: string; addr: string; org: string; disease?: string };
-}) => {
-  const pathname = usePathname();
+  export default HospitalList;
 
-  let startNum = 1;
-  if (maxPage >= 5) {
-    if (currentPage - 2 >= 1 && currentPage + 2 < maxPage) {
-      startNum = currentPage - 2;
-    } else if (currentPage + 2 >= maxPage) {
-      startNum = maxPage - 4;
+  // 페이지네이션 컴포넌트
+  const HospitalPagination = ({
+    maxPage,
+    currentPage,
+    params
+  }: {
+    maxPage: number;
+    currentPage: number;
+    params: { brtcCd: string; sggCd: string; addr: string; org: string; disease?: string };
+  }) => {
+    const pathname = usePathname();
+
+    let startNum = 1;
+    if (maxPage >= 5) {
+      if (currentPage - 2 >= 1 && currentPage + 2 < maxPage) {
+        startNum = currentPage - 2;
+      } else if (currentPage + 2 >= maxPage) {
+        startNum = maxPage - 4;
+      }
     }
-  }
-  if (currentPage - 2 < 1) {
-    startNum = 1;
-  }
+    if (currentPage - 2 < 1) {
+      startNum = 1;
+    }
 
-  return (
-    ...
-  )
-};
+    return (
+      ...
+    )
+  };
+  ```
 
-```
+### 3. 복잡한 라벨 로직을 컴포넌트 분리로 개선
 
-### 복잡한 라벨 로직을 컴포넌트 분리로 개선
-Map 자료구조로 파싱한 데이터를 리스트로 보여주는데 백신의 `diseaseName`에 대한 `additions` 값이 전부 true이면 "선택" 그게 아니면 "필수" 라벨을 질병이름 앞에 표시 해야했음.
-```tsx
-{data?.map(({ vaccineName, disease }) =>
-          disease.map(({ diseaseName, ids, additions }) => {
-            const isRequiredNot = additions.every((addition) => addition);
-            const label = isRequiredNot ? "선택" : "필수";
-            return (
-              <li key={vaccineName}>
-                <div>{diseaseName}</div>
-                <div>{vaccineName}</div>
+- 문제 상황
+
+  - 복잡한 라벨 표시 로직: VaccineRecordList 컴포넌트에서 각 질병의 diseaseName 앞에 라벨("선택" 또는 "필수")을 표시해야 했는데, 이는 diseaseName의 additions 값에 따라 결정됨
+  - additions 값이 모두 true면 "선택", 하나라도 false면 "필수"로 라벨을 표시해야 함
+  - 가독성 저하: VaccineRecordList 내에서 라벨 로직이 직접 작성되어 코드가 복잡하고 가독성이 떨어짐
+
+  ```tsx
+  {data?.map(({ vaccineName, disease }) =>
+            disease.map(({ diseaseName, ids, additions }) => {
+              const isRequiredNot = additions.every((addition) => addition);
+              const label = isRequiredNot ? "선택" : "필수";
+              return (
+                <li key={vaccineName}>
+                  <div>{diseaseName}</div>
+                  <div>{vaccineName}</div>
+                ...
+  ```
+
+- 해결 방법
+
+  - VaccineLabel 컴포넌트 분리:
+
+    - additions 값을 받아서 "선택" 또는 "필수" 라벨을 반환하는 VaccineLabel 컴포넌트를 생성.
+    - additions 배열이 전부 true면 "선택", 그렇지 않으면 "필수"로 표시하도록 구현.
+
+  - VaccineRecordList 내 로직 단순화:
+    - VaccineLabel 컴포넌트를 사용하여 라벨 로직을 간결하게 분리, VaccineRecordList 컴포넌트의 가독성을 개선함.
+
+  ```tsx
+  const VaccineLabel = ({ additions }: { additions: boolean[] }) => {
+    const isRequiredNot = additions.every((addition) => addition);
+    if (isRequiredNot) return <div>선택</div>
+    if (!isRequiredNot) return <div>필수</div>
+  };
+  ...
+  {data?.map(({ vaccineName, disease }) =>
+      disease.map(({ diseaseName, ids, additions }) => (
+          <li key={vaccineName}>
+              <VaccineLabel additions={additions} />
+              <div>{diseaseName}</div>
+              <div>{vaccineName}</div>
               ...
-```
+  ```
 
-위의 코드를 `VaccineRecordList`컴포넌트에서 사용 했더니 코드가 복잡해지고 가독성이 떨어짐
-```tsx
-const VaccineLabel = ({ additions }: { additions: boolean[] }) => {
-  const isRequiredNot = additions.every((addition) => addition);
-  if (isRequiredNot) return <div>선택</div>
-  if (!isRequiredNot) return <div>필수</div>
-};
-...
-{data?.map(({ vaccineName, disease }) =>
-    disease.map(({ diseaseName, ids, additions }) => (
-        <li key={vaccineName}>
-            <VaccineLabel additions={additions} />
-            <div>{diseaseName}</div>
-            <div>{vaccineName}</div>
-            ...
-```
-라벨 표시 로직을 VaccineLabel 컴포넌트로 분리하여 가독성을 개선함
+### 4. 아이정보 UID 전달을 위한 데이터 삽입 및 조회 로직 수정
 
+- 문제 상황
+
+  - UID 없음: 1단계에서 등록된 아이가 없기 때문에 uid 값이 존재하지 않음.
+  - UID 전달 필요: 아이 정보 입력 후 '다음' 버튼을 클릭하면 child 테이블에 기본 정보가 입력되고, 이때 UID가 자동 생성됨. 이 UID를 2단계로 전달해야 함.
+
+- 해결 방법
+
+  - insert 메소드의 인자를 배열에서 객체로 수정.
+  - .single() 앞에 .select()를 추가하여 삽입된 데이터를 바로 조회할 수 있게 수정.
+
+  ```tsx
+  const { data: childData, error } = await supabase
+    .from("child")
+    .insert({
+      user_id: user.id,
+      name: name,
+      birth: birthday,
+      profile: profileImageUrl,
+      notes: notes ?? ""
+    })
+    .select() //  이 부분 추가
+    .single();
+  ```
+
+### 5. 이전 단계로 돌아갈 때 작성된 Form 데이터를 유지가 안됨
+
+- 문제 상황
+  - 이전 단계 데이터 유실: 이전 버튼을 통해 1단계로 돌아가면 이전에 입력한 Form 데이터가 불러와지지 않음.
+  - 데이터는 이미 저장됨: supabase의 child 테이블에는 데이터가 저장된 상태이나, UI에서 다시 돌아갔을 때 저장된 정보가 표시되지 않음.
+- 해결 방법
+
+  - RegisterForm에서 childInfo 상태 생성
+
+    - RegisterForm 컴포넌트에서 childInfo를 상태로 생성하여, 기본값으로 빈 객체({})로 초기화
+    - childInfo를 RegisterStep1에 props로 전달하여, 이전 단계에서 입력한 정보가 유지되도록 함
+
+  - RegisterStep1에서 childInfo 활용 - RegisterStep1 컴포넌트에서 전달받은 childInfo의 데이터를 Form의 defaultValues로 설정하여, 초기 값으로 사용. - 이렇게 설정하면 이전 버튼을 통해 돌아올 때 이전에 입력한 정보가 자동으로 입력란에 표시됨.
+
+        ```tsx
+        // RegisterForm 수정
+        const RegisterForm: React.FC<ChildCardProps> = ({ userId }) => {
+          const [childInfo, setChildInfo] = useState<Partial<Child>>({});
+
+          return (
+            <RegisterStep1
+              onNext={handleNext}
+              userId={userId}
+              childInfo={childInfo}
+            />
+          );
+        };
+        ```
+
+        ```tsx
+        // RegisterStep1 수정
+        const RegisterStep1 = ({ onNext, userId, childInfo }: RegisterStep1Props) => {
+          const form = useForm({
+            resolver: zodResolver(formSchema),
+            defaultValues: {
+              name: childInfo.name || "",
+              birth: childInfo.birth || "",
+              notes: childInfo.notes || ""
+            }
+          });
+
+          return (
+            <div>
+              {/* JSX 코드 */}
+            </div>
+          );
+        };
+        ```
+
+    <br /><br /><br />
 
 ## 프로젝트 소감
