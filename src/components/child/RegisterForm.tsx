@@ -48,7 +48,7 @@ const RegisterForm: React.FC<ChildCardProps> = ({ userId }) => {
   };
 
   return (
-    <div className="w-full max-w-lg mx-auto bg-white p-6 rounded-lg">
+    <div>
       {step === 1 ? (
         <RegisterStep1 onNext={handleNext} userId={userId} childInfo={childInfo} />
       ) : (
