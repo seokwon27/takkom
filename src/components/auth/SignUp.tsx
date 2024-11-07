@@ -54,12 +54,12 @@ const SignUp = () => {
           message: "비밀번호가 일치하지 않습니다.",
           path: ["passwordCheck"]
         });
-      } else {
-        ctx.addIssue({
-          code: z.ZodIssueCode.custom,
-          message: "비밀번호가 일치합니다.",
-          path: ["passwordCheck"]
-        });
+        // } else {
+        //   ctx.addIssue({
+        //     code: z.ZodIssueCode.custom,
+        //     message: "비밀번호가 일치합니다.",
+        //     path: ["passwordCheck"]
+        //   });
       }
     });
 
@@ -84,7 +84,7 @@ const SignUp = () => {
       if (error) throw error;
 
       alert("회원가입 성공!");
-      console.log("회원가입 데이터:", data);
+      // console.log("회원가입 데이터:", data);
       router.push("/");
     } catch (error) {
       console.error("회원가입 실패:", error);
@@ -95,7 +95,7 @@ const SignUp = () => {
   const getUser = async () => {
     const { data, error } = await browserClient.auth.getSession();
     if (error) {
-      console.log("유져 정보 가져오기 실패! : ", error);
+      // console.log("유져 정보 가져오기 실패! : ", error);
       return null;
     }
     return data?.session?.user?.id || null;
@@ -113,13 +113,13 @@ const SignUp = () => {
     checkSignInStatus();
   }, []);
 
-  const passCheck = () => {
-    if (form.formState.errors.passwordCheck?.message === "비밀번호가 일치합니다.") {
-      return "text-informative";
-    } else {
-      return "text-negative";
-    }
-  };
+  // const passCheck = () => {
+  //   if (form.formState.errors.passwordCheck?.message === "비밀번호가 일치합니다.") {
+  //     return "text-informative";
+  //   } else {
+  //     return "text-negative";
+  //   }
+  // };
 
   console.log(issignIn);
 
@@ -145,7 +145,7 @@ const SignUp = () => {
                     />
                   </div>
                 </FormControl>
-                <FormDescription className={form.formState.errors.email ? "text-red-500" : "text-gray-600"}>
+                <FormDescription className={form.formState.errors.email ? "text-negative" : "text-gray-600"}>
                   {form.formState.errors.email?.message}
                 </FormDescription>
               </FormItem>
@@ -213,7 +213,7 @@ const SignUp = () => {
                     </label>
                   </div>
                 </FormControl>
-                <FormDescription className={form.formState.errors.passwordCheck ? passCheck() : "text-gray-600"}>
+                <FormDescription className={form.formState.errors.passwordCheck ? "text-negative" : "text-gray-600"}>
                   {form.formState.errors.passwordCheck?.message}
                 </FormDescription>
               </FormItem>
@@ -237,7 +237,7 @@ const SignUp = () => {
                     />
                   </div>
                 </FormControl>
-                <FormDescription className={form.formState.errors.name ? "text-red-500" : "text-gray-600"}>
+                <FormDescription className={form.formState.errors.name ? "text-negative" : "text-gray-600"}>
                   {form.formState.errors.name?.message}
                 </FormDescription>
               </FormItem>
