@@ -16,6 +16,7 @@ import google from "../../../public/Auth/signin/google.png";
 import kakao from "../../../public/Auth/signin/kakaotalk.svg";
 import kkom from "../../../public/logo.svg";
 import Image from "next/image";
+import { signin } from "@/api/server-action";
 
 const SignIn = () => {
   // 비밀번호 표시 상태 관리
@@ -42,15 +43,26 @@ const SignIn = () => {
 
   const signIn = async (data: AuthFormSignIn) => {
     try {
-      const { error } = await browserClient.auth.signInWithPassword({
+      // const { error } = await browserClient.auth.signInWithPassword({
+      //   email: data.email,
+      //   password: data.password,
+      //   options: {
+      //     data: {
+      //       name: data.name
+      //     }
+      //   }
+      // });
+
+      // if (error) throw error;
+
+      // server-action으로 변경
+      await signin({
         email: data.email,
         password: data.password
       });
 
-      if (error) throw error;
-
       alert("로그인 성공!");
-      console.log("로그인 데이터:", data);
+      // console.log("로그인 데이터:", data);
       router.push("/");
     } catch (error) {
       console.error("로그인 실패:", error);
@@ -58,49 +70,50 @@ const SignIn = () => {
   };
 
   const googleSignIn = async () => {
-    const { data, error } = await browserClient.auth.signInWithOAuth({
+    const { error } = await browserClient.auth.signInWithOAuth({
       provider: "google",
       options: {
         queryParams: {
           access_type: "offline",
           prompt: "consent"
         },
-        redirectTo: process.env.GOOGLE_REDIRECT_URL // 환경
+        redirectTo: process.env.NEXT_PUBLIC_GOOGLE_REDIRECT_URL // 환경
       }
     });
 
-    if (data) console.log("로그인 데이터 : ", data);
+    // if (data) console.log("로그인 데이터 : ", data);
 
     if (error) console.log("로그인 실패 : ", error);
   };
 
   const kakaoSignIn = async () => {
-    const { data, error } = await browserClient.auth.signInWithOAuth({
+    const { error } = await browserClient.auth.signInWithOAuth({
       provider: "kakao",
       options: {
         queryParams: {
           access_type: "offline",
           prompt: "consent"
         },
-        redirectTo: process.env.KAKAO_REDIRECT_URL
+        redirectTo: process.env.NEXT_PUBLIC_KAKAO_REDIRECT_URL
       }
     });
 
-    if (data) console.log("로그인 데이터 : ", data);
+    // if (data) console.log("로그인 데이터 : ", data);
 
     if (error) console.log("로그인 실패 : ", error);
   };
 
-  const getUser = async () => {
-    const { data, error } = await browserClient.auth.getUser();
-    if (error) {
-      console.log("유져 정보 가져오기 실패! : ", error);
-      return null;
-    }
-    return data?.user?.id || null;
-  };
+  // console.log()만하시고 사용을 안하시네요?
+  // const getUser = async () => {
+  //   const { data, error } = await browserClient.auth.getUser();
+  //   if (error) {
+  //     console.log("유져 정보 가져오기 실패! : ", error);
+  //     return null;
+  //   }
+  //   return data?.user?.id || null;
+  // };
 
-  console.log(getUser);
+  // console.log(getUser);
 
   return (
     <div className="flex flex-col justify-center items-center gap-3">
@@ -176,20 +189,14 @@ const SignIn = () => {
               </div>
             </form>
             <div className="flex justify-center items-center gap-2.5 p-3 md-[12px]">
-              <Link
-                href={"/"}
-                className="text-[#636363] text-base font-normal font-['ABeeZee'] leading-normal m-[12px]"
-              >
+              <Link href={"/"} className="text-[#636363] text-base font-normal leading-normal m-[12px]">
                 비밀번호 찾기
               </Link>
-              <Link
-                href={"/signup"}
-                className="text-[#636363] text-base font-normal font-['ABeeZee'] leading-normal m-[12px]"
-              >
+              <Link href={"/signup"} className="text-[#636363] text-base font-normal leading-normal m-[12px]">
                 회원가입
               </Link>
             </div>
-            <div className="self-stretch text-center text-[#4a4a4a] text-base font-normal font-['ABeeZee'] leading-normal mb-[24px] mt-[80px]">
+            <div className="self-stretch text-center text-[#4a4a4a] text-base font-normal leading-normal mb-[24px] mt-[80px]">
               간편 로그인
             </div>
             <div className="flex flex-row justify-center items-center gap-[24px] mb-[100px]">

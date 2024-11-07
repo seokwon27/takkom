@@ -42,8 +42,8 @@ const ScheduleTable = ({ child }: { child?: Tables<"child"> }) => {
   return (
     <div className="flex flex-col p-6 bg-white rounded-3xl shadow-[0px_0px_12px_rgba(114,114,114,0.1)]">
       <div className="flex gap-[10px]">
-        <Image src={checkListIcon} alt="체크리스트 아이콘" />
-        <p>접종 체크리스트</p>
+        <Image src={checkListIcon} alt="일정표 아이콘" />
+        <p>접종 일정표</p>
         <Select value={month} onValueChange={setMonth}>
           <SelectTrigger className="w-[120px] h-[26px] justify-center text-sm font-semibold border-0 bg-gray-30 text-gray-600">
             <p>{`${month.split(".")[0]}년 ${month.split(".")[1]}월`}</p>

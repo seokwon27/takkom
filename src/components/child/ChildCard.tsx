@@ -150,7 +150,7 @@ export const ChildCard = ({ child }: ChildCardProps) => {
         </div>
         {/* 아이 기본 정보 & 우리 아이 접종 내역 컨테이너 끝*/}
 
-        {/* 접종 체크리스트 */}
+        {/* 접종 일정표 */}
         <Schedule child={child} />
       </div>
     </>

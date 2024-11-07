@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel } from "../ui/form";
 import { z } from "zod";
@@ -8,18 +8,18 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
 import { useRouter } from "next/navigation";
-import browserClient from "@/utils/supabase/client";
 import { AuthFormSignUp } from "@/types/user";
 import { Eye, EyeOff } from "lucide-react";
 import Image from "next/image";
 import kkom from "../../../public/logo.svg";
+import { signup } from "@/api/server-action";
 
 const SignUp = () => {
   // 비밀번호 표시 상태 관리
   const [showPassword, setShowPassword] = useState(false);
   const [showPasswordCheck, setShowPasswordCheck] = useState(false);
 
-  const [issignIn, setIsSignIn] = useState(false);
+  // const [issignIn, setIsSignIn] = useState(false);
 
   const router = useRouter();
 
@@ -54,13 +54,15 @@ const SignUp = () => {
           message: "비밀번호가 일치하지 않습니다.",
           path: ["passwordCheck"]
         });
-      } else {
-        ctx.addIssue({
-          code: z.ZodIssueCode.custom,
-          message: "비밀번호가 일치합니다.",
-          path: ["passwordCheck"]
-        });
       }
+      // 회원가입 시 비밀번호 일치해도 작동해서 주석처리
+      // else {
+      //   ctx.addIssue({
+      //     code: z.ZodIssueCode.custom,
+      //     message: "비밀번호가 일치합니다.",
+      //     path: ["passwordCheck"]
+      //   });
+      // }
     });
 
   const form = useForm({
@@ -71,20 +73,28 @@ const SignUp = () => {
 
   const signUp = async (data: AuthFormSignUp) => {
     try {
-      const { error } = await browserClient.auth.signUp({
+      // const { error } = await browserClient.auth.signUp({
+      //   email: data.email,
+      //   password: data.password,
+      //   options: {
+      //     data: {
+      //       name: data.name
+      //     }
+      //   }
+      // });
+
+      // if (error) throw error;
+
+      // server-action으로 변경
+      await signup({
         email: data.email,
         password: data.password,
-        options: {
-          data: {
-            name: data.name
-          }
-        }
+        passwordCheck: data.passwordCheck,
+        name: data.name
       });
 
-      if (error) throw error;
-
       alert("회원가입 성공!");
-      console.log("회원가입 데이터:", data);
+      // console.log("회원가입 데이터:", data);
       router.push("/");
     } catch (error) {
       console.error("회원가입 실패:", error);
@@ -92,42 +102,41 @@ const SignUp = () => {
     }
   };
 
-  const getUser = async () => {
-    const { data, error } = await browserClient.auth.getSession();
-    if (error) {
-      console.log("유져 정보 가져오기 실패! : ", error);
-      return null;
-    }
-    return data?.session?.user?.id || null;
-  };
+  // const getUser = async () => {
+  //   const { data, error } = await browserClient.auth.getSession();
+  //   if (error) {
+  //     // console.log("유져 정보 가져오기 실패! : ", error);
+  //     return null;
+  //   }
+  //   return data?.session?.user?.id || null;
+  // };
 
-  useEffect(() => {
-    const checkSignInStatus = async () => {
-      const userId = await getUser();
-      if (userId) {
-        setIsSignIn(true);
-      } else {
-        setIsSignIn(false);
-      }
-    };
-    checkSignInStatus();
-  }, []);
+  // useEffect(() => {
+  //   const checkSignInStatus = async () => {
+  //     const userId = await getUser();
+  //     if (userId) {
+  //       setIsSignIn(true);
+  //     } else {
+  //       setIsSignIn(false);
+  //     }
+  //   };
+  //   checkSignInStatus();
+  // }, []);
 
-  const passCheck = () => {
-    if (form.formState.errors.passwordCheck?.message === "비밀번호가 일치합니다.") {
-      return "text-informative";
-    } else {
-      return "text-negative";
-    }
-  };
+  // const passCheck = () => {
+  //   if (form.formState.errors.passwordCheck?.message === "비밀번호가 일치합니다.") {
+  //     return "text-informative";
+  //   } else {
+  //     return "text-negative";
+  //   }
+  // };
 
-  console.log(issignIn);
 
   return (
     <div className="flex flex-col justify-center items-center gap-3">
       <Form {...form}>
         <Image src={kkom} alt="따꼼 로고" className="mb-[80px]" />
-        <form onSubmit={form.handleSubmit(signUp)}>
+        <form onSubmit={form.handleSubmit(signUp, console.log)}>
           <FormField
             control={form.control}
             name="email"
@@ -145,7 +154,7 @@ const SignUp = () => {
                     />
                   </div>
                 </FormControl>
-                <FormDescription className={form.formState.errors.email ? "text-red-500" : "text-gray-600"}>
+                <FormDescription className={form.formState.errors.email ? "text-negative" : "text-gray-600"}>
                   {form.formState.errors.email?.message}
                 </FormDescription>
               </FormItem>
@@ -213,7 +222,7 @@ const SignUp = () => {
                     </label>
                   </div>
                 </FormControl>
-                <FormDescription className={form.formState.errors.passwordCheck ? passCheck() : "text-gray-600"}>
+                <FormDescription className={form.formState.errors.passwordCheck ? "text-negative" : "text-gray-600"}>
                   {form.formState.errors.passwordCheck?.message}
                 </FormDescription>
               </FormItem>
@@ -237,7 +246,7 @@ const SignUp = () => {
                     />
                   </div>
                 </FormControl>
-                <FormDescription className={form.formState.errors.name ? "text-red-500" : "text-gray-600"}>
+                <FormDescription className={form.formState.errors.name ? "text-negative" : "text-gray-600"}>
                   {form.formState.errors.name?.message}
                 </FormDescription>
               </FormItem>

@@ -1,4 +1,3 @@
-import { createClient } from "@/utils/supabase/server";
 import Link from "next/link";
 import React from "react";
 import HeaderLinks from "./HeaderLinks";
@@ -7,10 +6,6 @@ import Image from "next/image";
 import logo from "../../../public/logo.svg";
 
 const Header = async () => {
-  const supabase = createClient();
-  const res = await supabase.auth.getUser();
-  const user = res.data.user;
-
   return (
     <header
       className={`w-full max-w-[1200px] flex justify-between items-center mx-auto pt-12 pb-4 sticky top-0 left-0 right-0 z-10 bg-white`}
@@ -19,7 +14,7 @@ const Header = async () => {
         <Image src={logo} alt="로고" />
       </Link>
       <HeaderLinks />
-      <HeaderAuth user={user} />
+      <HeaderAuth />
     </header>
   );
 };

@@ -5,7 +5,6 @@ import { usePathname } from "next/navigation";
 
 const HeaderLinks = () => {
   const pathName = usePathname();
-  console.log(pathName);
 
   return (
     <ul className="flex gap-8 items-center w-[588px] h-[60px] p-2 justify-center rounded-[100px] shadow-[0px_0px_8px_0px_rgba(0,0,0,0.10)]">
