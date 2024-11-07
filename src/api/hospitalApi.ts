@@ -24,11 +24,11 @@ function xmlParser<T>(xmlData: string): T {
 export const getBrtcCd = async (): Promise<{ [key: string]: string }> => {
   const params = new URLSearchParams({ serviceKey });
   const res = await fetch(BASE_URL + `/getCondBrtcCd3?` + params, {
-    method: "GET",
+    method: "GET"
     // cache: "no-store",
-    next: {
-      revalidate: 60 * 60
-    }
+    // next: {
+    //   revalidate: 60 * 60
+    // }
   });
   const data = await res.text();
   const {
