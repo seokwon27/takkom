@@ -15,7 +15,6 @@ const SearchButton = () => {
       <Button
         onClick={() => {
           setModalOpen(true);
-          console.log(isModalOpen);
         }}
         variant={"vaccineinfo"}
         className="p-6 hover:bg-primary-300 my-10"

@@ -18,7 +18,7 @@ const PageLink = () => {
       >
         <Image src={linkPerson} alt="사람아이콘" className="absolute -bottom-12 right-11" />
         <div className="flex flex-col justify-start gap-6 pt-6">
-          <div className="z-10">
+          <div>
             <p className="text-[32px] font-bold">지금 아이에게 필요한</p>
             <p className="text-[40px] font-bold">예방 접종 정보 확인하기</p>
           </div>
