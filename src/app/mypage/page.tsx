@@ -23,7 +23,6 @@ const MyPage = () => {
     }
     const userInfo = async () => {
       const { data, error } = await browserClient.from("user").select("*").eq("id", user.id);
-      console.log("로그인 정보 : ", user);
       if (error) {
         console.log("유저 정보 가져오기 에러: ", error);
       } else if (data && data.length > 0) {
