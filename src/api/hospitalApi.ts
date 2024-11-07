@@ -24,11 +24,11 @@ function xmlParser<T>(xmlData: string): T {
 export const getBrtcCd = async (): Promise<{ [key: string]: string }> => {
   const params = new URLSearchParams({ serviceKey });
   const res = await fetch(BASE_URL + `/getCondBrtcCd3?` + params, {
-    method: "GET"
+    method: "GET",
     // cache: "no-store",
-    // next: {
-    //   revalidate: 60 * 60
-    // }
+    next: {
+      revalidate:3600 // 
+    }
   });
   const data = await res.text();
   const {
@@ -119,11 +119,11 @@ export const getHospitals = async (
   const params = { serviceKey, ...input, numOfRows: "100", pageNo: "1" };
   const searchParams = new URLSearchParams(params).toString();
   const res = await fetch(BASE_URL + `/getOrgList3?` + searchParams, {
-    method: "GET"
+    method: "GET",
     // cache: "no-store",
-    // next: {
-    //   revalidate: 60 * 60
-    // }
+    next: {
+      revalidate: 3600
+    }
   });
   const data = await res.text();
   const { header, body } = xmlParser<HospitalType>(data);
@@ -143,11 +143,11 @@ export const getHospitals = async (
           const searchParams = new URLSearchParams(params).toString();
 
           const res = await fetch(BASE_URL + `/getOrgList3?` + searchParams, {
-            method: "GET"
-            // cache: "no-store"
-            // next: {
-            //   revalidate: 60 * 60,
-            // }
+            method: "GET",
+            // cache: "no-store",
+            next: {
+              revalidate: 3600,
+            }
           });
           const data = await res.text();
           const { body } = xmlParser<HospitalType>(data);
