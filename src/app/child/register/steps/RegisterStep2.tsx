@@ -5,6 +5,9 @@ import CheckboxForm from "@/components/vaccinerecord/CheckboxForm";
 import browserClient from "@/utils/supabase/client";
 import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
+import Image from "next/image";
+import Vaccination11 from "../../../../../public/vaccinerecord/vaccination1-1.svg";
+import Vaccination12 from "../../../../../public/vaccinerecord/vaccination1-2.svg";
 
 interface RegisterStep2Props {
   child: Child; // child prop 추가
@@ -33,7 +36,7 @@ const RegisterStep2 = ({ child, onPrev, onComplete }: RegisterStep2Props) => {
     };
 
     fetchChildData();
-  // }, [child.id]);
+    // }, [child.id]);
   }, [supabase, child.id]); // 빌드 경고 해결 테스트: supabase를 의존성 배열에 추가
 
   // console.log("등록하려는 아이의 ID:", child.id);
@@ -44,9 +47,17 @@ const RegisterStep2 = ({ child, onPrev, onComplete }: RegisterStep2Props) => {
   };
 
   return (
-    <div>
-      <h1>2단계</h1>
-      <h2>접종 완료한 내역을 선택해주세요.</h2>
+    <div className="flex flex-col gap-14">
+      <Image src={Vaccination11} alt="Vaccination" className="w-20 h-20 object-cover relative" />
+      <div className="inline-flex flex-col items-start gap-3 relative">
+        <h1 className="self-stretch mt-[-1.00px] font-heading-XXL text-gray-900 text-[32px] font-bold">2단계</h1>
+        <h2 className="w-fit text-gray-400">접종 완료한 내역을 선택해주세요.</h2>
+      </div>
+      <Image
+        src={Vaccination12}
+        alt="Vaccination"
+        className="absolute w-[100px] h-[100px] -top-0.5 -left-px object-cover"
+      />
       <CheckboxForm childId={child?.id} onSuccess={onSuccess}>
         <Button type="button" onClick={onPrev} className="mt-4">
           이전
