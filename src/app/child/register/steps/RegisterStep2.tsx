@@ -59,12 +59,22 @@ const RegisterStep2 = ({ child, onPrev, onComplete }: RegisterStep2Props) => {
         className="absolute w-[100px] h-[100px] -top-0.5 -left-px object-cover"
       />
       <CheckboxForm childId={child?.id} onSuccess={onSuccess}>
-        <Button type="button" onClick={onPrev} className="mt-4">
-          이전
-        </Button>
-        <Button type="submit" onClick={onComplete} className="mt-4">
-          완료
-        </Button>
+        <div className="flex flex-row justify-between">
+          <Button
+            type="button"
+            onClick={onPrev}
+            className="mt-4 text-lg font-semibold text-white rounded-xl p-6 bg-primary-400 hover:bg-primary-500"
+          >
+            이전
+          </Button>
+          <Button
+            type="submit"
+            onClick={onComplete}
+            className="mt-4 text-lg font-semibold text-white rounded-xl p-6 bg-primary-400 hover:bg-primary-500"
+          >
+            완료
+          </Button>
+        </div>
       </CheckboxForm>
     </div>
   );
