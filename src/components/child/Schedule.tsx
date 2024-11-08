@@ -12,8 +12,7 @@ import { Child } from "@/types/childType";
 interface ScheduleProps {
   child: Child;
 }
-// 추후 해야할 것
-// 접종 정보 가져와서 받은 백신 표시하기
+
 const Schedule = ({ child }: ScheduleProps) => {
   const { data: user, isLoading: isUserLoading, isError: isUserError } = useUserQuery(browserClient);
 
@@ -36,7 +35,6 @@ const Schedule = ({ child }: ScheduleProps) => {
 
   return (
     <div className="mx-auto w-full">
-      {/* <ScheduleTable child={childrenData?.[0]} /> */}
       {/* 선택된 자녀에 대한 ScheduleTable만 표시 */}
       {selectedChild && <ScheduleTable key={selectedChild.id} child={selectedChild} />}
     </div>
