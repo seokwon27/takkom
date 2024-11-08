@@ -55,8 +55,6 @@ const RegisterStep1Form = ({ form, onSubmit, setSelectedImage }: RegisterStep1Fo
           name="profileImage"
           render={() => (
             <FormItem className="relative flex items-center justify-center w-44 h-44 mx-auto">
-              {/* <FormLabel>프로필 이미지</FormLabel> */}
-              {/* <FileInputIcon alt="파일 인풋 아이콘" /> */}
               <Image
                 src={profileImageUrl}
                 alt="아이 프로필 이미지"

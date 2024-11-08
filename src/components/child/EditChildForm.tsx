@@ -119,8 +119,8 @@ const EditChildForm = ({ child, onComplete }: EditFormProps) => {
                     <Image
                       src={child.profile}
                       alt="Current Profile"
-                      width={200}
-                      height={200}
+                      width={176}
+                      height={176}
                       className="flex-grow-0 flex-shrink-0 w-44 h-44 object-cover rounded-[13px]"
                       unoptimized
                     />
