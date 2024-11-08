@@ -63,11 +63,11 @@ export const ChildCard = ({ child }: ChildCardProps) => {
 
                   {/* 아이 특이사항 */}
                   <p className="self-stretch flex-grow-0 flex-shrink-0 w-40 h-[50px] text-xs font-medium text-left text-gray-600">
-                    {child.notes && <p>{child.notes}</p>}
+                    {child.notes && <span>{child.notes}</span>}
                   </p>
 
                   {/* 수정하기 */}
-                  <Link key={child.id} href={`/child/${child.id}/edit1`}>
+                  <Link key={child.id} href={`/child/${child.id}/firststep`}>
                     <div className="flex justify-center items-center self-stretch flex-grow-0 flex-shrink-0 h-8 relative gap-[8px] p-[7px] rounded-[7px] bg-gray-30 w-[180px]">
                       <button className="flex-grow-0 flex-shrink-0 text-xs font-medium text-center text-gray-700">
                         수정하기

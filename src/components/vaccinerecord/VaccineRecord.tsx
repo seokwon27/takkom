@@ -60,7 +60,7 @@ const VaccineRecord = ({ childId }: VaccineRecordProps) => {
           </TabsTrigger>
         </div>
         <Link
-          href={`/child/${childId}/edit2`}
+          href={`/child/${childId}/secondstep`}
           className="inline-flex justify-center gap-2.5 px-3 py-1.5 rounded-[15px] items-center"
         >
           <Button className="w-fit mt-[-1.00px] text-primary-300 whitespace-nowrap bg-transparent hover:bg-primary-50">
