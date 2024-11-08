@@ -1,4 +1,5 @@
 import { SupabaseDatabase } from "@/types/supabaseDataType";
+import browserClient from "@/utils/supabase/client";
 
 // 아이 정보를 가져오는 API 함수: 주어진 userId와 childId로 아이 정보 조회
 export const getChildInfo = async (client: SupabaseDatabase, userId: string, childId: string) => {
@@ -7,6 +8,28 @@ export const getChildInfo = async (client: SupabaseDatabase, userId: string, chi
 
   // 에러가 발생할 경우 에러 메시지를 포함해 예외를 발생
   if (error) throw new Error(error.message);
+
+  return data;
+};
+
+export const updateChildInfo = async (
+  childId:string,
+  name: string,
+  birth: string,
+  notes?: string,
+  profile?: string,
+) => {
+  const { data, error } = await browserClient
+    .from("child")
+    .update({
+      name,
+      birth,
+      notes,
+      profile
+    })
+    .eq("id", childId);
+
+  if (error) throw Error(error.message);
 
   return data;
 };

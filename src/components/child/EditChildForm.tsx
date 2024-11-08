@@ -10,6 +10,7 @@ import { Button } from "@/components/ui/button";
 import { useRef, useState } from "react";
 import CameraIcon from "../../../public/child/camera-icon.svg";
 import Image from "next/image";
+import { useUpdateChildMutation } from "@/query/useUpdateChildMutation";
 
 interface EditFormProps {
   child: Child; // 수정할 자식 데이터
@@ -25,6 +26,7 @@ const formSchema = z.object({
 });
 
 const EditChildForm = ({ child, onComplete }: EditFormProps) => {
+    const { mutateAsync: updateChildInfo } = useUpdateChildMutation();
   const fileInputRef = useRef<HTMLInputElement>(null);
   // 이미지 파일 상태 관리
   const [selectedImage, setSelectedImage] = useState<File | undefined>(undefined);
@@ -57,30 +59,50 @@ const EditChildForm = ({ child, onComplete }: EditFormProps) => {
     return publicUrlData?.publicUrl ?? null; // 이미지 URL 반환
   };
 
-  // 폼 제출 함수
+  // 폼 제출 함수 -- 수정 전
+  // const onSubmit = async (data: z.infer<typeof formSchema>) => {
+  //   const supabase = browserClient;
+  //   const profileImageUrl = selectedImage ? await uploadImage(selectedImage) : child.profile;
+  //   const profileUrl = profileImageUrl ?? undefined;
+
+  //   // 데이터 업데이트
+  //   const { error } = await supabase
+  //     .from("child")
+  //     .update({
+  //       name: data.name, // 이름 업데이트
+  //       birth: data.birth, // 생년월일 업데이트
+  //       notes: data.notes, // 특이사항 업데이트
+  //       profile: profileUrl // 프로필 이미지 업데이트
+  //     })
+  //     .eq("id", child.id); // 해당 자식 ID에 대한 업데이트
+
+  //   if (error) {
+  //     console.error("수정 중 오류 발생:", error); // 오류 처리
+  //     return;
+  //   }
+
+  //   onComplete(); // 완료 후 부모 컴포넌트에 통보
+  // };
+
+  // 폼 제출 함수 -- 수정 후
   const onSubmit = async (data: z.infer<typeof formSchema>) => {
-    const supabase = browserClient;
     const profileImageUrl = selectedImage ? await uploadImage(selectedImage) : child.profile;
     const profileUrl = profileImageUrl ?? undefined;
 
+    
     // 데이터 업데이트
-    const { error } = await supabase
-      .from("child")
-      .update({
-        name: data.name, // 이름 업데이트
-        birth: data.birth, // 생년월일 업데이트
-        notes: data.notes, // 특이사항 업데이트
-        profile: profileUrl // 프로필 이미지 업데이트
-      })
-      .eq("id", child.id); // 해당 자식 ID에 대한 업데이트
+    updateChildInfo({
+      childId: child.id,
+      name: data.name,
+      birth: data.birth,
+      notes: data.notes,
+      profile: profileUrl
+    });
 
-    if (error) {
-      console.error("수정 중 오류 발생:", error); // 오류 처리
-      return;
-    }
-
-    onComplete(); // 완료 후 부모 컴포넌트에 통보
+     onComplete();
   };
+
+
 
   // 프로필 이미지 삭제 함수
   const handleDeleteImage = async () => {
