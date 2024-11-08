@@ -26,7 +26,7 @@ const formSchema = z.object({
 });
 
 const EditChildForm = ({ child, onComplete }: EditFormProps) => {
-    const { mutateAsync: updateChildInfo } = useUpdateChildMutation();
+  const { mutateAsync: updateChildInfo } = useUpdateChildMutation();
   const fileInputRef = useRef<HTMLInputElement>(null);
   // 이미지 파일 상태 관리
   const [selectedImage, setSelectedImage] = useState<File | undefined>(undefined);
@@ -89,7 +89,6 @@ const EditChildForm = ({ child, onComplete }: EditFormProps) => {
     const profileImageUrl = selectedImage ? await uploadImage(selectedImage) : child.profile;
     const profileUrl = profileImageUrl ?? undefined;
 
-    
     // 데이터 업데이트
     updateChildInfo({
       childId: child.id,
@@ -99,10 +98,8 @@ const EditChildForm = ({ child, onComplete }: EditFormProps) => {
       profile: profileUrl
     });
 
-     onComplete();
+    onComplete();
   };
-
-
 
   // 프로필 이미지 삭제 함수
   const handleDeleteImage = async () => {
@@ -240,6 +237,3 @@ const EditChildForm = ({ child, onComplete }: EditFormProps) => {
 };
 
 export default EditChildForm;
-
-
-// 사용자의 아이들정보가져오기 인벨리드쿼리로 가져오기 

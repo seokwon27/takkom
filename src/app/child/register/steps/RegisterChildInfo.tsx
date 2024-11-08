@@ -7,7 +7,8 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import RegisterChildInfoForm from "@/components/child/RegisterChildInfoForm";
 import browserClient from "@/utils/supabase/client";
 import Image from "next/image";
-import RegisterCheckListIcon from "../../../../../public/child/register-checklist-icon.svg";
+import RegisterChildInfoIcon from "../../../../../public/child/register-child-info-icon.svg";
+import RegisterChildInfoBlurredIcon from "../../../../../public/child/register-child-info-blurred-icon.svg";
 
 interface RegisterChildInfoProps {
   onNext: (data: Partial<Child>) => void;
@@ -103,18 +104,23 @@ const RegisterChildInfo = ({ onNext, childInfo }: RegisterChildInfoProps) => {
 
   return (
     <div className="max-w-[588px] mx-auto m-20">
-      <div>
-        <Image src={RegisterCheckListIcon} alt="체크리스트 아이콘" className="mb-12" />
-
-        <div className="flex flex-col justify-start items-start self-stretch flex-grow-0 flex-shrink-0 relative mb-20">
-          <p className="flex-grow-0 flex-shrink-0 text-4xl font-bold text-left text-gray-800 gap-20">1단계</p>
-          <p className="flex-grow-0 flex-shrink-0 text-s font-semibold text-left text-gray-400">
-            정보를 입력해 주세요.
-          </p>
-        </div>
+      <div className="relative mb-20">
+        <Image src={RegisterChildInfoIcon} alt="체크리스트 아이콘" className="w-20 h-20 object-cover" />
+        <Image
+          src={RegisterChildInfoBlurredIcon}
+          alt="체크리스트 아이콘의 그림자"
+          className="absolute top-2 left-2 w-20 h-20 object-cover"
+        />
       </div>
 
-      {/* 자녀 등록 폼 */}
+      <div className="flex flex-col justify-start items-start self-stretch mb-6">
+        <p className="text-4xl font-bold text-left text-gray-800">1단계</p>
+      </div>
+
+      <div className="flex flex-col justify-start items-start self-stretch mb-6">
+        <p className="text-s font-semibold text-left text-gray-400">정보를 입력해 주세요.</p>
+      </div>
+
       <RegisterChildInfoForm form={form} onSubmit={handleFormSubmit} setSelectedImage={setSelectedImage} />
     </div>
   );

@@ -33,7 +33,3 @@ export const useDeleteVaccineRecordMutation = () => {
     }
   });
 };
-
-// childedit에서는 없고 useChilInfoQuery 쿼리키를 가지고 사용해라.
-// 프로필 쿼리 키를 인벨리드 해라.
-// editChildForm 이미지 업로드 함수 텐스텍쿼리 ㅏㅅ용, 프로필 이미지 삭제 함수도 텐스텍쿼리 
