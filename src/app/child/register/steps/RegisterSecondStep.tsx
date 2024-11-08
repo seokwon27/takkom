@@ -15,7 +15,7 @@ interface RegisterStep2Props {
   onComplete: () => void;
 }
 
-const RegisterStep2 = ({ child, onPrev, onComplete }: RegisterStep2Props) => {
+const RegisterSecondStep = ({ child, onPrev, onComplete }: RegisterStep2Props) => {
   // Supabase 클라이언트 생성
   const supabase = browserClient;
 
@@ -80,4 +80,4 @@ const RegisterStep2 = ({ child, onPrev, onComplete }: RegisterStep2Props) => {
   );
 };
 
-export default RegisterStep2;
+export default RegisterSecondStep;

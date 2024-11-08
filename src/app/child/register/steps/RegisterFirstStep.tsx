@@ -4,12 +4,12 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import RegisterStep1Form from "@/components/child/RegisterStep1Form";
+import RegisterFirstStepForm from "@/components/child/RegisterFirstStepForm";
 import browserClient from "@/utils/supabase/client";
 import Image from "next/image";
 import RegisterCheckListIcon from "../../../../../public/child/register-checklist-icon.svg";
 
-interface RegisterStep1Props {
+interface RegisterFirstStepProps {
   onNext: (data: Partial<Child>) => void;
   userId: string;
   childInfo: Partial<Child>;
@@ -22,7 +22,7 @@ export const formSchema = z.object({
   profileImage: z.instanceof(File).optional() // 프로필 이미지는 선택적
 });
 
-const RegisterStep1 = ({ onNext, childInfo }: RegisterStep1Props) => {
+const RegisterFirstStep = ({ onNext, childInfo }: RegisterFirstStepProps) => {
   // react-hook-form을 사용하여 폼 데이터 관리
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema), // zod 유효성 검사 사용
@@ -115,9 +115,9 @@ const RegisterStep1 = ({ onNext, childInfo }: RegisterStep1Props) => {
       </div>
 
       {/* 자녀 등록 폼 */}
-      <RegisterStep1Form form={form} onSubmit={handleFormSubmit} setSelectedImage={setSelectedImage} />
+      <RegisterFirstStepForm form={form} onSubmit={handleFormSubmit} setSelectedImage={setSelectedImage} />
     </div>
   );
 };
 
-export default RegisterStep1;
+export default RegisterFirstStep;

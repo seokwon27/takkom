@@ -3,19 +3,19 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { z } from "zod";
 import { ControllerRenderProps, UseFormReturn } from "react-hook-form";
-import { formSchema } from "@/app/child/register/steps/RegisterStep1";
+import { formSchema } from "@/app/child/register/steps/RegisterFirstStep";
 import { useRef, useState } from "react";
 import cameraIcon from "../../../public/child/camera-icon.svg";
 import Image from "next/image";
 import { DEFAULT_PROFILE_IMAGE_URL } from "@/utils/supabase/client";
 
-interface RegisterStep1FormProps {
+interface RegisterFirstStepFormProps {
   form: UseFormReturn<z.infer<typeof formSchema>>; // form prop의 타입 지정
   onSubmit: (data: z.infer<typeof formSchema>) => Promise<void>; // 데이터 제출 함수의 타입
   setSelectedImage: (file: File | undefined) => void; // 프로필 이미지 선택 함수
 }
 
-const RegisterStep1Form = ({ form, onSubmit, setSelectedImage }: RegisterStep1FormProps) => {
+const RegisterFirstStepForm = ({ form, onSubmit, setSelectedImage }: RegisterFirstStepFormProps) => {
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [profileImageUrl, setProfileImageUrl] = useState<string>(DEFAULT_PROFILE_IMAGE_URL);
 
@@ -43,8 +43,6 @@ const RegisterStep1Form = ({ form, onSubmit, setSelectedImage }: RegisterStep1Fo
       field.onChange(dateValue);
     }
   };
-
-  
 
   return (
     <Form {...form}>
@@ -146,4 +144,4 @@ const RegisterStep1Form = ({ form, onSubmit, setSelectedImage }: RegisterStep1Fo
   );
 };
 
-export default RegisterStep1Form;
+export default RegisterFirstStepForm;
