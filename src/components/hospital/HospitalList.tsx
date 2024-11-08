@@ -44,7 +44,7 @@ const HospitalList = () => {
   return (
     <section className="w-full grow flex flex-col justify-between items-center mt-16 mb-6">
       {!hospitalData || hospitalData?.totalCount === 0 ? (
-        <LoadingHospitalList>
+        <LoadingHospitalList className="mt-0">
           <p>우리 동네 병원을 검색해 보세요.</p>
         </LoadingHospitalList>
       ) : (

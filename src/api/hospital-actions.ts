@@ -44,12 +44,12 @@ export const getBrtcCd = async (): Promise<{ [key: string]: string }> => {
     });
 
     return brtcObj;
-  } else {
-    const brtcObj: { [key: string]: string } = {};
-    const cd = item.cd;
-    brtcObj[cd] = item.cdNm;
-    return brtcObj;
   }
+
+  const brtcObj: { [key: string]: string } = {};
+  const cd = item.cd;
+  brtcObj[cd] = item.cdNm;
+  return brtcObj;
 };
 
 // 시군구 정보 가져오기
@@ -77,12 +77,12 @@ export const getSggCd = async (brtcCd: string): Promise<{ [key: string]: string 
     });
 
     return sggObj;
-  } else {
-    const sggObj: { [key: string]: string } = {};
-    const cd = item.cd;
-    sggObj[cd] = item.cdNm;
-    return sggObj;
   }
+
+  const sggObj: { [key: string]: string } = {};
+  const cd = item.cd;
+  sggObj[cd] = item.cdNm;
+  return sggObj;
 };
 
 // 시도, 시군구 정보 합치기
@@ -178,105 +178,107 @@ export type HospitalsMutliConditionParams = {
 export const getHospitalsMutliConditions = async (input: HospitalsMutliConditionParams) => {
   const { brtcCd, sggCd, addr, org, disease } = input;
 
-  if (!disease) {
-    if (!org && !addr) {
-      // console.log("addr & org 1 :", addr, org);
-      const data = await getHospitals({ brtcCd, sggCd });
-      return data;
-    } else if (!org && addr) {
-      // console.log("addr & org 2 :", addr, org);
-      const data = await getHospitals({ brtcCd, sggCd, searchTpcd: "ADDR", searchWord: addr });
-      return data;
-    } else if (org && !addr) {
-      // console.log("addr & org 3 :", addr, org);
-      const data = await getHospitals({ brtcCd, sggCd, searchTpcd: "ORG", searchWord: org });
-      return data;
-    } else if (org && addr) {
-      // else
-      // console.log("addr & org 4 :", addr, org);
-      const tmpData = await getHospitals({ brtcCd, sggCd, searchTpcd: "ORG", searchWord: org });
-      if (tmpData.totalCount === 0) {
-        return defaultHospitalData;
-      }
-      const items = tmpData.items.filter((item) => item.orgAddr.includes(addr));
-      const totalCount = items.length;
-      const maxPage = Math.ceil(totalCount / NUM_OF_CARDS_PER_PAGE);
-      return { items, totalCount, maxPage };
-    } else {
-      return defaultHospitalData;
-    }
-  } else if (disease) {
-    if (!org && !addr) {
-      // console.log("addr & org 5 :", addr, org);
-      const tmpData = await getHospitals({ brtcCd, sggCd });
-      if (tmpData.totalCount === 0) {
-        return defaultHospitalData;
-      }
-      const items = tmpData.items.filter((item) => {
-        if (Array.isArray(item.vcnList.vcnInfo)) {
-          return item.vcnList.vcnInfo.some((vcn) => vcn.vcnNm.includes(disease));
-        } else {
-          return item.vcnList.vcnInfo.vcnNm.includes(disease);
-        }
-      });
-      const totalCount = items.length;
-      const maxPage = Math.ceil(totalCount / NUM_OF_CARDS_PER_PAGE);
-      return { items, totalCount, maxPage };
-    } else if (!org && addr) {
-      // console.log("addr & org 6 :", addr, org);
-      const tmpData = await getHospitals({ brtcCd, sggCd, searchTpcd: "ADDR", searchWord: addr });
-      if (tmpData.totalCount === 0) {
-        return defaultHospitalData;
-      }
-      const items = tmpData.items.filter((item) => {
-        if (Array.isArray(item.vcnList.vcnInfo)) {
-          return item.vcnList.vcnInfo.some((vcn) => vcn.vcnNm.includes(disease));
-        } else {
-          return item.vcnList.vcnInfo.vcnNm.includes(disease);
-        }
-      });
-      const totalCount = items.length;
-      const maxPage = Math.ceil(totalCount / NUM_OF_CARDS_PER_PAGE);
-      return { items, totalCount, maxPage };
-    } else if (org && !addr) {
-      // console.log("addr & org 7 :", addr, org);
-      const tmpData = await getHospitals({ brtcCd, sggCd, searchTpcd: "ORG", searchWord: org });
-      if (tmpData.totalCount === 0) {
-        return defaultHospitalData;
-      }
-      const items = tmpData.items.filter((item) => {
-        if (Array.isArray(item.vcnList.vcnInfo)) {
-          return item.vcnList.vcnInfo.some((vcn) => vcn.vcnNm.includes(disease));
-        } else {
-          return item.vcnList.vcnInfo.vcnNm.includes(disease);
-        }
-      });
-      const totalCount = items.length;
-      const maxPage = Math.ceil(totalCount / NUM_OF_CARDS_PER_PAGE);
-      return { items, totalCount, maxPage };
-    } else if (org && addr) {
-      // else
-      // console.log("addr & org 8 :", addr, org);
-      const tmpData = await getHospitals({ brtcCd, sggCd, searchTpcd: "ORG", searchWord: org });
-      if (tmpData.totalCount === 0) {
-        return defaultHospitalData;
-      }
-      const items = tmpData.items.filter((item) => {
-        if (item.orgAddr.includes(addr)) {
-          if (Array.isArray(item.vcnList.vcnInfo)) {
-            return item.vcnList.vcnInfo.some((vcn) => vcn.vcnNm.includes(disease));
-          } else {
-            return item.vcnList.vcnInfo.vcnNm.includes(disease);
-          }
-        } else {
-          return false;
-        }
-      });
-      const totalCount = items.length;
-      const maxPage = Math.ceil(totalCount / NUM_OF_CARDS_PER_PAGE);
-      return { items, totalCount, maxPage };
-    } else {
-      return defaultHospitalData;
-    }
+  // if (!disease) {
+  if (!disease && !org && !addr) {
+    // console.log("addr & org 1 :", addr, org);
+    const data = await getHospitals({ brtcCd, sggCd });
+    return data;
   }
+  if (!disease && !org && addr) {
+    // console.log("addr & org 2 :", addr, org);
+    const data = await getHospitals({ brtcCd, sggCd, searchTpcd: "ADDR", searchWord: addr });
+    return data;
+  }
+  if (!disease && org && !addr) {
+    // console.log("addr & org 3 :", addr, org);
+    const data = await getHospitals({ brtcCd, sggCd, searchTpcd: "ORG", searchWord: org });
+    return data;
+  }
+  if (!disease && org && addr) {
+    // else
+    // console.log("addr & org 4 :", addr, org);
+    const tmpData = await getHospitals({ brtcCd, sggCd, searchTpcd: "ORG", searchWord: org });
+    if (tmpData.totalCount === 0) {
+      return defaultHospitalData;
+    }
+    const items = tmpData.items.filter((item) => item.orgAddr.includes(addr));
+    const totalCount = items.length;
+    const maxPage = Math.ceil(totalCount / NUM_OF_CARDS_PER_PAGE);
+    return { items, totalCount, maxPage };
+  }
+  if (disease && !org && !addr) {
+    // console.log("addr & org 5 :", addr, org);
+    const tmpData = await getHospitals({ brtcCd, sggCd });
+    if (tmpData.totalCount === 0) {
+      return defaultHospitalData;
+    }
+    const items = tmpData.items.filter((item) => {
+      if (Array.isArray(item.vcnList.vcnInfo)) {
+        return item.vcnList.vcnInfo.some((vcn) => vcn.vcnNm.includes(disease));
+      }
+
+      return item.vcnList.vcnInfo.vcnNm.includes(disease);
+    });
+    const totalCount = items.length;
+    const maxPage = Math.ceil(totalCount / NUM_OF_CARDS_PER_PAGE);
+    return { items, totalCount, maxPage };
+  }
+  if (disease && !org && addr) {
+    // console.log("addr & org 6 :", addr, org);
+    const tmpData = await getHospitals({ brtcCd, sggCd, searchTpcd: "ADDR", searchWord: addr });
+    if (tmpData.totalCount === 0) {
+      return defaultHospitalData;
+    }
+    const items = tmpData.items.filter((item) => {
+      if (Array.isArray(item.vcnList.vcnInfo)) {
+        return item.vcnList.vcnInfo.some((vcn) => vcn.vcnNm.includes(disease));
+      }
+
+      return item.vcnList.vcnInfo.vcnNm.includes(disease);
+    });
+    const totalCount = items.length;
+    const maxPage = Math.ceil(totalCount / NUM_OF_CARDS_PER_PAGE);
+    return { items, totalCount, maxPage };
+  }
+  if (disease && org && !addr) {
+    // console.log("addr & org 7 :", addr, org);
+    const tmpData = await getHospitals({ brtcCd, sggCd, searchTpcd: "ORG", searchWord: org });
+    if (tmpData.totalCount === 0) {
+      return defaultHospitalData;
+    }
+    const items = tmpData.items.filter((item) => {
+      if (Array.isArray(item.vcnList.vcnInfo)) {
+        return item.vcnList.vcnInfo.some((vcn) => vcn.vcnNm.includes(disease));
+      }
+
+      return item.vcnList.vcnInfo.vcnNm.includes(disease);
+    });
+    const totalCount = items.length;
+    const maxPage = Math.ceil(totalCount / NUM_OF_CARDS_PER_PAGE);
+    return { items, totalCount, maxPage };
+  }
+  if (disease && org && addr) {
+    // else
+    // console.log("addr & org 8 :", addr, org);
+    const tmpData = await getHospitals({ brtcCd, sggCd, searchTpcd: "ORG", searchWord: org });
+    if (tmpData.totalCount === 0) {
+      return defaultHospitalData;
+    }
+    const items = tmpData.items.filter((item) => {
+      if (item.orgAddr.includes(addr)) {
+        if (Array.isArray(item.vcnList.vcnInfo)) {
+          return item.vcnList.vcnInfo.some((vcn) => vcn.vcnNm.includes(disease));
+        }
+
+        return item.vcnList.vcnInfo.vcnNm.includes(disease);
+      }
+
+      return false;
+    });
+    const totalCount = items.length;
+    const maxPage = Math.ceil(totalCount / NUM_OF_CARDS_PER_PAGE);
+    return { items, totalCount, maxPage };
+  }
+
+  return defaultHospitalData;
 };

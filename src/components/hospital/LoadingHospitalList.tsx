@@ -6,7 +6,7 @@ import LoadingSpinner from "../../../public/loading-spinner.svg";
 
 const LoadingHospitalList = ({ children, className }: { children?: ReactNode; className?: string }) => {
   return (
-    <div className={cn("flex flex-col items-center my-20", className)}>
+    <div className={cn("flex flex-col items-center my-16", className)}>
       {children ? (
         <>
           <Image src={HospitalLoading} alt="로딩중입니다." />
