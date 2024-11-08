@@ -16,7 +16,7 @@ const EventLink = () => {
             <Image src={ambulance} alt="앰뷸런스" className="h-[120px]" />
           </div>
           <div className="flex flex-col gap-2 text-center">
-            <h2 className="text-[##393939] text-2xl font-bold">따꼼을 첫 방문 했다면?</h2>
+            <h2 className="text-[#393939] text-2xl font-bold">따꼼을 첫 방문 했다면?</h2>
             <p className="text-primary-400 font-bold">추첨을 통해 기프티콘 증정</p>
           </div>
         </div>
@@ -25,7 +25,7 @@ const EventLink = () => {
             <Image src={mapIcon} alt="맵아이콘" />
           </div>
           <div className="flex flex-col gap-2 text-center">
-            <h2 className="text-[##393939] text-2xl font-bold">방문했던 병원을 추천해요!</h2>
+            <h2 className="text-[#393939] text-2xl font-bold">방문했던 병원을 추천해요!</h2>
             <p className="text-primary-400 font-bold">인기글 선정시 1000 point</p>
           </div>
         </div>
@@ -34,7 +34,7 @@ const EventLink = () => {
             <Image src={calendarIcon} alt="달력" />
           </div>
           <div className="flex flex-col gap-2 text-center">
-            <h2 className="text-[##393939] text-2xl font-bold">EVERY 출석 이벤트</h2>
+            <h2 className="text-[#393939] text-2xl font-bold">EVERY 출석 이벤트</h2>
             <p className="text-primary-400 font-bold">포인트와 푸짐한 상품까지</p>
           </div>
         </div>
