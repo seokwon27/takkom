@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { useAgeGroupStore } from "@/utils/zustand/ageGroupStore";
+import { useAgeGroupStore } from "@/store/ageGroupStore";
 import { useRouter } from "next/navigation";
 import { Button } from "../ui/button";
 import { useCityDataQuery } from "@/query/useCityDataQuery";
@@ -21,7 +21,7 @@ const SelectBrtc = () => {
   const regionInfo = Object.entries(data?.regionRes.get(brtc) ?? {});
 
   const handleClick = () => {
-    setQueryParams({brtcCd: brtc, sggCd: sgg, disease:currentDisease, pageNo:'1'}, router, '/hospital')
+    setQueryParams({ brtcCd: brtc, sggCd: sgg, disease: currentDisease, pageNo: "1" }, router, "/hospital");
   };
 
   return (

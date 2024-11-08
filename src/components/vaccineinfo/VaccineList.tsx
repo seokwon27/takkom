@@ -1,7 +1,7 @@
 "use client";
 
 import { useVaccineInfoQuery } from "@/query/useVaccineInfoQuery";
-import { useAgeGroupStore } from "@/utils/zustand/ageGroupStore";
+import { useAgeGroupStore } from "@/store/ageGroupStore";
 import VaccineCard from "./vaccineCard";
 import { useMemo, useState } from "react";
 import SearchButton from "./SearchButton";

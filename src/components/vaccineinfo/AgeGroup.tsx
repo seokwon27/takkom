@@ -1,5 +1,5 @@
 "use client";
-import { useAgeGroupStore } from "@/utils/zustand/ageGroupStore";
+import { useAgeGroupStore } from "@/store/ageGroupStore";
 import category from "../../../public/ageGroup/category.svg";
 import newborn from "../../../public/ageGroup/newborn-baby.svg";
 import yeonga from "../../../public/ageGroup/yeong-a.svg";

@@ -1,6 +1,6 @@
 "use client";
 
-import { useAgeGroupStore } from "@/utils/zustand/ageGroupStore";
+import { useAgeGroupStore } from "@/store/ageGroupStore";
 
 //연령 텍스트 전환
 const formatAgeText = (age: number) => {

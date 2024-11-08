@@ -1,4 +1,4 @@
-import { useAgeGroupStore } from "@/utils/zustand/ageGroupStore";
+import { useAgeGroupStore } from "@/store/ageGroupStore";
 import React from "react";
 import VaccinateTag from "./VaccinateTag";
 
