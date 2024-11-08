@@ -7,7 +7,8 @@ import { Child } from "@/types/childType";
 import { Form, FormField, FormItem, FormLabel, FormControl, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { useState } from "react";
+import { useRef, useState } from "react";
+import cameraIcon from "../../../public/child/camera-icon.svg";
 import Image from "next/image";
 
 interface EditFormProps {
@@ -24,6 +25,7 @@ const formSchema = z.object({
 });
 
 const EditChildForm = ({ child, onComplete }: EditFormProps) => {
+  const fileInputRef = useRef<HTMLInputElement>(null);
   // 이미지 파일 상태 관리
   const [selectedImage, setSelectedImage] = useState<File | undefined>(undefined);
 
@@ -114,10 +116,12 @@ const EditChildForm = ({ child, onComplete }: EditFormProps) => {
             render={() => (
               <FormItem>
                 {/* <FormLabel>프로필 이미지</FormLabel> */}
-                <div className="flex items-end justify-center">
+                <div className="relative flex items-end justify-center">
                   {child.profile && (
                     <Image
-                      src={child.profile}
+                      src={
+                        selectedImage ? URL.createObjectURL(selectedImage) : child.profile || DEFAULT_PROFILE_IMAGE_URL
+                      }
                       alt="Current Profile"
                       width={176}
                       height={176}
@@ -125,15 +129,27 @@ const EditChildForm = ({ child, onComplete }: EditFormProps) => {
                       unoptimized
                     />
                   )}
+
+                  <button
+                    type="button"
+                    onClick={() => fileInputRef.current?.click()}
+                    className="absolute bottom-2 right-2 w-10 h-10  bg-gray-200 hover:bg-gray-300 rounded-full shadow-md"
+                  >
+                    <Image src={cameraIcon} alt="카메라 아이콘" />
+                  </button>
+                </div>
+                {child.profile !== DEFAULT_PROFILE_IMAGE_URL && (
                   <Button type="button" onClick={handleDeleteImage} className="ml-2">
                     이미지 삭제
                   </Button>
-                </div>
+                )}
 
                 <FormControl>
                   <Input
+                    ref={fileInputRef}
                     type="file"
                     accept="image/*" // 이미지 파일만 업로드 가능
+                    className="hidden"
                     onChange={(e) => setSelectedImage(e.target.files?.[0] ?? undefined)}
                   />
                 </FormControl>
