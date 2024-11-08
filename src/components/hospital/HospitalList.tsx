@@ -1,14 +1,11 @@
 "use client";
 
 import { useSearchParams } from "next/navigation";
-import Image from "next/image";
-import React, { ReactNode } from "react";
+import React from "react";
 import HospitalCard from "./HospitalCard";
 import HospitalPagination from "./HospitalPagination";
 import { useHospitalQuery } from "@/query/useHospitalQuery";
 import { NUM_OF_CARDS_PER_PAGE } from "../../constants/constants";
-import hospitalLoading from "../../../public/hospital/hospital-loading.svg";
-import { cn } from "@/lib/utils";
 import LoadingHospitalList from "./LoadingHospitalList";
 
 const HospitalList = () => {
@@ -45,7 +42,7 @@ const HospitalList = () => {
   }
 
   return (
-    <div className="w-full grow flex flex-col justify-between items-center mt-16 mb-6">
+    <section className="w-full grow flex flex-col justify-between items-center mt-16 mb-6">
       {!hospitalData || hospitalData?.totalCount === 0 ? (
         <LoadingHospitalList>
           <p>우리 동네 병원을 검색해 보세요.</p>
@@ -68,7 +65,7 @@ const HospitalList = () => {
           params={{ brtcCd, sggCd, addr, org, disease }}
         />
       )}
-    </div>
+    </section>
   );
 };
 

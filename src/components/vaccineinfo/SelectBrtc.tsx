@@ -6,7 +6,7 @@ import { useAgeGroupStore } from "@/utils/zustand/ageGroupStore";
 import { useRouter } from "next/navigation";
 import { Button } from "../ui/button";
 import { useCityDataQuery } from "@/query/useCityDataQuery";
-import { setQueryParams } from "@/utils/hospital/setHospitalQueryParams";
+import { createQueryParams } from "@/utils/hospital/setHospitalQueryParams";
 
 const SelectBrtc = () => {
   const router = useRouter();
@@ -18,10 +18,10 @@ const SelectBrtc = () => {
   if (error) throw new Error(`Error: ${error}`);
 
   const brtcObj = data?.brtcObj ?? [];
-  const regionInfo = Object.entries(data?.regionRes.get(brtc) ?? {});
+  const regionInfo = Object.entries(data?.regionRes.get(brtc) ?? {}).sort((a,b) => a[1].localeCompare(b[1]));
 
   const handleClick = () => {
-    setQueryParams({brtcCd: brtc, sggCd: sgg, disease:currentDisease, pageNo:'1'}, router, '/hospital')
+    router.push(createQueryParams({ brtcCd: brtc, sggCd: sgg, disease: currentDisease, pageNo: "1" }, "/hospital"));
   };
 
   return (

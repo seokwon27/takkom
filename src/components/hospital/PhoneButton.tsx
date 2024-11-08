@@ -4,7 +4,7 @@ import React, { useState } from "react";
 import { Button } from "../ui/button";
 import Image from "next/image";
 import PhoneModal from "./PhoneModal";
-import callImg from "../../../public/hospital/call.svg"
+import CallImg from "../../../public/hospital/call.svg"
 
 const PhoneButton = ({ phoneNumber }: { phoneNumber: string }) => {
   const [showModal, setShowModal] = useState(false);
@@ -17,7 +17,7 @@ const PhoneButton = ({ phoneNumber }: { phoneNumber: string }) => {
           setShowModal(prev => !prev);
         }}
       >
-        <Image src={callImg} alt="문의하기"/>
+        <Image src={CallImg} alt="문의하기"/>
         문의하기
       </Button>
       {showModal && <PhoneModal phoneNumber={phoneNumber} setShowModal={setShowModal} />}

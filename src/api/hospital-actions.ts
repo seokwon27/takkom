@@ -27,7 +27,7 @@ export const getBrtcCd = async (): Promise<{ [key: string]: string }> => {
     method: "GET",
     // cache: "no-store",
     next: {
-      revalidate: 3600 //
+      revalidate: 3600 // 표현식 사용이 불가능해서 원시값으로 변경
     }
   });
   const data = await res.text();
@@ -58,10 +58,10 @@ export const getBrtcCd = async (): Promise<{ [key: string]: string }> => {
 export const getSggCd = async (brtcCd: string): Promise<{ [key: string]: string }> => {
   const params = new URLSearchParams({ serviceKey, brtcCd });
   const res = await fetch(BASE_URL + `/getCondSggCd3?` + params, {
-    method: "GET"
-    // next: {
-    //   revalidate: 60 * 60
-    // }
+    method: "GET",
+    next: {
+      revalidate: 3600
+    }
   });
   const data = await res.text();
   const {

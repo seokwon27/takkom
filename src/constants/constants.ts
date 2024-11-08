@@ -20,8 +20,8 @@ export const DISEASE_LIST = [
   "폴리오",
   "홍역/유행성이하선염/풍진",
   "A형간염",
+  "B형간염",
   "b형헤모필루스인플루엔자",
-  "B형간염"
 ];
 
 export const NUM_OF_CARDS_PER_PAGE = 10;

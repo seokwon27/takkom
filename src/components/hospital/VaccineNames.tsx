@@ -17,7 +17,7 @@ const VaccineNames = ({ vaccineNames, filter }: { vaccineNames: string[]; filter
   }
 
   const placeHolder = (
-    <p className="flex text-text-l text-gray-700 line-clamp-1">
+    <div className="flex">
       <div className="w-4 h-4 ml-1.5 mr-[5px] my-auto relative">
         <ChevronUp
           strokeWidth={3}
@@ -36,22 +36,25 @@ const VaccineNames = ({ vaccineNames, filter }: { vaccineNames: string[]; filter
           )}
         />
       </div>
-      <span className={`${filteredVaccineIndex !== -1 && "text-title-xxs font-semibold"}`}>{`${
-        filteredVaccine || duplicatedVaccineNames[0]
-      }`}</span>
-      {!isOpen && (
-        <span className="ml-1 text-text-l">
-          외 {filter ? duplicatedVaccineNames.length : duplicatedVaccineNames.length - 1}개
-        </span>
-      )}
-    </p>
+      <p className="text-text-l text-gray-700 line-clamp-1">
+        <span className={`${filteredVaccineIndex !== -1 && "text-title-xxs font-semibold"}`}>{`${
+          filteredVaccine || duplicatedVaccineNames[0]
+        }`}</span>
+        {!isOpen && (
+          <span className="ml-1 text-text-l">
+            외 {filter ? duplicatedVaccineNames.length : duplicatedVaccineNames.length - 1}개
+          </span>
+        )}
+      </p>
+    </div>
   );
 
   return (
     <>
       {vaccineNames.length === 1 ? (
         <p className="text-text-l line-clamp-1">
-          <span className={`text-label-l ${filteredVaccineIndex !== -1 && "font-semibold"}`}>{vaccineNames[0]}</span> 접종 가능
+          <span className={`text-label-l ${filteredVaccineIndex !== -1 && "font-semibold"}`}>{vaccineNames[0]}</span>{" "}
+          접종 가능
         </p>
       ) : filter ? (
         <Select

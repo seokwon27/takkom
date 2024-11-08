@@ -7,11 +7,11 @@ import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectVa
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { BRTC, DISEASE, DISEASE_LIST, SGG } from "../../constants/constants";
-import { setQueryParams } from "../../utils/hospital/setHospitalQueryParams";
+import { createQueryParams } from "../../utils/hospital/setHospitalQueryParams";
 import InfoTag from "./InfoTag";
-import infoCircle from "../../../public/hospital/info-circle.svg";
-import vaccineFilterOffIcon from "../../../public/hospital/vaccine-filter-off-icon.svg";
-import vaccineFilterOnIcon from "../../../public/hospital/vaccine-filter-on-icon.svg";
+import InfoCircle from "../../../public/hospital/info-circle.svg";
+import VaccineFilterOffIcon from "../../../public/hospital/vaccine-filter-off-icon.svg";
+import VaccineFilterOnIcon from "../../../public/hospital/vaccine-filter-on-icon.svg";
 import { cn } from "@/lib/utils";
 
 const SearchForm = ({
@@ -37,7 +37,7 @@ const SearchForm = ({
     <div className="w-full flex flex-col ">
       <div className="flex gap-2 items-end mb-3">
         <Image
-          src={infoCircle}
+          src={InfoCircle}
           alt="정보"
           onClick={() => {
             setShowInfoTag((prev) => !prev);
@@ -106,7 +106,7 @@ const SearchForm = ({
               <SelectItem value={SGG} key={SGG} className="justify-center text-title-xxs font-semibold">
                 {SGG}
               </SelectItem>
-              {Object.entries(regionInfo.get(params.brtcCd) || {}).map((item) => (
+              {Object.entries(regionInfo.get(params.brtcCd) || {}).sort((a,b) => a[1].localeCompare(b[1])).map((item) => (
                 <SelectItem
                   value={String(item[0])}
                   key={item[0]}
@@ -160,7 +160,7 @@ const SearchForm = ({
           type="button"
           onClick={() => {
             setDisease(DISEASE);
-            setQueryParams({ ...params, pageNo: "1" }, router, pathname);
+            router.push(createQueryParams({ ...params, pageNo: "1" }, pathname));
           }}
           disabled={params.brtcCd === BRTC || params.sggCd === SGG}
           className="h-12 bg-primary-400 rounded-lg text-base font-semibold hover:bg-primary-400 disabled:bg-primary-400"
@@ -179,7 +179,7 @@ const SearchForm = ({
               const addr = searchParams.get("addr") ?? "";
               const org = searchParams.get("org") ?? "";
               const params = { brtcCd, sggCd, addr, org, disease: value, pageNo: "1" };
-              setQueryParams(params, router, pathname);
+              router.push(createQueryParams(params, pathname));
             }
           }}
         >
@@ -191,9 +191,9 @@ const SearchForm = ({
             )}
             {/* <SelectValue placeholder={DISEASE} /> */}
             {disease === DISEASE ? (
-              <Image src={vaccineFilterOffIcon} alt="백신 찾기" />
+              <Image src={VaccineFilterOffIcon} alt="백신 찾기" />
             ) : (
-              <Image src={vaccineFilterOnIcon} alt="백신 찾기" />
+              <Image src={VaccineFilterOnIcon} alt="백신 찾기" />
             )}
             <span className="ml-2 text-gray-700 text-label-xl font-medium">백신 찾기</span>
           </SelectTrigger>

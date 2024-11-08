@@ -1,6 +1,6 @@
 import Image from "next/image";
 import React from "react";
-import vaccineFilterOffIcon from "../../../public/hospital/vaccine-filter-off-icon.svg";
+import VaccineFilterOffIcon from "../../../public/hospital/vaccine-filter-off-icon.svg";
 
 const LoadingSearchForm = () => {
   return (
@@ -14,7 +14,7 @@ const LoadingSearchForm = () => {
       </div>
       <div className="w-full flex justify-end items-center">
         <div className={`w-fit flex items-center p-2 border-0 text-label-xl`}>
-          <Image src={vaccineFilterOffIcon} alt="백신 찾기" className="cursor-pointer" />
+          <Image src={VaccineFilterOffIcon} alt="백신 찾기" className="cursor-pointer" />
           <span className="ml-2 text-gray-700">백신 찾기</span>
         </div>
       </div>

@@ -3,7 +3,7 @@ import React from "react";
 import Image from "next/image";
 import PhoneButton from "./PhoneButton";
 import VaccineNames from "./VaccineNames";
-import ambulance from "../../../public/hospital/ambulance.svg";
+import Ambulance from "../../../public/hospital/ambulance.svg";
 import Tag from "./Tag";
 
 const HospitalCard = ({ info, filter }: { info: HopsitalItem; filter?: string }) => {
@@ -18,6 +18,7 @@ const HospitalCard = ({ info, filter }: { info: HopsitalItem; filter?: string })
         return info.vcnNm;
       })
     : [vcnInfo?.vcnNm ?? "접종 정보가 없습니다."];
+  vaccineNames.sort((a,b) => a.localeCompare(b))
 
   const required = vaccineNames.some(
     (name) => !(name.includes("인플루엔자") || name.includes("사람유두종바이러스") || name.includes("PPSV"))
@@ -29,7 +30,7 @@ const HospitalCard = ({ info, filter }: { info: HopsitalItem; filter?: string })
   return (
     <div className="w-full h-fit min-h-[200px] flex border border-gray-30 rounded-3xl p-4 justify-between items-start shadow-[0px_0px_16px_rgba(114,114,114,0.1)]">
       <div className="w-[160px] flex justify-center items-center bg-gray-10 rounded-xl aspect-square">
-        <Image src={ambulance} alt="병원 이미지" />
+        <Image src={Ambulance} alt="병원 이미지" />
       </div>
       <div className="flex-1 h-full flex flex-col gap-4 mx-[24px]">
         <div className="flex gap-3">
@@ -52,8 +53,8 @@ const HospitalCard = ({ info, filter }: { info: HopsitalItem; filter?: string })
           </div>
           <div className="text-gray-700">
             <VaccineNames filter={filter} vaccineNames={vaccineNames} />
-            {/* </div> */}
           </div>
+          {/* </div> */}
         </div>
       </div>
       <PhoneButton phoneNumber={orgTlno} />
