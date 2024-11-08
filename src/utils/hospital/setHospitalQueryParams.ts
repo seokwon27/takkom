@@ -1,4 +1,4 @@
-import { DISEASE } from "@/components/hospital/constants";
+import { DISEASE } from "@/constants/constants";
 import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
 
 type HospitalQueryParams = {

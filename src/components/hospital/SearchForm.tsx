@@ -6,7 +6,7 @@ import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { BRTC, DISEASE, DISEASE_LIST, SGG } from "./constants";
+import { BRTC, DISEASE, DISEASE_LIST, SGG } from "../../constants/constants";
 import { setQueryParams } from "../../utils/hospital/setHospitalQueryParams";
 import InfoTag from "./InfoTag";
 import infoCircle from "../../../public/hospital/info-circle.svg";
@@ -42,6 +42,7 @@ const SearchForm = ({
           onClick={() => {
             setShowInfoTag((prev) => !prev);
           }}
+          className="cursor-pointer"
         />
         <InfoTag isVisible={showInfoTag} />
       </div>
@@ -58,19 +59,23 @@ const SearchForm = ({
           }}
         >
           <SelectTrigger
-            className={`justify-center text-base font-semibold ${
+            className={`h-12 justify-center rounded-lg text-base font-semibold ${
               params.brtcCd === BRTC ? "border-gray-300 text-gray-300" : "border-primary-400 text-primary-400"
             }`}
           >
-            <SelectValue placeholder={BRTC + "*"} />
+            <SelectValue placeholder={BRTC} />
           </SelectTrigger>
           <SelectContent className="shadow-[0px_0px_16px_rgba(114,114,114,0.1)]">
             <SelectGroup>
-              <SelectItem value={BRTC} key={BRTC} className="justify-center text-sm font-semibold">
-                {BRTC + "*"}
+              <SelectItem value={BRTC} key={BRTC} className="justify-center text-title-xxs font-semibold">
+                {BRTC}
               </SelectItem>
               {Object.entries(brtcObj).map((item) => (
-                <SelectItem value={String(item[0])} key={item[0]} className="justify-center text-sm font-semibold">
+                <SelectItem
+                  value={String(item[0])}
+                  key={item[0]}
+                  className="justify-center text-title-xxs font-semibold"
+                >
                   {item[1]}
                 </SelectItem>
               ))}
@@ -89,20 +94,24 @@ const SearchForm = ({
           }}
         >
           <SelectTrigger
-            className={`justify-center text-base font-semibold ${
+            className={`h-12 justify-center rounded-lg text-base font-semibold ${
               params.sggCd === SGG ? "border-gray-300 text-gray-300" : "border-primary-400 text-primary-400"
             }`}
             disabled={params.brtcCd === BRTC}
           >
-            <SelectValue placeholder={SGG + "*"} />
+            <SelectValue placeholder={SGG} />
           </SelectTrigger>
           <SelectContent className="shadow-[0px_0px_16px_rgba(114,114,114,0.1)]">
             <SelectGroup>
-              <SelectItem value={SGG} key={SGG} className="justify-center text-sm font-semibold">
-                {SGG + "*"}
+              <SelectItem value={SGG} key={SGG} className="justify-center text-title-xxs font-semibold">
+                {SGG}
               </SelectItem>
               {Object.entries(regionInfo.get(params.brtcCd) || {}).map((item) => (
-                <SelectItem value={String(item[0])} key={item[0]} className="justify-center text-sm font-semibold">
+                <SelectItem
+                  value={String(item[0])}
+                  key={item[0]}
+                  className="justify-center text-title-xxs font-semibold"
+                >
                   {item[1]}
                 </SelectItem>
               ))}
@@ -122,7 +131,7 @@ const SearchForm = ({
           }}
           disabled={params.brtcCd === BRTC || params.sggCd === SGG}
           className={cn(
-            "bg-gray-30 border-0 text-gray-500 text-center font-semibold placeholder:text-gray-500",
+            "h-12 bg-gray-30 border-0 text-gray-500 text-center font-semibold placeholder:text-gray-500",
             "focus-visible:bg-white focus-visible:text-gray-600 focus-visible:placeholder:text-gray-600",
             "focus-visible:ring-offset-0 focus-visible:ring-1 focus-visible:ring-inset focus-visible:ring-gray-700"
             // params.addr ? "border-primary-400 text-primary-400" : "border-gray-300 text-gray-300"
@@ -140,7 +149,7 @@ const SearchForm = ({
           }}
           disabled={params.brtcCd === BRTC || params.sggCd === SGG}
           className={cn(
-            "bg-gray-30 border-0 text-gray-500 text-center font-semibold placeholder:text-gray-500",
+            "h-12 bg-gray-30 border-0 text-gray-500 text-center font-semibold placeholder:text-gray-500",
             "focus-visible:bg-white focus-visible:text-gray-600 focus-visible:placeholder:text-gray-600",
             "focus-visible:ring-offset-0 focus-visible:ring-1 focus-visible:ring-inset focus-visible:ring-gray-700"
             // params.org ? "border-primary-400 text-primary-400" : "border-gray-300 text-gray-300"
@@ -154,7 +163,7 @@ const SearchForm = ({
             setQueryParams({ ...params, pageNo: "1" }, router, pathname);
           }}
           disabled={params.brtcCd === BRTC || params.sggCd === SGG}
-          className="bg-primary-400 rounded-lg text-base font-semibold hover:bg-primary-400 disabled:bg-primary-400"
+          className="h-12 bg-primary-400 rounded-lg text-base font-semibold hover:bg-primary-400 disabled:bg-primary-400"
         >
           검색
         </Button>
@@ -186,7 +195,7 @@ const SearchForm = ({
             ) : (
               <Image src={vaccineFilterOnIcon} alt="백신 찾기" />
             )}
-            <span className="ml-2 text-gray-700">백신 찾기</span>
+            <span className="ml-2 text-gray-700 text-label-xl font-medium">백신 찾기</span>
           </SelectTrigger>
           <SelectContent align="end" className="shadow-[0px_0px_16px_rgba(114,114,114,0.1)]" avoidCollisions={false}>
             {/** avoidCollision : 충돌이 발생하는 방향의 반대로 select가 열리게 하는 속성, 항상 아래로 열리도록 false로 변경 */}

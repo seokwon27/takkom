@@ -16,7 +16,7 @@ import google from "../../../public/Auth/signin/google.png";
 import kakao from "../../../public/Auth/signin/kakaotalk.svg";
 import kkom from "../../../public/logo.svg";
 import Image from "next/image";
-import { signin } from "@/api/server-action";
+import { signin } from "@/api/auth-actions";
 
 const SignIn = () => {
   // 비밀번호 표시 상태 관리

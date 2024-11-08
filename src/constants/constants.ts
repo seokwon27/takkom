@@ -1,4 +1,4 @@
-import { HospitalData } from "@/api/hospitalApi";
+import { HospitalData } from "@/api/hospital-actions";
 
 export const BRTC = "시/도";
 

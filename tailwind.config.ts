@@ -48,7 +48,37 @@ const config: Config = {
         lg: "var(--radius)",
         md: "calc(var(--radius) - 2px)",
         sm: "calc(var(--radius) - 4px)"
-      }
+      },
+      fontSize: {
+        'heading-xxs': ['12px', '150%'],
+        'heading-xs': ['16px', '135%'],
+        'heading-s': ['18px', '135%'],
+        'heading-m': ['20px', '135%'],
+        'heading-l': ['24px', '135%'],
+        'heading-xl': ['28px', '135%'],
+        'heading-xxl': ['32px', '135%'],
+        'heading-xxxl': ['40px', '135%'],
+
+        'title-xxs': ['14px', '150%'],
+        'title-xs': ['16px', '135%'],
+        'title-s': ['18px', '135%'],
+        'title-m': ['20px', '135%'],
+        'title-l': ['22px', '135%'],
+        'title-xl': ['24px', '135%'],
+
+        'label-xs': ['10px', '150%'],
+        'label-s': ['12px', '150%'], 
+        'label-m': ['13px', '150%'], 
+        'label-l': ['14px', '150%'], 
+        'label-xl': ['16px', '150%'],
+        'label-xxl': ['18px', '150%'],
+
+        'text-xs': ['10px', '150%'], 
+        'text-s': ['12px', '150%'],  
+        'text-m': ['13px', '150%'],  
+        'text-l': ['14px', '150%'],  
+        'text-xl': ['16px', '150%'], 
+      },
     }
   },
   plugins: [require("tailwindcss-animate")]

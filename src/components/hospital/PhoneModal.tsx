@@ -1,6 +1,6 @@
 import React from "react";
 import { Button } from "../ui/button";
-import phoneImg from "../../../public/phoneImg.svg";
+import phoneImg from "../../../public/hospital/phone.svg";
 import Image from "next/image";
 
 const PhoneModal = ({

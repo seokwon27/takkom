@@ -1,6 +1,6 @@
 import { useRouter } from "next/navigation";
 import { Button } from "../ui/button";
-import { signout } from "@/api/server-action";
+import { signout } from "@/api/auth-actions";
 
 const SignOut = () => {
   const router = useRouter();

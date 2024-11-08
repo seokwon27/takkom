@@ -1,6 +1,6 @@
 "use server";
 
-import { defaultHospitalData, NUM_OF_CARDS_PER_PAGE } from "@/components/hospital/constants";
+import { defaultHospitalData, NUM_OF_CARDS_PER_PAGE } from "@/constants/constants";
 import { HopsitalItem, HospitalType, RegionType } from "@/types/hospital";
 import { XMLParser } from "fast-xml-parser";
 
@@ -27,7 +27,7 @@ export const getBrtcCd = async (): Promise<{ [key: string]: string }> => {
     method: "GET",
     // cache: "no-store",
     next: {
-      revalidate:3600 // 
+      revalidate: 3600 //
     }
   });
   const data = await res.text();
@@ -146,7 +146,7 @@ export const getHospitals = async (
             method: "GET",
             // cache: "no-store",
             next: {
-              revalidate: 3600,
+              revalidate: 3600
             }
           });
           const data = await res.text();
