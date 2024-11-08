@@ -133,13 +133,16 @@ const EditChildForm = ({ child, onComplete }: EditFormProps) => {
             control={form.control}
             name="profile"
             render={() => (
-              <FormItem>
-                {/* <FormLabel>프로필 이미지</FormLabel> */}
-                <div className="relative flex items-end justify-center">
+              <FormItem className="relative flex items-center justify-center w-44 h-44 mx-auto">
+                <div>
                   {child.profile && (
                     <Image
                       src={
-                        selectedImage ? URL.createObjectURL(selectedImage) : child.profile || DEFAULT_PROFILE_IMAGE_URL
+                        selectedImage // 새로 업로드된 이미지가 있다면 이를 표시
+                          ? URL.createObjectURL(selectedImage)
+                          : child.profile && child.profile !== DEFAULT_PROFILE_IMAGE_URL // 기존 프로필 이미지가 있다면 그것을 표시
+                          ? child.profile
+                          : DEFAULT_PROFILE_IMAGE_URL // 새 이미지도 없고 기존 이미지도 없다면 기본 이미지 표시
                       }
                       alt="Current Profile"
                       width={176}
