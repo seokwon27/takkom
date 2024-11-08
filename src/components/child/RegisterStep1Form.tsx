@@ -4,6 +4,10 @@ import { Button } from "@/components/ui/button";
 import { z } from "zod";
 import { ControllerRenderProps, UseFormReturn } from "react-hook-form";
 import { formSchema } from "@/app/child/register/steps/RegisterStep1";
+import { useRef, useState } from "react";
+import cameraIcon from "../../../public/child/camera-icon.svg";
+import Image from "next/image";
+import { DEFAULT_PROFILE_IMAGE_URL } from "@/utils/supabase/client";
 
 interface RegisterStep1FormProps {
   form: UseFormReturn<z.infer<typeof formSchema>>; // form prop의 타입 지정
@@ -12,6 +16,17 @@ interface RegisterStep1FormProps {
 }
 
 const RegisterStep1Form = ({ form, onSubmit, setSelectedImage }: RegisterStep1FormProps) => {
+  const fileInputRef = useRef<HTMLInputElement>(null);
+  const [profileImageUrl, setProfileImageUrl] = useState<string>(DEFAULT_PROFILE_IMAGE_URL);
+
+  // 이미지 변경을 위한 함수
+  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      setSelectedImage(file);
+      setProfileImageUrl(URL.createObjectURL(file));
+    }
+  };
   // 생년월일 입력 시 형식을 맞추기 위한 함수
   const handleDateChange = (
     e: React.ChangeEvent<HTMLInputElement>,
@@ -29,6 +44,8 @@ const RegisterStep1Form = ({ form, onSubmit, setSelectedImage }: RegisterStep1Fo
     }
   };
 
+  
+
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8 w-full">
@@ -37,13 +54,31 @@ const RegisterStep1Form = ({ form, onSubmit, setSelectedImage }: RegisterStep1Fo
           control={form.control}
           name="profileImage"
           render={() => (
-            <FormItem>
-              <FormLabel>프로필 이미지</FormLabel>
+            <FormItem className="relative flex items-center justify-center w-44 h-44 mx-auto">
+              {/* <FormLabel>프로필 이미지</FormLabel> */}
+              {/* <FileInputIcon alt="파일 인풋 아이콘" /> */}
+              <Image
+                src={profileImageUrl}
+                alt="아이 프로필 이미지"
+                width={176}
+                height={176}
+                className="flex-grow-0 flex-shrink-0 w-44 h-44 object-cover rounded-[13px]"
+              />
+              <button
+                type="button"
+                onClick={() => fileInputRef.current?.click()}
+                className="absolute bottom-2 right-2 w-10 h-10  bg-gray-200 hover:bg-gray-300 rounded-full shadow-md"
+              >
+                <Image src={cameraIcon} alt="카메라 아이콘" />
+              </button>
               <FormControl>
                 <Input
+                  ref={fileInputRef}
                   type="file"
                   accept="image/*"
-                  onChange={(e) => setSelectedImage(e.target.files?.[0] ?? undefined)}
+                  className="hidden"
+                  onChange={handleImageChange}
+                  // onChange={(e) => setSelectedImage(e.target.files?.[0] ?? undefined)}
                 />
               </FormControl>
               <FormMessage />
@@ -59,7 +94,7 @@ const RegisterStep1Form = ({ form, onSubmit, setSelectedImage }: RegisterStep1Fo
             <FormItem>
               <FormLabel>이름</FormLabel>
               <FormControl>
-                <Input placeholder="ex. 김따꼼" {...field} className="w-full" />
+                <Input placeholder="ex. 김따꼼" {...field} className="w-full placeholder:text-gray-200" />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -74,7 +109,12 @@ const RegisterStep1Form = ({ form, onSubmit, setSelectedImage }: RegisterStep1Fo
             <FormItem>
               <FormLabel>생년월일</FormLabel>
               <FormControl>
-                <Input type="date" {...field} onChange={(e) => handleDateChange(e, field)} />
+                <Input
+                  type="date"
+                  {...field}
+                  className="placeholder:text-gray-200"
+                  onChange={(e) => handleDateChange(e, field)}
+                />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -89,7 +129,7 @@ const RegisterStep1Form = ({ form, onSubmit, setSelectedImage }: RegisterStep1Fo
             <FormItem>
               <FormLabel>특이사항(선택)</FormLabel>
               <FormControl>
-                <Input placeholder="최대 200자" {...field} maxLength={200} />
+                <Input placeholder="최대 200자" {...field} maxLength={200} className="placeholder:text-gray-200" />
               </FormControl>
               <FormMessage />
             </FormItem>

@@ -102,23 +102,20 @@ const RegisterStep1 = ({ onNext, childInfo }: RegisterStep1Props) => {
   };
 
   return (
-    <div className="w-full max-w-lg mx-auto bg-white p-6 rounded-lg">
-      <div className="flex flex-col justify-start items-start self-stretch flex-grow-0 flex-shrink-0 gap-20">
-        <div className="flex flex-col justify-start items-start flex-grow-0 flex-shrink-0 w-[207px] relative gap-12">
-          <Image src={RegisterCheckListIcon} alt="체크리스트 아이콘" />
-          <div className="flex flex-col justify-start items-start self-stretch flex-grow-0 flex-shrink-0 relative gap-3">
-            <p className="self-stretch flex-grow-0 flex-shrink-0 w-[207px] text-[32px] font-bold text-left text-[#303030]">
-              1단계
-            </p>
-            <p className="flex-grow-0 flex-shrink-0 text-lg font-semibold text-left text-[#969696]">
-              정보를 입력해 주세요.
-            </p>
-          </div>
-        </div>
+    <div className="max-w-[588px] mx-auto m-20">
+      <div>
+        <Image src={RegisterCheckListIcon} alt="체크리스트 아이콘" className="mb-12" />
 
-        {/* 자녀 등록 폼 */}
-        <RegisterStep1Form form={form} onSubmit={handleFormSubmit} setSelectedImage={setSelectedImage} />
+        <div className="flex flex-col justify-start items-start self-stretch flex-grow-0 flex-shrink-0 relative mb-20">
+          <p className="flex-grow-0 flex-shrink-0 text-4xl font-bold text-left text-gray-800 gap-20">1단계</p>
+          <p className="flex-grow-0 flex-shrink-0 text-s font-semibold text-left text-gray-400">
+            정보를 입력해 주세요.
+          </p>
+        </div>
       </div>
+
+      {/* 자녀 등록 폼 */}
+      <RegisterStep1Form form={form} onSubmit={handleFormSubmit} setSelectedImage={setSelectedImage} />
     </div>
   );
 };
