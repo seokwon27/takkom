@@ -4,9 +4,9 @@ import Image from "next/image";
 import { DEFAULT_PROFILE_IMAGE_URL } from "@/utils/supabase/client";
 import Link from "next/link";
 import Schedule from "./Schedule";
-import cakeIcon from "../../../public/child/cake-icon.svg";
-import injectorIcon from "../../../public/child/injector-icon.svg";
-import rightArrowIcon from "../../../public/child/right-arrow-icon.svg";
+import CakeIcon from "../../../public/child/cake-icon.svg";
+import InjectorIcon from "../../../public/child/injector-icon.svg";
+import RightArrowIcon from "../../../public/child/right-arrow-icon.svg";
 
 interface ChildCardProps {
   child?: Child; // 등록된 child가 없으면 undefined일 수 있음
@@ -51,7 +51,7 @@ export const ChildCard = ({ child }: ChildCardProps) => {
                     {/* 아이 생일 영역 */}
                     <div className="flex justify-center items-center flex-grow-0 flex-shrink-0 relative gap-1">
                       {/* 케이크 아이콘 */}
-                      <Image src={cakeIcon} alt="케이크 아이콘" />
+                      <Image src={CakeIcon} alt="케이크 아이콘" />
 
                       {/* 아이 생일 */}
                       <p className="flex-grow-0 flex-shrink-0 text-xs font-medium text-center text-gray-400">
@@ -82,7 +82,7 @@ export const ChildCard = ({ child }: ChildCardProps) => {
 
               {/* 카메라 아이콘 */}
               {/* <div className="flex flex-col justify-center items-center flex-grow-0 flex-shrink-0 h-10 w-10 absolute left-[124px] top-[124px] overflow-hidden gap-2.5 p-0.5 rounded-[20px] bg-white">
-                <Image src={cameraIcon} alt="카메라 아이콘" />
+                <Image src={CameraIcon} alt="카메라 아이콘" />
               </div> */}
             </div>
           </div>
@@ -94,7 +94,7 @@ export const ChildCard = ({ child }: ChildCardProps) => {
               <div className="flex flex-col justify-start items-start self-stretch flex-grow gap-3">
                 {/* 우리 아이 접종 내역 타이틀 컨테이너 */}
                 <div className="flex justify-center items-center self-stretch flex-grow-0 flex-shrink-0 relative gap-4">
-                  <Image src={injectorIcon} alt="주사기 아이콘" />
+                  <Image src={InjectorIcon} alt="주사기 아이콘" />
                   <div className="flex flex-col justify-center items-start flex-grow relative gap-1">
                     <p className="flex-grow-0 flex-shrink-0 text-xl font-bold text-left text-white">
                       우리 아이 접종 내역
@@ -138,7 +138,7 @@ export const ChildCard = ({ child }: ChildCardProps) => {
                         </p>
                       </Link>
                     </div>
-                    <Image src={rightArrowIcon} alt="오른쪽 화살표 아이콘" />
+                    <Image src={RightArrowIcon} alt="오른쪽 화살표 아이콘" />
                   </div>
                   {/* 자세히 보기 컨테이너 끝 */}
                 </div>

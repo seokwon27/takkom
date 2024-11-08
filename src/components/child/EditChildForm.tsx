@@ -8,7 +8,7 @@ import { Form, FormField, FormItem, FormLabel, FormControl, FormMessage } from "
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { useRef, useState } from "react";
-import cameraIcon from "../../../public/child/camera-icon.svg";
+import CameraIcon from "../../../public/child/camera-icon.svg";
 import Image from "next/image";
 
 interface EditFormProps {
@@ -135,7 +135,7 @@ const EditChildForm = ({ child, onComplete }: EditFormProps) => {
                     onClick={() => fileInputRef.current?.click()}
                     className="absolute bottom-2 right-2 w-10 h-10  bg-gray-200 hover:bg-gray-300 rounded-full shadow-md"
                   >
-                    <Image src={cameraIcon} alt="카메라 아이콘" />
+                    <Image src={CameraIcon} alt="카메라 아이콘" />
                   </button>
                 </div>
                 {child.profile !== DEFAULT_PROFILE_IMAGE_URL && (
@@ -218,3 +218,6 @@ const EditChildForm = ({ child, onComplete }: EditFormProps) => {
 };
 
 export default EditChildForm;
+
+
+// 사용자의 아이들정보가져오기 인벨리드쿼리로 가져오기 
