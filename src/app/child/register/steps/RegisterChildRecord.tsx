@@ -9,13 +9,13 @@ import Image from "next/image";
 import Vaccination11 from "../../../../../public/vaccinerecord/vaccination1-1.svg";
 import Vaccination12 from "../../../../../public/vaccinerecord/vaccination1-2.svg";
 
-interface RegisterStep2Props {
+interface RegisterChildRecordProps {
   child: Child; // child prop 추가
   onPrev: () => void;
   onComplete: () => void;
 }
 
-const RegisterSecondStep = ({ child, onPrev, onComplete }: RegisterStep2Props) => {
+const RegisterChildRecord = ({ child, onPrev, onComplete }: RegisterChildRecordProps) => {
   // Supabase 클라이언트 생성
   const supabase = browserClient;
 
@@ -80,4 +80,4 @@ const RegisterSecondStep = ({ child, onPrev, onComplete }: RegisterStep2Props) =
   );
 };
 
-export default RegisterSecondStep;
+export default RegisterChildRecord;

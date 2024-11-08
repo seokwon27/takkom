@@ -408,9 +408,9 @@ https://takkom.vercel.app/
   - RegisterForm에서 childInfo 상태 생성
 
     - RegisterForm 컴포넌트에서 childInfo를 상태로 생성하여, 기본값으로 빈 객체({})로 초기화
-    - childInfo를 RegisterFirstStep에 props로 전달하여, 이전 단계에서 입력한 정보가 유지되도록 함
+    - childInfo를 RegisterChildInfo에 props로 전달하여, 이전 단계에서 입력한 정보가 유지되도록 함
 
-  - RegisterFirstStep에서 childInfo 활용 - RegisterFirstStep 컴포넌트에서 전달받은 childInfo의 데이터를 Form의 defaultValues로 설정하여, 초기 값으로 사용. - 이렇게 설정하면 이전 버튼을 통해 돌아올 때 이전에 입력한 정보가 자동으로 입력란에 표시됨.
+  - RegisterChildInfo에서 childInfo 활용 - RegisterChildInfo 컴포넌트에서 전달받은 childInfo의 데이터를 Form의 defaultValues로 설정하여, 초기 값으로 사용. - 이렇게 설정하면 이전 버튼을 통해 돌아올 때 이전에 입력한 정보가 자동으로 입력란에 표시됨.
 
         ```tsx
         // RegisterForm 수정
@@ -418,7 +418,7 @@ https://takkom.vercel.app/
           const [childInfo, setChildInfo] = useState<Partial<Child>>({});
 
           return (
-            <RegisterFirstStep
+            <RegisterChildInfo
               onNext={handleNext}
               userId={userId}
               childInfo={childInfo}
@@ -428,8 +428,8 @@ https://takkom.vercel.app/
         ```
 
         ```tsx
-        // RegisterFirstStep 수정
-        const RegisterFirstStep = ({ onNext, userId, childInfo }: RegisterFirstStepProps) => {
+        // RegisterChildInfo 수정
+        const RegisterChildInfo = ({ onNext, userId, childInfo }: RegisterChildInfoProps) => {
           const form = useForm({
             resolver: zodResolver(formSchema),
             defaultValues: {
@@ -585,7 +585,7 @@ https://takkom.vercel.app/
 
    - useChildrenQuery, useUserQuery라는 custom hooks으로 분리하여 코드의 재사용성을 높이고, 각 데이터 fetch 로직을 더 직관적으로 만들었습니다. 이 방식은 코드의 유지보수를 쉽게 하고, 추후 다른 페이지에서도 재사용 가능이 가능합니다. Custom hook을 통한 코드 분리는 다른 개발자들이 코드를 빠르게 이해할 수 있게 하며, 이로 인해 협업에서도 유리한 점이 많습니다.
 
-2. 자녀 정보 입력과 유효성 검사 (RegisterFirstStep)
+2. 자녀 정보 입력과 유효성 검사 (RegisterChildInfo)
 
    - formSchema는 zod를 사용하여 이름과 생년월일을 필수로 설정하며, 추가로 메모와 프로필 이미지는 선택 사항입니다.
    - useForm에서 zodResolver를 사용해 쉽게 유효성 검사를 설정하고, form.handleSubmit을 통해 제출 시 검사를 실행합니다.
@@ -602,7 +602,7 @@ https://takkom.vercel.app/
      profileImage: z.instanceof(File).optional()
    });
 
-   const RegisterFirstStep = ({ onNext, childInfo }) => {
+   const RegisterChildInfo = ({ onNext, childInfo }) => {
      const form = useForm<z.infer<typeof formSchema>>({
        resolver: zodResolver(formSchema),
        defaultValues: {

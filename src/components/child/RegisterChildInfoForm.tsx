@@ -3,19 +3,19 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { z } from "zod";
 import { ControllerRenderProps, UseFormReturn } from "react-hook-form";
-import { formSchema } from "@/app/child/register/steps/RegisterFirstStep";
+import { formSchema } from "@/app/child/register/steps/RegisterChildInfo";
 import { useRef, useState } from "react";
 import cameraIcon from "../../../public/child/camera-icon.svg";
 import Image from "next/image";
 import { DEFAULT_PROFILE_IMAGE_URL } from "@/utils/supabase/client";
 
-interface RegisterFirstStepFormProps {
+interface RegisterChildInfoFormProps {
   form: UseFormReturn<z.infer<typeof formSchema>>; // form prop의 타입 지정
   onSubmit: (data: z.infer<typeof formSchema>) => Promise<void>; // 데이터 제출 함수의 타입
   setSelectedImage: (file: File | undefined) => void; // 프로필 이미지 선택 함수
 }
 
-const RegisterFirstStepForm = ({ form, onSubmit, setSelectedImage }: RegisterFirstStepFormProps) => {
+const RegisterChildInfoForm = ({ form, onSubmit, setSelectedImage }: RegisterChildInfoFormProps) => {
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [profileImageUrl, setProfileImageUrl] = useState<string>(DEFAULT_PROFILE_IMAGE_URL);
 
@@ -88,7 +88,7 @@ const RegisterFirstStepForm = ({ form, onSubmit, setSelectedImage }: RegisterFir
           name="name"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>이름</FormLabel>
+              <FormLabel>이름(필수)</FormLabel>
               <FormControl>
                 <Input placeholder="ex. 김따꼼" {...field} className="w-full placeholder:text-gray-200" />
               </FormControl>
@@ -103,7 +103,7 @@ const RegisterFirstStepForm = ({ form, onSubmit, setSelectedImage }: RegisterFir
           name="birth"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>생년월일</FormLabel>
+              <FormLabel>생년월일(필수)</FormLabel>
               <FormControl>
                 <Input
                   type="date"
@@ -144,4 +144,4 @@ const RegisterFirstStepForm = ({ form, onSubmit, setSelectedImage }: RegisterFir
   );
 };
 
-export default RegisterFirstStepForm;
+export default RegisterChildInfoForm;

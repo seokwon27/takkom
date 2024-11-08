@@ -1,8 +1,8 @@
 "use client";
 
 import { useState } from "react";
-import RegisterFirstStep from "@/app/child/register/steps/RegisterFirstStep";
-import RegisterSecondStep from "@/app/child/register/steps/RegisterSecondStep";
+import RegisterChildInfo from "@/app/child/register/steps/RegisterChildInfo";
+import RegisterChildRecord from "@/app/child/register/steps/RegisterChildRecord";
 import { Child } from "@/types/childType";
 import browserClient from "@/utils/supabase/client";
 
@@ -50,9 +50,9 @@ const RegisterForm: React.FC<ChildCardProps> = ({ userId }) => {
   return (
     <div>
       {step === 1 ? (
-        <RegisterFirstStep onNext={handleNext} userId={userId} childInfo={childInfo} />
+        <RegisterChildInfo onNext={handleNext} userId={userId} childInfo={childInfo} />
       ) : (
-        <RegisterSecondStep child={childInfo as Child} onPrev={handlePrevious} onComplete={handleComplete} />
+        <RegisterChildRecord child={childInfo as Child} onPrev={handlePrevious} onComplete={handleComplete} />
       )}
     </div>
   );
