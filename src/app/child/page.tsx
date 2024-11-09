@@ -2,7 +2,8 @@
 import ChildCard from "@/components/child/ChildCard";
 import RegisterButton from "@/components/child/RegisterButton";
 import browserClient from "@/utils/supabase/client";
-import { useChildrenQuery, useUserQuery } from "@/api/userApi";
+import { useUserQuery } from "@/query/useUserQuery";
+import { useChildrenQuery } from "@/query/useChildQuery";
 
 const ChildPage = () => {
   // 현재 로그인한 사용자 정보를 가져오기 위한 useUserQuery 훅 호출

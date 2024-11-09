@@ -217,7 +217,7 @@ export const getHospitalsMutliConditions = async (input: HospitalsMutliCondition
         return item.vcnList.vcnInfo.some((vcn) => vcn.vcnNm.includes(disease));
       }
 
-      return item.vcnList.vcnInfo.vcnNm.includes(disease);
+      return item.vcnList.vcnInfo?.vcnNm.includes(disease);
     });
     const totalCount = items.length;
     const maxPage = Math.ceil(totalCount / NUM_OF_CARDS_PER_PAGE);
@@ -234,7 +234,7 @@ export const getHospitalsMutliConditions = async (input: HospitalsMutliCondition
         return item.vcnList.vcnInfo.some((vcn) => vcn.vcnNm.includes(disease));
       }
 
-      return item.vcnList.vcnInfo.vcnNm.includes(disease);
+      return item.vcnList.vcnInfo?.vcnNm.includes(disease);
     });
     const totalCount = items.length;
     const maxPage = Math.ceil(totalCount / NUM_OF_CARDS_PER_PAGE);
@@ -251,7 +251,7 @@ export const getHospitalsMutliConditions = async (input: HospitalsMutliCondition
         return item.vcnList.vcnInfo.some((vcn) => vcn.vcnNm.includes(disease));
       }
 
-      return item.vcnList.vcnInfo.vcnNm.includes(disease);
+      return item.vcnList.vcnInfo?.vcnNm.includes(disease);
     });
     const totalCount = items.length;
     const maxPage = Math.ceil(totalCount / NUM_OF_CARDS_PER_PAGE);
@@ -270,7 +270,7 @@ export const getHospitalsMutliConditions = async (input: HospitalsMutliCondition
           return item.vcnList.vcnInfo.some((vcn) => vcn.vcnNm.includes(disease));
         }
 
-        return item.vcnList.vcnInfo.vcnNm.includes(disease);
+        return item.vcnList.vcnInfo?.vcnNm.includes(disease);
       }
 
       return false;

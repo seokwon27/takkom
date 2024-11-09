@@ -2,7 +2,7 @@
 
 import React, { useState } from "react";
 import Image from "next/image";
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger } from "@/components/ui/select";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -14,24 +14,24 @@ import InfoCircle from "../../../public/hospital/info-circle.svg";
 import VaccineFilterOffIcon from "../../../public/hospital/vaccine-filter-off-icon.svg";
 import VaccineFilterOnIcon from "../../../public/hospital/vaccine-filter-on-icon.svg";
 import { cn } from "@/lib/utils";
+import { HospitalSearchParams } from "@/types/hospital";
 
-const SearchForm = ({
-  brtcObj,
-  regionInfo
-}: {
+type SearchFormProps = {
   brtcObj: { [key: string]: string };
   regionInfo: Map<string, { [key: string]: string }>;
-}) => {
+  searchParams: HospitalSearchParams;
+};
+
+const SearchForm = ({ brtcObj, regionInfo, searchParams }: SearchFormProps) => {
   const router = useRouter();
   const pathname = usePathname();
-  const searchParams = useSearchParams();
   const [params, setParams] = useState<{ brtcCd: string; sggCd: string; addr: string; org: string }>({
-    brtcCd: searchParams.get("brtcCd") ?? BRTC,
-    sggCd: searchParams.get("sggCd") ?? SGG,
-    addr: searchParams.get("addr") ?? "",
-    org: searchParams.get("org") ?? ""
+    brtcCd: searchParams.brtcCd ?? BRTC,
+    sggCd: searchParams.sggCd ?? SGG,
+    addr: searchParams.addr ?? "",
+    org: searchParams.org ?? ""
   });
-  const [disease, setDisease] = useState(searchParams.get("disease") || DISEASE);
+  const [disease, setDisease] = useState(searchParams.disease || DISEASE);
   const [showInfoTag, setShowInfoTag] = useState(true);
 
   const onBrtcChange = (value: string) => {
@@ -134,12 +134,8 @@ const SearchForm = ({
           value={disease}
           onValueChange={(value) => {
             setDisease(value);
-            if (searchParams.has("brtcCd") && searchParams.has("sggCd")) {
-              const brtcCd = searchParams.get("brtcCd") ?? "";
-              const sggCd = searchParams.get("sggCd") ?? "";
-              const addr = searchParams.get("addr") ?? "";
-              const org = searchParams.get("org") ?? "";
-              const params = { brtcCd, sggCd, addr, org, disease: value, pageNo: "1" };
+            if (searchParams.brtcCd && searchParams.sggCd) {
+              const params = { ...searchParams, disease: value, pageNo: "1" };
               router.push(createQueryParams(params, pathname));
             }
           }}
@@ -162,7 +158,7 @@ const SearchForm = ({
             {/** avoidCollision : 충돌이 발생하는 방향의 반대로 select가 열리게 하는 속성, 항상 아래로 열리도록 false로 변경 */}
             <SelectGroup>
               <SelectItem value={DISEASE} key={DISEASE} className="justify-center">
-                {DISEASE}
+                {"전체"}
               </SelectItem>
               {DISEASE_LIST.map((name) => (
                 <SelectItem value={name} key={name} className="justify-center">

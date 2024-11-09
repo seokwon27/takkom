@@ -1,22 +1,23 @@
 "use client";
 
-import { useSearchParams } from "next/navigation";
 import React from "react";
 import HospitalCard from "./HospitalCard";
 import HospitalPagination from "./HospitalPagination";
 import { useHospitalQuery } from "@/query/useHospitalQuery";
 import { NUM_OF_CARDS_PER_PAGE } from "../../constants/constants";
 import LoadingHospitalList from "./LoadingHospitalList";
+import { useUserLike, useUserQuery } from "@/query/useUserQuery";
+import browserClient from "@/utils/supabase/client";
+import { HospitalSearchParams } from "@/types/hospital";
 
-const HospitalList = () => {
-  const searchParams = useSearchParams();
+const HospitalList = ({searchParams}: {searchParams: HospitalSearchParams}) => {
   const [brtcCd, sggCd, addr, org, disease, currentPage] = [
-    searchParams.get("brtcCd") ?? "",
-    searchParams.get("sggCd") ?? "",
-    searchParams.get("addr") ?? "",
-    searchParams.get("org") ?? "",
-    searchParams.get("disease") ?? "",
-    Number(searchParams.get("pageNo")) ?? 1
+    searchParams.brtcCd ?? "",
+    searchParams.sggCd ?? "",
+    searchParams.addr ?? "",
+    searchParams.org ?? "",
+    searchParams.disease ?? "",
+    Number(searchParams.pageNo) ?? 1
   ];
 
   const {
@@ -27,9 +28,13 @@ const HospitalList = () => {
     error
   } = useHospitalQuery(brtcCd, sggCd, addr, org, disease);
 
-  // console.log(hospitalData);
+  const { data: user, isError: isUserError } = useUserQuery(browserClient);
 
-  if (isLoading || isFetching) {
+  const { data: likes } = useUserLike(browserClient, user?.id);
+
+  console.log("likes :", likes);
+
+  if (isLoading || isFetching ) {
     return (
       <LoadingHospitalList>
         <p>데이터를 불러오는 중입니다.</p>
@@ -37,33 +42,40 @@ const HospitalList = () => {
       </LoadingHospitalList>
     );
   }
-  if (isError) {
+  if (isError || isUserError) {
     return <LoadingHospitalList>{!hospitalData ? "에러가 발생했습니다." : error?.message}</LoadingHospitalList>;
   }
 
   return (
     <section className="w-full grow flex flex-col justify-between items-center mt-16 mb-6">
-      {!hospitalData || hospitalData?.totalCount === 0 ? (
+      {!hospitalData && (
         <LoadingHospitalList className="mt-0">
           <p>우리 동네 병원을 검색해 보세요.</p>
         </LoadingHospitalList>
-      ) : (
-        <ul className="w-full grid grid-cols-[repeat(10, 1fr)] gap-6">
-          {hospitalData?.items
-            .slice(NUM_OF_CARDS_PER_PAGE * (currentPage - 1), NUM_OF_CARDS_PER_PAGE * currentPage)
-            .map((info) => (
-              <li key={info.orgcd}>
-                <HospitalCard info={info} filter={disease} />
-              </li>
-            ))}
-        </ul>
       )}
-      {hospitalData && hospitalData?.totalCount > 0 && (
-        <HospitalPagination
-          maxPage={hospitalData.maxPage}
-          currentPage={currentPage}
-          params={{ brtcCd, sggCd, addr, org, disease }}
-        />
+
+      {!!hospitalData && hospitalData.totalCount === 0 && (
+        <LoadingHospitalList className="mt-0">
+          <p>검색 결과가 없습니다.</p>
+        </LoadingHospitalList>
+      )}
+      {!!hospitalData && hospitalData.totalCount > 0 && (
+        <>
+          <ul className="w-full grid grid-cols-[repeat(10, 1fr)] gap-6">
+            {hospitalData?.items
+              .slice(NUM_OF_CARDS_PER_PAGE * (currentPage - 1), NUM_OF_CARDS_PER_PAGE * currentPage)
+              .map((info) => (
+                <li key={info.orgcd}>
+                  <HospitalCard user={user} hospitalInfo={info} filter={disease} likes={likes} />
+                </li>
+              ))}
+          </ul>
+          <HospitalPagination
+            maxPage={hospitalData.maxPage}
+            currentPage={currentPage}
+            params={{ brtcCd, sggCd, addr, org, disease }}
+          />
+        </>
       )}
     </section>
   );

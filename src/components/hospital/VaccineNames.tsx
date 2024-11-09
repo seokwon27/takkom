@@ -51,14 +51,19 @@ const VaccineNames = ({ vaccineNames, filter }: { vaccineNames: string[]; filter
 
   return (
     <>
-      {vaccineNames.length === 1 && (
-        <p className="text-text-l line-clamp-1">
-          <span className={cn("text-title-xxs", filteredVaccineIndex !== -1 && "font-semibold")}>
-            {vaccineNames[0]}
-          </span>{" "}
-          접종 가능
-        </p>
-      )}
+    {(vaccineNames.length === 1 && !vaccineNames[0]) && (
+      <p className="text-text-l line-clamp-1">
+          접종 정보가 없습니다.
+      </p>
+    )}
+    {(vaccineNames.length === 1 && vaccineNames[0]) && (
+      <p className="text-text-l line-clamp-1">
+        <span className={cn("text-title-xxs", filteredVaccineIndex !== -1 && "font-semibold")}>
+          {vaccineNames[0]}
+        </span>
+        <span> 접종 가능</span>
+      </p>
+    )}
       {vaccineNames.length > 1 && filter && (
         <Select
           value={""}

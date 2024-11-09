@@ -11,149 +11,182 @@ export type Database = {
     Tables: {
       child: {
         Row: {
-          birth: string;
-          created_at: string;
-          id: string;
-          name: string;
-          notes: string;
-          profile: string;
-          updated_at: string;
-          user_id: string;
-        };
+          birth: string
+          created_at: string
+          id: string
+          name: string
+          notes: string
+          profile: string
+          updated_at: string
+          user_id: string
+        }
         Insert: {
-          birth?: string;
-          created_at?: string;
-          id?: string;
-          name?: string;
-          notes?: string;
-          profile?: string;
-          updated_at?: string;
-          user_id?: string;
-        };
+          birth?: string
+          created_at?: string
+          id?: string
+          name?: string
+          notes?: string
+          profile?: string
+          updated_at?: string
+          user_id?: string
+        }
         Update: {
-          birth?: string;
-          created_at?: string;
-          id?: string;
-          name?: string;
-          notes?: string;
-          profile?: string;
-          updated_at?: string;
-          user_id?: string;
-        };
-        Relationships: [];
-      };
+          birth?: string
+          created_at?: string
+          id?: string
+          name?: string
+          notes?: string
+          profile?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      like: {
+        Row: {
+          created_at: string
+          expnYmd: number
+          id: string
+          orgAddr: string
+          orgcd: number
+          orgnm: string
+          orgTlno: string
+          user_id: string
+          vcnInfo: string
+        }
+        Insert: {
+          created_at?: string
+          expnYmd?: number
+          id?: string
+          orgAddr?: string
+          orgcd?: number
+          orgnm?: string
+          orgTlno?: string
+          user_id?: string
+          vcnInfo?: string
+        }
+        Update: {
+          created_at?: string
+          expnYmd?: number
+          id?: string
+          orgAddr?: string
+          orgcd?: number
+          orgnm?: string
+          orgTlno?: string
+          user_id?: string
+          vcnInfo?: string
+        }
+        Relationships: []
+      }
       user: {
         Row: {
-          created_at: string;
-          email: string;
-          id: string;
-          name: string;
-          updated_at: string;
-          user_id: string;
-        };
+          created_at: string
+          email: string
+          id: string
+          name: string
+          updated_at: string
+        }
         Insert: {
-          created_at?: string;
-          email?: string;
-          id?: string;
-          name?: string;
-          updated_at?: string;
-          user_id?: string;
-        };
+          created_at?: string
+          email?: string
+          id?: string
+          name?: string
+          updated_at?: string
+        }
         Update: {
-          created_at?: string;
-          email?: string;
-          id?: string;
-          name?: string;
-          updated_at?: string;
-          user_id?: string;
-        };
-        Relationships: [];
-      };
+          created_at?: string
+          email?: string
+          id?: string
+          name?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       vaccine: {
         Row: {
-          additional: boolean;
-          description: string;
-          disease_name: string;
-          duration: string;
-          id: string;
-          vaccinate_date: number;
-          vaccine_name: string;
-          vaccine_turn: number;
-        };
+          additional: boolean
+          description: string
+          disease_name: string
+          duration: string
+          id: string
+          vaccinate_date: number
+          vaccine_name: string
+          vaccine_turn: number
+        }
         Insert: {
-          additional?: boolean;
-          description?: string;
-          disease_name?: string;
-          duration?: string;
-          id?: string;
-          vaccinate_date?: number;
-          vaccine_name?: string;
-          vaccine_turn?: number;
-        };
+          additional?: boolean
+          description?: string
+          disease_name?: string
+          duration?: string
+          id?: string
+          vaccinate_date?: number
+          vaccine_name?: string
+          vaccine_turn?: number
+        }
         Update: {
-          additional?: boolean;
-          description?: string;
-          disease_name?: string;
-          duration?: string;
-          id?: string;
-          vaccinate_date?: number;
-          vaccine_name?: string;
-          vaccine_turn?: number;
-        };
-        Relationships: [];
-      };
+          additional?: boolean
+          description?: string
+          disease_name?: string
+          duration?: string
+          id?: string
+          vaccinate_date?: number
+          vaccine_name?: string
+          vaccine_turn?: number
+        }
+        Relationships: []
+      }
       vaccine_duplicate: {
         Row: {
-          description: string;
-          disease_name: string;
-          id: string;
-          process: string;
-          target: string;
-          vaccinate_date: string;
-          vaccine_name: string;
-          vaccine_turn: string;
-        };
+          description: string
+          disease_name: string
+          id: string
+          process: string
+          target: string
+          vaccinate_date: string
+          vaccine_name: string
+          vaccine_turn: string
+        }
         Insert: {
-          description?: string;
-          disease_name?: string;
-          id?: string;
-          process?: string;
-          target?: string;
-          vaccinate_date?: string;
-          vaccine_name?: string;
-          vaccine_turn?: string;
-        };
+          description?: string
+          disease_name?: string
+          id?: string
+          process?: string
+          target?: string
+          vaccinate_date?: string
+          vaccine_name?: string
+          vaccine_turn?: string
+        }
         Update: {
-          description?: string;
-          disease_name?: string;
-          id?: string;
-          process?: string;
-          target?: string;
-          vaccinate_date?: string;
-          vaccine_name?: string;
-          vaccine_turn?: string;
-        };
-        Relationships: [];
-      };
+          description?: string
+          disease_name?: string
+          id?: string
+          process?: string
+          target?: string
+          vaccinate_date?: string
+          vaccine_name?: string
+          vaccine_turn?: string
+        }
+        Relationships: []
+      }
       vaccine_record: {
         Row: {
-          child_id: string;
-          created_at: string;
-          id: string;
-          vaccine_id: string;
-        };
+          child_id: string
+          created_at: string
+          id: string
+          vaccine_id: string
+        }
         Insert: {
-          child_id?: string;
-          created_at?: string;
-          id?: string;
-          vaccine_id?: string;
-        };
+          child_id?: string
+          created_at?: string
+          id?: string
+          vaccine_id?: string
+        }
         Update: {
-          child_id?: string;
-          created_at?: string;
-          id?: string;
-          vaccine_id?: string;
-        };
+          child_id?: string
+          created_at?: string
+          id?: string
+          vaccine_id?: string
+        }
         Relationships: [
           {
             foreignKeyName: "vaccine_record_child_id_fkey"
@@ -173,23 +206,23 @@ export type Database = {
       }
       vaccineinfo: {
         Row: {
-          description: string;
-          disease_name: string;
-          vaccinate_date: string;
-        };
+          description: string
+          disease_name: string
+          vaccinate_date: string
+        }
         Insert: {
-          description?: string;
-          disease_name?: string;
-          vaccinate_date?: string;
-        };
+          description?: string
+          disease_name?: string
+          vaccinate_date?: string
+        }
         Update: {
-          description?: string;
-          disease_name?: string;
-          vaccinate_date?: string;
-        };
-        Relationships: [];
-      };
-    };
+          description?: string
+          disease_name?: string
+          vaccinate_date?: string
+        }
+        Relationships: []
+      }
+    }
     Views: {
       [_ in never]: never
     }

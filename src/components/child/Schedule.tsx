@@ -1,10 +1,11 @@
 "use client";
 
-import { useChildrenQuery, useUserQuery } from "@/api/userApi";
 import browserClient from "@/utils/supabase/client";
 import React from "react";
 import ScheduleTable from "./ScheduleTable";
 import { Child } from "@/types/childType";
+import { useUserQuery } from "@/query/useUserQuery";
+import { useChildrenQuery } from "@/query/useChildQuery";
 
 // 나중에 input으로 받을 것
 // child: 아이 정보

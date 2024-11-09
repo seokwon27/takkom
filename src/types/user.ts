@@ -1,3 +1,5 @@
+import { Tables } from "../../database.types";
+
 export type AuthFormSignUp = {
   email: string;
   password: string;
@@ -9,3 +11,5 @@ export type AuthFormSignIn = {
   email: string;
   password: string;
 };
+
+export type Likes = Tables<'like'>

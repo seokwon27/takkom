@@ -2,6 +2,8 @@ import { useQuery } from "@tanstack/react-query";
 import { Child } from "@/types/childType";
 import browserClient from "@/utils/supabase/client";
 import { getChildInfo } from "@/api/childInfoApi";
+import { SupabaseDatabase } from "@/types/supabaseDataType";
+import { getChildren } from "@/api/userApi";
 
 // 아이 정보 가져오기 비동기 함수: userId와 childId를 사용해 특정 아이의 정보를 가져옴
 export const fetchChildInfo = async (userId: string, childId: string): Promise<Child | null> => {
@@ -23,5 +25,14 @@ export const useChildInfoQuery = (userId: string | undefined, childId: string | 
     queryFn: () => fetchChildInfo(userId!, childId!),
     // userId와 childId가 모두 유효할 때만 쿼리가 실행되도록 설정
     enabled: !!userId && !!childId
+  });
+};
+
+// 사용자의 아이들 정보 가져오기
+export const useChildrenQuery = (supabaseClient: SupabaseDatabase, userId?: string) => {
+  return useQuery({
+    queryKey: ["child_info", userId],
+    queryFn: () => getChildren(supabaseClient, userId),
+    enabled: !!userId
   });
 };
