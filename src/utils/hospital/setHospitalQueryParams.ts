@@ -1,19 +1,11 @@
 import { DISEASE } from "@/constants/constants";
+import { HospitalSearchParams } from "@/types/hospital";
 
-type HospitalQueryParams = {
-  brtcCd?: string;
-  sggCd?: string;
-  addr?: string;
-  org?: string;
-  disease?: string;
-  pageNo?: string;
-};
-
-export const createQueryParams = (params: HospitalQueryParams, pathname: string) => {
+export const createQueryParams = (params: HospitalSearchParams, pathname: string) => {
   const { brtcCd, sggCd, addr, org, disease, pageNo } = params;
   const searchParams = new URLSearchParams();
 
-  if (!brtcCd || !sggCd) {
+  if (pathname === '/hospital' && (!brtcCd || !sggCd)) {
     console.error("잘못된 접근입니다.");
     return pathname;
   }
