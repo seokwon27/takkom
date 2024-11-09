@@ -1,7 +1,7 @@
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { Child } from "@/types/childType";
 import browserClient from "@/utils/supabase/client";
-import { getChildInfo } from "@/api/childInfoApi";
+import { deleteProfileImage, getChildInfo } from "@/api/childInfoApi";
 
 // 아이 정보 가져오기 비동기 함수: userId와 childId를 사용해 특정 아이의 정보를 가져옴
 export const fetchChildInfo = async (userId: string, childId: string): Promise<Child | null> => {
@@ -23,5 +23,19 @@ export const useAddChildInfoQuery = (userId: string | undefined, childId: string
     queryFn: () => fetchChildInfo(userId!, childId!),
     // userId와 childId가 모두 유효할 때만 쿼리가 실행되도록 설정
     enabled: !!userId && !!childId
+  });
+};
+
+export const useDeleteProfileImageMutation = (childId: string) => {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: async () => deleteProfileImage(childId),
+    onSuccess: () => {
+      // 자식 정보를 가져오는 쿼리 키로 캐시를 무효화
+      queryClient.invalidateQueries({ queryKey: ["child"] });
+    },
+    onError: (error) => {
+      console.error("프로필 이미지 삭제 중 오류 발생:", error);
+    }
   });
 };
