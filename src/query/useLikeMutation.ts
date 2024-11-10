@@ -34,7 +34,7 @@ export const useAddLikeMutation = (userId?: string) => {
     mutationFn: ({hospitalInfo}:{hospitalInfo: HopsitalItem}) => addLike(hospitalInfo),
     onSuccess: () => {
       queryClient.invalidateQueries({
-        queryKey: ["user", "like", userId]
+        queryKey: ["user", "like", userId ?? '']
       });
     }
   });
@@ -47,7 +47,7 @@ export const useCancelLikeMutation = (userId?: string) => {
     mutationFn: ({id}: {id?: string}) => cancelLike(id),
     onSuccess: () => {
       queryClient.invalidateQueries({
-        queryKey: ["user", "like", userId]
+        queryKey: ["user", "like", userId ?? '']
       });
     }
   });

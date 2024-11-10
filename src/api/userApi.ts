@@ -9,7 +9,7 @@ export const getUser = async (supabaseClient: SupabaseDatabase) => {
 
   if (error || !user) {
     console.error(error);
-    return;
+    return null;
   }
 
   return user;

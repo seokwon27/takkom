@@ -22,7 +22,7 @@ export const prefetchUser = async (queryClient: QueryClient, supabaseClient: Sup
 // 로그인 정보 prefetch
 export const useUserLike = (supabaseClient: SupabaseDatabase, userId?: string) => {
   return useQuery({
-    queryKey: ["user", "like", userId],
+    queryKey: ["user", "like", userId ?? ''],
     queryFn: () => getUserLike(supabaseClient, userId),
     enabled: !!userId
   });
