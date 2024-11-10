@@ -1,16 +1,16 @@
 import { HopsitalItem } from "@/types/hospital";
-import React, { useState } from "react";
+import React from "react";
 import Image from "next/image";
 import PhoneButton from "./PhoneButton";
 import VaccineNames from "./VaccineNames";
 import Ambulance from "../../../public/hospital/ambulance.svg";
 import Tag from "./Tag";
-import { Likes } from "@/types/user";
+import { Like } from "@/types/user";
 import { Heart } from "lucide-react";
 import { useAddLikeMutation, useCancelLikeMutation } from "@/query/useLikeMutation";
 import { User } from "@supabase/supabase-js";
 
-type HospitalCardProps = { user?: User; hospitalInfo: HopsitalItem; filter?: string; likes?: Likes[] };
+type HospitalCardProps = { user: User | null; hospitalInfo: HopsitalItem; filter?: string; likes?: Like[] };
 
 const HospitalCard = ({ user, hospitalInfo, filter, likes }: HospitalCardProps) => {
   const {
@@ -20,7 +20,8 @@ const HospitalCard = ({ user, hospitalInfo, filter, likes }: HospitalCardProps) 
     orgAddr,
     vcnList: { vcnInfo }
   } = hospitalInfo;
-  const [like, setLike] = useState(likes?.some((like) => like.orgcd === orgcd));
+  // const [like, setLike] = useState(likes?.some((like) => like.orgcd === orgcd));
+  const like = likes?.some((like) => like.orgcd === orgcd);
 
   const vaccineNames = Array.isArray(vcnInfo)
     ? vcnInfo.map((info) => {
@@ -54,12 +55,14 @@ const HospitalCard = ({ user, hospitalInfo, filter, likes }: HospitalCardProps) 
           <Heart
             fill={like ? `red` : `none`}
             onClick={() => {
-              setLike((prev) => !prev);
-              if (!likeData) {
-                addLike({ hospitalInfo });
-              }
-              if (!!likeData && user!.id) {
-                cancelLike({ id: likeData?.id });
+              if (user) {
+                // setLike((prev) => !prev);
+                if (!likeData) {
+                  addLike({ hospitalInfo });
+                }
+                if (!!likeData) {
+                  cancelLike({ id: likeData?.id });
+                }
               }
             }}
           />

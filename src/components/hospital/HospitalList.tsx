@@ -6,11 +6,12 @@ import HospitalPagination from "./HospitalPagination";
 import { useHospitalQuery } from "@/query/useHospitalQuery";
 import { NUM_OF_CARDS_PER_PAGE } from "../../constants/constants";
 import LoadingHospitalList from "./LoadingHospitalList";
-import { useUserLike, useUserQuery } from "@/query/useUserQuery";
+import { useUserLike } from "@/query/useUserQuery";
 import browserClient from "@/utils/supabase/client";
 import { HospitalSearchParams } from "@/types/hospital";
+import { User } from "@supabase/supabase-js";
 
-const HospitalList = ({searchParams}: {searchParams: HospitalSearchParams}) => {
+const HospitalList = ({searchParams, user}: {searchParams: HospitalSearchParams, user: User | null}) => {
   const [brtcCd, sggCd, addr, org, disease, currentPage] = [
     searchParams.brtcCd ?? "",
     searchParams.sggCd ?? "",
@@ -28,8 +29,6 @@ const HospitalList = ({searchParams}: {searchParams: HospitalSearchParams}) => {
     error
   } = useHospitalQuery(brtcCd, sggCd, addr, org, disease);
 
-  const { data: user, isError: isUserError } = useUserQuery(browserClient);
-
   const { data: likes } = useUserLike(browserClient, user?.id);
 
   console.log("likes :", likes);
@@ -42,7 +41,7 @@ const HospitalList = ({searchParams}: {searchParams: HospitalSearchParams}) => {
       </LoadingHospitalList>
     );
   }
-  if (isError || isUserError) {
+  if (isError ) {
     return <LoadingHospitalList>{!hospitalData ? "에러가 발생했습니다." : error?.message}</LoadingHospitalList>;
   }
 
@@ -66,7 +65,7 @@ const HospitalList = ({searchParams}: {searchParams: HospitalSearchParams}) => {
               .slice(NUM_OF_CARDS_PER_PAGE * (currentPage - 1), NUM_OF_CARDS_PER_PAGE * currentPage)
               .map((info) => (
                 <li key={info.orgcd}>
-                  <HospitalCard user={user} hospitalInfo={info} filter={disease} likes={likes} />
+                  <HospitalCard user={user ?? null} hospitalInfo={info} filter={disease} likes={likes} />
                 </li>
               ))}
           </ul>

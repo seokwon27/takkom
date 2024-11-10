@@ -12,4 +12,4 @@ export type AuthFormSignIn = {
   password: string;
 };
 
-export type Likes = Tables<'like'>
+export type Like = Tables<'like'>

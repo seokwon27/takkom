@@ -24,7 +24,6 @@ const HospitalPagination = ({
   params: { brtcCd: string; sggCd: string; addr: string; org: string; disease?: string };
 }) => {
   const pathname = usePathname();
-  console.log(pathname)
 
   let startNum = 1;
   if (maxPage >= 5) {

@@ -3,25 +3,21 @@
 import { useUserLike } from "@/query/useUserQuery";
 import browserClient from "@/utils/supabase/client";
 import { User } from "@supabase/supabase-js";
-import React, { useState } from "react";
+import React from "react";
 import LoadingHospitalList from "../hospital/LoadingHospitalList";
 import { NUM_OF_CARDS_PER_PAGE } from "@/constants/constants";
 import HospitalCard from "../hospital/HospitalCard";
 import HospitalPagination from "../hospital/HospitalPagination";
 import { HopsitalItem } from "@/types/hospital";
 
-type LikeListProps = { currentPage: number; user?: User };
+type LikeListProps = { currentPage: number; user: User | null };
 
 const LikeList = ({ currentPage, user }: LikeListProps) => {
-  const { data: likes, isLoading, isFetching, isError, error } = useUserLike(browserClient, user?.id);
+  const { data: likes, isLoading, isError, error } = useUserLike(browserClient, user?.id);
   const totalCount = likes?.length ?? 0;
-  const maxPage = Math.ceil(totalCount/NUM_OF_CARDS_PER_PAGE) || 1;
+  const maxPage = Math.ceil(totalCount / NUM_OF_CARDS_PER_PAGE) || 1;
 
-
-  console.log("likes :", likes);
-  console.log("like pages :", totalCount, maxPage);
-
-  if (isLoading || isFetching) {
+  if (isLoading) {
     return (
       <LoadingHospitalList>
         <p>데이터를 불러오는 중입니다.</p>
@@ -45,23 +41,32 @@ const LikeList = ({ currentPage, user }: LikeListProps) => {
           <p>스크랩한 병원이 없습니다.</p>
         </LoadingHospitalList>
       )}
-      {(!!likes && totalCount > 0) && (
+      {!!likes && totalCount > 0 && (
         <>
           <ul className="w-full grid grid-cols-[repeat(10, 1fr)] gap-6">
-            {likes?.slice(NUM_OF_CARDS_PER_PAGE * (currentPage - 1), NUM_OF_CARDS_PER_PAGE * currentPage)
+            {likes
+              ?.slice(NUM_OF_CARDS_PER_PAGE * (currentPage - 1), NUM_OF_CARDS_PER_PAGE * currentPage)
               .map((like) => {
-                const info:HopsitalItem = {orgnm: like.orgnm, orgcd: like.orgcd, orgAddr:like.orgAddr, expnYmd: like.expnYmd, orgTlno: like.orgTlno, vcnList:{vcnInfo: JSON.parse(like.vcnInfo)}}
-                
+                const info: HopsitalItem = {
+                  orgnm: like.orgnm,
+                  orgcd: like.orgcd,
+                  orgAddr: like.orgAddr,
+                  expnYmd: like.expnYmd,
+                  orgTlno: like.orgTlno,
+                  vcnList: { vcnInfo: JSON.parse(like.vcnInfo) }
+                };
+
                 return (
-                <li key={info.orgcd}>
-                  <HospitalCard user={user} hospitalInfo={info} likes={likes} />
-                </li>
-              )})}
+                  <li key={info.orgcd}>
+                    <HospitalCard user={user} hospitalInfo={info} likes={likes} />
+                  </li>
+                );
+              })}
           </ul>
           <HospitalPagination
             maxPage={maxPage}
             currentPage={currentPage}
-            params={{ brtcCd:'', sggCd:'', addr:'', org:'', disease:'' }}
+            params={{ brtcCd: "", sggCd: "", addr: "", org: "", disease: "" }}
           />
         </>
       )}
