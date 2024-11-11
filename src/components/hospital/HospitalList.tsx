@@ -10,9 +10,15 @@ import { useUserLike } from "@/query/useUserQuery";
 import browserClient from "@/utils/supabase/client";
 import { HospitalSearchParams } from "@/types/hospital";
 import { User } from "@supabase/supabase-js";
+import useDevice from "@/utils/useDevice";
+import HospitalCardWithDrawer from "./HospitalCardWithDrawer";
 
 const HospitalList = ({ searchParams, user }: { searchParams: HospitalSearchParams; user: User | null }) => {
   const [clickedId, setClickedId] = useState(0);
+  console.log(clickedId);
+  const device = useDevice();
+  console.log(device);
+
   const [brtcCd, sggCd, addr, org, disease, currentPage] = [
     searchParams.brtcCd ?? "",
     searchParams.sggCd ?? "",
@@ -74,13 +80,24 @@ const HospitalList = ({ searchParams, user }: { searchParams: HospitalSearchPara
                     });
                   }}
                 >
-                  <HospitalCard
-                    user={user ?? null}
-                    hospitalInfo={info}
-                    clickedId={clickedId}
-                    filter={disease}
-                    likes={likes}
-                  />
+                  {device === "desktop" && (
+                    <HospitalCard
+                      user={user ?? null}
+                      hospitalInfo={info}
+                      clickedId={clickedId}
+                      filter={disease}
+                      likes={likes}
+                    />
+                  )}
+                  {device === "mobile" && (
+                    <HospitalCardWithDrawer
+                      user={user ?? null}
+                      hospitalInfo={info}
+                      clickedId={clickedId}
+                      filter={disease}
+                      likes={likes}
+                    />
+                  )}
                 </li>
               ))}
           </ul>

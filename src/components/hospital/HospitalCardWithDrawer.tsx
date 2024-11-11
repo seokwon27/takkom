@@ -1,17 +1,17 @@
 "use client";
 
-import { HopsitalItem } from "@/types/hospital";
 import React, { ReactNode, useState } from "react";
 import Image from "next/image";
-import PhoneButton from "./PhoneButton";
-import VaccineNames from "./VaccineNames";
-import Ambulance from "../../../public/hospital/ambulance.svg";
-import Tag from "./Tag";
-import { Like } from "@/types/user";
-import { Heart } from "lucide-react";
-import { useAddLikeMutation, useCancelLikeMutation } from "@/query/useLikeMutation";
 import { User } from "@supabase/supabase-js";
+import { HopsitalItem } from "@/types/hospital";
+import { Like } from "@/types/user";
+import { useAddLikeMutation, useCancelLikeMutation } from "@/query/useLikeMutation";
+import VaccineNames from "./VaccineNames";
+import Tag from "./Tag";
+import { Heart } from "lucide-react";
 import { cn } from "@/lib/utils";
+import Ambulance from "../../../public/hospital/ambulance.svg";
+import PhoneButton from "./PhoneButton";
 import PhoneModal from "./PhoneModal";
 
 type HospitalCardProps = {
@@ -23,7 +23,14 @@ type HospitalCardProps = {
   children?: ReactNode;
 };
 
-const HospitalCard = ({ user, hospitalInfo, clickedId, filter, likes }: HospitalCardProps) => {
+const HospitalCardWithDrawer = ({
+  user,
+  hospitalInfo,
+  clickedId,
+  filter,
+  likes
+}: HospitalCardProps) => {
+  const [showModal, setShowModal] = useState(false);
   const {
     orgcd,
     orgnm,
@@ -31,7 +38,6 @@ const HospitalCard = ({ user, hospitalInfo, clickedId, filter, likes }: Hospital
     orgAddr,
     vcnList: { vcnInfo }
   } = hospitalInfo;
-  const [showModal, setShowModal] = useState(false);
   const like = likes?.some((like) => like.orgcd === orgcd);
 
   const vaccineNames = Array.isArray(vcnInfo)
@@ -57,7 +63,7 @@ const HospitalCard = ({ user, hospitalInfo, clickedId, filter, likes }: Hospital
     <>
       <div
         className={cn(
-          "w-full h-fit min-h-[200px] flex border border-gray-30 rounded-3xl p-4 justify-between items-start shadow-[0px_0px_16px_rgba(114,114,114,0.1)]",
+          "w-full h-fit min-h-[200px] flex border border-gray-30 rounded-3xl p-4 justify-between items-start shadow-[0px_0px_16px_rgba(114,114,114,0.1)] pointer-active:auto",
           "max-sm:min-h-fit max-sm:p-3 max-sm:rounded-xl max-sm:shadow-[0px_0px_7px_rgba(114,114,114,0.1)]",
           orgcd === clickedId && "max-sm:border-primary-400 max-sm:shadow-none"
         )}
@@ -84,7 +90,7 @@ const HospitalCard = ({ user, hospitalInfo, clickedId, filter, likes }: Hospital
             )}
           />
         </div>
-        <div className="flex-1 h-full flex flex-col gap-4 mx-[24px] max-sm:ml-2 max-sm:mr-0 max-sm:gap-2">
+        <div className="flex-1 h-full flex flex-col gap-4 mx-[24px] max-sm:ml-2 max-sm:mr-0 max-sm:gap-1">
           <div className="flex gap-3 max-sm:gap-2">
             <Tag />
             {required && <Tag name={"required"} />}
@@ -105,17 +111,19 @@ const HospitalCard = ({ user, hospitalInfo, clickedId, filter, likes }: Hospital
             </div>
           </div>
         </div>
-        <div className="mt-auto max-sm:hidden">
-          <PhoneButton
-            onClick={() => {
-              setShowModal(true);
-            }}
-          />
-        </div>
+      </div>
+      <div
+        onClick={(e) => e.stopPropagation()}
+        className={cn(
+          "fixed bottom-0 left-0 right-0 h-[100px] bg-white px-6 pt-3 z-50 transition-all duration-200",
+          clickedId === hospitalInfo.orgcd ? "animate-in slide-in-from-bottom" : "hidden"
+        )}
+      >
+        <PhoneButton onClick={() => setShowModal(true)} />
       </div>
       {showModal && <PhoneModal phoneNumber={orgTlno} setShowModal={setShowModal} />}
     </>
   );
 };
 
-export default HospitalCard;
+export default HospitalCardWithDrawer;
