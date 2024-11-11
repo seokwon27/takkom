@@ -3,7 +3,7 @@
 import { useVaccineInfoQuery } from "@/query/useVaccineInfoQuery";
 import { useAgeGroupStore } from "@/store/ageGroupStore";
 import VaccineCard from "./vaccineCard";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import SearchButton from "./SearchButton";
 import {
   Pagination,
@@ -13,6 +13,8 @@ import {
   PaginationNext,
   PaginationPrevious
 } from "../ui/pagination";
+import { useQueryClient } from "@tanstack/react-query";
+import { fetchCityData } from "@/query/useCityDataQuery";
 
 const ITEMS_PER_PAGE = 6;
 
@@ -20,6 +22,14 @@ const VaccineList = () => {
   const [page, setPage] = useState(1);
   const { selectedAge } = useAgeGroupStore();
   const { data: allData, error, isPending } = useVaccineInfoQuery();
+  const queryClient = useQueryClient();
+
+  useEffect(() => {
+    queryClient.prefetchQuery({
+      queryKey: ["cities"],
+      queryFn: fetchCityData
+    });
+  }, []);
 
   // 선택된 연령에 따라 데이터 필터링
   const filteredData = useMemo(() => {
