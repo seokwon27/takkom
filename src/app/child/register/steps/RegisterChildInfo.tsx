@@ -36,12 +36,10 @@ const RegisterChildInfo = ({ onNext, childInfo }: RegisterChildInfoProps) => {
 
   const [selectedImage, setSelectedImage] = useState<File>(); // 선택된 이미지 상태 관리
 
-  const supabase = browserClient;
-
   // 이미지 업로드 함수
   const uploadImage = async (file: File): Promise<string | null> => {
     const fileName = `public/${Date.now()}_${file.name}`; // 고유한 파일 이름 생성
-    const { error } = await supabase.storage.from("profiles").upload(fileName, file, {
+    const { error } = await browserClient.storage.from("profiles").upload(fileName, file, {
       cacheControl: "3600", // 1시간 동안 캐시 유지
       upsert: true // 기존 파일이 있으면 덮어씌움
     });
@@ -51,7 +49,7 @@ const RegisterChildInfo = ({ onNext, childInfo }: RegisterChildInfoProps) => {
       return null; // 오류 발생 시 null 반환
     }
 
-    const { data: publicUrlData } = supabase.storage.from("profiles").getPublicUrl(fileName);
+    const { data: publicUrlData } = browserClient.storage.from("profiles").getPublicUrl(fileName);
     return publicUrlData?.publicUrl ?? null;
   };
 
@@ -61,7 +59,7 @@ const RegisterChildInfo = ({ onNext, childInfo }: RegisterChildInfoProps) => {
 
     const {
       data: { user }
-    } = await supabase.auth.getUser(); // 사용자 정보 가져오기
+    } = await browserClient.auth.getUser(); // 사용자 정보 가져오기
     if (!user) {
       console.error("사용자 정보가 없습니다. 로그인이 필요합니다.");
       return; // 사용자 정보 없으면 함수 종료
@@ -71,7 +69,7 @@ const RegisterChildInfo = ({ onNext, childInfo }: RegisterChildInfoProps) => {
     const profileImageUrl = selectedImage ? await uploadImage(selectedImage) : "";
 
     // Supabase에 아이 정보 저장
-    const { data: childData, error } = await supabase
+    const { data: childData, error } = await browserClient
       .from("child")
       .insert({
         user_id: user.id,
