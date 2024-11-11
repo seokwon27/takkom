@@ -1,5 +1,5 @@
 "use client";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Child } from "@/types/childType";
 import CheckboxForm from "@/components/vaccinerecord/CheckboxForm";
 import browserClient from "@/utils/supabase/client";
@@ -16,13 +16,12 @@ interface RegisterChildRecordProps {
 }
 
 const RegisterChildRecord = ({ child, onPrev, onComplete }: RegisterChildRecordProps) => {
-  // Supabase 클라이언트 생성
-  const supabase = browserClient;
+  console.log("전달받은 아이 정보: ", child.id);
 
   // id를 사용하여 Supabase에서 해당 아이의 정보를 가져와
   useEffect(() => {
     const fetchChildData = async () => {
-      const { data, error } = await supabase
+      const { data, error } = await browserClient
         .from("child")
         .select("*")
         .eq("id", child.id) // 전달받은 id로 데이터 조회
@@ -36,10 +35,7 @@ const RegisterChildRecord = ({ child, onPrev, onComplete }: RegisterChildRecordP
     };
 
     fetchChildData();
-    // }, [child.id]);
-  }, [supabase, child.id]); // 빌드 경고 해결 테스트: supabase를 의존성 배열에 추가
-
-  // console.log("등록하려는 아이의 ID:", child.id);
+  }, [browserClient, child.id]);
 
   const router = useRouter();
   const onSuccess = () => {

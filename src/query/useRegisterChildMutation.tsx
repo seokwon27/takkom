@@ -29,31 +29,33 @@ const uploadImage = async (file: File): Promise<string | null> => {
 export const useRegisterChildMutation = (onNext: (data: Partial<Child>) => void) => {
     const queryClient = useQueryClient();
 
-    const mutationFn = async ({ name, birth, notes, selectedImage }: RegisterChildData) => {
-        const {
-            data: { user },
-        } = await browserClient.auth.getUser();
+  const mutationFn = async ({ name, birth, notes, selectedImage, id }: RegisterChildData & { id?: string }) => {
+    // 기존 id가 있다면 새로 등록하지 않음
+    if (id) return { id, name, birth, notes, profile: "" };
 
-        if (!user) throw new Error("로그인이 필요합니다.");
+    const {
+      data: { user }
+    } = await browserClient.auth.getUser();
 
-        const profileImageUrl = selectedImage ? await uploadImage(selectedImage) : "";
+    if (!user) throw new Error("로그인이 필요합니다.");
 
-        const { data: childData, error } = await browserClient
-          .from("child")
-          .insert({
-            user_id: user.id,
-            name,
-            birth,
-            profile: profileImageUrl ?? "",
-            notes: notes ?? ""
-          })
-          .select()
-          .single();
+    const profileImageUrl = selectedImage ? await uploadImage(selectedImage) : "";
 
-        if (error) throw new Error("데이터 저장 오류: ", error); 
-        
-        return childData;
-    };
+    const { data: childData, error } = await browserClient
+      .from("child")
+      .insert({
+        user_id: user.id,
+        name,
+        birth,
+        profile: profileImageUrl ?? "",
+        notes: notes ?? ""
+      })
+      .select()
+      .single();
+
+    if (error) throw new Error("데이터 저장 오류: ", error);
+    return childData;
+  };
 
     return useMutation({
       mutationFn,
@@ -61,67 +63,17 @@ export const useRegisterChildMutation = (onNext: (data: Partial<Child>) => void)
         queryClient.invalidateQueries({
           queryKey: ["child"]
         });
-        onNext({
-          id: childData.id,
-          name: childData.name,
-          birth: childData.birth,
-          notes: childData.notes,
-          profile: childData.profile
-        });
+        // onNext({
+        //   id: childData.id, // 서버에서 받은 아이의 아이디 다음 단계로 전달...
+        //   name: childData.name,
+        //   birth: childData.birth,
+        //   notes: childData.notes,
+        //   profile: childData.profile
+        // });
+        onNext(childData);
       },
       onError: (error) => {
         console.error("자녀 정보 등록 중 오류 발생:", error);
       }
     });
 };
-// export const useRegisterChildMutation = (onNext: (data: Partial<Child>) => void, selectedImage?: File) => { 
-//     const queryClient = useQueryClient();
-//     return useMutation(
-//         async (data: {
-//             name: string;
-//             birth: string;
-//             notes?: string
-//         }) => {
-//         const {
-//           data: { user }
-//         } = await browserClient.auth.getUser(); // 사용자 정보 가져오기
-//         if (!user) throw new Error("사용자 정보가 없습니다. 로그인이 필요합니다.");
-
-//         // 프로필 이미지 업로드 및 URL 생성
-//         const profileImageUrl = selectedImage ? await uploadImage(selectedImage) : "";
-
-//         // Supabase에 아이 정보 저장
-//         const { data: childData, error } = await browserClient
-//           .from("child")
-//           .insert({
-//             user_id: user.id,
-//             name: data.name,
-//             birth: data.birth,
-//             profile: profileImageUrl ?? "",
-//             notes: data.notes ?? ""
-//           })
-//           .select()
-//           .single();
-
-//         if (error) throw new Error("데이터 저장 오류");
-
-//         return childData;
-//       },
-
-//       {
-//         onSuccess: (childData) => {
-//           queryClient.invalidateQueries(["child"]);
-//           onNext({
-//             id: childData.id,
-//             name: childData.name,
-//             birth: childData.birth,
-//             notes: childData.notes,
-//             profile: childData.profileImageUrl || undefined
-//           });
-//         },
-//         onError: (error) => {
-//           console.error("자녀 정보 등록 중 오류 발생:", error);
-//         }
-//       }
-//     // );
-// }

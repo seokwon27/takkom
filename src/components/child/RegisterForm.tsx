@@ -17,14 +17,30 @@ const RegisterForm: React.FC<ChildCardProps> = ({ userId }) => {
   const [step, setStep] = useState(1); // 기본적으로 1단계로 설정됨
 
   // 다음 단계로 이동하는 함수
+  // const handleNext = (data: Partial<Child>) => {
+  //   setChildInfo((prev) => ({ ...prev, ...data }));
+  //   setStep(step + 1);
+  //   console.log("다음버튼 클릭됨, 아이 아이디 : ", childInfo.id);
+  // };
+
+  // const handleNext = (data: Partial<Child>) => {
+  //   setChildInfo((prev) => {
+  //     const updatedChildInfo = { ...prev, ...data };
+  //     console.log("다음버튼 클릭됨, 아이 아이디 : ", updatedChildInfo.id);
+  //     return updatedChildInfo;
+  //   });
+  //   setStep(step + 1);
+  // };
+
   const handleNext = (data: Partial<Child>) => {
     setChildInfo((prev) => ({ ...prev, ...data }));
-    setStep(step + 1);
+    setStep((prevStep) => prevStep + 1); // 상태가 설정된 후에 step을 업데이트
   };
 
   // 이전 단계로 돌아가는 함수
   const handlePrevious = () => {
     setStep(step - 1);
+    console.log("이전버튼 클릭됨, 아이 아이디 : ", childInfo.id)
   };
 
   // 아이 정보를 최종 등록하는 함수 -- 수정 전
@@ -117,7 +133,11 @@ const RegisterForm: React.FC<ChildCardProps> = ({ userId }) => {
       {step === 1 ? (
         <RegisterChildInfo onNext={handleNext} userId={userId} childInfo={childInfo} />
       ) : (
-        <RegisterChildRecord child={childInfo as Child} onPrev={handlePrevious} onComplete={handleComplete} />
+        <RegisterChildRecord
+          child={childInfo as Child}
+          onPrev={handlePrevious}
+          onComplete={handleComplete}
+        />
       )}
     </div>
   );

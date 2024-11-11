@@ -25,6 +25,9 @@ export const formSchema = z.object({
 });
 
 const RegisterChildInfo = ({ onNext, childInfo }: RegisterChildInfoProps) => {
+  // 자녀 ID를 상태로 관리하여 새로 삽입 방지
+  const [childId, setChildId] = useState<string | null>(childInfo.id ?? null);
+
   // react-hook-form을 사용하여 폼 데이터 관리
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema), // zod 유효성 검사 사용
@@ -100,11 +103,29 @@ const RegisterChildInfo = ({ onNext, childInfo }: RegisterChildInfoProps) => {
   //     console.error("childData가 null입니다.");
   //   }
   // };
-  const { mutate: registerChild } = useRegisterChildMutation(onNext);
+
+// 잠시 대기
+  // const { mutate: registerChild } = useRegisterChildMutation(onNext);
+  // const handleFormSubmit = async (data: z.infer<typeof formSchema>): Promise<void> => {
+  //   registerChild({ ...data, selectedImage });
+  // };
+
+  const { mutate: registerChild } = useRegisterChildMutation((data) => {
+    setChildId(data.id ?? null); // 성공 시 자녀 ID 저장
+    onNext(data); // 다음 단계로 이동
+  });
 
   const handleFormSubmit = async (data: z.infer<typeof formSchema>): Promise<void> => {
-    registerChild({ ...data, selectedImage });
-  }
+    // childId가 없는 경우에만 새로 등록 (이미 등록된 경우 등록하지 않음)
+    if (!childId) {
+      registerChild({ ...data, selectedImage });
+    } else {
+      // 이미 등록된 자녀의 정보를 그대로 다음 단계로 전달
+      onNext({ ...data, id: childId });
+    }
+  };
+
+  
   return (
     <div className="max-w-[588px] mx-auto m-20">
       <div className="relative mb-20">
