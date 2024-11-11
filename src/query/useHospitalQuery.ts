@@ -1,5 +1,5 @@
-import { getHospitalsMutliConditions } from "@/api/hospitalApi";
-import { defaultHospitalData } from "@/components/hospital/constants";
+import { getHospitalsMutliConditions } from "@/api/hospital-actions";
+import { defaultHospitalData } from "@/constants/constants";
 import { useQuery } from "@tanstack/react-query";
 
 export const useHospitalQuery = (brtcCd: string, sggCd: string, addr: string, org: string, disease: string) => {

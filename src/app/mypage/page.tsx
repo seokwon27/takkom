@@ -1,4 +1,4 @@
-import Info from "@/components/mypage/Info";
+import Info from "@/components/mypage/UserInfo";
 
 const MyPage = () => {
   return (
