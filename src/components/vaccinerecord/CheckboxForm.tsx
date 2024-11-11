@@ -4,9 +4,10 @@ import { useForm } from "react-hook-form";
 import { Form, FormMessage } from "../ui/form";
 
 import { useAddVaccineRecordMutation, useDeleteVaccineRecordMutation } from "@/query/useVaccineRecordMutation";
-import { useVaccineQuery, useVaccineRecordQuery } from "@/query/useVaccineRecordQuery";
+import { useVaccineRecordQuery } from "@/query/useVaccineRecordQuery";
 import { ReactNode } from "react";
-import VaccineRecordList from "./VaccineRecordList";
+
+import VaccineRecordTabs from "./VaccineRecordTabs";
 
 interface CheckboxFormProps {
   childId: string;
@@ -19,7 +20,6 @@ export type FormValues = {
 };
 
 const CheckboxForm = ({ childId, onSuccess, children }: CheckboxFormProps) => {
-  const { data: vaccineData } = useVaccineQuery();
   const { data: vaccineRecord } = useVaccineRecordQuery(childId);
   const { mutateAsync: addVaccineRecord } = useAddVaccineRecordMutation();
   const { mutateAsync: deleteVaccineRecord } = useDeleteVaccineRecordMutation();
@@ -50,7 +50,9 @@ const CheckboxForm = ({ childId, onSuccess, children }: CheckboxFormProps) => {
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)}>
-        <VaccineRecordList data={vaccineData} vaccinated={vaccinated} edit={true} control={form.control} />
+        {/* <VaccineRecordList data={vaccineData} vaccinated={vaccinated} edit={true} control={form.control} /> */}
+        <VaccineRecordTabs childId={childId} edit={true} control={form.control} />
+
         {children}
         <FormMessage />
       </form>

@@ -1,6 +1,6 @@
 import { getVaccines } from "@/api/vaccineApi";
 import { getVaccineRecord } from "@/api/vaccineRecord/vaccineRecordApi";
-import VaccineRecord from "@/components/vaccinerecord/VaccineRecord";
+import VaccineRecordTabs from "@/components/vaccinerecord/VaccineRecordTabs";
 
 import { createClient } from "@/utils/supabase/server";
 import { groupVaccines } from "@/utils/vaccineRecord/vaccinesRecord";
@@ -54,7 +54,7 @@ const VaccineRecordPage = async ({ params }: VaccinatePageProps) => {
               alt="Vaccination"
               className="absolute w-[100px] h-[100px] -top-0.5 -left-px object-cover"
             />
-            <VaccineRecord childId={childId} />
+            <VaccineRecordTabs childId={childId} edit={false} />
           </div>
         </div>
       </div>
