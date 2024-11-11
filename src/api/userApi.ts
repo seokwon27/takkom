@@ -1,6 +1,4 @@
 import { SupabaseDatabase } from "@/types/supabaseDataType";
-import { User } from "@supabase/supabase-js";
-import { useQuery, UseQueryResult } from "@tanstack/react-query";
 
 // supabase에서 로그인 정보 가져오기
 export const getUser = async (supabaseClient: SupabaseDatabase) => {
@@ -11,21 +9,13 @@ export const getUser = async (supabaseClient: SupabaseDatabase) => {
 
   if (error || !user) {
     console.error(error);
-    return;
+    return null;
   }
 
   return user;
 };
 
-// 로그인 정보 가져오기
-export const useUserQuery = (supabaseClient: SupabaseDatabase): UseQueryResult<User> => {
-  return useQuery({
-    queryKey: ["user", "client"],
-    queryFn: () => getUser(supabaseClient)
-  });
-};
-
-// supabase에서 children table에서 user가 등록한 아이들 정보 가져오기
+// child table에서 사용자가 등록한 아이들 정보 가져오기
 export const getChildren = async (supabaseClient: SupabaseDatabase, userId?: string) => {
   if (userId) {
     const { data, error } = await supabaseClient.from("child").select().eq("user_id", userId);
@@ -41,11 +31,19 @@ export const getChildren = async (supabaseClient: SupabaseDatabase, userId?: str
   }
 };
 
-// 사용자의 아이들 정보 가져오기
-export const useChildrenQuery = (supabaseClient: SupabaseDatabase, userId?: string) => {
-  return useQuery({
-    queryKey: ["child_info", userId],
-    queryFn: () => getChildren(supabaseClient, userId),
-    enabled: !!userId
-  });
+
+// like table에서 사용자가 좋아요한 병원 목록 가져오기
+export const getUserLike = async (supabaseClient: SupabaseDatabase, userId?: string) => {
+  if (userId) {
+    const { data, error } = await supabaseClient.from("like").select().eq("user_id", userId);
+
+    if (error) {
+      console.error(error.message);
+      return [];
+    }
+
+    return data;
+  } else {
+    return [];
+  }
 };

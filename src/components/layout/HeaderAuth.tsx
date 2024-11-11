@@ -7,6 +7,7 @@ const HeaderAuth = async () => {
     data: { user }
   } = await supabaseClient.auth.getUser();
 
+
   return (
     <ul className="flex gap-4 items-center">
       {!user ? (

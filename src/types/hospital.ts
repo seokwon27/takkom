@@ -55,15 +55,14 @@ export type HospitalType = {
   };
 };
 
-// export type OpenAPI_Error = {
-//   OpenAPI_ServiceResponse: {
-//     cmmMsgHeader: {
-//       errMsg: string,
-//       returnAuthMsg: string,
-//       returnReasonCode: number
-//     }
-//   }
-// }
+export type HospitalSearchParams = {
+  brtcCd?: string;
+  sggCd?: string;
+  addr?: string;
+  org?: string;
+  disease?: string;
+  pageNo?: string;
+};
 
 export type OpenAPI_Error = {
   cmmMsgHeader: {

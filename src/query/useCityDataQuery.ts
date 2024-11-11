@@ -1,4 +1,4 @@
-import { getBrtcCd, getRegionInfo } from "@/api/hospitalApi";
+import { getBrtcCd, getRegionInfo } from "@/api/hospital-actions";
 import { useQuery } from "@tanstack/react-query";
 
 export const fetchCityData = async () => {
