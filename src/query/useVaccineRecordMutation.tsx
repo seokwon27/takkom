@@ -24,8 +24,8 @@ export const useDeleteVaccineRecordMutation = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: ({ childId: child_id, vaccineId: vaccine_id }: VaccineRecordMutationProps) =>
-      deleteVaccineRecord(child_id, vaccine_id),
+    mutationFn: ({ childId, vaccineId }: VaccineRecordMutationProps) =>
+      deleteVaccineRecord(childId, vaccineId),
     onSuccess: () => {
       queryClient.invalidateQueries({
         queryKey: ["vaccine_record"]

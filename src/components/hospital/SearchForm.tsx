@@ -2,113 +2,84 @@
 
 import React, { useState } from "react";
 import Image from "next/image";
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { usePathname, useRouter } from "next/navigation";
+import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger } from "@/components/ui/select";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { BRTC, DISEASE, DISEASE_LIST, SGG } from "./constants";
-import { setQueryParams } from "../../utils/hospital/setHospitalQueryParams";
+import { BRTC, DISEASE, DISEASE_LIST, SGG } from "../../constants/constants";
+import { createQueryParams } from "../../utils/hospital/setHospitalQueryParams";
 import InfoTag from "./InfoTag";
-import infoCircle from "../../../public/hospital/info-circle.svg";
-import vaccineFilterOffIcon from "../../../public/hospital/vaccine-filter-off-icon.svg";
-import vaccineFilterOnIcon from "../../../public/hospital/vaccine-filter-on-icon.svg";
+import RegionSelect from "./RegionSelect";
+import InfoCircle from "../../../public/hospital/info-circle.svg";
+import VaccineFilterOffIcon from "../../../public/hospital/vaccine-filter-off-icon.svg";
+import VaccineFilterOnIcon from "../../../public/hospital/vaccine-filter-on-icon.svg";
 import { cn } from "@/lib/utils";
+import { HospitalSearchParams } from "@/types/hospital";
 
-const SearchForm = ({
-  brtcObj,
-  regionInfo
-}: {
+type SearchFormProps = {
   brtcObj: { [key: string]: string };
   regionInfo: Map<string, { [key: string]: string }>;
-}) => {
+  searchParams: HospitalSearchParams;
+};
+
+const SearchForm = ({ brtcObj, regionInfo, searchParams }: SearchFormProps) => {
   const router = useRouter();
   const pathname = usePathname();
-  const searchParams = useSearchParams();
   const [params, setParams] = useState<{ brtcCd: string; sggCd: string; addr: string; org: string }>({
-    brtcCd: searchParams.get("brtcCd") ?? BRTC,
-    sggCd: searchParams.get("sggCd") ?? SGG,
-    addr: searchParams.get("addr") ?? "",
-    org: searchParams.get("org") ?? ""
+    brtcCd: searchParams.brtcCd ?? BRTC,
+    sggCd: searchParams.sggCd ?? SGG,
+    addr: searchParams.addr ?? "",
+    org: searchParams.org ?? ""
   });
-  const [disease, setDisease] = useState(searchParams.get("disease") || DISEASE);
+  const [disease, setDisease] = useState(searchParams.disease || DISEASE);
   const [showInfoTag, setShowInfoTag] = useState(true);
+
+  const onBrtcChange = (value: string) => {
+    setParams((prev) => {
+      const tmpParams = { ...prev, brtcCd: value, sggCd: SGG, addr: "", org: "" };
+      return tmpParams;
+    });
+  };
+
+  const onSggChange = (value: string) => {
+    setParams((prev) => {
+      const tmpParams = { ...prev, sggCd: value, addr: "", org: "" };
+      return tmpParams;
+    });
+  };
 
   return (
     <div className="w-full flex flex-col ">
       <div className="flex gap-2 items-end mb-3">
         <Image
-          src={infoCircle}
+          src={InfoCircle}
           alt="정보"
           onClick={() => {
             setShowInfoTag((prev) => !prev);
           }}
+          className="cursor-pointer"
         />
         <InfoTag isVisible={showInfoTag} />
       </div>
       <form className="grid grid-cols-[144fr_144fr_144fr_196fr_100fr] gap-4 mb-4">
-        <Select
+        {/* 시도 select */}
+        <RegionSelect
+          defaultValue={BRTC}
+          regionArray={Object.entries(brtcObj)}
+          trigger={params.brtcCd === BRTC}
+          disabled={false}
           value={params.brtcCd}
-          onValueChange={(value) => {
-            setParams(() => {
-              // 시도 값이 바뀌면 다른 영역 모두 초기화
-              const tmpParams = { brtcCd: value, sggCd: SGG, addr: "", org: "" };
-              return tmpParams;
-            });
-            // setDisease(DISEASE);
-          }}
-        >
-          <SelectTrigger
-            className={`justify-center text-base font-semibold ${
-              params.brtcCd === BRTC ? "border-gray-300 text-gray-300" : "border-primary-400 text-primary-400"
-            }`}
-          >
-            <SelectValue placeholder={BRTC + "*"} />
-          </SelectTrigger>
-          <SelectContent className="shadow-[0px_0px_16px_rgba(114,114,114,0.1)]">
-            <SelectGroup>
-              <SelectItem value={BRTC} key={BRTC} className="justify-center text-sm font-semibold">
-                {BRTC + "*"}
-              </SelectItem>
-              {Object.entries(brtcObj).map((item) => (
-                <SelectItem value={String(item[0])} key={item[0]} className="justify-center text-sm font-semibold">
-                  {item[1]}
-                </SelectItem>
-              ))}
-            </SelectGroup>
-          </SelectContent>
-        </Select>
-
-        <Select
+          onValueChange={onBrtcChange}
+        />
+        {/* 시군구 select */}
+        <RegionSelect
+          defaultValue={SGG}
+          regionArray={Object.entries(regionInfo.get(params.brtcCd) || {}).sort((a, b) => a[1].localeCompare(b[1]))}
+          trigger={params.sggCd === SGG}
+          disabled={params.brtcCd === BRTC}
           value={params.sggCd}
-          onValueChange={(value) => {
-            setParams((prev) => {
-              // 시/군/구 값이 바뀌면 입력값 초기화
-              const tmpParams = { ...prev, sggCd: value, addr: "", org: "" };
-              return tmpParams;
-            });
-          }}
-        >
-          <SelectTrigger
-            className={`justify-center text-base font-semibold ${
-              params.sggCd === SGG ? "border-gray-300 text-gray-300" : "border-primary-400 text-primary-400"
-            }`}
-            disabled={params.brtcCd === BRTC}
-          >
-            <SelectValue placeholder={SGG + "*"} />
-          </SelectTrigger>
-          <SelectContent className="shadow-[0px_0px_16px_rgba(114,114,114,0.1)]">
-            <SelectGroup>
-              <SelectItem value={SGG} key={SGG} className="justify-center text-sm font-semibold">
-                {SGG + "*"}
-              </SelectItem>
-              {Object.entries(regionInfo.get(params.brtcCd) || {}).map((item) => (
-                <SelectItem value={String(item[0])} key={item[0]} className="justify-center text-sm font-semibold">
-                  {item[1]}
-                </SelectItem>
-              ))}
-            </SelectGroup>
-          </SelectContent>
-        </Select>
+          onValueChange={onSggChange}
+        />
 
         <Input
           placeholder="주소"
@@ -122,12 +93,12 @@ const SearchForm = ({
           }}
           disabled={params.brtcCd === BRTC || params.sggCd === SGG}
           className={cn(
-            "bg-gray-30 border-0 text-gray-500 text-center font-semibold placeholder:text-gray-500",
+            "h-12 bg-gray-30 border-0 text-gray-500 text-center font-semibold placeholder:text-gray-500",
             "focus-visible:bg-white focus-visible:text-gray-600 focus-visible:placeholder:text-gray-600",
             "focus-visible:ring-offset-0 focus-visible:ring-1 focus-visible:ring-inset focus-visible:ring-gray-700"
-            // params.addr ? "border-primary-400 text-primary-400" : "border-gray-300 text-gray-300"
           )}
         />
+
         <Input
           placeholder="병원명"
           value={params.org}
@@ -140,10 +111,9 @@ const SearchForm = ({
           }}
           disabled={params.brtcCd === BRTC || params.sggCd === SGG}
           className={cn(
-            "bg-gray-30 border-0 text-gray-500 text-center font-semibold placeholder:text-gray-500",
+            "h-12 bg-gray-30 border-0 text-gray-500 text-center font-semibold placeholder:text-gray-500",
             "focus-visible:bg-white focus-visible:text-gray-600 focus-visible:placeholder:text-gray-600",
             "focus-visible:ring-offset-0 focus-visible:ring-1 focus-visible:ring-inset focus-visible:ring-gray-700"
-            // params.org ? "border-primary-400 text-primary-400" : "border-gray-300 text-gray-300"
           )}
         />
 
@@ -151,10 +121,10 @@ const SearchForm = ({
           type="button"
           onClick={() => {
             setDisease(DISEASE);
-            setQueryParams({ ...params, pageNo: "1" }, router, pathname);
+            router.push(createQueryParams({ ...params, pageNo: "1" }, pathname));
           }}
           disabled={params.brtcCd === BRTC || params.sggCd === SGG}
-          className="bg-primary-400 rounded-lg text-base font-semibold hover:bg-primary-400 disabled:bg-primary-400"
+          className="h-12 bg-primary-400 rounded-lg text-base font-semibold hover:bg-primary-400 disabled:bg-primary-400"
         >
           검색
         </Button>
@@ -164,13 +134,9 @@ const SearchForm = ({
           value={disease}
           onValueChange={(value) => {
             setDisease(value);
-            if (searchParams.has("brtcCd") && searchParams.has("sggCd")) {
-              const brtcCd = searchParams.get("brtcCd") ?? "";
-              const sggCd = searchParams.get("sggCd") ?? "";
-              const addr = searchParams.get("addr") ?? "";
-              const org = searchParams.get("org") ?? "";
-              const params = { brtcCd, sggCd, addr, org, disease: value, pageNo: "1" };
-              setQueryParams(params, router, pathname);
+            if (searchParams.brtcCd && searchParams.sggCd) {
+              const params = { ...searchParams, disease: value, pageNo: "1" };
+              router.push(createQueryParams(params, pathname));
             }
           }}
         >
@@ -182,17 +148,17 @@ const SearchForm = ({
             )}
             {/* <SelectValue placeholder={DISEASE} /> */}
             {disease === DISEASE ? (
-              <Image src={vaccineFilterOffIcon} alt="백신 찾기" />
+              <Image src={VaccineFilterOffIcon} alt="백신 찾기" />
             ) : (
-              <Image src={vaccineFilterOnIcon} alt="백신 찾기" />
+              <Image src={VaccineFilterOnIcon} alt="백신 찾기" />
             )}
-            <span className="ml-2 text-gray-700">백신 찾기</span>
+            <span className="ml-2 text-gray-700 text-label-xl font-medium">백신 찾기</span>
           </SelectTrigger>
           <SelectContent align="end" className="shadow-[0px_0px_16px_rgba(114,114,114,0.1)]" avoidCollisions={false}>
             {/** avoidCollision : 충돌이 발생하는 방향의 반대로 select가 열리게 하는 속성, 항상 아래로 열리도록 false로 변경 */}
             <SelectGroup>
               <SelectItem value={DISEASE} key={DISEASE} className="justify-center">
-                {DISEASE}
+                {"전체"}
               </SelectItem>
               {DISEASE_LIST.map((name) => (
                 <SelectItem value={name} key={name} className="justify-center">

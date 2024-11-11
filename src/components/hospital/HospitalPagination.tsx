@@ -10,7 +10,7 @@ import {
   PaginationPrevious
 } from "@/components/ui/pagination";
 import { usePathname } from "next/navigation";
-import { getStringQueryParams } from "../../utils/hospital/setHospitalQueryParams";
+import { createQueryParams } from "../../utils/hospital/setHospitalQueryParams";
 import { cn } from "@/lib/utils";
 import { ChevronsLeft, ChevronsRight } from "lucide-react";
 
@@ -43,7 +43,7 @@ const HospitalPagination = ({
         {/* {maxPage >= 5 && ( */}
         <PaginationItem aria-disabled={currentPage === 1}>
           <PaginationLink
-            href={getStringQueryParams({ ...params, pageNo: String(1) }, pathname)}
+            href={createQueryParams({ ...params, pageNo: String(1) }, pathname)}
             isActive={false}
             aria-disabled={currentPage === 1}
             className="w-6 h-6 p-0 text-gray-300 hover:bg-transparent hover:text-gray-300"
@@ -54,9 +54,7 @@ const HospitalPagination = ({
         {/* )} */}
         <PaginationItem aria-disabled={currentPage === 1}>
           <PaginationPrevious
-            href={
-              currentPage > 1 ? getStringQueryParams({ ...params, pageNo: String(currentPage - 1) }, pathname) : "#"
-            }
+            href={currentPage > 1 ? createQueryParams({ ...params, pageNo: String(currentPage - 1) }, pathname) : "#"}
             aria-disabled={currentPage === 1}
             className="w-6 h-6 p-0 mr-4 ml-1 text-gray-300 hover:bg-transparent hover:text-gray-300"
           />
@@ -68,7 +66,7 @@ const HospitalPagination = ({
               .map((_, idx) => (
                 <PaginationItem key={`pagination_${idx}`}>
                   <PaginationLink
-                    href={getStringQueryParams({ ...params, pageNo: String(startNum + idx) }, pathname)}
+                    href={createQueryParams({ ...params, pageNo: String(startNum + idx) }, pathname)}
                     isActive={currentPage === startNum + idx}
                     className={cn(
                       "w-10 h-10 p-0 ml-4 border-0 text-lg text-gray-300 hover:text-gray-300",
@@ -89,7 +87,7 @@ const HospitalPagination = ({
               .map((_, idx) => (
                 <PaginationItem key={`pagination_${idx}`}>
                   <PaginationLink
-                    href={getStringQueryParams({ ...params, pageNo: String(startNum + idx) }, pathname)}
+                    href={createQueryParams({ ...params, pageNo: String(startNum + idx) }, pathname)}
                     isActive={currentPage === startNum + idx}
                     className={cn(
                       "w-10 h-10 p-0 ml-4 border-0 text-lg text-gray-300 hover:text-gray-300",
@@ -107,9 +105,7 @@ const HospitalPagination = ({
         <PaginationItem aria-disabled={currentPage === maxPage}>
           <PaginationNext
             href={
-              currentPage < maxPage
-                ? getStringQueryParams({ ...params, pageNo: String(currentPage + 1) }, pathname)
-                : "#"
+              currentPage < maxPage ? createQueryParams({ ...params, pageNo: String(currentPage + 1) }, pathname) : "#"
             }
             className="w-6 h-6 p-0 ml-8 mr-1 text-gray-300 hover:bg-transparent hover:text-gray-300"
           />
@@ -117,7 +113,7 @@ const HospitalPagination = ({
         {/* {maxPage >= 5 && ( */}
         <PaginationItem aria-disabled={currentPage === maxPage}>
           <PaginationLink
-            href={getStringQueryParams({ ...params, pageNo: String(maxPage) }, pathname)}
+            href={createQueryParams({ ...params, pageNo: String(maxPage) }, pathname)}
             isActive={false}
             aria-disabled={currentPage === maxPage}
             className="w-6 h-6 p-0 text-lg text-gray-300 hover:bg-transparent hover:text-gray-300"
