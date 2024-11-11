@@ -31,8 +31,6 @@ const HospitalList = ({searchParams, user}: {searchParams: HospitalSearchParams,
 
   const { data: likes } = useUserLike(browserClient, user?.id);
 
-  console.log("likes :", likes);
-
   if (isLoading || isFetching ) {
     return (
       <LoadingHospitalList>

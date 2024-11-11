@@ -81,7 +81,7 @@ export const useAddLikeMutation = (userId?: string) => {
     },
 
     // 성공하면 invalidate
-    // onSuccess와 달리 성공해도, 실패해도 모두 refetch
+    // onSuccess와 달리 성공해도, 실패해도 모두 실행
     onSettled: () => {
       queryClient.invalidateQueries({
         queryKey: ["user", "like", userId ?? ""]
@@ -117,18 +117,11 @@ export const useCancelLikeMutation = (userId?: string) => {
     },
 
     // 성공하면 invalidate
-    // onSuccess와 달리 성공해도, 실패해도 모두 refetch
+    // onSuccess와 달리 성공해도, 실패해도 모두 실행
     onSettled: () => {
-      // if (pathname.startsWith("/mypage")) {
-      //   // 마이페이지에서는 즉각적인 정보 일치가 필요하므로 refetch
-      //   queryClient.refetchQueries({ queryKey: ["user", "like", userId ?? ""], exact: true });
-      // } else {
-      //   // 병원 검색 페이지에서는 실시간으로 데이터를 가져올 필요는 없어서 데이터
-      //   // 무효화를 통해 stale한 상태로 변경
-        queryClient.invalidateQueries({
-          queryKey: ["user", "like", userId ?? ""]
-        });
-      // }
+      queryClient.invalidateQueries({
+        queryKey: ["user", "like", userId ?? ""]
+      });
     }
   });
 };
