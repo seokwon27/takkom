@@ -14,12 +14,13 @@ const SelectBrtc = () => {
   const [sgg, setSgg] = useState("");
   const { currentDisease } = useAgeGroupStore();
 
+  // 도시정보 fetch 및 데이터 가공
   const { data, error, isPending } = useCityDataQuery();
   if (error) throw new Error(`Error: ${error}`);
-
   const brtcObj = data?.brtcObj ?? [];
   const regionInfo = Object.entries(data?.regionRes.get(brtc) ?? {});
 
+  //병원검색 페이지 이동
   const handleClick = () => {
     setQueryParams({ brtcCd: brtc, sggCd: sgg, disease: currentDisease, pageNo: "1" }, router, "/hospital");
   };

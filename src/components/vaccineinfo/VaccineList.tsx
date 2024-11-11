@@ -24,6 +24,7 @@ const VaccineList = () => {
   const { data: allData, error, isPending } = useVaccineInfoQuery();
   const queryClient = useQueryClient();
 
+  //도시정보 prefetch
   useEffect(() => {
     queryClient.prefetchQuery({
       queryKey: ["cities"],
