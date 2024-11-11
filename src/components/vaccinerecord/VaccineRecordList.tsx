@@ -59,7 +59,7 @@ const VaccineRecordList = ({ data, vaccinated, edit, control }: VaccineRecordLis
               </div>
 
               <div className="flex items-center gap-3 flex-[1 0 0]">
-                {ids.map((id) =>
+                {ids.map((id, index) =>
                   edit && control ? (
                     <Controller
                       key={id}
@@ -68,6 +68,7 @@ const VaccineRecordList = ({ data, vaccinated, edit, control }: VaccineRecordLis
                       render={({ field }) => (
                         <CustomCheckbox
                           additions={additions}
+                          index={index}
                           checked={field.value.includes(id)}
                           onCheckedChange={(isChecked) => {
                             const newValue = isChecked ? [...field.value, id] : field.value.filter((v) => v !== id);
@@ -77,7 +78,13 @@ const VaccineRecordList = ({ data, vaccinated, edit, control }: VaccineRecordLis
                       )}
                     />
                   ) : (
-                    <CustomCheckbox key={id} checked={vaccinated.has(id)} additions={additions} disabled />
+                    <CustomCheckbox
+                      key={id}
+                      checked={vaccinated.has(id)}
+                      additions={additions}
+                      index={index}
+                      disabled
+                    />
                   )
                 )}
               </div>

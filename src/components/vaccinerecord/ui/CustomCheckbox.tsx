@@ -6,14 +6,14 @@ import Image from "next/image";
 
 interface CustomCheckboxProps {
   additions: boolean[];
+  index: number;
   checked: boolean;
   onCheckedChange?: (isChecked: boolean) => void;
   disabled?: boolean;
 }
 
-const CustomCheckbox = ({ checked, onCheckedChange, disabled, additions }: CustomCheckboxProps) => {
-  const isRequired = additions.every((addition) => !addition);
-
+const CustomCheckbox = ({ checked, onCheckedChange, disabled, additions, index }: CustomCheckboxProps) => {
+  const isRequired = !additions[index];
   const icon = checked ? (isRequired ? RequiredChecked : NotRequiredChecked) : BlankChecked;
 
   return (
