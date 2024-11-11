@@ -48,6 +48,7 @@ const CheckboxForm = ({ childId, onSuccess, children }: CheckboxFormProps) => {
   };
 
   return (
+    // 여기도 수정:  최상위에서 만든 useform을 여기에 그대로 가져올 수 잇음.
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)}>
         {/* <VaccineRecordList data={vaccineData} vaccinated={vaccinated} edit={true} control={form.control} /> */}

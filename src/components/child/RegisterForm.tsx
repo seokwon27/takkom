@@ -12,6 +12,11 @@ interface ChildCardProps {
 }
 
 const RegisterForm: React.FC<ChildCardProps> = ({ userId }) => {
+  // 여기에서 form을 생성하고 context provider로 감싸주어야함....
+  // -> 체크박스 폼에 
+
+
+
   // 만약 `child`가 주어지지 않았다면 빈 객체로 초기화
   const [childInfo, setChildInfo] = useState<Partial<Child>>({});
   const [step, setStep] = useState(1); // 기본적으로 1단계로 설정됨
@@ -130,14 +135,11 @@ const RegisterForm: React.FC<ChildCardProps> = ({ userId }) => {
 
   return (
     <div>
+      {/* 구조 수정이 필요함 */}
       {step === 1 ? (
         <RegisterChildInfo onNext={handleNext} userId={userId} childInfo={childInfo} />
       ) : (
-        <RegisterChildRecord
-          child={childInfo as Child}
-          onPrev={handlePrevious}
-          onComplete={handleComplete}
-        />
+        <RegisterChildRecord child={childInfo as Child} onPrev={handlePrevious} onComplete={handleComplete} />
       )}
     </div>
   );
