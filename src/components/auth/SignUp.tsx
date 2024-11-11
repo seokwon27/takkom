@@ -12,7 +12,7 @@ import { AuthFormSignUp } from "@/types/user";
 import { Eye, EyeOff } from "lucide-react";
 import Image from "next/image";
 import kkom from "../../../public/logo.svg";
-import { signup } from "@/api/server-action";
+import { signup } from "@/api/auth-actions";
 
 const SignUp = () => {
   // 비밀번호 표시 상태 관리
@@ -130,7 +130,6 @@ const SignUp = () => {
   //     return "text-negative";
   //   }
   // };
-
 
   return (
     <div className="flex flex-col justify-center items-center gap-3">

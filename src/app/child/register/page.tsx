@@ -1,6 +1,7 @@
 "use client";
-import { useUserQuery } from "@/api/userApi";
+
 import RegisterForm from "@/components/child/RegisterForm";
+import { useUserQuery } from "@/query/useUserQuery";
 import browserClient from "@/utils/supabase/client";
 
 const RegisterPage = () => {

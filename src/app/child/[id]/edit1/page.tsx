@@ -1,10 +1,11 @@
 "use client";
-import { useUserQuery } from "@/api/userApi";
+
 import EditChildForm from "@/components/child/EditChildForm";
 import browserClient from "@/utils/supabase/client";
 import { useParams, useRouter } from "next/navigation";
 import React from "react";
 import { useChildInfoQuery } from "@/query/useChildQuery";
+import { useUserQuery } from "@/query/useUserQuery";
 
 const ChildInfoEditPage = () => {
   // useParams를 이용해 id 추출
