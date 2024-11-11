@@ -49,6 +49,11 @@ const VaccineList = () => {
     return filteredData.slice(startIndex, endIndex);
   }, [filteredData, page]);
 
+  //데이터 변동시 페이지 초기화
+  useEffect(() => {
+    setPage(1);
+  }, [filteredData]);
+
   // 페이지가 유효 범위를 벗어나면 첫 페이지로 리셋
   useMemo(() => {
     if (page > totalPages) {
