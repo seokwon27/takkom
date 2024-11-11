@@ -25,7 +25,7 @@ const RootLayout = ({
   children: React.ReactNode;
 }>) => {
   return (
-    <html lang="kor">
+    <html lang="kr">
       <body className={`${pretendard.className} flex flex-col min-h-screen relative`}>
         <Providers>
           <Header />
