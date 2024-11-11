@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import HospitalCard from "./HospitalCard";
 import HospitalPagination from "./HospitalPagination";
 import { useHospitalQuery } from "@/query/useHospitalQuery";
@@ -11,7 +11,8 @@ import browserClient from "@/utils/supabase/client";
 import { HospitalSearchParams } from "@/types/hospital";
 import { User } from "@supabase/supabase-js";
 
-const HospitalList = ({searchParams, user}: {searchParams: HospitalSearchParams, user: User | null}) => {
+const HospitalList = ({ searchParams, user }: { searchParams: HospitalSearchParams; user: User | null }) => {
+  const [clickedId, setClickedId] = useState(0);
   const [brtcCd, sggCd, addr, org, disease, currentPage] = [
     searchParams.brtcCd ?? "",
     searchParams.sggCd ?? "",
@@ -31,7 +32,7 @@ const HospitalList = ({searchParams, user}: {searchParams: HospitalSearchParams,
 
   const { data: likes } = useUserLike(browserClient, user?.id);
 
-  if (isLoading || isFetching ) {
+  if (isLoading || isFetching) {
     return (
       <LoadingHospitalList>
         <p>데이터를 불러오는 중입니다.</p>
@@ -39,12 +40,12 @@ const HospitalList = ({searchParams, user}: {searchParams: HospitalSearchParams,
       </LoadingHospitalList>
     );
   }
-  if (isError ) {
+  if (isError) {
     return <LoadingHospitalList>{!hospitalData ? "에러가 발생했습니다." : error?.message}</LoadingHospitalList>;
   }
 
   return (
-    <section className="w-full grow flex flex-col justify-between items-center mt-16 mb-6">
+    <section className="w-full grow flex flex-col justify-between items-center mt-16 mb-6 max-sm:mt-4">
       {!hospitalData && (
         <LoadingHospitalList className="mt-0">
           <p>우리 동네 병원을 검색해 보세요.</p>
@@ -58,12 +59,28 @@ const HospitalList = ({searchParams, user}: {searchParams: HospitalSearchParams,
       )}
       {!!hospitalData && hospitalData.totalCount > 0 && (
         <>
-          <ul className="w-full grid grid-cols-[repeat(10, 1fr)] gap-6">
+          <ul className="w-full grid grid-cols-[repeat(10, 1fr)] gap-6 max-sm:gap-3">
             {hospitalData?.items
               .slice(NUM_OF_CARDS_PER_PAGE * (currentPage - 1), NUM_OF_CARDS_PER_PAGE * currentPage)
               .map((info) => (
-                <li key={info.orgcd}>
-                  <HospitalCard user={user ?? null} hospitalInfo={info} filter={disease} likes={likes} />
+                <li
+                  key={info.orgcd}
+                  onClick={() => {
+                    setClickedId((prev) => {
+                      if (prev === info.orgcd) {
+                        return 0;
+                      }
+                      return info.orgcd;
+                    });
+                  }}
+                >
+                  <HospitalCard
+                    user={user ?? null}
+                    hospitalInfo={info}
+                    clickedId={clickedId}
+                    filter={disease}
+                    likes={likes}
+                  />
                 </li>
               ))}
           </ul>

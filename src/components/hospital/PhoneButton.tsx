@@ -12,7 +12,7 @@ const PhoneButton = ({ phoneNumber }: { phoneNumber: string }) => {
   return (
     <>
       <Button
-        className="w-[72px] h-full flex flex-col aspect-square bg-primary-300 border-0 rounded-full text-white text-xs leading-[1.35] font-semibold p-4 mb-0 mt-auto drop-shadow-[5px_5px_5px_rgba(92,153,255,0.2)] hover:bg-primary-300"
+        className="w-[72px] h-full flex flex-col aspect-square bg-primary-300 border-0 rounded-full text-white text-xs leading-[1.35] font-semibold p-4 mb-0 mt-auto drop-shadow-[5px_5px_5px_rgba(92,153,255,0.2)] hover:bg-primary-300 max-sm:hidden"
         onClick={() => {
           setShowModal(prev => !prev);
         }}

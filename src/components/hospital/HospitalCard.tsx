@@ -9,10 +9,17 @@ import { Like } from "@/types/user";
 import { Heart } from "lucide-react";
 import { useAddLikeMutation, useCancelLikeMutation } from "@/query/useLikeMutation";
 import { User } from "@supabase/supabase-js";
+import { cn } from "@/lib/utils";
 
-type HospitalCardProps = { user: User | null; hospitalInfo: HopsitalItem; filter?: string; likes?: Like[] };
+type HospitalCardProps = {
+  user: User | null;
+  hospitalInfo: HopsitalItem;
+  clickedId: number;
+  filter?: string;
+  likes?: Like[];
+};
 
-const HospitalCard = ({ user, hospitalInfo, filter, likes }: HospitalCardProps) => {
+const HospitalCard = ({ user, hospitalInfo, clickedId, filter, likes }: HospitalCardProps) => {
   const {
     orgcd,
     orgnm,
@@ -43,42 +50,56 @@ const HospitalCard = ({ user, hospitalInfo, filter, likes }: HospitalCardProps) 
   const { mutate: cancelLike } = useCancelLikeMutation(user?.id);
 
   return (
-    <div className="w-full h-fit min-h-[200px] flex border border-gray-30 rounded-3xl p-4 justify-between items-start shadow-[0px_0px_16px_rgba(114,114,114,0.1)]">
-      <div className="w-[160px] flex justify-center items-center bg-gray-10 rounded-xl aspect-square">
-        <Image src={Ambulance} alt="병원 이미지" />
+    <div
+      className={cn(
+        "w-full h-fit min-h-[200px] flex border border-gray-30 rounded-3xl p-4 justify-between items-start shadow-[0px_0px_16px_rgba(114,114,114,0.1)]",
+        "max-sm:min-h-fit max-sm:p-3 max-sm:rounded-xl max-sm:shadow-[0px_0px_7px_rgba(114,114,114,0.1)]",
+        orgcd === clickedId && "max-sm:border-primary-400 max-sm:shadow-none"
+      )}
+    >
+      <div className="w-[160px] flex justify-center items-center bg-gray-10 rounded-xl aspect-square overflow-hidden relative max-sm:w-[86px] sm:rounded-md">
+        <Image src={Ambulance} alt="병원 이미지" className="object-cover" />
+        <Heart
+          fill={like ? `#FF4737` : `#171717`}
+          size={14}
+          onClick={(e) => {
+            e.stopPropagation()
+            if (user) {
+              // setLike((prev) => !prev);
+              if (!likeData) {
+                addLike({ hospitalInfo });
+              }
+              if (!!likeData) {
+                cancelLike({ id: likeData?.id });
+              }
+            }
+          }}
+          className={cn(
+            like ? "text-[#FF4737]" : "text-gray-900",
+            "opacity-50 absolute top-[6px] left-[6px] aspect-square sm:w-[14px]"
+          )}
+        />
       </div>
-      <div className="flex-1 h-full flex flex-col gap-4 mx-[24px]">
-        <div className="flex gap-3">
+      <div className="flex-1 h-full flex flex-col gap-4 mx-[24px] max-sm:ml-2 max-sm:mr-0 max-sm:gap-2">
+        <div className="flex gap-3 max-sm:gap-2">
           <Tag />
           {required && <Tag name={"required"} />}
           {additional && <Tag name={"additional"} />}
-          <Heart
-            fill={like ? `red` : `none`}
-            onClick={() => {
-              if (user) {
-                // setLike((prev) => !prev);
-                if (!likeData) {
-                  addLike({ hospitalInfo });
-                }
-                if (!!likeData) {
-                  cancelLike({ id: likeData?.id });
-                }
-              }
-            }}
-          />
         </div>
-        <div className="max-w-[450px] grid grid-cols-[minmax(52px,80px)_auto] grid-rows-[repeat(3, minmax(0,20px))] gap-2">
+        <div className="max-w-[450px] grid grid-cols-[minmax(52px,80px)_auto] grid-rows-[repeat(3, minmax(0,20px))] gap-2 max-sm:grid-cols-[minmax(0px,45px)_auto] max-sm:gap-x-2 max-sm:gap-y-[2px]">
           {/* <div className="flex justify-start gap-1 flex-auto"> */}
-          <p className="text-label-l text-gray-300">병원 이름</p>
-          <p className="text-text-l grow text-gray-700 line-clamp-1">{orgnm}</p>
+          <p className="text-label-l text-gray-300 max-sm:text-label-s">병원 이름</p>
+          <p className="text-text-l grow text-gray-700 line-clamp-1 max-sm:text-text-s">{orgnm}</p>
           {/* </div>
           <div className="flex justify-start gap-1 flex-auto"> */}
-          <p className="text-label-l text-gray-300">병원 주소</p>
-          <p className="text-text-l text-gray-700 break-all line-clamp-2">{orgAddr}</p>
+          <p className="text-label-l text-gray-300 max-sm:text-label-s">병원 주소</p>
+          <p className="text-text-l text-gray-700 break-all line-clamp-2 max-sm:text-text-s max-sm:line-clamp-1">
+            {orgAddr}
+          </p>
           {/* </div>
           <div className="flex justify-start gap-1 flex-auto items-center"> */}
           <div className="flex items-center">
-            <p className="text-label-l text-gray-300">접종 목록</p>
+            <p className="text-label-l text-gray-300 max-sm:text-label-s max-sm:text-text-s">접종 목록</p>
           </div>
           <div className="text-gray-700">
             <VaccineNames filter={filter} vaccineNames={vaccineNames} />
