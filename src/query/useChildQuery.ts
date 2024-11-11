@@ -15,7 +15,7 @@ export const fetchChildInfo = async (userId: string, childId: string): Promise<C
 };
 
 // 아이 정보를 가져오는 커스텀 훅 정의
-export const useAddChildInfoQuery = (userId: string | undefined, childId: string | undefined) => {
+export const useChildInfoQuery = (userId?: string, childId?: string) => {
   return useQuery({
     // 쿼리 키에 userId와 childId를 포함해 캐싱 및 데이터 유효성 관리
     queryKey: ["childInfo", userId, childId],
