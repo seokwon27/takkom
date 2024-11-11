@@ -10,7 +10,6 @@ interface ChildCardProps {
   child?: Child;
   userId: string;
 }
-
 const RegisterForm: React.FC<ChildCardProps> = ({ userId }) => {
   // 만약 `child`가 주어지지 않았다면 빈 객체로 초기화
   const [childInfo, setChildInfo] = useState<Partial<Child>>({});

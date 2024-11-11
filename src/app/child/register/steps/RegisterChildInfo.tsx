@@ -5,7 +5,6 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import RegisterChildInfoForm from "@/components/child/RegisterChildInfoForm";
-import browserClient from "@/utils/supabase/client";
 import Image from "next/image";
 import RegisterChildInfoIcon from "../../../../../public/child/register-child-info-icon.svg";
 import RegisterChildInfoBlurredIcon from "../../../../../public/child/register-child-info-blurred-icon.svg";
