@@ -6,8 +6,12 @@ import yeonga from "../../../public/ageGroup/yeong-a.svg";
 import yua from "../../../public/ageGroup/yua.svg";
 import children from "../../../public/ageGroup/children.svg";
 import Image from "next/image";
+import { useCityDataQuery } from "@/query/useCityDataQuery";
 
 const AgeGroup = () => {
+  const { error } = useCityDataQuery();
+  if (error) console.log(error);
+
   return (
     <div className="text-center items-center justify-center">
       <div className="flex text-center justify-between p-2 w-full">

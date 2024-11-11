@@ -1,9 +1,13 @@
-# 따꼼
-
+# 따꼼 ![logo](https://github.com/user-attachments/assets/88499428-0a72-49c2-949b-e03e25b65cb7)
+<br /><br /><br />
+![takkom](https://github.com/user-attachments/assets/f5b9493d-41c2-48fd-87f8-9187a15378bc)
+![takkom2](https://github.com/user-attachments/assets/e95eb4bc-4fd5-47e1-848f-2afaef677a19)
+![takkom3](https://github.com/user-attachments/assets/fe1193e3-e2d4-4b1d-bcbc-836a3b8dacc9)
+<br /><br /><br />
 ## 🔗 배포 링크
-
 https://takkom.vercel.app/
 <br /><br /><br />
+
 
 ## 📖 목차
 
@@ -12,8 +16,8 @@ https://takkom.vercel.app/
 3. [주요 기능](#주요-기능)
 4. [개발 기간](#개발-기간)
 5. [기술 스택](#기술-스택)
-6. [서비스 구조](#서비스-구조)
-7. [디자인 컨셉](#디자인-컨셉)
+6. [디자인 컨셉](#디자인-컨셉)
+7. [서비스 구조](#서비스-구조)
 8. [와이어프레임](#와이어프레임)
 9. [API 명세서](#API-명세서)
 10. [기능 설명](#기능-설명)
@@ -134,6 +138,15 @@ https://takkom.vercel.app/
 </div>
 <br /><br /><br />
 
+## 디자인 컨셉
+
+아기에게 필요한 예방접종 정보를 알려주는 서비스인 만큼 어린아이의 눈높이에 맞는 컨셉을 가지려 했습니다.
+
+- 서비스명 '따꼼' : 어린아이에게 '아프다'라는 말 대신 '아야'하는거야 라고 말해주듯, 주사를 아이의 관점으로 '따꼼' 하는 것에서 착안해 서비스명을 '따꼼'으로 지었습니다.
+- 마스코트 '따꼬미' : 주사를 맞으면 머리가 쭈뼛서고, 따끔한 것을 이미지화 하여 표현하였습니다.
+- 직관적이고 심플한 UI : 생소할 수 있는 접종명, 백신명 등을 이해하기 쉽게 표시하고, 전반적인 서비스 이용이 어렵지 않도록 구성하였습니다.
+<br /><br /><br />
+
 ## 서비스 구조
 
 - 메인 페이지
@@ -161,17 +174,11 @@ https://takkom.vercel.app/
   - 로그아웃
     <br/><br/><br/>
 
-## 디자인 컨셉
-
-아기에게 필요한 예방접종 정보를 알려주는 서비스인 만큼 어린아이의 눈높이에 맞는 컨셉을 가지려 했습니다.
-
-- 서비스명 '따꼼' : 어린아이에게 '아프다'라는 말 대신 '아야'하는거야 라고 말해주듯, 주사를 아이의 관점으로 '따꼼' 하는 것에서 착안해 서비스명을 '따꼼'으로 지었습니다.
-- 마스코트 '따꼬미' : 주사를 맞으면 머리가 쭈뼛서고, 따끔한 것을 이미지화 하여 표현하였습니다.
-- 직관적이고 심플한 UI : 생소할 수 있는 접종명, 백신명 등을 이해하기 쉽게 표시하고, 전반적인 서비스 이용이 어렵지 않도록 구성하였습니다.
-
 ## 와이어프레임
-
-(이미지 업로드)
+![1 홈페이지](https://github.com/user-attachments/assets/45258cdf-67b7-40c0-a2b2-db37bcf37213)
+![2 접종 리스트](https://github.com/user-attachments/assets/38f38ade-805c-4098-a39c-08f789bcad3c)
+![2 페이지 이동](https://github.com/user-attachments/assets/36640b0f-b22f-4106-8ecb-fcb0eb459585)
+![3 병원검색페이지](https://github.com/user-attachments/assets/819e6b5b-c9d1-426a-b926-004fd667f9bc)
 <br/><br/><br/>
 
 ## API 명세서
@@ -529,12 +536,6 @@ https://takkom.vercel.app/
           message: "비밀번호가 일치하지 않습니다.",
           path: ["passwordCheck"]
         });
-      } else {
-        ctx.addIssue({
-          code: z.ZodIssueCode.custom,
-          message: "비밀번호가 일치합니다.",
-          path: ["passwordCheck"]
-        });
       }
     });
   ```
@@ -755,6 +756,33 @@ https://takkom.vercel.app/
         };
         ```
 
-    <br /><br /><br />
+### 6. 소셜 로그인 리다이렉트 오류
+
+- 문제 상황
+  - 소셜 로그인 기능을 구현하는 과정에서, 사용자가 소셜 로그인 후 다시 페이지로 돌아올 때 리다이렉트 설정이 제대로 되어있지 않아 오류가 발생
+  - 리다이렉트 URL 설정을 redirectTo를 통해 하였으나, 배포 환경에서는 각 환경에 맞는 리다이렉트 URL이 제대로 설정되지 않아 문제가 발생
+- 해결 방법
+  - 리다이렉트 URL 설정: redirectTo를 사용하여 로그인 후 리다이렉트할 URL을 설정
+  - 환경 변수 사용: 배포 환경에서 리다이렉트 URL을 환경 변수로 설정하여 NEXT_PUBLIC_GOOGLE_REDIRECT_URL 값을 통해 vercel과 supabase에서 각 환경에 맞는 리다이렉트 URL을 자동으로 설정
+
+  ```tsx
+  const googleSignIn = async () => {
+    const { error } = await browserClient.auth.signInWithOAuth({
+      provider: "google",
+      options: {
+        queryParams: {
+          access_type: "offline",
+          prompt: "consent"
+        },
+        redirectTo: process.env.NEXT_PUBLIC_GOOGLE_REDIRECT_URL // 환경
+      }
+    });
+
+    if (error) console.log("로그인 실패 : ", error);
+  };
+  ```
+<br /><br /><br />
 
 ## 프로젝트 소감
+<img width="691" alt="Screenshot 2024-11-06 at 8 31 36 PM" src="https://github.com/user-attachments/assets/86d45e55-5e9a-479a-a77d-49a9724a0e62">
+
