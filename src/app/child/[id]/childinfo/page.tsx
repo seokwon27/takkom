@@ -4,7 +4,7 @@ import EditChildForm from "@/components/child/EditChildForm";
 import browserClient from "@/utils/supabase/client";
 import { useParams, useRouter } from "next/navigation";
 import React from "react";
-import { useAddChildInfoQuery } from "@/query/useChildQuery";
+import { useChildInfoQuery } from "@/query/useChildQuery";
 
 const ChildInfoEditPage = () => {
   // useParams를 이용해 id 추출
@@ -17,7 +17,7 @@ const ChildInfoEditPage = () => {
   // userId가 설정된 후 아이들 정보 가져오기
   const userId = user?.id;
   const childId = Array.isArray(id) ? id[0] : id;
-  const { data: child, isLoading, error } = useAddChildInfoQuery(userId, childId);
+  const { data: child, isLoading, error } = useChildInfoQuery(userId, childId);
   // console.log(child);
 
   // 사용자 정보를 로드하는 동안 로딩 표시
