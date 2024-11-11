@@ -1,7 +1,7 @@
 import { useAgeGroupStore } from "@/store/ageGroupStore";
 import React from "react";
-import VaccinateTag from "./VaccinateTag";
-
+import FreeTag from "../../../public/common/free-tag.svg";
+import Image from "next/image";
 const VaccineCard = ({
   disease,
   vaccine,
@@ -41,9 +41,8 @@ const VaccineCard = ({
           </div>
         </div>
       </div>
-      <div className="flex gap-2">
-        <VaccinateTag mode="무료" />
-      </div>
+      <div className="flex gap-2"></div>
+      <Image src={FreeTag} alt="무료접종" />
     </div>
   );
 };
