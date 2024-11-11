@@ -70,6 +70,12 @@ const VaccineRecordList = ({ data, vaccinated, edit, control }: VaccineRecordLis
                           additions={additions}
                           index={index}
                           checked={field.value.includes(id)}
+                          disabled={
+                            // 이전 체크박스가 체크 되어 있지 않다면 비활성화 또는
+                            (0 < index && !field.value.includes(ids[index - 1])) ||
+                            // 다음 체크박스가 체크 되어 있다면 비활성화
+                            (index < ids.length - 1 && field.value.includes(ids[index + 1]))
+                          }
                           onCheckedChange={(isChecked) => {
                             const newValue = isChecked ? [...field.value, id] : field.value.filter((v) => v !== id);
                             field.onChange(newValue);
