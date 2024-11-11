@@ -1,7 +1,7 @@
 "use client";
 
-import { useUserQuery } from "@/api/userApi";
 import SignOut from "@/components/auth/SignOut";
+import { useUserQuery } from "@/query/useUserQuery";
 import browserClient from "@/utils/supabase/client";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
