@@ -27,7 +27,13 @@ const AgeCard = ({ age }: { age: string }) => {
   return (
     <div className="flex flex-col gap-3 hover:cursor-pointer text-lg font-semibold" onClick={() => setAgeGroup(age)}>
       <Image src={division} alt={`${age}`} className="max-sm:w-[54px] max-sm:h-[54px] w-[100px] h-[100px]" />
-      <p className={`${age === ageGroup ? "text-[#303030]" : "text-[#B0B0B0]"}  text-lg font-semibold`}>{age}</p>
+      <p
+        className={`${
+          age === ageGroup ? "text-[#303030]" : "text-[#B0B0B0]"
+        }  text-title-s font-semibold max-sm:text-label-m`}
+      >
+        {age}
+      </p>
     </div>
   );
 };
