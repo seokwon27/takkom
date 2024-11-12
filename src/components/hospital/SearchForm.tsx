@@ -99,14 +99,15 @@ const SearchForm = ({ brtcObj, regionInfo, searchParams }: SearchFormProps) => {
               trigger={params.brtcCd === BRTC}
               disabled={false}
               value={params.brtcCd}
-              onClick={(item:[string, string]) => {
+              onClick={(item: [string, string]) => {
                 return (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
-                e.stopPropagation();
-                setParams((prev) => {
-                  const tmpParams = { ...prev, brtcCd: String(item[0]), sggCd: SGG, addr: "", org: "" };
-                  return tmpParams;
-                });
-              }}}
+                  e.stopPropagation();
+                  setParams((prev) => {
+                    const tmpParams = { ...prev, brtcCd: String(item[0]), sggCd: SGG, addr: "", org: "" };
+                    return tmpParams;
+                  });
+                };
+              }}
             />
             {/* 시군구 select */}
             <RegionDrawer
@@ -115,14 +116,15 @@ const SearchForm = ({ brtcObj, regionInfo, searchParams }: SearchFormProps) => {
               trigger={params.sggCd === SGG}
               disabled={params.brtcCd === BRTC}
               value={params.sggCd}
-              onClick={(item:[string, string]) => {
+              onClick={(item: [string, string]) => {
                 return (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
-                e.stopPropagation();
-                setParams((prev) => {
-                  const tmpParams = { ...prev, sggCd: String(item[0]), addr: "", org: "" };
-                  return tmpParams;
-                });
-              }}}
+                  e.stopPropagation();
+                  setParams((prev) => {
+                    const tmpParams = { ...prev, sggCd: String(item[0]), addr: "", org: "" };
+                    return tmpParams;
+                  });
+                };
+              }}
             />
 
             <div className="max-sm:col-span-2 max-sm:relative">
@@ -216,11 +218,11 @@ const SearchForm = ({ brtcObj, regionInfo, searchParams }: SearchFormProps) => {
               }}
             >
               <SelectTrigger className={`w-fit p-2 border-0`}>
-                {disease === DISEASE ? (
-                  <Image src={VaccineFilterOffIcon} alt="백신 찾기" className="max-sm:w-6 max-sm:aspect-square" />
-                ) : (
-                  <Image src={VaccineFilterOnIcon} alt="백신 찾기" />
-                )}
+                <Image
+                  src={disease === DISEASE ? VaccineFilterOffIcon : VaccineFilterOnIcon}
+                  alt="백신 찾기"
+                  className="max-sm:w-6 max-sm:aspect-square"
+                />
                 <span className="ml-2 text-gray-700 text-label-xl font-medium max-sm:mr-1 max-sm:text-title-xxs max-sm:text-gray-500 max-sm:font-semibold">
                   백신 찾기
                 </span>
@@ -371,11 +373,11 @@ const SearchForm = ({ brtcObj, regionInfo, searchParams }: SearchFormProps) => {
                 {disease}
               </p>
             )}
-            {disease === DISEASE ? (
-              <Image src={VaccineFilterOffIcon} alt="백신 찾기" />
-            ) : (
-              <Image src={VaccineFilterOnIcon} alt="백신 찾기" />
-            )}
+            <Image
+              src={disease === DISEASE ? VaccineFilterOffIcon : VaccineFilterOnIcon}
+              alt="백신 찾기"
+              className="max-sm:w-6 max-sm:aspect-square"
+            />
             <span className="ml-2 text-gray-700 text-label-xl font-medium">백신 찾기</span>
           </SelectTrigger>
           <SelectContent align="end" className="shadow-[0px_0px_16px_rgba(114,114,114,0.1)]" avoidCollisions={false}>
