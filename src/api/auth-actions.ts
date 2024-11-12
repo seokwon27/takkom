@@ -2,6 +2,7 @@
 
 import { createClient } from "@/utils/supabase/server";
 import { AuthFormSignIn, AuthFormSignUp } from "@/types/user";
+import { redirect } from "next/navigation";
 
 export async function signin(formData: AuthFormSignIn) {
   const supabase = createClient();
@@ -47,5 +48,5 @@ export async function signup(formData: AuthFormSignUp) {
 export async function signout() {
   const supabase = createClient();
   await supabase.auth.signOut();
-  // redirect("/");
+  redirect("/");
 }
