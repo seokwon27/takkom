@@ -1,11 +1,15 @@
 import { useRouter } from "next/navigation";
 import { Button } from "../ui/button";
 import { signout } from "@/api/auth-actions";
+import { useQueryClient } from "@tanstack/react-query";
 
 const SignOut = () => {
   const router = useRouter();
+  const queryClient = useQueryClient();
 
   const handleSignOut = async () => {
+    queryClient.invalidateQueries({ queryKey: ["user"] });
+    
     // server-action으로 변경
     await signout();
 
