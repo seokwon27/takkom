@@ -1,12 +1,17 @@
-import { createClient } from "@/utils/supabase/server";
+'use client'
+
+import { useUserQuery } from "@/query/useUserQuery";
+import browserClient from "@/utils/supabase/client";
+import { useQueryClient } from "@tanstack/react-query";
 import Link from "next/link";
 
-const HeaderAuth = async () => {
-  const supabaseClient = createClient();
-  const {
-    data: { user }
-  } = await supabaseClient.auth.getUser();
-
+const HeaderAuth = () => {
+  // 소셜 로그인 정보 반영하기 위해서
+  const queryClient = useQueryClient()
+  const {data: user} = useUserQuery(browserClient);
+  browserClient.auth.onAuthStateChange(() => {
+    queryClient.invalidateQueries({queryKey: ['user']})
+  })
 
   return (
     <ul className="flex gap-4 items-center">
