@@ -24,7 +24,7 @@ const formatAgeText = (age: number) => {
 const AgeFilter = () => {
   const { subAgeGroup, selectedAge, setSelectedAge } = useAgeGroupStore();
   return (
-    <div className="flex gap-2 mt-20 mb-16">
+    <div className="flex gap-2 mt-20 mb-16 text-title-xxs max-sm:mt-5">
       {subAgeGroup.length > 6 ? (
         <p className=" border-gray-700 border-b-2 text-gray-700 p-2 hover:cursor-pointer font-bold">전체</p>
       ) : (
