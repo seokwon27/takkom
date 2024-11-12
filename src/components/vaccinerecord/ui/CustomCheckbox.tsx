@@ -1,30 +1,30 @@
 import { Checkbox } from "@/components/ui/checkbox";
-import BlankChecked from "../../../../public/vaccinerecord/blank-checkbox-icon.svg";
-import RequiredChecked from "../../../../public/vaccinerecord/required-checkbox-icon.svg";
-import NotRequiredChecked from "../../../../public/vaccinerecord/not-required-checkbox-icon.svg";
-import Image from "next/image";
 
 interface CustomCheckboxProps {
   additions: boolean[];
+  index: number;
   checked: boolean;
   onCheckedChange?: (isChecked: boolean) => void;
   disabled?: boolean;
 }
 
-const CustomCheckbox = ({ checked, onCheckedChange, disabled, additions }: CustomCheckboxProps) => {
-  const isRequired = additions.every((addition) => !addition);
-
-  const icon = checked ? (isRequired ? RequiredChecked : NotRequiredChecked) : BlankChecked;
+const CustomCheckbox = ({ checked, onCheckedChange, disabled, additions, index }: CustomCheckboxProps) => {
+  const isRequired = !additions[index];
 
   return (
-    <div className="relative cursor-pointer">
+    <div className="relative w-6 h-6 flex items-center justify-center">
       <Checkbox
         checked={checked}
         onCheckedChange={onCheckedChange}
         disabled={disabled}
-        className={`opacity-0 inset-0 absolute w-full h-full ${disabled ? "!opacity-0 !cursor-default" : ""}`}
+        className={`w-full h-full rounded-full ${
+          checked
+            ? isRequired
+              ? "!text-[#FF9C8E] !bg-[#FFDAD4] border-none"
+              : "!text-[#8CD088] !bg-[#E3FAE2] border-none"
+            : "border-[#D9D9D9]"
+        }`}
       />
-      <Image src={icon} alt="checkboxIcon" width={24} height={24} />
     </div>
   );
 };
