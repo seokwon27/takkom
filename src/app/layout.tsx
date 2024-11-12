@@ -29,7 +29,7 @@ const RootLayout = ({
       <body className={`${pretendard.className} flex flex-col min-h-screen relative`}>
         <Providers>
           <Header />
-          <main className="grow flex flex-col w-full max-w-[1200px] mx-auto mb-[100px] max-sm:mx-0 max-sm:px-6">{children}</main>
+          <main className="grow flex flex-col w-full max-w-[1200px] mx-auto mb-[100px] max-sm:mx-0 max-sm:mb-0">{children}</main>
           <Image src={takkomi} alt="따꼼빼꼼" className="absolute right-[120px] bottom-[345px] z-10 max-sm:hidden" />
           <Footer />
         </Providers>

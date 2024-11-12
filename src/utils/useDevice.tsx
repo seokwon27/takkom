@@ -20,7 +20,7 @@ const useMediaQuery = (query: string): boolean => {
 
     const handleResize = debounce(() => {
       setMatches(media.matches);
-    }, 300); // 300ms 지연 후 업데이트
+    }, 150); // 150ms 지연 후 업데이트
 
     // 초기 크기 설정
     handleResize();
