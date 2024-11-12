@@ -19,6 +19,7 @@ import { HospitalSearchParams } from "@/types/hospital";
 import useDevice from "@/utils/useDevice";
 import { ChevronLeft } from "lucide-react";
 import useHospitalSearchStore from "@/store/hospitalStore";
+import RegionDrawer from "./RegionDrawer";
 
 type SearchFormProps = {
   brtcObj: { [key: string]: string };
@@ -38,7 +39,7 @@ const SearchForm = ({ brtcObj, regionInfo, searchParams }: SearchFormProps) => {
   });
   const [disease, setDisease] = useState(searchParams.disease || DISEASE);
   const [showInfoTag, setShowInfoTag] = useState(true);
-  const { step, setStep, params: params2, setParams: setParams2 } = useHospitalSearchStore();
+  const { step, setStep } = useHospitalSearchStore();
   const device = useDevice();
 
   // searchParams가 바뀔 때마다 재실행
@@ -87,87 +88,103 @@ const SearchForm = ({ brtcObj, regionInfo, searchParams }: SearchFormProps) => {
       console.log("mobile 0");
       return (
         <>
-        <div className="w-full mt-3 mb-14 py-1.5 text-title-m text-gray-800 font-bold">검색</div>
-        <form className={cn("grid grid-cols-[144fr_144fr_144fr_196fr_100fr] gap-4 mb-4", "max-sm:grid-cols-[1fr_1fr]")}>
-          {/* 시도 select */}
-          <RegionSelect
-            defaultValue={BRTC}
-            regionArray={Object.entries(brtcObj)}
-            trigger={params.brtcCd === BRTC}
-            disabled={false}
-            value={params.brtcCd}
-            onValueChange={onBrtcChange}
-          />
-          {/* 시군구 select */}
-          <RegionSelect
-            defaultValue={SGG}
-            regionArray={Object.entries(regionInfo.get(params.brtcCd) || {}).sort((a, b) => a[1].localeCompare(b[1]))}
-            trigger={params.sggCd === SGG}
-            disabled={params.brtcCd === BRTC}
-            value={params.sggCd}
-            onValueChange={onSggChange}
-          />
-
-          <div className="max-sm:col-span-2 max-sm:relative">
-            <Input
-              placeholder="주소"
-              value={params.addr}
-              onChange={(e) => {
-                setShowInfoTag(false);
-                setParams((prev) => {
-                  const tmpParams = { ...prev, addr: e.target.value };
-                  return tmpParams;
-                });
-              }}
-              disabled={params.brtcCd === BRTC || params.sggCd === SGG}
-              className={cn(
-                "h-12 bg-gray-30 border-0 text-gray-500 text-center font-semibold placeholder:text-gray-500",
-                "focus-visible:bg-white focus-visible:text-gray-600 focus-visible:placeholder:text-gray-400",
-                "focus-visible:ring-offset-0 focus-visible:ring-1 focus-visible:ring-inset focus-visible:ring-gray-700",
-                "max-sm:py-3 max-sm:pr-4 max-sm:pl-[42px] max-sm:rounded-xl max-sm:text-left"
-              )}
-            />
-            <Image src={SearchIcon} alt="검색" className="absolute top-[15px] left-4 sm:hidden" />
-          </div>
-
-          <div className="max-sm:col-span-2 max-sm:relative">
-            <Input
-              placeholder="병원명"
-              value={params.org}
-              onChange={(e) => {
-                setShowInfoTag(false);
-                setParams((prev) => {
-                  const tmpParams = { ...prev, org: e.target.value };
-                  return tmpParams;
-                });
-              }}
-              disabled={params.brtcCd === BRTC || params.sggCd === SGG}
-              className={cn(
-                "h-12 bg-gray-30 border-0 text-gray-500 text-center font-semibold placeholder:text-gray-500",
-                "focus-visible:bg-white focus-visible:text-gray-600 focus-visible:placeholder:text-gray-400",
-                "focus-visible:ring-offset-0 focus-visible:ring-1 focus-visible:ring-inset focus-visible:ring-gray-700",
-                "max-sm:py-3 max-sm:pr-4 max-sm:pl-[42px] max-sm:rounded-xl max-sm:text-left"
-              )}
-            />
-            <Image src={SearchIcon} alt="검색" className="absolute top-[15px] left-4 sm:hidden" />
-          </div>
-
-          <Button
-            type="button"
-            onClick={() => {
-              setDisease(DISEASE);
-              router.push(createQueryParams({ ...params, pageNo: "1" }, pathname));
-              setStep(1);
-            }}
-            disabled={params.brtcCd === BRTC || params.sggCd === SGG}
-            className={cn(
-              "h-12 bg-primary-400 rounded-lg text-base font-semibold hover:bg-primary-400 disabled:bg-primary-400",
-              "max-sm:mt-1 max-sm:col-span-2"
-            )}
+          <div className="w-full mt-3 mb-14 py-1.5 text-title-m text-gray-800 font-bold">검색</div>
+          <form
+            className={cn("grid grid-cols-[144fr_144fr_144fr_196fr_100fr] gap-4 mb-4", "max-sm:grid-cols-[1fr_1fr]")}
           >
-            검색
-          </Button>
-        </form>
+            {/* 시도 select */}
+            <RegionDrawer
+              defaultValue={BRTC}
+              regionArray={Object.entries(brtcObj)}
+              trigger={params.brtcCd === BRTC}
+              disabled={false}
+              value={params.brtcCd}
+              onClick={(item:[string, string]) => {
+                return (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+                e.stopPropagation();
+                setParams((prev) => {
+                  const tmpParams = { ...prev, brtcCd: String(item[0]), sggCd: SGG, addr: "", org: "" };
+                  return tmpParams;
+                });
+              }}}
+            />
+            {/* 시군구 select */}
+            <RegionDrawer
+              defaultValue={SGG}
+              regionArray={Object.entries(regionInfo.get(params.brtcCd) || {}).sort((a, b) => a[1].localeCompare(b[1]))}
+              trigger={params.sggCd === SGG}
+              disabled={params.brtcCd === BRTC}
+              value={params.sggCd}
+              onClick={(item:[string, string]) => {
+                return (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+                e.stopPropagation();
+                setParams((prev) => {
+                  const tmpParams = { ...prev, sggCd: String(item[0]), addr: "", org: "" };
+                  return tmpParams;
+                });
+              }}}
+            />
+
+            <div className="max-sm:col-span-2 max-sm:relative">
+              <Input
+                placeholder="주소"
+                value={params.addr}
+                onChange={(e) => {
+                  setShowInfoTag(false);
+                  setParams((prev) => {
+                    const tmpParams = { ...prev, addr: e.target.value };
+                    return tmpParams;
+                  });
+                }}
+                disabled={params.brtcCd === BRTC || params.sggCd === SGG}
+                className={cn(
+                  "h-12 bg-gray-30 border-0 text-gray-500 text-center font-semibold placeholder:text-gray-500",
+                  "focus-visible:bg-white focus-visible:text-gray-600 focus-visible:placeholder:text-gray-400",
+                  "focus-visible:ring-offset-0 focus-visible:ring-1 focus-visible:ring-inset focus-visible:ring-gray-700",
+                  "max-sm:py-3 max-sm:pr-4 max-sm:pl-[42px] max-sm:rounded-xl max-sm:text-left"
+                )}
+              />
+              <Image src={SearchIcon} alt="검색" className="absolute top-[15px] left-4 sm:hidden" />
+            </div>
+
+            <div className="max-sm:col-span-2 max-sm:relative">
+              <Input
+                placeholder="병원명"
+                value={params.org}
+                onChange={(e) => {
+                  setShowInfoTag(false);
+                  setParams((prev) => {
+                    const tmpParams = { ...prev, org: e.target.value };
+                    return tmpParams;
+                  });
+                }}
+                disabled={params.brtcCd === BRTC || params.sggCd === SGG}
+                className={cn(
+                  "h-12 bg-gray-30 border-0 text-gray-500 text-center font-semibold placeholder:text-gray-500",
+                  "focus-visible:bg-white focus-visible:text-gray-600 focus-visible:placeholder:text-gray-400",
+                  "focus-visible:ring-offset-0 focus-visible:ring-1 focus-visible:ring-inset focus-visible:ring-gray-700",
+                  "max-sm:py-3 max-sm:pr-4 max-sm:pl-[42px] max-sm:rounded-xl max-sm:text-left"
+                )}
+              />
+              <Image src={SearchIcon} alt="검색" className="absolute top-[15px] left-4 sm:hidden" />
+            </div>
+
+            <Button
+              type="button"
+              onClick={() => {
+                setDisease(DISEASE);
+                router.push(createQueryParams({ ...params, pageNo: "1" }, pathname));
+                setStep(1);
+              }}
+              disabled={params.brtcCd === BRTC || params.sggCd === SGG}
+              className={cn(
+                "h-12 bg-primary-400 rounded-lg text-base font-semibold hover:bg-primary-400 disabled:bg-primary-400",
+                "max-sm:mt-1 max-sm:col-span-2"
+              )}
+            >
+              검색
+            </Button>
+          </form>
         </>
       );
     }
@@ -200,11 +217,13 @@ const SearchForm = ({ brtcObj, regionInfo, searchParams }: SearchFormProps) => {
             >
               <SelectTrigger className={`w-fit p-2 border-0`}>
                 {disease === DISEASE ? (
-                  <Image src={VaccineFilterOffIcon} alt="백신 찾기" className="max-sm:w-6 max-sm:aspect-square"/>
+                  <Image src={VaccineFilterOffIcon} alt="백신 찾기" className="max-sm:w-6 max-sm:aspect-square" />
                 ) : (
                   <Image src={VaccineFilterOnIcon} alt="백신 찾기" />
                 )}
-                <span className="ml-2 text-gray-700 text-label-xl font-medium max-sm:mr-1 max-sm:text-title-xxs max-sm:text-gray-500 max-sm:font-semibold">백신 찾기</span>
+                <span className="ml-2 text-gray-700 text-label-xl font-medium max-sm:mr-1 max-sm:text-title-xxs max-sm:text-gray-500 max-sm:font-semibold">
+                  백신 찾기
+                </span>
               </SelectTrigger>
               <SelectContent
                 align="end"
