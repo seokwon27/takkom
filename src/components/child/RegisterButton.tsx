@@ -6,7 +6,7 @@ import React from "react";
 const RegisterButton = () => {
   return (
     <>
-      <div className="flex flex-col justify-start items-start w-[180px] gap-2 p-3 rounded-xl bg-white shadow-[0px_0px_12px_#7272721A]">
+      <div className="flex flex-col justify-start items-start w-full md:w-[180px] gap-2 p-3 rounded-xl bg-white shadow-[0px_0px_12px_#7272721A]">
         <Link href="/child/register" className="flex items-center gap-1 w-full">
           <div className="group flex justify-start items-center self-stretch w-full gap-1 px-3 py-2 rounded-lg hover:bg-primary-300">
             <svg

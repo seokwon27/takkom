@@ -22,21 +22,21 @@ export const ChildCard = ({ child }: ChildCardProps) => {
   return (
     <>
       {/* 아이 카드 전체 컨테이너 */}
-      <div className="flex flex-col justify-center items-center flex-grow-0 flex-shrink-0 w-[792px] gap-6 p-6 rounded-2xl bg-neutral-50 mb-6">
+      <div className="flex flex-col justify-center items-center w-full max-w-[792px] gap-6 p-6 rounded-2xl bg-neutral-50 mb-6">
         {/* 아이 기본 정보 & 우리 아이 접종 내역 컨테이너 */}
-        <div className="flex justify-start items-start self-stretch flex-grow-0 flex-shrink-0 gap-6">
+        <div className="flex flex-col md:flex-row justify-start items-start w-full gap-6">
           {/* 아이 기본 정보 컨테이너 */}
-          <div className="flex flex-col justify-start items-start flex-grow-0 flex-shrink-0 p-4 rounded-2xl bg-white shadow-[0px_0px_12px_#7272721A]">
-            <div className="flex flex-col justify-start items-start flex-grow-0 flex-shrink-0 gap-4">
+          <div className="w-full md:w-[50%] flex flex-col justify-start items-start flex-grow-0 flex-shrink-0 p-4 rounded-2xl bg-white shadow-[0px_0px_12px_#7272721A]">
+            <div className="flex flex-col gap-4">
               {/* 아이 기본 정보 내 좌/우 영역 나누기 위한 컨테이너 */}
-              <div className="flex justify-center items-start self-stretch flex-grow-0 flex-shrink-0 relative gap-6">
+              <div className="flex justify-center items-start gap-6 ">
                 {/* 좌측: 프로필 이미지 */}
                 <Image
                   src={child.profile || DEFAULT_PROFILE_IMAGE_URL} // 기본 이미지 설정
                   alt="아이 프로필 이미지"
                   width={176}
                   height={176}
-                  className="flex-grow-0 flex-shrink-0 w-44 h-44 object-cover rounded-[13px]"
+                  className="w-44 h-44 object-cover rounded-[13px]"
                 />
 
                 {/* 우측: 기본 정보 & 수정하기 버튼 */}
@@ -94,7 +94,10 @@ export const ChildCard = ({ child }: ChildCardProps) => {
               <div className="flex flex-col justify-start items-start self-stretch flex-grow gap-3">
                 {/* 우리 아이 접종 내역 타이틀 컨테이너 */}
                 <div className="flex justify-center items-center self-stretch flex-grow-0 flex-shrink-0 relative gap-4">
-                  <Image src={InjectorIcon} alt="주사기 아이콘" />
+                  <div className="w-10 h-10 bg-white rounded-full flex justify-center items-center">
+                    <Image src={InjectorIcon} alt="주사기 아이콘" />
+                  </div>
+
                   <div className="flex flex-col justify-center items-start flex-grow relative gap-1">
                     <p className="flex-grow-0 flex-shrink-0 text-xl font-bold text-left text-white">
                       우리 아이 접종 내역
@@ -106,12 +109,14 @@ export const ChildCard = ({ child }: ChildCardProps) => {
                 {/* 필수 접종 & 선택 접종 디스플레이 컨테이너 */}
                 <div className="flex flex-col justify-start items-start self-stretch flex-grow gap-2">
                   {/* 필수 접종 & 선택 접종 */}
-                  {/* <p className="text-white">아이의 접종 내역을 한눈에 확인하세요!</p> */}
-                  <p className="text-white text-sm">
-                    접종 완료 내역과 앞으로의 접종 일정을 간편하게 관리하세요! 아이의 건강 기록을 손쉽게 확인할 수
-                    있습니다.
-                  </p>
-                  {/* <div className="flex justify-start items-start self-stretch flex-grow gap-2">
+                  <div className="flex justify-center items-center self-stretch flex-grow relative p-2 rounded-xl">
+                    <p className="text-white text-sm">
+                      접종 완료 내역과 앞으로의 접종 일정을 간편하게 관리하세요! 아이의 건강 기록을 손쉽게 확인할 수
+                      있습니다.
+                    </p>
+                  </div>
+
+                  {/* <div className="flex justify-start items-start self-stretch flex-grow">
                     <div className="flex justify-center items-center self-stretch flex-grow relative gap-4 p-4 rounded-xl bg-white">
                       <div className="flex flex-col justify-center items-center self-stretch flex-grow relative gap-4">
                         <p className="flex-grow-0 flex-shrink-0 text-base font-semibold text-left text-gray-600">
@@ -119,7 +124,7 @@ export const ChildCard = ({ child }: ChildCardProps) => {
                         </p>
                         <p className="flex-grow-0 flex-shrink-0 text-sm font-semibold text-left text-[#ff7664]">4개</p>
                       </div>
-                      
+
                       <div className="flex flex-col justify-center items-center self-stretch flex-grow relative gap-4">
                         <p className="flex-grow-0 flex-shrink-0 text-base font-semibold text-left text-gray-600">
                           선택 접종
@@ -131,13 +136,13 @@ export const ChildCard = ({ child }: ChildCardProps) => {
 
                   {/* 자세히 보기 컨테이너 */}
                   <div className="flex justify-end items-center self-stretch flex-grow-0 flex-shrink-0 relative gap-1">
-                    <div className="flex flex-col justify-center items-start flex-grow-0 flex-shrink-0 relative gap-1">
-                      <Link href={`/child/${child.id}`}>
-                        <p className="flex-grow-0 flex-shrink-0 text-sm font-semibold text-left text-white">
+                    <Link href={`/child/${child.id}`}>
+                      <div className="flex flex-col justify-center items-start flex-grow-0 flex-shrink-0 relative gap-1">
+                        <p className="flex-grow-0 flex-shrink-0 text-xs font-semibold text-left text-white">
                           자세히 보기
                         </p>
-                      </Link>
-                    </div>
+                      </div>
+                    </Link>
                     <Image src={RightArrowIcon} alt="오른쪽 화살표 아이콘" />
                   </div>
                   {/* 자세히 보기 컨테이너 끝 */}

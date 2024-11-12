@@ -24,15 +24,15 @@ const ChildPage = () => {
   if (error) return <p>오류가 발생했습니다: {error.message}</p>;
 
   return (
-    <div className="flex justify-center px-8 lg:px-12 mx-auto">
-      <div className="flex gap-8 max-w-[996px] w-full">
+    <div className="flex flex-col lg:flex-row justify-center px-4 sm:px-8 lg:px-12 mx-auto">
+      <div className="flex flex-col lg:flex-row gap-8 max-w-[996px] w-full">
         {/* 좌측 사이드바 영역 */}
-        <aside className="flex-shrink-0">
+        <aside className="flex-shrink-0 w-full lg:w-auto mt-8 lg:mt-16">
           <RegisterButton />
         </aside>
 
         {/* 메인 콘텐츠 영역 */}
-        <main className="flex-grow">
+        <main className="flex-grow w-full">
           {children && children.length > 0 ? ( // children 배열을 확인
             <div className="flex flex-col gap-4">
               {children.map((child) => (
@@ -40,15 +40,17 @@ const ChildPage = () => {
               ))}
             </div>
           ) : (
-            <div className="flex flex-col justify-start items-center min-w-[792px] my-60 ">
+            <div className="flex flex-col justify-start items-center w-full lg:min-w-[792px] my-20 lg:my-60">
               <Image
                 src={NoChildIcon}
                 width={250}
                 height={182}
                 alt="따꼼 아이콘"
-                className="w-250 h-182 object-cover"
+                className="w-40 h-28 lg:w-[250px] lg:h-[182px] object-cover"
               />
-              <p className="text-center text-2xl  p-8 text-gray-200">우리 아이를 등록해 보세요!</p>
+              <p className="text-center text-lg sm:text-xl lg:text-2xl p-4 sm:p-6 lg:p-8 text-gray-200">
+                우리 아이를 등록해 보세요!
+              </p>
             </div>
           )}
         </main>
