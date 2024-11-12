@@ -2,7 +2,7 @@ import { Form, FormField, FormItem, FormLabel, FormControl, FormMessage } from "
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { z } from "zod";
-import { ControllerRenderProps, UseFormReturn } from "react-hook-form";
+import { ControllerRenderProps, useFormContext, UseFormReturn } from "react-hook-form";
 import { formSchema } from "@/app/child/register/steps/RegisterChildInfo";
 import { useRef, useState } from "react";
 import cameraIcon from "../../../public/child/camera-icon.svg";
@@ -16,6 +16,12 @@ interface RegisterChildInfoFormProps {
 }
 
 const RegisterChildInfoForm = ({ form, onSubmit, setSelectedImage }: RegisterChildInfoFormProps) => {
+  const {
+    register,
+    handleSubmit,
+    formState: { errors }
+  } = useFormContext();
+
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [profileImageUrl, setProfileImageUrl] = useState<string>(DEFAULT_PROFILE_IMAGE_URL);
 
@@ -90,9 +96,13 @@ const RegisterChildInfoForm = ({ form, onSubmit, setSelectedImage }: RegisterChi
             <FormItem>
               <FormLabel>이름(필수)</FormLabel>
               <FormControl>
-                <Input placeholder="ex. 김따꼼" {...field} className="w-full placeholder:text-gray-200" />
+                <Input
+                  placeholder="ex. 김따꼼"
+                  {...register("name", { required: "이름은 필수 입력 항목입니다." })}
+                  className="w-full placeholder:text-gray-200"
+                />
               </FormControl>
-              <FormMessage />
+              {errors.name && <FormMessage>{errors.name?.message as string}</FormMessage>}
             </FormItem>
           )}
         />
@@ -107,12 +117,12 @@ const RegisterChildInfoForm = ({ form, onSubmit, setSelectedImage }: RegisterChi
               <FormControl>
                 <Input
                   type="date"
-                  {...field}
+                  {...register("birth", { required: "생년월일은 필수 입력 항목입니다." })}
                   className="placeholder:text-gray-200"
                   onChange={(e) => handleDateChange(e, field)}
                 />
               </FormControl>
-              <FormMessage />
+              {errors.birth && <FormMessage>{errors.birth?.message as string}</FormMessage>}
             </FormItem>
           )}
         />
@@ -125,9 +135,14 @@ const RegisterChildInfoForm = ({ form, onSubmit, setSelectedImage }: RegisterChi
             <FormItem>
               <FormLabel>특이사항(선택)</FormLabel>
               <FormControl>
-                <Input placeholder="최대 200자" {...field} maxLength={200} className="placeholder:text-gray-200" />
+                <Input
+                  placeholder="최대 200자"
+                  {...register("notes")}
+                  maxLength={200}
+                  className="placeholder:text-gray-200"
+                />
               </FormControl>
-              <FormMessage />
+              {errors.notes && <FormMessage>{errors.notes?.message as string}</FormMessage>}
             </FormItem>
           )}
         />

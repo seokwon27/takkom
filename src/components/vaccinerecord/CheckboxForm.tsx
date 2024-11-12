@@ -1,6 +1,6 @@
 "use client";
 
-import { useForm } from "react-hook-form";
+import { useForm, useFormContext } from "react-hook-form";
 import { Form, FormMessage } from "../ui/form";
 
 import { useAddVaccineRecordMutation, useDeleteVaccineRecordMutation } from "@/query/useVaccineRecordMutation";
@@ -26,11 +26,12 @@ const CheckboxForm = ({ childId, onSuccess, children }: CheckboxFormProps) => {
 
   const vaccinated = new Set(vaccineRecord || []);
 
-  const form = useForm<FormValues>({
-    defaultValues: {
-      selectVaccines: Array.from(vaccinated)
-    }
-  });
+ const { control, handleSubmit } = useFormContext<FormValues>();
+  // const form = useForm<FormValues>({
+  //   defaultValues: {
+  //     selectVaccines: Array.from(vaccinated)
+  //   }
+  // });
 
   const onSubmit = async (values: FormValues) => {
     const selected = new Set(values.selectVaccines);
@@ -50,9 +51,9 @@ const CheckboxForm = ({ childId, onSuccess, children }: CheckboxFormProps) => {
   return (
     // 여기도 수정:  최상위에서 만든 useform을 여기에 그대로 가져올 수 잇음.
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)}>
+      <form onSubmit={handleSubmit(onSubmit)}>
         {/* <VaccineRecordList data={vaccineData} vaccinated={vaccinated} edit={true} control={form.control} /> */}
-        <VaccineRecordTabs childId={childId} edit={true} control={form.control} />
+        <VaccineRecordTabs childId={childId} edit={true} control={control} />
 
         {children}
         <FormMessage />

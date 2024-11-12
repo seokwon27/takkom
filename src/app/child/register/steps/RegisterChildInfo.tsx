@@ -9,6 +9,7 @@ import browserClient from "@/utils/supabase/client";
 import Image from "next/image";
 import RegisterChildInfoIcon from "../../../../../public/child/register-child-info-icon.svg";
 import RegisterChildInfoBlurredIcon from "../../../../../public/child/register-child-info-blurred-icon.svg";
+import { useFormContext } from "react-hook-form";
 
 interface RegisterChildInfoProps {
   onNext: (data: Partial<Child>) => void;
@@ -23,18 +24,20 @@ export const formSchema = z.object({
   profileImage: z.instanceof(File).optional() // 프로필 이미지는 선택적
 });
 
-const RegisterChildInfo = ({ onNext, childInfo }: RegisterChildInfoProps) => {
-  // react-hook-form을 사용하여 폼 데이터 관리
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema), // zod 유효성 검사 사용
-    defaultValues: {
-      name: childInfo.name ?? "",
-      birth: childInfo.birth ?? "",
-      notes: childInfo.notes ?? ""
-    }
-  });
+const RegisterChildInfo = ({form, onNext }) => {
+  // const { handleSubmit, setValue } = useFormContext();
 
-  const [selectedImage, setSelectedImage] = useState<File>(); // 선택된 이미지 상태 관리
+  // react-hook-form을 사용하여 폼 데이터 관리
+  // const form = useForm<z.infer<typeof formSchema>>({
+  //   resolver: zodResolver(formSchema), // zod 유효성 검사 사용
+  //   defaultValues: {
+  //     name: childInfo.name ?? "",
+  //     birth: childInfo.birth ?? "",
+  //     notes: childInfo.notes ?? ""
+  //   }
+  // });
+
+  // const [selectedImage, setSelectedImage] = useState<File>(); // 선택된 이미지 상태 관리
 
   // 이미지 업로드 함수
   const uploadImage = async (file: File): Promise<string | null> => {
@@ -69,22 +72,22 @@ const RegisterChildInfo = ({ onNext, childInfo }: RegisterChildInfoProps) => {
   //   const profileImageUrl = selectedImage ? await uploadImage(selectedImage) : "";
 
   //   // Supabase에 아이 정보 저장
-    // const { data: childData, error } = await browserClient
-    //   .from("child")
-    //   .insert({
-    //     user_id: user.id,
-    //     name: name,
-    //     birth: birth,
-    //     profile: profileImageUrl ?? "",
-    //     notes: notes ?? ""
-    //   })
-    //   .select()
-    //   .single();
+  // const { data: childData, error } = await browserClient
+  //   .from("child")
+  //   .insert({
+  //     user_id: user.id,
+  //     name: name,
+  //     birth: birth,
+  //     profile: profileImageUrl ?? "",
+  //     notes: notes ?? ""
+  //   })
+  //   .select()
+  //   .single();
 
-    // if (error) {
-    //   console.error("데이터 저장 오류: ", error);
-    //   return;
-    // }
+  // if (error) {
+  //   console.error("데이터 저장 오류: ", error);
+  //   return;
+  // }
 
   //   if (childData) {
   //     // 자녀 데이터 저장 성공 시 onNext 호출
@@ -99,61 +102,65 @@ const RegisterChildInfo = ({ onNext, childInfo }: RegisterChildInfoProps) => {
   //     console.error("childData가 null입니다.");
   //   }
   // };
-  const handleFormSubmit = async (data: z.infer<typeof formSchema>): Promise<void> => {
-    if (childInfo.id) {
-      // 기존 자녀 정보 업데이트 (새로 등록하지 않고, 기존 자녀 ID를 재사용)
-      await updateChildInfo({ ...data, id: childInfo.id, selectedImage });
-    } else {
-      // 새 자녀 정보 등록
-      await registerChild({ ...data, selectedImage });
-    }
-  };
+  // const handleFormSubmit = async (data: z.infer<typeof formSchema>): Promise<void> => {
+  // if (childInfo.id) {
+  //   // 기존 자녀 정보 업데이트 (새로 등록하지 않고, 기존 자녀 ID를 재사용)
+  //   await updateChildInfo({ ...data, id: childInfo.id, selectedImage });
+  // } else {
+  //   // 새 자녀 정보 등록
+  //   await registerChild({ ...data, selectedImage });
+  // }
+  // };
 
   // 기존 자녀 정보 업데이트
-  const updateChildInfo = async (data: {
-    name: string;
-    birth: string;
-    notes?: string;
-    selectedImage?: File;
-    id: string;
-  }) => {
-    const profileImageUrl = data.selectedImage ? await uploadImage(data.selectedImage) : childInfo.profile;
+  // const updateChildInfo = async (data: {
+  //   name: string;
+  //   birth: string;
+  //   notes?: string;
+  //   selectedImage?: File;
+  //   id: string;
+  // }) => {
+  //   const profileImageUrl = data.selectedImage ? await uploadImage(data.selectedImage) : childInfo.profile;
 
-    const { data: updatedChild, error } = await browserClient
-      .from("child")
-      .update({
-        name: data.name,
-        birth: data.birth,
-        notes: data.notes,
-        profile: profileImageUrl ?? ""
-      })
-      .eq("id", data.id)
-      .select()
-      .single();
+  //   const { data: updatedChild, error } = await browserClient
+  //     .from("child")
+  //     .update({
+  //       name: data.name,
+  //       birth: data.birth,
+  //       notes: data.notes,
+  //       profile: profileImageUrl ?? ""
+  //     })
+  //     .eq("id", data.id)
+  //     .select()
+  //     .single();
 
-    if (error) throw new Error("자녀 정보 업데이트 실패");
+  //   if (error) throw new Error("자녀 정보 업데이트 실패");
 
-    onNext(updatedChild); // 업데이트된 자녀 정보 전달
-  };
+  //   onNext(updatedChild); // 업데이트된 자녀 정보 전달
+  // };
 
   // 새 자녀 정보 등록
-  const registerChild = async (data: { name: string; birth: string; notes?: string; selectedImage?: File }) => {
-    const profileImageUrl = data.selectedImage ? await uploadImage(data.selectedImage) : "";
+  // const registerChild = async (data: { name: string; birth: string; notes?: string; selectedImage?: File }) => {
+  //   const profileImageUrl = data.selectedImage ? await uploadImage(data.selectedImage) : "";
 
-    const childData = {
-      user_id: childInfo.user_id, // Ensure `user_id` exists and is a valid field
-      name: data.name,
-      birth: data.birth,
-      notes: data.notes ?? undefined, // Make sure notes are optional
-      profile: profileImageUrl ?? undefined // Avoid null; use undefined if no profile image
-    };
+  //   const childData = {
+  //     user_id: childInfo.user_id, // Ensure `user_id` exists and is a valid field
+  //     name: data.name,
+  //     birth: data.birth,
+  //     notes: data.notes ?? undefined, // Make sure notes are optional
+  //     profile: profileImageUrl ?? undefined // Avoid null; use undefined if no profile image
+  //   };
 
-    const { data: newChild, error } = await browserClient.from("child").insert(childData).select().single();
+  //   const { data: newChild, error } = await browserClient
+  //     .from("child")
+  //     .insert(childData)
+  //     .select()
+  //     .single();
 
-    if (error) throw new Error("자녀 등록 실패");
+  //   if (error) throw new Error("자녀 등록 실패");
 
-    onNext(newChild); // 새 자녀 정보 전달
-  };
+  //   onNext(newChild); // 새 자녀 정보 전달
+  // };
 
   // const { mutate: registerChild } = useRegisterChildMutation((data) => {
   //   setChildId(data.id ?? null); // 성공 시 자녀 ID 저장
@@ -169,6 +176,13 @@ const RegisterChildInfo = ({ onNext, childInfo }: RegisterChildInfoProps) => {
   //     onNext({ ...data, id: childId });
   //   }
   // };
+
+  const { handleSubmit } = useFormContext();
+  const [selectedImage, setSelectedImage] = useState<File>();
+
+  const handleFormSubmit = (data) => {
+    onNext(data);
+  };
 
   return (
     <div className="max-w-[588px] mx-auto m-20">
@@ -189,7 +203,11 @@ const RegisterChildInfo = ({ onNext, childInfo }: RegisterChildInfoProps) => {
         <p className="text-s font-semibold text-left text-gray-400">정보를 입력해 주세요.</p>
       </div>
 
-      <RegisterChildInfoForm form={form} onSubmit={handleFormSubmit} setSelectedImage={setSelectedImage} />
+      <RegisterChildInfoForm
+        form={form}
+        onSubmit={handleSubmit(handleFormSubmit)}
+        setSelectedImage={setSelectedImage}
+      />
     </div>
   );
 };

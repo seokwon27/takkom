@@ -16,32 +16,32 @@ interface RegisterChildRecordProps {
 }
 
 const RegisterChildRecord = ({ child, onPrev, onComplete }: RegisterChildRecordProps) => {
-  console.log("전달받은 아이 정보: ", child.id);
+  // console.log("전달받은 아이 정보: ", child.id);
 
-  // id를 사용하여 Supabase에서 해당 아이의 정보를 가져와
-  useEffect(() => {
-    const fetchChildData = async () => {
-      const { data, error } = await browserClient
-        .from("child")
-        .select("*")
-        .eq("id", child.id) // 전달받은 id로 데이터 조회
-        .single();
+  // // id를 사용하여 Supabase에서 해당 아이의 정보를 가져와
+  // useEffect(() => {
+  //   const fetchChildData = async () => {
+  //     const { data, error } = await browserClient
+  //       .from("child")
+  //       .select("*")
+  //       .eq("id", child.id) // 전달받은 id로 데이터 조회
+  //       .single();
 
-      if (error) {
-        console.error("아이 정보 가져오기 오류났음", error);
-      } else {
-        console.log("아이 정보:", data);
-      }
-    };
+  //     if (error) {
+  //       console.error("아이 정보 가져오기 오류났음", error);
+  //     } else {
+  //       console.log("아이 정보:", data);
+  //     }
+  //   };
 
-    fetchChildData();
-  }, [browserClient, child.id]);
+  //   fetchChildData();
+  // }, [browserClient, child.id]);
 
   const router = useRouter();
   const onSuccess = () => {
     router.push(`/child`);
   };
-
+ 
   return (
     <div className="flex flex-col gap-14">
       <Image src={Vaccination11} alt="Vaccination" className="w-20 h-20 object-cover relative" />
@@ -55,6 +55,7 @@ const RegisterChildRecord = ({ child, onPrev, onComplete }: RegisterChildRecordP
         className="absolute w-[100px] h-[100px] -top-0.5 -left-px object-cover"
       />
       <CheckboxForm childId={child?.id} onSuccess={onSuccess}>
+        form
         <div className="flex flex-row justify-between">
           <Button
             type="button"
