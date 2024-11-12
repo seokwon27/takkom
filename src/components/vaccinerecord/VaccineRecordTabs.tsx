@@ -37,8 +37,11 @@ const VaccineRecordTabs = ({ childId, edit, control }: VaccineRecordProps) => {
   const tabs = ["전체", "접종 완료", "미접종"];
 
   return (
-    <Tabs defaultValue="전체" className="flex flex-col items-start gap-4 self-stretch relative w-full flex-[0_0_auto]">
-      <div className="flex justify-between items-center px-8 py-0 self-stretch w-full">
+    <Tabs
+      defaultValue="전체"
+      className="flex flex-col items-center md:items-start gap-4 self-stretch relative w-full md:max-w-[796px] md:min-h-[788px]"
+    >
+      <div className="flex justify-between items-center py-0 self-stretch w-full md:min-h-[38px] md:px-8">
         <TabsList className="inline-flex items-center gap-2 relative bg-transparent">
           {tabs.map((tab) => (
             <TabsTrigger
@@ -46,7 +49,7 @@ const VaccineRecordTabs = ({ childId, edit, control }: VaccineRecordProps) => {
               value={tab}
               className="group flex w-20 items-center justify-center gap-2.5 p-2 relative rounded-none data-[state=active]:border-b-2 data-[state=active]:border-gray-700"
             >
-              <p className="relative w-fit mt-[-2.00px] text-gray-300 group-data-[state=active]:text-gray-700 whitespace-nowrap hover:text-gray-700">
+              <p className="relative w-fit mt-[-2.00px] text-heading-xs text-gray-300 group-data-[state=active]:text-gray-700 whitespace-nowrap hover:text-gray-700">
                 {tab}
               </p>
             </TabsTrigger>
@@ -59,7 +62,7 @@ const VaccineRecordTabs = ({ childId, edit, control }: VaccineRecordProps) => {
             href={`/child/${childId}/edit2`}
             className="inline-flex justify-center gap-2.5 px-3 py-1.5 rounded-[15px] items-center"
           >
-            <Button className="w-fit mt-[-1.00px] text-primary-300 whitespace-nowrap bg-transparent hover:bg-primary-50">
+            <Button className="w-fit mt-[-1.00px] text-title-xs text-primary-300 whitespace-nowrap bg-transparent hover:bg-primary-50">
               수정하기
             </Button>
           </Link>

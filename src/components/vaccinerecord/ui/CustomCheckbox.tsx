@@ -12,12 +12,12 @@ const CustomCheckbox = ({ checked, onCheckedChange, disabled, additions, index }
   const isRequired = !additions[index];
 
   return (
-    <div className="relative w-6 h-6 flex items-center justify-center">
+    <div className="relative w-3 h-3 md:w-6 md:h-6">
       <Checkbox
         checked={checked}
         onCheckedChange={onCheckedChange}
         disabled={disabled}
-        className={`w-full h-full rounded-full disabled:!bg-[#D9D9D9] disabled:opacity-1 ${
+        className={`w-full h-full rounded-full flex items-center justify-center disabled:!bg-[#D9D9D9] disabled:opacity-1 ${
           checked
             ? isRequired
               ? "!text-[#FF9C8E] !bg-[#FFDAD4] border-none"
