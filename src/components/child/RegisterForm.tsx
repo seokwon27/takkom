@@ -22,24 +22,17 @@ const RegisterForm: React.FC<ChildCardProps> = ({ userId }) => {
   //   console.log("다음버튼 클릭됨, 아이 아이디 : ", childInfo.id);
   // };
 
-  // const handleNext = (data: Partial<Child>) => {
-  //   setChildInfo((prev) => {
-  //     const updatedChildInfo = { ...prev, ...data };
-  //     console.log("다음버튼 클릭됨, 아이 아이디 : ", updatedChildInfo.id);
-  //     return updatedChildInfo;
-  //   });
-  //   setStep(step + 1);
-  // };
-
   const handleNext = (data: Partial<Child>) => {
     setChildInfo((prev) => ({ ...prev, ...data }));
     setStep((prevStep) => prevStep + 1); // 상태가 설정된 후에 step을 업데이트
+    console.log("다음버튼 클릭됨, 아이 정보 : ", childInfo);
   };
 
   // 이전 단계로 돌아가는 함수
   const handlePrevious = () => {
     setStep(step - 1);
     console.log("이전버튼 클릭됨, 아이 아이디 : ", childInfo.id)
+    console.log("이전버튼 클릭됨, 아이 정보 : ", childInfo);
   };
 
   // 아이 정보를 최종 등록하는 함수 -- 수정 전
@@ -60,27 +53,6 @@ const RegisterForm: React.FC<ChildCardProps> = ({ userId }) => {
   //   }
   // };
 
-  // 수정 2
-  // const handleComplete = async () => {
-  //   // 중복 데이터 확인
-  //   const { data: existingData, error } = await browserClient.from("child").select("*").eq("id", childInfo.id);
-
-  //   if (existingData && existingData.length > 0) {
-  //     alert("이미 등록된 아이디입니다. 다른 아이디를 사용해주세요.");
-  //     return;
-  //   }
-
-  //   // 중복이 없을 경우 데이터 삽입
-  //   const { error: insertError } = await browserClient.from("child").insert([data]);
-
-  //   if (insertError) {
-  //     console.error("아이 등록 중 오류 발생:", insertError.message);
-  //   } else {
-  //     alert("아이 등록이 완료되었습니다.");
-  //   }
-  // }
-
-  // 수정3
  const handleComplete = async () => {
    try {
       if (!childInfo.id) {

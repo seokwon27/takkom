@@ -4,6 +4,8 @@ import RegisterButton from "@/components/child/RegisterButton";
 import browserClient from "@/utils/supabase/client";
 import { useUserQuery } from "@/query/useUserQuery";
 import { useChildrenQuery } from "@/query/useChildQuery";
+import NoChildIcon from "../../../public/child/no-child-icon.svg";
+import Image from "next/image";
 
 const ChildPage = () => {
   // 현재 로그인한 사용자 정보를 가져오기 위한 useUserQuery 훅 호출
@@ -38,8 +40,15 @@ const ChildPage = () => {
               ))}
             </div>
           ) : (
-            <div className="min-w-[792px]">
-              <p className="text-center p-8">등록된 아이가 없습니다.</p>
+            <div className="flex flex-col justify-start items-center min-w-[792px] my-60 ">
+              <Image
+                src={NoChildIcon}
+                width={250}
+                height={182}
+                alt="따꼼 아이콘"
+                className="w-250 h-182 object-cover"
+              />
+              <p className="text-center text-2xl  p-8 text-gray-200">우리 아이를 등록해 보세요!</p>
             </div>
           )}
         </main>
