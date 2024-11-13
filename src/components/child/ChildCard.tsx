@@ -32,14 +32,14 @@ export const ChildCard = ({ child }: ChildCardProps) => {
               <div className="flex items-start justify-center w-full gap-6">
                 {/* 좌측: 프로필 이미지 */}
                 <div className="w-44 h-44">
-                <Image
-                  src={child.profile || DEFAULT_PROFILE_IMAGE_URL} // 기본 이미지 설정
-                  alt="아이 프로필 이미지"
-                  width={176}
-                  height={176}
-                  className="w-44 h-44 object-cover rounded-[13px]"
-                />
-</div>
+                  <Image
+                    src={child.profile || DEFAULT_PROFILE_IMAGE_URL} // 기본 이미지 설정
+                    alt="아이 프로필 이미지"
+                    width={176}
+                    height={176}
+                    className="w-44 h-44 object-cover rounded-[13px]"
+                  />
+                </div>
                 {/* 우측: 기본 정보 & 수정하기 버튼 */}
                 <div className="flex flex-col justify-start items-start self-stretch flex-grow-0 flex-shrink-0 relative gap-4">
                   {/* 이름 & 생년월일 시작 */}
