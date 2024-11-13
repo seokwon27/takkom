@@ -8,15 +8,6 @@ import MobileNav from "./MobileNav";
 
 const Header = async () => {
   return (
-    // <header
-    //   className={`w-full max-w-[1200px] flex justify-between items-center mx-auto pt-12 pb-4 sticky top-0 left-0 right-0 z-10 bg-white`}
-    // >
-    //   <Link href={"/"} className="max-w-[92px] max-h-[32px]">
-    //     <Image src={logo} alt="로고" />
-    //   </Link>
-    //   <HeaderLinks />
-    //   <HeaderAuth />
-    // </header>
     <>
       {/* pc 화면세어 보이는 헤더 - 모바일에서 숨기기 */}
       <header
