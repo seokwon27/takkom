@@ -9,20 +9,19 @@ import Image from "next/image";
 import Vaccination11 from "../../../../../public/vaccinerecord/vaccination1-1.svg";
 import Vaccination12 from "../../../../../public/vaccinerecord/vaccination1-2.svg";
 
-interface RegisterStep2Props {
+interface RegisterChildRecordProps {
   child: Child; // child prop 추가
   onPrev: () => void;
   onComplete: () => void;
 }
 
-const RegisterStep2 = ({ child, onPrev, onComplete }: RegisterStep2Props) => {
-  // Supabase 클라이언트 생성
-  const supabase = browserClient;
+const RegisterChildRecord = ({ child, onPrev, onComplete }: RegisterChildRecordProps) => {
+  console.log("전달받은 아이 정보: ", child.id);
 
   // id를 사용하여 Supabase에서 해당 아이의 정보를 가져와
   useEffect(() => {
     const fetchChildData = async () => {
-      const { data, error } = await supabase
+      const { data, error } = await browserClient
         .from("child")
         .select("*")
         .eq("id", child.id) // 전달받은 id로 데이터 조회
@@ -36,10 +35,7 @@ const RegisterStep2 = ({ child, onPrev, onComplete }: RegisterStep2Props) => {
     };
 
     fetchChildData();
-    // }, [child.id]);
-  }, [supabase, child.id]); // 빌드 경고 해결 테스트: supabase를 의존성 배열에 추가
-
-  // console.log("등록하려는 아이의 ID:", child.id);
+  }, [browserClient, child.id]);
 
   const router = useRouter();
   const onSuccess = () => {
@@ -80,4 +76,4 @@ const RegisterStep2 = ({ child, onPrev, onComplete }: RegisterStep2Props) => {
   );
 };
 
-export default RegisterStep2;
+export default RegisterChildRecord;
