@@ -14,10 +14,10 @@ const HospitalSearchPage = async ({ searchParams }: { searchParams: HospitalSear
 
   return (
     <div className="w-full max-w-[792px] grow flex flex-col items-center mx-auto max-sm:max-w-auto">
-      <section className="w-full flex flex-col bg-white max-sm:px-6 max-sm:sticky max-sm:top-0 max-sm:z-[41]">
+      <section className="w-full flex flex-col bg-white max-sm:sticky max-sm:top-0 max-sm:z-[41]">
         <SearchForm brtcObj={brtcObj} regionInfo={regionInfo} searchParams={searchParams} />
       </section>
-      <section className="w-full grow flex flex-col justify-between items-center mt-16 mb-6 bg-white max-sm:my-0 max-sm:px-0 max-sm:pb-0">
+      <section className="w-full grow flex flex-col justify-between items-center mt-15.5 mb-6 bg-white max-sm:mt-[14px] max-sm:mb-0 max-sm:px-0 max-sm:pb-0">
         <HospitalList searchParams={searchParams} user={user} />
       </section>
       {/* </SearchForm> */}

@@ -115,7 +115,7 @@ const HospitalCardWithDrawer = ({
       <div
         onClick={(e) => e.stopPropagation()}
         className={cn(
-          "fixed bottom-0 left-0 right-0 h-[100px] bg-white px-6 pt-3 z-50 transition-all duration-200",
+          "fixed bottom-0 left-0 right-0 h-[100px] bg-white px-6 pt-3 z-50 shadow-[0px_0px_24px_rgba(0,0,0,0.05)] transition-all duration-200 z-[42]",
           clickedId === hospitalInfo.orgcd ? "animate-in slide-in-from-bottom" : "hidden"
         )}
       >

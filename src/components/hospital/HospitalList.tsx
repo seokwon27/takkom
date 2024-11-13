@@ -13,6 +13,8 @@ import { User } from "@supabase/supabase-js";
 import useDevice from "@/utils/useDevice";
 import HospitalCardWithDrawer from "./HospitalCardWithDrawer";
 import useHospitalSearchStore from "@/store/hospitalStore";
+import MobileLayout from "../layout/MobileLayout";
+import DesktopLayout from "../layout/DesktopLayout";
 
 const HospitalList = ({ searchParams, user }: { searchParams: HospitalSearchParams; user: User | null }) => {
   const { step } = useHospitalSearchStore();
@@ -67,7 +69,7 @@ const HospitalList = ({ searchParams, user }: { searchParams: HospitalSearchPara
 
   return (
     <>
-      <ul className="w-full grid grid-cols-[repeat(10, 1fr)] gap-6 bg-white max-sm:gap-3 max-sm:px-6 max-sm:mb-0 max-sm:z-40">
+      <ul className="w-full grid grid-cols-[repeat(10, 1fr)] gap-6 pb-20 bg-white max-sm:gap-3 max-sm:pb-6 max-sm:px-6 max-sm:z-40">
         {hospitalData?.items
           .slice(NUM_OF_CARDS_PER_PAGE * (currentPage - 1), NUM_OF_CARDS_PER_PAGE * currentPage)
           .map((info) => (
@@ -82,16 +84,7 @@ const HospitalList = ({ searchParams, user }: { searchParams: HospitalSearchPara
                 });
               }}
             >
-              {device === "desktop" && (
-                <HospitalCard
-                  user={user ?? null}
-                  hospitalInfo={info}
-                  clickedId={clickedId}
-                  filter={disease}
-                  likes={likes}
-                />
-              )}
-              {device === "mobile" && (
+              <MobileLayout>
                 <HospitalCardWithDrawer
                   user={user ?? null}
                   hospitalInfo={info}
@@ -99,7 +92,16 @@ const HospitalList = ({ searchParams, user }: { searchParams: HospitalSearchPara
                   filter={disease}
                   likes={likes}
                 />
-              )}
+              </MobileLayout>
+              <DesktopLayout>
+                <HospitalCard
+                  user={user ?? null}
+                  hospitalInfo={info}
+                  clickedId={clickedId}
+                  filter={disease}
+                  likes={likes}
+                />
+              </DesktopLayout>
             </li>
           ))}
       </ul>
