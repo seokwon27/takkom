@@ -22,11 +22,6 @@ const Header = async () => {
 
       {/* 모바일 환경에서 로고 상단에 배치, 모바일 하단 네비게이션 */}
       <div className="md:hidden">
-        {/* <header className="w-full bg-white pt-3 px-6 sticky top-0 left-0 right-0 z-10">
-          <Link href={"/"} className="flexr">
-            <Image src={logo} alt="로고" width={92} height={32} />
-          </Link>
-        </header> */}
         <MobileNav />
       </div>
     </>

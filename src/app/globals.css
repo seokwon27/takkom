@@ -10,6 +10,15 @@ body {
   .text-balance {
     text-wrap: balance;
   }
+  
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+
+  .scrollbar-hide {
+    -ms-overflow-style: none;  /* IE and 엣지 */
+    scrollbar-width: none;  /* 파이어폭스 */
+  }
 }
 
 @layer base {
@@ -23,9 +32,4 @@ body {
 }
 
 @layer components {
-  .hospital-search {
-    display: grid;
-    grid-template-columns: 144fr 144fr 144fr 195fr 100fr;
-    grid-template-rows: 1fr 0.7fr;
-  }
 }
