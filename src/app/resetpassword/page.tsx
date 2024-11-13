@@ -1,8 +1,9 @@
-import TemporaryPassword from "@/components/mypage/TemporaryPassword";
+import ResetPassword from "@/components/auth/ResetPassword";
+
 const PasswordResetPage = () => {
   return (
     <section>
-      <TemporaryPassword />
+      <ResetPassword />
     </section>
   );
 };

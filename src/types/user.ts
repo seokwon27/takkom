@@ -12,4 +12,15 @@ export type AuthFormSignIn = {
   password: string;
 };
 
+export type ResetPasswordRequest = {
+  email: string;
+  name: string;
+  newPassword: string;
+};
+
+export type SendEmailForm = {
+  email: string;
+  name: string;
+};
+
 export type Like = Tables<"like">;

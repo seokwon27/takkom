@@ -55,6 +55,13 @@ const Info = () => {
                 아이 정보 수정하기
               </Link>
               <hr className="bg-gray-800 w-full" />
+              <Link
+                href={"/resetpassword"}
+                className="self-stretch text-[#303030] text-base font-normal leading-normal"
+              >
+                비밀번호 변경
+              </Link>
+              <hr className="bg-gray-800 w-full" />
               <Link href={"/"} className="self-stretch text-[#303030] text-base font-normal leading-normal">
                 개인정보 처리방침
               </Link>
@@ -62,10 +69,6 @@ const Info = () => {
               <Link href={"/"} className="self-stretch text-[#303030] text-base font-normal leading-normal">
                 이용 약관
               </Link>
-              <Link
-                href={"/password"}
-                className="self-stretch text-[#303030] text-base font-normal leading-normal"
-              ></Link>
             </div>
           </div>
         </div>

@@ -1,38 +1,46 @@
+"use client";
+
+import sendEmail from "@/api/send-email";
+import { SendEmailForm } from "@/types/user";
 import { useMutation } from "@tanstack/react-query";
 
-async function resetPasswordRequest({ email, name }: { email: string; name: string }) {
-  const response = await fetch("/api/auth/reset-password", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json"
-    },
-    body: JSON.stringify({ email, name })
-  });
+const SendPasswordMail = () => {
+  const sendmail = async (data: SendEmailForm) => {
+    try {
+      await sendEmail({
+        email: data.email,
+        name: data.name
+      });
+    } catch (error) {
+      console.log("메일 발송 실패 : ", error);
 
-  if (!response.ok) {
-    throw new Error("이메일 발송에 실패앴습니다.");
-  }
+      throw new Error("메일 발송 실패.");
+    }
+  };
 
-  return response.json();
-}
-
-const TemporaryPassword = () => {
   const mutation = useMutation({
-    mutationFn: resetPasswordRequest,
+    mutationFn: sendmail,
     onSuccess: (data) => {
+      alert("이메일이 발송되었습니다.");
       console.log("성공:", data);
     },
     onError: (error: Error) => {
       console.error("error:", error.message);
+      alert("비밀번호 변경에 실패했습니다. 오류: " + error.message);
     }
   });
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     const form = e.target as HTMLFormElement;
     const email = (form.elements.namedItem("email") as HTMLInputElement).value;
     const name = (form.elements.namedItem("name") as HTMLInputElement).value;
+
+    if (!email || !name) {
+      alert("이메일, 이름을 모두 입력해 주세요.");
+      return;
+    }
 
     mutation.mutate({ email, name });
   };
@@ -63,4 +71,4 @@ const TemporaryPassword = () => {
   );
 };
 
-export default TemporaryPassword;
+export default SendPasswordMail;

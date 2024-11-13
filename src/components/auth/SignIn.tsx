@@ -47,9 +47,6 @@ const SignIn = () => {
         email: data.email,
         password: data.password
       });
-
-      alert("로그인 성공!");
-      // console.log("로그인 데이터:", data);
       router.push("/");
     } catch (error) {
       console.error("로그인 실패:", error);
@@ -160,7 +157,7 @@ const SignIn = () => {
               </div>
             </form>
             <div className="flex justify-center items-center gap-2.5 p-3 md-[12px]">
-              <Link href={"/"} className="text-[#636363] text-base font-normal leading-normal m-[12px]">
+              <Link href={"/password"} className="text-[#636363] text-base font-normal leading-normal m-[12px]">
                 비밀번호 찾기
               </Link>
               <Link href={"/signup"} className="text-[#636363] text-base font-normal leading-normal m-[12px]">
