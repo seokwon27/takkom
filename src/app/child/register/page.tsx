@@ -12,7 +12,7 @@ const RegisterPage = () => {
   if (isUserLoading) return <p>로딩 중...</p>;
   if (isUserError) return <p>사용자 정보를 가져오는 데 오류가 발생했습니다.</p>;
   return (
-    <div className="flex justify-center items-center h-full">
+    <div>
       <RegisterForm userId={user?.id ?? ""} />
     </div>
   );
