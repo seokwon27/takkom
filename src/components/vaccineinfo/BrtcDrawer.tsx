@@ -1,4 +1,11 @@
-import { Drawer, DrawerClose, DrawerContent, DrawerTrigger } from "@/components/ui/drawer";
+import {
+  Drawer,
+  DrawerClose,
+  DrawerContent,
+  DrawerDescription,
+  DrawerTitle,
+  DrawerTrigger
+} from "@/components/ui/drawer";
 import { Dispatch, SetStateAction } from "react";
 import { cn } from "@/lib/utils";
 
@@ -24,6 +31,9 @@ const BrtcDrawer = ({
         {cityArray.find((item) => item[0] === value)?.[1] ?? defaultValue}
       </DrawerTrigger>
       <DrawerContent>
+        <DrawerTitle />
+        <DrawerDescription />
+
         <div className="flex flex-col p-6 gap-4 h-[300px] overflow-auto">
           {cityArray.map((item) => {
             const [cityCd, cityName] = item;
