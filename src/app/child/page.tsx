@@ -19,25 +19,25 @@ const ChildPage = () => {
   const userId = user?.id; // 현재 로그인한 사용자의 ID를 설정
   const { data: childrenData, isLoading, error } = useChildrenQuery(browserClient, userId);
 
-  const [children, setChildren] = useState<Child[]>([]); 
+  const [children, setChildren] = useState<Child[]>([]);
   const [selectedChildId, setSelectedChildId] = useState<string | null>(null);
 
-   useEffect(() => {
-     if (childrenData) {
-       // 생년월일 기준으로 정렬된 children 배열을 상태로 설정
-       const sortedChildren = [...childrenData].sort((a, b) => {
-         const dateA = new Date(a.birth).getTime();
-         const dateB = new Date(b.birth).getTime();
-         return dateA - dateB;
-       });
-       setChildren(sortedChildren);
+  useEffect(() => {
+    if (childrenData) {
+      // 생년월일 기준으로 정렬된 children 배열을 상태로 설정
+      const sortedChildren = [...childrenData].sort((a, b) => {
+        const dateA = new Date(a.birth).getTime();
+        const dateB = new Date(b.birth).getTime();
+        return dateA - dateB;
+      });
+      setChildren(sortedChildren);
 
-       // 정렬된 배열의 첫 번째 아이의 ID를 selectedChildId로 설정
-       if (sortedChildren.length > 0) {
-         setSelectedChildId(sortedChildren[0].id);
-       }
-     }
-   }, [childrenData]);
+      // 정렬된 배열의 첫 번째 아이의 ID를 selectedChildId로 설정
+      if (sortedChildren.length > 0) {
+        setSelectedChildId(sortedChildren[0].id);
+      }
+    }
+  }, [childrenData]);
 
   // 사용자 정보를 로드하는 동안 로딩 표시
   if (isUserLoading) return <p>로딩 중...</p>;
@@ -53,7 +53,7 @@ const ChildPage = () => {
 
   return (
     <>
-      <div className="text-gray-800 text-xl font-semibold px-6 py-1.5 mt-3">우리아이</div>
+      <div className="hidden max-sm:block text-gray-800 text-xl font-semibold px-6 py-1.5 mt-3  ">우리아이</div>
       <div className="flex flex-col lg:flex-row justify-center px-4 sm:px-8 lg:px-12 mx-auto mt-8 lg:mt-16 ">
         <div className="flex flex-col lg:flex-row gap-6 max-w-[996px] w-full">
           {/* 좌측 사이드바 영역 */}
