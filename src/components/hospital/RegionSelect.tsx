@@ -16,14 +16,14 @@ const RegionSelect = ({ defaultValue, regionArray, trigger, disabled, value, onV
     <Select value={value} onValueChange={onValueChange}>
       <SelectTrigger
         className={cn(
-          "h-12 justify-center rounded-lg text-base font-semibold",
+          "h-12 justify-center rounded-lg text-base font-semibold  max-sm:rounded-xl",
           trigger ? "border-gray-300 text-gray-300" : "border-primary-400 text-primary-400"
         )}
         disabled={disabled}
       >
         <SelectValue placeholder={defaultValue} />
       </SelectTrigger>
-      <SelectContent className="shadow-[0px_0px_16px_rgba(114,114,114,0.1)]">
+      <SelectContent className="shadow-[0px_0px_16px_rgba(114,114,114,0.1)] max-sm:rounded-xl">
         <SelectGroup>
           <SelectItem value={defaultValue} key={defaultValue} className="justify-center text-title-xxs font-semibold">
             {defaultValue}

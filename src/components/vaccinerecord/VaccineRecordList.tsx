@@ -59,7 +59,7 @@ const VaccineRecordList = ({ data, vaccinated, edit, control }: VaccineRecordLis
               </div>
 
               <div className="flex items-center gap-3 flex-[1 0 0]">
-                {ids.map((id) =>
+                {ids.map((id, index) =>
                   edit && control ? (
                     <Controller
                       key={id}
@@ -68,7 +68,14 @@ const VaccineRecordList = ({ data, vaccinated, edit, control }: VaccineRecordLis
                       render={({ field }) => (
                         <CustomCheckbox
                           additions={additions}
+                          index={index}
                           checked={field.value.includes(id)}
+                          disabled={
+                            // 이전 체크박스가 체크 되어 있지 않다면 비활성화 또는
+                            (0 < index && !field.value.includes(ids[index - 1])) ||
+                            // 다음 체크박스가 체크 되어 있다면 비활성화
+                            (index < ids.length - 1 && field.value.includes(ids[index + 1]))
+                          }
                           onCheckedChange={(isChecked) => {
                             const newValue = isChecked ? [...field.value, id] : field.value.filter((v) => v !== id);
                             field.onChange(newValue);
@@ -77,7 +84,13 @@ const VaccineRecordList = ({ data, vaccinated, edit, control }: VaccineRecordLis
                       )}
                     />
                   ) : (
-                    <CustomCheckbox key={id} checked={vaccinated.has(id)} additions={additions} disabled />
+                    <CustomCheckbox
+                      key={id}
+                      checked={vaccinated.has(id)}
+                      additions={additions}
+                      index={index}
+                      disabled
+                    />
                   )
                 )}
               </div>
