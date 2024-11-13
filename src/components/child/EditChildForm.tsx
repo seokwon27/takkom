@@ -9,6 +9,7 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { useRef, useState } from "react";
 import CameraIcon from "../../../public/child/camera-icon.svg";
+import DeleteIcon from "../../../public/child/delete-icon.svg";
 import Image from "next/image";
 import { useUpdateChildMutation } from "@/query/useUpdateChildMutation";
 import { useDeleteProfileImageMutation } from "@/query/useChildQuery";
@@ -145,34 +146,37 @@ const EditChildForm = ({ child, onComplete }: EditFormProps) => {
           render={() => (
             <FormItem className="relative flex items-center justify-center w-44 h-44 mx-auto mb-20">
               <div>
-                {child.profile && (
-                  <Image
-                    src={
-                      selectedImage // 새로 업로드된 이미지가 있다면 이를 표시
-                        ? URL.createObjectURL(selectedImage)
-                        : child.profile && child.profile !== DEFAULT_PROFILE_IMAGE_URL // 기존 프로필 이미지가 있다면 그것을 표시
-                        ? child.profile
-                        : DEFAULT_PROFILE_IMAGE_URL // 새 이미지도 없고 기존 이미지도 없다면 기본 이미지 표시
-                    }
-                    alt="Current Profile"
-                    width={176}
-                    height={176}
-                    className="flex-grow-0 flex-shrink-0 w-44 h-44 object-cover rounded-[13px]"
-                    unoptimized
-                  />
-                )}
-
-                <button
-                  type="button"
-                  onClick={() => fileInputRef.current?.click()}
-                  className="absolute bottom-2 right-2 w-10 h-10  bg-gray-200 hover:bg-gray-300 rounded-full shadow-md"
-                >
-                  <Image src={CameraIcon} alt="카메라 아이콘" />
-                </button>
-                {child.profile !== DEFAULT_PROFILE_IMAGE_URL && (
-                  <Button type="button" onClick={handleDeleteImage} className="absolute ml-2 ">
-                    이미지 삭제
-                  </Button>
+                <Image
+                  src={
+                    selectedImage // 새로 업로드된 이미지가 있다면 이를 표시
+                      ? URL.createObjectURL(selectedImage)
+                      : child.profile && child.profile !== DEFAULT_PROFILE_IMAGE_URL // 기존 프로필 이미지가 있다면 그것을 표시
+                      ? child.profile
+                      : DEFAULT_PROFILE_IMAGE_URL // 새 이미지도 없고 기존 이미지도 없다면 기본 이미지 표시
+                  }
+                  alt="Current Profile"
+                  width={176}
+                  height={176}
+                  className="flex-grow-0 flex-shrink-0 w-44 h-44 object-cover rounded-[13px]"
+                  unoptimized
+                />
+                {/* 기본 이미지가 아닐 때는 삭제 아이콘을, 기본 이미지일 때는 카메라 아이콘을 표시 */}
+                {child.profile && child.profile !== DEFAULT_PROFILE_IMAGE_URL ? (
+                  <button
+                    type="button"
+                    onClick={handleDeleteImage}
+                    className="absolute top-2 right-2 w-10 h-10 bg-gray-200 hover:bg-gray-300 rounded-full shadow-md"
+                  >
+                    <Image src={DeleteIcon} alt="이미지 삭제 아이콘" />
+                  </button>
+                ) : (
+                  <button
+                    type="button"
+                    onClick={() => fileInputRef.current?.click()}
+                    className="absolute top-2 right-2 w-10 h-10 bg-gray-200 hover:bg-gray-300 rounded-full shadow-md"
+                  >
+                    <Image src={CameraIcon} alt="카메라 아이콘" />
+                  </button>
                 )}
               </div>
 
