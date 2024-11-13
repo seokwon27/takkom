@@ -7,8 +7,11 @@ import { Child } from "@/types/childType";
 import { Form, FormField, FormItem, FormLabel, FormControl, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { useState } from "react";
+import { useRef, useState } from "react";
+import CameraIcon from "../../../public/child/camera-icon.svg";
 import Image from "next/image";
+import { useUpdateChildMutation } from "@/query/useUpdateChildMutation";
+import { useDeleteProfileImageMutation } from "@/query/useChildQuery";
 
 interface EditFormProps {
   child: Child; // 수정할 자식 데이터
@@ -24,6 +27,9 @@ const formSchema = z.object({
 });
 
 const EditChildForm = ({ child, onComplete }: EditFormProps) => {
+  const { mutateAsync: updateChildInfo } = useUpdateChildMutation();
+  const { mutateAsync: deleteProfileImage } = useDeleteProfileImageMutation(child.id);
+  const fileInputRef = useRef<HTMLInputElement>(null);
   // 이미지 파일 상태 관리
   const [selectedImage, setSelectedImage] = useState<File | undefined>(undefined);
 
@@ -55,94 +61,135 @@ const EditChildForm = ({ child, onComplete }: EditFormProps) => {
     return publicUrlData?.publicUrl ?? null; // 이미지 URL 반환
   };
 
-  // 폼 제출 함수
+  // 폼 제출 함수 -- 수정 전
+  // const onSubmit = async (data: z.infer<typeof formSchema>) => {
+  //   const supabase = browserClient;
+  //   const profileImageUrl = selectedImage ? await uploadImage(selectedImage) : child.profile;
+  //   const profileUrl = profileImageUrl ?? undefined;
+
+  //   // 데이터 업데이트
+  //   const { error } = await supabase
+  //     .from("child")
+  //     .update({
+  //       name: data.name, // 이름 업데이트
+  //       birth: data.birth, // 생년월일 업데이트
+  //       notes: data.notes, // 특이사항 업데이트
+  //       profile: profileUrl // 프로필 이미지 업데이트
+  //     })
+  //     .eq("id", child.id); // 해당 자식 ID에 대한 업데이트
+
+  //   if (error) {
+  //     console.error("수정 중 오류 발생:", error); // 오류 처리
+  //     return;
+  //   }
+
+  //   onComplete(); // 완료 후 부모 컴포넌트에 통보
+  // };
+
+  // 폼 제출 함수 -- 수정 후
   const onSubmit = async (data: z.infer<typeof formSchema>) => {
-    const supabase = browserClient;
     const profileImageUrl = selectedImage ? await uploadImage(selectedImage) : child.profile;
     const profileUrl = profileImageUrl ?? undefined;
 
     // 데이터 업데이트
-    const { error } = await supabase
-      .from("child")
-      .update({
-        name: data.name, // 이름 업데이트
-        birth: data.birth, // 생년월일 업데이트
-        notes: data.notes, // 특이사항 업데이트
-        profile: profileUrl // 프로필 이미지 업데이트
-      })
-      .eq("id", child.id); // 해당 자식 ID에 대한 업데이트
+    updateChildInfo({
+      childId: child.id,
+      name: data.name,
+      birth: data.birth,
+      notes: data.notes,
+      profile: profileUrl
+    });
 
-    if (error) {
-      console.error("수정 중 오류 발생:", error); // 오류 처리
-      return;
-    }
-
-    onComplete(); // 완료 후 부모 컴포넌트에 통보
+    onComplete();
   };
 
-  // 프로필 이미지 삭제 함수
+  // 프로필 이미지 삭제 함수 -- 수정 전
+  // const handleDeleteImage = async () => {
+  //   // 프로필 이미지를 삭제하고 기본 이미지로 변경
+  //   const { error } = await browserClient.storage.from("profiles").remove([child.profile]); // 기존 이미지를 삭제합니다.
+
+  //   if (error) {
+  //     console.error("이미지 삭제 오류:", error); // 삭제 오류 처리
+  //     return;
+  //   }
+
+  //   // 기본 이미지로 업데이트
+  //   const supabase = browserClient;
+  //   await supabase
+  //     .from("child")
+  //     .update({
+  //       profile: DEFAULT_PROFILE_IMAGE_URL // 기본 이미지로 변경
+  //     })
+  //     .eq("id", child.id);
+
+  //   // 기본 이미지가 설정되었으므로 상태 업데이트 및 완료 처리
+  //   onComplete();
+  // };
+  
   const handleDeleteImage = async () => {
-    // 프로필 이미지를 삭제하고 기본 이미지로 변경
-    const { error } = await browserClient.storage.from("profiles").remove([child.profile]); // 기존 이미지를 삭제합니다.
-
-    if (error) {
-      console.error("이미지 삭제 오류:", error); // 삭제 오류 처리
-      return;
+    try {
+      await deleteProfileImage(); // 이미지 삭제 및 기본 이미지로 설정
+      onComplete(); // 완료 처리
+    } catch (error) {
+      console.log("프로필 이미지 삭제 오류: ", error);
     }
-
-    // 기본 이미지로 업데이트
-    const supabase = browserClient;
-    await supabase
-      .from("child")
-      .update({
-        profile: DEFAULT_PROFILE_IMAGE_URL // 기본 이미지로 변경
-      })
-      .eq("id", child.id);
-
-    // 기본 이미지가 설정되었으므로 상태 업데이트 및 완료 처리
-    onComplete();
   };
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8  w-full">
+      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8 w-full">
         {/* 프로필 이미지 업로드 필드 */}
-        <div className="mb-20">
-          <FormField
-            control={form.control}
-            name="profile"
-            render={() => (
-              <FormItem>
-                {/* <FormLabel>프로필 이미지</FormLabel> */}
-                <div className="flex items-end justify-center">
-                  {child.profile && (
-                    <Image
-                      src={child.profile}
-                      alt="Current Profile"
-                      width={200}
-                      height={200}
-                      className="flex-grow-0 flex-shrink-0 w-44 h-44 object-cover rounded-[13px]"
-                      unoptimized
-                    />
-                  )}
-                  <Button type="button" onClick={handleDeleteImage} className="ml-2">
+        <FormField
+          control={form.control}
+          name="profile"
+          render={() => (
+            <FormItem className="relative flex items-center justify-center w-44 h-44 mx-auto mb-20">
+              <div>
+                {child.profile && (
+                  <Image
+                    src={
+                      selectedImage // 새로 업로드된 이미지가 있다면 이를 표시
+                        ? URL.createObjectURL(selectedImage)
+                        : child.profile && child.profile !== DEFAULT_PROFILE_IMAGE_URL // 기존 프로필 이미지가 있다면 그것을 표시
+                        ? child.profile
+                        : DEFAULT_PROFILE_IMAGE_URL // 새 이미지도 없고 기존 이미지도 없다면 기본 이미지 표시
+                    }
+                    alt="Current Profile"
+                    width={176}
+                    height={176}
+                    className="flex-grow-0 flex-shrink-0 w-44 h-44 object-cover rounded-[13px]"
+                    unoptimized
+                  />
+                )}
+
+                <button
+                  type="button"
+                  onClick={() => fileInputRef.current?.click()}
+                  className="absolute bottom-2 right-2 w-10 h-10  bg-gray-200 hover:bg-gray-300 rounded-full shadow-md"
+                >
+                  <Image src={CameraIcon} alt="카메라 아이콘" />
+                </button>
+                {child.profile !== DEFAULT_PROFILE_IMAGE_URL && (
+                  <Button type="button" onClick={handleDeleteImage} className="absolute ml-2 ">
                     이미지 삭제
                   </Button>
-                </div>
+                )}
+              </div>
 
-                <FormControl>
-                  <Input
-                    type="file"
-                    accept="image/*" // 이미지 파일만 업로드 가능
-                    onChange={(e) => setSelectedImage(e.target.files?.[0] ?? undefined)}
-                  />
-                </FormControl>
+              <FormControl>
+                <Input
+                  ref={fileInputRef}
+                  type="file"
+                  accept="image/*" // 이미지 파일만 업로드 가능
+                  className="hidden"
+                  onChange={(e) => setSelectedImage(e.target.files?.[0] ?? undefined)}
+                />
+              </FormControl>
 
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-        </div>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
 
         {/* 이름 입력 필드 */}
         <FormField

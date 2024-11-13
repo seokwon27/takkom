@@ -3,16 +3,21 @@
 import { useUserLike } from "@/query/useUserQuery";
 import browserClient from "@/utils/supabase/client";
 import { User } from "@supabase/supabase-js";
-import React from "react";
+import React, { useState } from "react";
 import LoadingHospitalList from "../hospital/LoadingHospitalList";
 import { NUM_OF_CARDS_PER_PAGE } from "@/constants/constants";
 import HospitalCard from "../hospital/HospitalCard";
 import HospitalPagination from "../hospital/HospitalPagination";
 import { HopsitalItem } from "@/types/hospital";
+import useDevice from "@/utils/useDevice";
+import HospitalCardWithDrawer from "../hospital/HospitalCardWithDrawer";
 
 type LikeListProps = { currentPage: number; user: User | null };
 
 const LikeList = ({ currentPage, user }: LikeListProps) => {
+  const [clickedId, setClickedId] = useState(0);
+  const device = useDevice();
+
   const { data: likes, isLoading, isError, error } = useUserLike(browserClient, user?.id);
   const totalCount = likes?.length ?? 0;
   const maxPage = Math.ceil(totalCount / NUM_OF_CARDS_PER_PAGE) || 1;
@@ -35,15 +40,15 @@ const LikeList = ({ currentPage, user }: LikeListProps) => {
   }
 
   return (
-    <section className="w-full grow flex flex-col justify-between items-center mt-16 mb-6">
+    <>
       {totalCount === 0 && (
-        <LoadingHospitalList className="mt-0">
+        <LoadingHospitalList>
           <p>스크랩한 병원이 없습니다.</p>
         </LoadingHospitalList>
       )}
       {!!likes && totalCount > 0 && (
-        <>
-          <ul className="w-full grid grid-cols-[repeat(10, 1fr)] gap-6">
+        <div className="w-full">
+          <ul className="grid grid-cols-[repeat(10, 1fr)] gap-6 pb-20 bg-white max-sm:gap-3 max-sm:pb-6 max-sm:px-6 max-sm:z-40">
             {likes
               ?.slice(NUM_OF_CARDS_PER_PAGE * (currentPage - 1), NUM_OF_CARDS_PER_PAGE * currentPage)
               .map((like) => {
@@ -57,8 +62,37 @@ const LikeList = ({ currentPage, user }: LikeListProps) => {
                 };
 
                 return (
-                  <li key={info.orgcd}>
-                    <HospitalCard user={user} hospitalInfo={info} likes={likes} />
+                  <li
+                    key={info.orgcd}
+                    onClick={() => {
+                      setClickedId((prev) => {
+                        if (prev === info.orgcd) {
+                          return 0;
+                        }
+                        return info.orgcd;
+                      });
+                    }}
+                  >
+                    {device === "desktop" && (
+                      <HospitalCard
+                        user={user ?? null}
+                        hospitalInfo={info}
+                        clickedId={clickedId}
+                        // filter={disease}
+                        likes={likes}
+                      />
+                    )}
+                    {device === "mobile" && (
+                      <>
+                        <HospitalCardWithDrawer
+                          user={user ?? null}
+                          hospitalInfo={info}
+                          clickedId={clickedId}
+                          // filter={disease}
+                          likes={likes}
+                        />
+                      </>
+                    )}{" "}
                   </li>
                 );
               })}
@@ -68,9 +102,9 @@ const LikeList = ({ currentPage, user }: LikeListProps) => {
             currentPage={currentPage}
             params={{ brtcCd: "", sggCd: "", addr: "", org: "", disease: "" }}
           />
-        </>
+        </div>
       )}
-    </section>
+    </>
   );
 };
 

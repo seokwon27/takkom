@@ -6,60 +6,9 @@ import React from "react";
 const RegisterButton = () => {
   return (
     <>
-      <div className="flex flex-col justify-start items-start w-[180px] gap-2 p-3 rounded-xl bg-white shadow-[0px_0px_12px_#7272721A]">
-        {/* <div className="flex justify-start items-center self-stretch w-full gap-1 px-3 py-2 rounded-lg bg-primary-300">
-          <svg
-            width={18}
-            height={19}
-            viewBox="0 0 18 19"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-            className="flex-grow-0 flex-shrink-0 w-[18px] h-[18px] relative"
-            preserveAspectRatio="xMidYMid meet"
-          >
-            <g clip-path="url(#clip0_1843_7378)">
-              <path
-                d="M9 16.25C12.7279 16.25 15.75 13.2279 15.75 9.5C15.75 5.77208 12.7279 2.75 9 2.75C5.27208 2.75 2.25 5.77208 2.25 9.5C2.25 13.2279 5.27208 16.25 9 16.25Z"
-                stroke="white"
-                stroke-width="1.5"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              />
-              <path
-                d="M6.75 8H6.7575"
-                stroke="white"
-                stroke-width="1.5"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              />
-              <path
-                d="M11.25 8H11.2575"
-                stroke="white"
-                stroke-width="1.5"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              />
-              <path
-                d="M7.125 11.75C7.36941 11.9994 7.66114 12.1976 7.9831 12.3329C8.30505 12.4682 8.65077 12.5379 9 12.5379C9.34923 12.5379 9.69495 12.4682 10.0169 12.3329C10.3389 12.1976 10.6306 11.9994 10.875 11.75"
-                stroke="white"
-                stroke-width="1.5"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              />
-              <path
-                d="M9 2.75C8.60218 2.75 8.22064 2.90804 7.93934 3.18934C7.65804 3.47064 7.5 3.85218 7.5 4.25C7.5 4.64782 7.65804 5.02936 7.93934 5.31066C8.22064 5.59196 8.60218 5.75 9 5.75"
-                stroke="white"
-                stroke-width="1.5"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              />
-            </g>
-          </svg>
-          <p className="text-sm font-semibold text-left text-white">김하온</p>
-        </div> */}
-
-        <div className="group flex justify-start items-center self-stretch w-full gap-1 px-3 py-2 rounded-lg hover:bg-primary-300">
-          <Link href="/child/register" className="flex items-center gap-1">
+      {/* <div className="flex flex-col justify-start items-start w-full md:w-[180px] gap-2 p-3 rounded-xl bg-white shadow-[0px_0px_12px_#7272721A]"> */}
+        <Link href="/child/register" className="flex items-center gap-1 w-full">
+          <div className="group flex justify-start items-center self-stretch w-full gap-1 px-3 py-2 rounded-lg hover:bg-primary-300">
             <svg
               width={18}
               height={19}
@@ -76,9 +25,9 @@ const RegisterButton = () => {
               />
             </svg>
             <p className="text-sm font-semibold text-left text-primary-300 group-hover:text-white">아이 등록하기</p>
-          </Link>
-        </div>
-      </div>
+          </div>
+        </Link>
+      {/* </div> */}
     </>
   );
 };

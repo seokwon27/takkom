@@ -66,7 +66,7 @@ const VaccineRecordTabs = ({ childId, edit, control }: VaccineRecordProps) => {
           </Button>
         ) : (
           <Link
-            href={`/child/${childId}/edit2`}
+            href={`/child/${childId}/record`}
             className="inline-flex justify-center gap-2.5 px-3 py-1.5 rounded-[15px] items-center"
           >
             <Button
