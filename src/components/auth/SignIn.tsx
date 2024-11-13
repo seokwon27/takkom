@@ -43,19 +43,6 @@ const SignIn = () => {
 
   const signIn = async (data: AuthFormSignIn) => {
     try {
-      // const { error } = await browserClient.auth.signInWithPassword({
-      //   email: data.email,
-      //   password: data.password,
-      //   options: {
-      //     data: {
-      //       name: data.name
-      //     }
-      //   }
-      // });
-
-      // if (error) throw error;
-
-      // server-action으로 변경
       await signin({
         email: data.email,
         password: data.password
@@ -81,8 +68,6 @@ const SignIn = () => {
       }
     });
 
-    // if (data) console.log("로그인 데이터 : ", data);
-
     if (error) console.log("로그인 실패 : ", error);
   };
 
@@ -98,22 +83,8 @@ const SignIn = () => {
       }
     });
 
-    // if (data) console.log("로그인 데이터 : ", data);
-
     if (error) console.log("로그인 실패 : ", error);
   };
-
-  // console.log()만하시고 사용을 안하시네요?
-  // const getUser = async () => {
-  //   const { data, error } = await browserClient.auth.getUser();
-  //   if (error) {
-  //     console.log("유져 정보 가져오기 실패! : ", error);
-  //     return null;
-  //   }
-  //   return data?.user?.id || null;
-  // };
-
-  // console.log(getUser);
 
   return (
     <div className="flex flex-col justify-center items-center gap-3">

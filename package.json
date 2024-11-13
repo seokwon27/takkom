@@ -10,6 +10,7 @@
     "gen": "supabase gen types typescript --project-id rhihezmeunossgtiviip > database.types.ts"
   },
   "dependencies": {
+    "@emailjs/browser": "^4.4.1",
     "@hookform/resolvers": "^3.9.0",
     "@radix-ui/react-checkbox": "^1.1.2",
     "@radix-ui/react-dialog": "^1.1.2",
@@ -25,6 +26,7 @@
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.1",
     "date-fns": "^4.1.0",
+    "emailjs-com": "^3.2.0",
     "embla-carousel-react": "^8.3.1",
     "fast-xml-parser": "^4.5.0",
     "lucide-react": "^0.453.0",

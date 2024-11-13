@@ -62,6 +62,10 @@ const Info = () => {
               <Link href={"/"} className="self-stretch text-[#303030] text-base font-normal leading-normal">
                 이용 약관
               </Link>
+              <Link
+                href={"/password"}
+                className="self-stretch text-[#303030] text-base font-normal leading-normal"
+              ></Link>
             </div>
           </div>
         </div>

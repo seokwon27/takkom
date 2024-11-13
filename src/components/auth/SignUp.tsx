@@ -19,8 +19,6 @@ const SignUp = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [showPasswordCheck, setShowPasswordCheck] = useState(false);
 
-  // const [issignIn, setIsSignIn] = useState(false);
-
   const router = useRouter();
 
   const defaultValues = {
@@ -73,18 +71,6 @@ const SignUp = () => {
 
   const signUp = async (data: AuthFormSignUp) => {
     try {
-      // const { error } = await browserClient.auth.signUp({
-      //   email: data.email,
-      //   password: data.password,
-      //   options: {
-      //     data: {
-      //       name: data.name
-      //     }
-      //   }
-      // });
-
-      // if (error) throw error;
-
       // server-action으로 변경
       await signup({
         email: data.email,
@@ -101,27 +87,6 @@ const SignUp = () => {
       alert("이미 가입 된 정보입니다"); //error case 좀 알아보고 에러별 alert 작성해야할듯
     }
   };
-
-  // const getUser = async () => {
-  //   const { data, error } = await browserClient.auth.getSession();
-  //   if (error) {
-  //     // console.log("유져 정보 가져오기 실패! : ", error);
-  //     return null;
-  //   }
-  //   return data?.session?.user?.id || null;
-  // };
-
-  // useEffect(() => {
-  //   const checkSignInStatus = async () => {
-  //     const userId = await getUser();
-  //     if (userId) {
-  //       setIsSignIn(true);
-  //     } else {
-  //       setIsSignIn(false);
-  //     }
-  //   };
-  //   checkSignInStatus();
-  // }, []);
 
   // const passCheck = () => {
   //   if (form.formState.errors.passwordCheck?.message === "비밀번호가 일치합니다.") {
