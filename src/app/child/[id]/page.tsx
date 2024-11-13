@@ -52,7 +52,7 @@ const VaccineRecordPage = async ({ params }: VaccinatePageProps) => {
             <Image
               src={Vaccination12}
               alt="Vaccination"
-              className="absolute size-12 top-1.5 left-[30px] md:w-[80px] md:h-[80px] md:top-2 md:left-[9px]"
+              className="absolute size-12 top-1.5 left-[30px] md:w-[80px] md:h-[80px] md:top-2"
             />
           </div>
 
