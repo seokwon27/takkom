@@ -4,6 +4,9 @@ import { useRef, useState } from "react";
 import { SearchModal } from "./SearchModal";
 import { Button } from "../ui/button";
 import { useAgeGroupStore } from "@/store/ageGroupStore";
+import DesktopLayout from "../layout/DesktopLayout";
+import MobileLayout from "../layout/MobileLayout";
+import MobileSelect from "./MobileSelect";
 
 export type ModalRef = React.RefObject<HTMLDivElement>;
 
@@ -27,15 +30,28 @@ const SearchButton = () => {
       >
         <p>접종 가능한 병원 찾기</p>
       </Button>
-      {isModalOpen && (
-        <SearchModal
-          ModalRef={modalBg}
-          isOpen={isModalOpen}
-          onClose={() => {
-            setModalOpen(false);
-          }}
-        />
-      )}
+      <DesktopLayout>
+        {isModalOpen && (
+          <SearchModal
+            ModalRef={modalBg}
+            isOpen={isModalOpen}
+            onClose={() => {
+              setModalOpen(false);
+            }}
+          />
+        )}
+      </DesktopLayout>
+      <MobileLayout>
+        {isModalOpen && (
+          <>
+            <MobileSelect
+              onClose={() => {
+                setModalOpen(false);
+              }}
+            />
+          </>
+        )}
+      </MobileLayout>
     </div>
   );
 };

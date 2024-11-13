@@ -7,12 +7,15 @@ import { useRouter } from "next/navigation";
 import { Button } from "../ui/button";
 import { useCityDataQuery } from "@/query/useCityDataQuery";
 import { createQueryParams } from "@/utils/hospital/setHospitalQueryParams";
+import useDevice from "@/utils/useDevice";
+import BrtcDrawer from "./BrtcDrawer";
 
 const SelectBrtc = () => {
   const router = useRouter();
   const [brtc, setBrtc] = useState("");
   const [sgg, setSgg] = useState("");
   const { currentDisease } = useAgeGroupStore();
+  const isMobile = useDevice();
 
   // 도시정보 fetch 및 데이터 가공
   const { data, error, isPending } = useCityDataQuery();
@@ -24,6 +27,24 @@ const SelectBrtc = () => {
   const handleClick = () => {
     router.push(createQueryParams({ brtcCd: brtc, sggCd: sgg, disease: currentDisease, pageNo: "1" }, "/hospital"));
   };
+
+  if (isMobile === "mobile") {
+    return (
+      <form className="grid grid-cols-2 gap-2 mt-6">
+        <BrtcDrawer defaultValue={"시/도"} cityArray={brtcObj} setCity={setBrtc} value={brtc} />
+        <BrtcDrawer defaultValue={"시/군/구"} cityArray={regionInfo} setCity={setSgg} value={sgg} />
+        <div className="fixed bottom-0 left-0 w-full pt-3 pb-8 px-6">
+          <Button
+            className="text-white p-6 bg-primary-400 hover:bg-primary-300 disabled:bg-primary-100 w-full"
+            onClick={handleClick}
+            disabled={!brtc || !sgg}
+          >
+            찾기
+          </Button>
+        </div>
+      </form>
+    );
+  }
 
   return (
     <div className="flex flex-col gap-10 ">
