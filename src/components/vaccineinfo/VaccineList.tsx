@@ -85,7 +85,7 @@ const VaccineList = () => {
       </div>
       <SearchButton />
 
-      <Pagination className="mt-10">
+      <Pagination className="mt-10 mb-28">
         <PaginationContent>
           <PaginationItem>
             <PaginationPrevious href="#" onClick={() => handlePage(page - 1)} isActive={page > 1} />

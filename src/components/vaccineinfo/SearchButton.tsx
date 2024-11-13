@@ -23,7 +23,7 @@ const SearchButton = () => {
           setModalOpen(true);
         }}
         variant={"vaccineinfo"}
-        className={`p-6 hover:bg-primary-300 my-10 max-sm:max-w-[327px]`}
+        className={`p-6 hover:bg-primary-300 my-10 max-sm:max-w-[327px] max-sm:my-5`}
       >
         <p>접종 가능한 병원 찾기</p>
       </Button>
