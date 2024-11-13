@@ -13,9 +13,14 @@ const HospitalSearchPage = async ({ searchParams }: { searchParams: HospitalSear
   const user = await getUser(supabaseClient);
 
   return (
-    <div className="w-full max-w-[792px] grow flex flex-col items-center mx-auto">
-      <SearchForm brtcObj={brtcObj} regionInfo={regionInfo} searchParams={searchParams} />
-      <HospitalList searchParams={searchParams} user={user} />
+    <div className="w-full max-w-[792px] grow flex flex-col items-center mx-auto max-sm:max-w-auto">
+      <div className="w-full flex flex-col bg-white max-sm:px-6 max-sm:sticky max-sm:top-0 max-sm:z-10">
+        <SearchForm brtcObj={brtcObj} regionInfo={regionInfo} searchParams={searchParams} />
+      </div>
+      <section className="w-full grow flex flex-col justify-between items-center mt-16 mb-6 max-sm:mt-4 max-sm:px-6 max-sm:mb-[42px]">
+        <HospitalList searchParams={searchParams} user={user} />
+      </section>
+      {/* </SearchForm> */}
     </div>
   );
 };

@@ -18,9 +18,9 @@ const VaccineNames = ({ vaccineNames, filter }: { vaccineNames: string[]; filter
 
   const placeHolder = (
     <div className="flex">
-      <div className="w-4 h-4 ml-1.5 mr-[5px] my-auto relative">
+      <div className="w-4 h-4 ml-1.5 my-auto relative max-sm:ml-[2px]">
         <ChevronUp
-          strokeWidth={3}
+          strokeWidth={2}
           className={cn(
             "w-[16px] h-[16px] m-auto absolute left-0 text-gray-400",
             "transition-all duration-300",
@@ -28,7 +28,7 @@ const VaccineNames = ({ vaccineNames, filter }: { vaccineNames: string[]; filter
           )}
         />
         <ChevronDown
-          strokeWidth={3}
+          strokeWidth={2}
           className={cn(
             "w-[16px] h-[16px] m-auto absolute left-0 text-gray-400",
             "transition-all duration-300",
@@ -36,12 +36,12 @@ const VaccineNames = ({ vaccineNames, filter }: { vaccineNames: string[]; filter
           )}
         />
       </div>
-      <p className="text-text-l text-gray-700 line-clamp-1">
-        <span className={`${filteredVaccineIndex !== -1 && "text-title-xxs font-semibold"}`}>{`${
+      <p className="pl-[5px] text-left text-text-l text-gray-700 break-all line-clamp-1 max-sm:text-text-xs max-sm:font-normal">
+        <span className={cn(filteredVaccineIndex !== -1 && "text-title-xxs font-semibold max-sm:text-text-xs")}>{`${
           filteredVaccine || duplicatedVaccineNames[0]
         }`}</span>
         {!isOpen && (
-          <span className="ml-1 text-text-l">
+          <span className="pl-1 text-text-l max-sm:pl-[3px] max-sm:text-text-xs max-sm:font-normal max-sm:text-gray-500">
             외 {filter ? duplicatedVaccineNames.length : duplicatedVaccineNames.length - 1}개
           </span>
         )}
@@ -52,16 +52,16 @@ const VaccineNames = ({ vaccineNames, filter }: { vaccineNames: string[]; filter
   return (
     <>
     {(vaccineNames.length === 1 && !vaccineNames[0]) && (
-      <p className="text-text-l line-clamp-1">
+      <p className="text-text-l line-clamp-1 max-sm:text-text-xs">
           접종 정보가 없습니다.
       </p>
     )}
     {(vaccineNames.length === 1 && vaccineNames[0]) && (
-      <p className="text-text-l line-clamp-1">
-        <span className={cn("text-title-xxs", filteredVaccineIndex !== -1 && "font-semibold")}>
+      <p className="text-text-l line-clamp-1 max-sm:text-text-s max-sm:font-normal">
+        <span className={cn("text-title-xxs max-sm:text-text-s", filteredVaccineIndex !== -1 && "font-semibold")}>
           {vaccineNames[0]}
         </span>
-        <span> 접종 가능</span>
+        <span className={cn(filteredVaccineIndex !== -1 && "max-sm:text-gray-500")}> 접종 가능</span>
       </p>
     )}
       {vaccineNames.length > 1 && filter && (
@@ -73,12 +73,11 @@ const VaccineNames = ({ vaccineNames, filter }: { vaccineNames: string[]; filter
         >
           <SelectTrigger
             className={cn(
-              "h-fit p-1 justify-start border-0 rounded-none bg-gray-10 text-text-l",
+              "h-fit p-1 justify-start border-0 rounded-none bg-gray-10 max-sm:h-6 max-sm:px-1 max-sm:py-[2px]",
               isOpen ? "rounded-t" : "rounded"
             )}
           >
             {placeHolder}
-            {/* <SelectValue placeholder={placeHolder} /> */}
           </SelectTrigger>
           <SelectContent
             className="max-h-[85px] mt-0 p-0 bg-gray-10 rounded-none rounded-b text-text-l"
@@ -90,7 +89,7 @@ const VaccineNames = ({ vaccineNames, filter }: { vaccineNames: string[]; filter
                 <SelectItem
                   value={name}
                   key={name}
-                  className="justify-start h-fit max-w-fit p-0 pl-7 pb-2 last:pb-0 text-text-l"
+                  className="justify-start h-fit max-w-fit p-0 pl-7 pb-2 last:pb-0 text-text-l text-gray-700 max-sm:pl-[23px] max-sm:text-text-xs max-sm:font-normal"
                 >
                   {name}
                 </SelectItem>
@@ -108,7 +107,7 @@ const VaccineNames = ({ vaccineNames, filter }: { vaccineNames: string[]; filter
         >
           <SelectTrigger
             className={cn(
-              "h-fit p-1 justify-start border-0 rounded-none bg-gray-10 text-text-l",
+              "h-fit p-1 justify-start border-0 rounded-none bg-gray-10 text-text-l max-sm:h-6 max-sm:px-1 max-sm:py-[2px]",
               isOpen ? "rounded-t" : "rounded"
             )}
           >
@@ -124,7 +123,7 @@ const VaccineNames = ({ vaccineNames, filter }: { vaccineNames: string[]; filter
                 <SelectItem
                   value={name}
                   key={name}
-                  className="justify-start h-fit max-w-fit p-0 pl-7 pb-2 text-text-l last:pb-0"
+                  className="justify-start h-fit max-w-fit p-0 pl-7 pb-2 last:pb-0 text-text-l text-gray-700 max-sm:pl-[23px] max-sm:text-text-xs max-sm:font-normal"
                 >
                   {name}
                 </SelectItem>
