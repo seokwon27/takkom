@@ -63,7 +63,7 @@ const HospitalCardWithDrawer = ({
     <>
       <div
         className={cn(
-          "w-full h-fit min-h-[200px] flex border border-gray-30 rounded-3xl p-4 justify-between items-start shadow-[0px_0px_16px_rgba(114,114,114,0.1)] pointer-active:auto",
+          "w-full h-fit min-h-[200px] flex bg-white border border-gray-30 rounded-3xl p-4 justify-between items-start shadow-[0px_0px_16px_rgba(114,114,114,0.1)] pointer-active:auto",
           "max-sm:min-h-fit max-sm:p-3 max-sm:rounded-xl max-sm:shadow-[0px_0px_7px_rgba(114,114,114,0.1)]",
           orgcd === clickedId && "max-sm:border-primary-400 max-sm:shadow-none"
         )}

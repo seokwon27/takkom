@@ -40,7 +40,7 @@ const HospitalList = ({ searchParams, user }: { searchParams: HospitalSearchPara
 
   if (isLoading || isFetching) {
     return (
-      <LoadingHospitalList>
+      <LoadingHospitalList animate="animate-bounce">
         <p>데이터를 불러오는 중입니다.</p>
         <p>잠시만 기다려주세요.</p>
       </LoadingHospitalList>
@@ -67,7 +67,7 @@ const HospitalList = ({ searchParams, user }: { searchParams: HospitalSearchPara
 
   return (
     <>
-      <ul className="w-full grid grid-cols-[repeat(10, 1fr)] gap-6 max-sm:gap-3">
+      <ul className="w-full grid grid-cols-[repeat(10, 1fr)] gap-6 bg-white max-sm:gap-3 max-sm:px-6 max-sm:mb-0 max-sm:z-40">
         {hospitalData?.items
           .slice(NUM_OF_CARDS_PER_PAGE * (currentPage - 1), NUM_OF_CARDS_PER_PAGE * currentPage)
           .map((info) => (
