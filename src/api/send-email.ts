@@ -34,12 +34,9 @@ export default async function sendEmail(req: SendEmailForm) {
     // 비밀번호 재설정 이메일 발송
     console.log(`${process.env.NEXT_PUBLIC_PASSWORD_REDIRECT_URL}`);
 
-    const { error: resetError, data: password } = await supabase.auth.resetPasswordForEmail(data.email, {
+    const { error: resetError } = await supabase.auth.resetPasswordForEmail(data.email, {
       redirectTo: `${process.env.NEXT_PUBLIC_PASSWORD_REDIRECT_URL}` // 비밀번호 재설정 링크 URL 환경변수로 관리 및 vercel 설정
     });
-    console.log(password);
-
-    console.log("123");
 
     if (resetError) {
       return alert(`이메일 발송 실패 : ${resetError}`);
