@@ -35,6 +35,7 @@ const SelectBrtc = () => {
         <BrtcDrawer defaultValue={"시/군/구"} cityArray={regionInfo} setCity={setSgg} value={sgg} />
         <div className="fixed bottom-0 left-0 w-full pt-3 pb-8 px-6">
           <Button
+            type="button"
             className="text-white p-6 bg-primary-400 hover:bg-primary-300 disabled:bg-primary-100 w-full"
             onClick={handleClick}
             disabled={!brtc || !sgg}
