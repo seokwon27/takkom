@@ -364,7 +364,7 @@ const SearchForm = ({ brtcObj, regionInfo, searchParams }: SearchFormProps) => {
             className={cn("w-full flex items-center gap-2 mt-3 mb-1 px-6", !(step === 1 && device === "mobile") && "hidden")}
             onClick={() => setStep(0)}
           >
-            <ChevronLeft size={24} className="w-6- h-6 text-gray-400" />
+            <ChevronLeft size={24} className="w-6 h-6 text-gray-400" />
             <div className="w-full h-fit py-[10px] pr-4 pl-[42px] rounded-lg bg-gray-10 text-label-l font-semibold text-gray-700 relative">
               <Image src={SearchIcon} alt="검색" className="absolute top-[11.5px] left-4 sm:hidden" />
               <p>

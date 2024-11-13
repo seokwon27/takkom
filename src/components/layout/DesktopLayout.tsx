@@ -1,7 +1,8 @@
+import { cn } from "@/lib/utils";
 import React, { PropsWithChildren } from "react";
 
-const DesktopLayout = ({ children }: PropsWithChildren) => {
-  return <div className="max-sm:hidden">{children}</div>;
+const DesktopLayout = ({ children, className }: PropsWithChildren & {className?: string}) => {
+  return <div className={cn("max-sm:hidden")}>{children}</div>;
 };
 
 export default DesktopLayout;
