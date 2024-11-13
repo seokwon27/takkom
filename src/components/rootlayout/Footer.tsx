@@ -1,7 +1,5 @@
-import Image from "next/image";
 import Link from "next/link";
 import React from "react";
-import takkomi from "../../../public/homepage/takkomi.svg";
 
 const Footer = () => {
   return (
