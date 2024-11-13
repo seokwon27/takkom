@@ -3,6 +3,7 @@ import React from "react";
 import Image from "next/image";
 import Target from "../../../public/vaccineInfo/target.svg";
 import Process from "../../../public/vaccineInfo/process.svg";
+import Tag from "../hospital/Tag";
 
 const VaccineCard = ({
   disease,
@@ -52,8 +53,11 @@ const VaccineCard = ({
           </div>
         </div>
       </div>
-      <div className="flex gap-2"></div>
-      <p>무료접종</p>
+      <div className="flex gap-2">
+        <Tag />
+        {/* 추가접종정보에 따른 태그 입력 */}
+        {/* {additional === true ? <Tag name="additional" /> : <Tag name="required" />} */}
+      </div>
     </div>
   );
 };
