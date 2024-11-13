@@ -38,7 +38,7 @@ const HospitalPagination = ({
   }
 
   return (
-    <Pagination className="mt-20 max-sm:mt-6 max-sm:mx-3">
+    <Pagination className="bg-white max-sm:mx-0 max-sm:px-6 max-sm:pb-[132px] max-sm:mb-0 max-sm:z-[39]">
       <PaginationContent className="gap-0">
         {/* {maxPage >= 5 && ( */}
         <PaginationItem aria-disabled={currentPage === 1}>

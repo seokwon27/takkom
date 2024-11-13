@@ -36,7 +36,7 @@ const RegionDrawer = ({ defaultValue, regionArray, trigger, disabled, value, onC
         <DrawerTitle />
         <DrawerDescription />
         <div
-          className="w-full h-[500px] flex flex-col overflow-auto"
+          className="w-full h-[300px] flex flex-col overflow-auto"
           draggable={false}
           onClick={(e) => {
             e.stopPropagation();
