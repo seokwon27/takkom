@@ -2,6 +2,7 @@ import React from "react";
 import { Button } from "../ui/button";
 import PhoneImg from "../../../public/hospital/phone.svg";
 import Image from "next/image";
+import { createPortal } from "react-dom";
 
 const PhoneModal = ({
   phoneNumber,
@@ -10,7 +11,7 @@ const PhoneModal = ({
   phoneNumber: string;
   setShowModal: React.Dispatch<React.SetStateAction<boolean>>;
 }) => {
-  return (
+  return createPortal(
     <div
       className="fixed top-0 left-0 bottom-0 right-0 bg-gray-900/50 z-[52] pointer-active-auto"
       onClick={(e) => {
@@ -42,7 +43,8 @@ const PhoneModal = ({
           확인
         </Button>
       </div>
-    </div>
+    </div>,
+    document.body
   );
 };
 
