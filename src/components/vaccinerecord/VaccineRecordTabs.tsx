@@ -60,9 +60,9 @@ const VaccineRecordTabs = ({ childId, edit, control }: VaccineRecordProps) => {
         {edit ? (
           <Button
             type="submit"
-            className="inline-flex justify-center gap-2.5 px-3 py-1.5 rounded-[15px] items-center bg-transparent"
+            className="inline-flex justify-center gap-2.5 px-3 py-1.5 rounded-[15px] items-center bg-transparent text-title-xs text-primary-300 hover:bg-primary-300 hover:text-white"
           >
-            <p className="text-title-xs text-primary-300">완료</p>
+            완료
           </Button>
         ) : (
           <Link

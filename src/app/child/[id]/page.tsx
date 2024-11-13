@@ -40,7 +40,7 @@ const VaccineRecordPage = async ({ params }: VaccinatePageProps) => {
 
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>
-      <div className="flex flex-col max-w[375px] justify-center items-center mx-auto md:w-[796px] md:gap-20 md:items-start md:my-[100px]">
+      <div className="flex flex-col min-w-[375px] justify-center items-center mx-auto md:w-[796px] md:gap-20 md:items-start md:my-[100px]">
         <div className="flex flex-col gap-10 relative self-stretch w-full md:max-w-[796px] md:items-start">
           <div className="inline-flex flex-col items-start gap-6 px-6 relative md:gap-12 md:min-w-[323px] md:min-h-[171px]">
             <Image src={Vaccination11} alt="Vaccination" className="size-12 relative md:size-20" />
