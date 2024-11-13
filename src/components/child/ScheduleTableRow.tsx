@@ -12,7 +12,6 @@ const ScheduleTableRow = ({ data }: SchduleTableRowParams) => {
   const { disease, vaccineName, startDate, endDate, additional } = data;
 
   // 모바일과 데스크탑에서 보여줄 날짜 형식 설정
-  const date: string = startDate === endDate ? startDate : `${startDate} ~ ${endDate}`;
   const dateMobile: string = startDate === endDate ? startDate : `${startDate} ~`;
   const dateDesktop: string = startDate === endDate ? startDate : `${startDate} ~ ${endDate}`;
 
