@@ -2,8 +2,8 @@ import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
 import { Providers } from "./providers";
-import Header from "@/components/layout/Header";
-import Footer from "@/components/layout/Footer";
+import Header from "@/components/rootlayout/Header";
+import Footer from "@/components/rootlayout/Footer";
 import Image from "next/image";
 import takkomi from "../../public/homepage/takkomi.svg";
 

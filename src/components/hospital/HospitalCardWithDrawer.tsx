@@ -63,7 +63,7 @@ const HospitalCardWithDrawer = ({
     <>
       <div
         className={cn(
-          "w-full h-fit min-h-[200px] flex border border-gray-30 rounded-3xl p-4 justify-between items-start shadow-[0px_0px_16px_rgba(114,114,114,0.1)] pointer-active:auto",
+          "w-full h-fit min-h-[200px] flex bg-white border border-gray-30 rounded-3xl p-4 justify-between items-start shadow-[0px_0px_16px_rgba(114,114,114,0.1)] pointer-active:auto",
           "max-sm:min-h-fit max-sm:p-3 max-sm:rounded-xl max-sm:shadow-[0px_0px_7px_rgba(114,114,114,0.1)]",
           orgcd === clickedId && "max-sm:border-primary-400 max-sm:shadow-none"
         )}
@@ -115,7 +115,7 @@ const HospitalCardWithDrawer = ({
       <div
         onClick={(e) => e.stopPropagation()}
         className={cn(
-          "fixed bottom-0 left-0 right-0 h-[100px] bg-white px-6 pt-3 z-50 transition-all duration-200",
+          "fixed bottom-0 left-0 right-0 h-[100px] bg-white px-6 pt-3 z-50 shadow-[0px_0px_24px_rgba(0,0,0,0.05)] transition-all duration-200 z-[42]",
           clickedId === hospitalInfo.orgcd ? "animate-in slide-in-from-bottom" : "hidden"
         )}
       >

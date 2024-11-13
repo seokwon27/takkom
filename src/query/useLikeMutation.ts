@@ -46,8 +46,7 @@ export const addLike = async (hospitalInfo: HopsitalItem) => {
 
 export const cancelLike = async (id?: string) => {
   if (id) {
-    const { data, error } = await browserClient.from("like").delete().eq("id", id);
-    console.log(data);
+    const { error } = await browserClient.from("like").delete().eq("id", id);
 
     if (error) throw Error(error.message);
   }
