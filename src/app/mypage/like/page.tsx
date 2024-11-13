@@ -16,11 +16,11 @@ const LikePage = async ({ searchParams }: LikePageParams) => {
   return (
     <>
       <MobileLayout className="sticky top-0 z-10">
-        <div className="w-full h-9 flex items-center gap-2 pt-3 pb-1 px-6 bg-white border-b border-gray-30 text-center relative">
+        <div className="w-full h-12 flex items-center pt-6 pb-1 px-6 bg-white border-b border-gray-30 text-center relative">
           <Link href={"/mypage"}>
             <ChevronLeft size={24} className="w-6 h-6 text-gray-400" />
           </Link>
-          <p className="absolute left-[50%] -translate-x-1/2 max-sm:text-title-xs max-sm:font-semibold">스크랩</p>
+          <p className="absolute left-[50%] -translate-x-1/2 max-sm:text-title-xs max-sm:font-semibold">관심 병원</p>
         </div>
       </MobileLayout>
       <section className="w-full grow flex flex-col justify-between items-center mt-16 mb-6 bg-white max-sm:mt-10 max-sm:mb-0 max-sm:px-0 max-sm:pb-0">
