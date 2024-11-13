@@ -14,7 +14,7 @@ const MobileNav = () => {
 
   return (
     <nav className="fixed bottom-0 left-0 right-0 z-10 bg-white md:hidden pt-2 shadow-[0px_0px_24px_rgba(0,0,0,0.05)]">
-      <ul className="flex justify-around items-center h-16 px-4">
+      <ul className="grid grid-cols-[repeat(5,1fr)] items-center h-16 px-4">
         <li className="w-full">
           <Link
             href="/"
