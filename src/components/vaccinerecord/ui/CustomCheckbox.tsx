@@ -12,7 +12,7 @@ const CustomCheckbox = ({ checked, onCheckedChange, disabled, additions, index }
   const isRequired = !additions[index];
 
   return (
-    <div className="relative w-3 h-3 md:w-6 md:h-6">
+    <div className="relative size-5 md:w-6 md:h-6">
       <Checkbox
         checked={checked}
         onCheckedChange={onCheckedChange}
