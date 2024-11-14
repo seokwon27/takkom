@@ -13,11 +13,15 @@ import { Eye, EyeOff } from "lucide-react";
 import Image from "next/image";
 import kkom from "../../../public/logo.svg";
 import { signup } from "@/api/auth-actions";
+import SignUpModal from "./SignUpModal";
 
 const SignUp = () => {
   // 비밀번호 표시 상태 관리
   const [showPassword, setShowPassword] = useState(false);
   const [showPasswordCheck, setShowPasswordCheck] = useState(false);
+  const [showStatusModal, setShowStatusModal] = useState(false); // 상태 모달 열기/닫기
+  const [status, setStatus] = useState<"success" | "failure">("success"); // 성공/실패 상태
+  const [message, setMessage] = useState(""); // 모달 메시지
 
   const router = useRouter();
 
@@ -78,12 +82,17 @@ const SignUp = () => {
         name: data.name
       });
 
-      alert("회원가입 성공!");
-      // console.log("회원가입 데이터:", data);
-      router.push("/");
+      setStatus("success");
+      setMessage("회원가입이 성공적으로 완료되었습니다!");
+      setShowStatusModal(true);
+      setTimeout(() => {
+        router.push("/"); // 3초 딜레이 후 홈으로 리다이렉트
+      }, 3000);
     } catch (error) {
       console.error("회원가입 실패:", error);
-      alert("이미 가입 된 정보입니다"); //error case 좀 알아보고 에러별 alert 작성해야할듯
+      setStatus("failure");
+      setMessage("이미 가입된 이메일입니다.");
+      setShowStatusModal(true);
     }
   };
 
@@ -223,6 +232,13 @@ const SignUp = () => {
           </Button>
         </form>
       </Form>
+      {/* 회원가입 완료 모달 */}
+      <SignUpModal
+        showModal={showStatusModal}
+        onClose={() => setShowStatusModal(false)}
+        status={status}
+        message={message}
+      />
     </div>
   );
 };
