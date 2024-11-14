@@ -2,6 +2,11 @@ import AgeFilter from "@/components/vaccineinfo/AgeFilter";
 import AgeGroup from "@/components/vaccineinfo/AgeGroup";
 import VaccineList from "@/components/vaccineinfo/VaccineList";
 
+export const metadata = {
+  title: "따꼼 예방 접종",
+  description: "예방접종 리스트를 연령별로 확인할 수 있습니다"
+};
+
 const VaccineInfoPage = async () => {
   return (
     <div
