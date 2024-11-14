@@ -86,12 +86,22 @@ const SignUp = () => {
       setMessage("회원가입이 성공적으로 완료되었습니다!");
       setShowStatusModal(true);
       setTimeout(() => {
-        router.push("/"); // 3초 딜레이 후 홈으로 리다이렉트
-      }, 3000);
-    } catch (error) {
+        router.push("/"); // 2초 후 홈으로 리다이렉트
+      }, 2000);
+    } catch (error: unknown) {
       console.error("회원가입 실패:", error);
-      setStatus("failure");
-      setMessage("이미 가입된 이메일입니다.");
+
+      // error를 Error 타입으로 단언
+      const e = error as Error;
+
+      // 이미 가입된 이메일 처리
+      if (e.message === "이미 가입된 이메일입니다.") {
+        setStatus("failure");
+        setMessage("이미 가입된 이메일입니다.");
+      } else {
+        setStatus("failure");
+        setMessage("회원가입 중 오류가 발생했습니다. \n 다시 시도해주세요.");
+      }
       setShowStatusModal(true);
     }
   };

@@ -19,7 +19,7 @@ const SignUpStatusModal: React.FC<SignUpStatusModalProps> = ({ showModal, onClos
         className="w-[360px] h-fit max-h-[269px] flex flex-col justify-between p-6 rounded-xl bg-white fixed top-[50%] left-[50%] -translate-x-1/2 -translate-y-1/2"
         onClick={(e) => e.stopPropagation()}
       >
-        <p className={`text-center text-sm mb-4`}>{modalMessage}</p>
+        <p className="text-center text-lg font-semibold mb-4 whitespace-pre-line">{modalMessage}</p>
 
         <div className="flex justify-around">
           <Button
