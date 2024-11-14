@@ -13,6 +13,7 @@ import { useAddLikeMutation, useCancelLikeMutation } from "@/query/useLikeMutati
 import { User } from "@supabase/supabase-js";
 import { cn } from "@/lib/utils";
 import PhoneModal from "./PhoneModal";
+import Modal from "../layout/Modal";
 
 type HospitalCardProps = {
   user: User | null;
@@ -113,7 +114,11 @@ const HospitalCard = ({ user, hospitalInfo, clickedId, filter, likes }: Hospital
           />
         </div>
       </div>
-      {showModal && <PhoneModal phoneNumber={orgTlno} setShowModal={setShowModal} />}
+      {showModal && (
+        <Modal position={document.body}>
+          <PhoneModal phoneNumber={orgTlno} setShowModal={setShowModal} />
+        </Modal>
+      )}
     </>
   );
 };
