@@ -17,6 +17,7 @@ import SignUpModal from "./SignUpModal";
 
 const SignUp = () => {
   // 비밀번호 표시 상태 관리
+  //TODO : 다 탄스택쿼리로 수정해야함
   const [showPassword, setShowPassword] = useState(false);
   const [showPasswordCheck, setShowPasswordCheck] = useState(false);
   const [showStatusModal, setShowStatusModal] = useState(false); // 상태 모달 열기/닫기

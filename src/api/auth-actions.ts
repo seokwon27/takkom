@@ -66,10 +66,10 @@ export async function signup(formData: AuthFormSignUp): Promise<AuthResponseWith
     }
   } catch (error) {
     if (error instanceof Error) {
-      console.error("회원가입 오류:", error.message);
+      // console.error("회원가입 오류:", error.message);
       throw error; // 오류를 다시 던짐
     } else {
-      console.error("알 수 없는 오류:", error);
+      // console.error("알 수 없는 오류:", error);
       throw new Error("알 수 없는 오류가 발생했습니다.");
     }
   }
