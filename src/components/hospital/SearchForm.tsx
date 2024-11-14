@@ -14,7 +14,6 @@ import InfoCircle from "../../../public/hospital/info-circle.svg";
 import VaccineFilterOffIcon from "../../../public/hospital/vaccine-filter-off-icon.svg";
 import VaccineFilterOnIcon from "../../../public/hospital/vaccine-filter-on-icon.svg";
 import SearchIcon from "../../../public/hospital/search-icon.svg";
-import LoadingSpinner from "../../../public/common/loading-spinner.svg";
 import { cn } from "@/lib/utils";
 import { HospitalSearchParams } from "@/types/hospital";
 import { ChevronLeft } from "lucide-react";
@@ -22,7 +21,7 @@ import useHospitalSearchStore from "@/store/hospitalStore";
 import RegionDrawer from "./RegionDrawer";
 import DesktopLayout from "../layout/DesktopLayout";
 import MobileLayout from "../layout/MobileLayout";
-import Modal from "../layout/Modal";
+import LoadingData from "./LoadingData";
 
 type SearchFormProps = {
   brtcObj: { [key: string]: string };
@@ -187,13 +186,7 @@ const SearchForm = ({ brtcObj, regionInfo, searchParams }: SearchFormProps) => {
               >
                 검색
               </Button>
-              {showLoading && (
-                <Modal position={document.body}>
-                  <div className="w-full h-full flex">
-                    <Image src={LoadingSpinner} alt="로딩중입니다." className="m-auto animate-spin" />
-                  </div>
-                </Modal>
-              )}
+              {showLoading && <LoadingData/>}
             </form>
           </>
         )}

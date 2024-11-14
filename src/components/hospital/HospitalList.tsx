@@ -15,7 +15,6 @@ import HospitalCardWithDrawer from "./HospitalCardWithDrawer";
 import useHospitalSearchStore from "@/store/hospitalStore";
 import MobileLayout from "../layout/MobileLayout";
 import DesktopLayout from "../layout/DesktopLayout";
-import Modal from "../layout/Modal";
 import Image from "next/image";
 import LoadingSpinner from "../../../public/common/loading-spinner.svg";
 
@@ -50,11 +49,11 @@ const HospitalList = ({ searchParams, user }: { searchParams: HospitalSearchPara
           <p>데이터를 불러오는 중입니다.</p>
           <p>잠시만 기다려주세요.</p>
         </LoadingHospitalList>
-        <Modal position={document.body}>
-          <div className="w-full h-full flex">
-            <Image src={LoadingSpinner} alt="로딩중입니다." className="m-auto animate-spin" />
-          </div>
-        </Modal>
+        <div className="fixed top-0 left-0 bottom-0 right-0 bg-gray-900/50 z-50">
+      <div className="w-full h-full flex">
+        <Image src={LoadingSpinner} alt="로딩중입니다." className="m-auto animate-spin" />
+      </div>
+    </div>
       </>
     );
   }
