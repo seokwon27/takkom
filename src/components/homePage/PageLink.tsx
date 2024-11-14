@@ -13,7 +13,7 @@ import DesktopLayout from "../layout/DesktopLayout";
 
 const PageLink = () => {
   return (
-    <div className="flex gap-6 mt-[77px] w-full max-w-[1200px] m-auto max-sm:gap-[10px] justify-center">
+    <div className="flex gap-6 mt-[77px] w-full max-w-[1200px] m-auto max-sm:gap-[10px] justify-center max-sm:mt-16">
       <Link
         href={"/vaccineinfo"}
         className="flex bg-[url('/homepage/vaccineInfo-bg.svg')]  px-12 py-20 rounded-2xl text-white w-[736px] h-[472px] relative max-sm:p-5 max-sm:w-[160px] max-sm:h-[240px]"

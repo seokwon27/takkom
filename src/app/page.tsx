@@ -3,7 +3,7 @@ import PageLink from "@/components/homePage/PageLink";
 
 const HomePage = () => {
   return (
-    <div className="flex flex-col gap-40 max-sm:p-6">
+    <div className="flex flex-col gap-40 max-sm:px-6">
       <PageLink />
       <EventLink />
     </div>
