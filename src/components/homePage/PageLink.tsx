@@ -16,12 +16,12 @@ const PageLink = () => {
     <div className="flex gap-6 mt-[77px] w-full max-w-[1200px] m-auto max-sm:gap-[10px] justify-center max-sm:mt-16 max-sm:px-6">
       <Link
         href={"/vaccineinfo"}
-        className="flex bg-primary-400  px-12 py-20 rounded-2xl text-white w-[736px] h-[472px] relative max-sm:p-5 max-sm:w-[160px] max-sm:h-[240px] -z-10"
+        className="flex bg-primary-400  px-12 py-20 rounded-2xl text-white w-[736px] h-[472px] relative max-sm:p-5 max-sm:w-[160px] max-sm:h-[240px] "
       >
         <Image
           src={linkPerson}
           alt="사람아이콘"
-          className="absolute -bottom-12 -right-6  h-auto max-sm:w-[120px] max-sm:h-[120px] max-sm:right-0 max-sm:-bottom-5 -z-10"
+          className="absolute -bottom-12 -right-6  h-auto max-sm:w-[120px] max-sm:h-[120px] max-sm:right-0 max-sm:-bottom-5"
         />
         <div className="flex flex-col justify-start gap-6 pt-6 max-sm:pt-0 max-sm:w-[107px] max-sm:gap-[10px]">
           <div>
@@ -43,15 +43,15 @@ const PageLink = () => {
       </Link>
 
       <div className="flex flex-col gap-6 max-sm:gap-[10px]">
-        <Link className="p-10 rounded-3xl  bg-[#F0F9FF] relative max-sm:p-5 max-sm:pt-[57px] -z-20" href={"/child"}>
+        <Link className="p-10 rounded-3xl  bg-[#F0F9FF] relative max-sm:p-5 max-sm:pt-[57px] " href={"/child"}>
           <Image
             src={handHeart}
             alt="아이콘"
-            className="absolute right-0 max-sm:w-[75px] max-sm:h-[75px] max-sm:bottom-5 -z-10"
+            className="absolute right-0 max-sm:w-[75px] max-sm:h-[75px] max-sm:bottom-5 "
           />
-          <div className="flex flex-col gap-3 max-sm:justify-end">
+          <div className="flex flex-col gap-3 max-sm:justify-end z-10">
             <DesktopLayout>
-              <p className="text-heading-l text-gray-800 font-bold max-sm:text-heading-xxs max-sm:break-keep z-10">
+              <p className="text-heading-l text-gray-800 font-bold max-sm:text-heading-xxs max-sm:break-keep">
                 우리 아이 접종 관리하기
               </p>
             </DesktopLayout>
@@ -76,7 +76,7 @@ const PageLink = () => {
           max-sm:p-5"
         >
           <div className="flex w-full justify-between py-5 max-sm:p-0">
-            <div className="flex flex-col justify-center gap-4 max-sm:gap-2 max-sm:justify-start max-sm: relative">
+            <div className="flex flex-col justify-center gap-4 max-sm:gap-2 max-sm:justify-start relative">
               <div>
                 <p className="text-[#008F5D] text-lg font-semibold max-sm:hidden">어디에서 접종 하나요?</p>
                 <MobileLayout>
