@@ -36,37 +36,46 @@ const Info = () => {
   }, [isUserLoading, isUserError, user, router]);
 
   return (
-    <div className="grid place-items-center gap-6 mt-[77px] w-full max-w-[1200px] m-auto">
-      <div className="w-[588.42px] h-[442.98px] flex-col justify-start items-start gap-16 inline-flex">
-        {userData ? (
-          <div className="w-[588px] h-[112px] bg-[#f4f8ff] rounded-[13.86px]">
-            <div className="grid place-items-start ml-[24px] mt-[24px]">
-              <div className="text-[#303030] text-lg font-bold leading-normal">{userData.name}님 반갑습니다!</div>
-              <div className="text-[#7c7c7c] text-sm font-normal leading-[21px]">email : {userData.email}</div>
-            </div>
+    <div className="grid place-items-center gap-6 mt-[84px] w-full max-w-[1200px] mx-auto max-sm:mt-6">
+      <div className="w-full max-w-[588px] h-hit flex-col justify-start items-start inline-flex">
+        <div className="w-full h-[112px] bg-primary-50 rounded-[13.86px] p-6 max-sm:h-[100px]">
+          <div className="grid place-items-start">
+            {userData ? (
+              <>
+                <div className="text-gray-800 text-heading-s font-bold">{userData.name}님 반갑습니다!</div>
+                <div className="text-gray-500 text-label-l">email : {userData.email}</div>
+              </>
+            ) : (
+              <div>로딩 중...</div>
+            )}
           </div>
-        ) : (
-          <div>로딩 중...</div>
-        )}
-        <div className="self-stretch h-[267.27px] flex-col justify-start items-center gap-20 flex">
-          <div className="self-stretch h-[163.27px] flex-col justify-start items-start gap-6 flex">
-            <div className="h-[45.63px] w-[588.42px] flex-col justify-start items-start gap-[21.63px] flex">
-              <Link href={"/child"} className="self-stretch text-[#303030] text-base font-normal leading-normal">
+        </div>
+
+        <div className="w-full flex flex-col justify-start items-center mt-16 mb-20 max-sm:mt-10 max-sm:mb-6">
+          <div className="w-full h-fit flex flex-col justify-start items-start gap-6">
+            <div className="h-fit w-full flex flex-col justify-start items-start gap-[21px] max-sm:gap-6">
+              {/* 임시로 아이정보 페이지로 이동시킴 */}
+              <Link href={"/child"} className=" text-gray-800 text-label-xl font-normal">
+                비밀번호 수정하기
+              </Link>
+              <hr className="border-t border-gray-30 w-full" />
+              <Link href={"/child"} className=" text-gray-800 text-label-xl">
                 아이 정보 수정하기
               </Link>
-              <hr className="bg-gray-800 w-full" />
-              <Link href={"/"} className="self-stretch text-[#303030] text-base font-normal leading-normal">
+              <hr className="border-t border-gray-30 w-full" />
+              <Link href={"/"} className=" text-gray-800 text-label-xl">
                 개인정보 처리방침
               </Link>
-              <hr className="bg-gray-800 w-full" />
-              <Link href={"/"} className="self-stretch text-[#303030] text-base font-normal leading-normal">
+              <hr className="border-t border-gray-30 w-full" />
+              <Link href={"/"} className=" text-gray-800 text-label-xl">
                 이용 약관
               </Link>
+              <hr className="border-t border-gray-30 w-full sm:hidden" />
             </div>
           </div>
         </div>
+        <SignOut />
       </div>
-      <SignOut />
     </div>
   );
 };
