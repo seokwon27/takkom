@@ -14,6 +14,7 @@ import InfoCircle from "../../../public/hospital/info-circle.svg";
 import VaccineFilterOffIcon from "../../../public/hospital/vaccine-filter-off-icon.svg";
 import VaccineFilterOnIcon from "../../../public/hospital/vaccine-filter-on-icon.svg";
 import SearchIcon from "../../../public/hospital/search-icon.svg";
+import LoadingSpinner from "../../../public/common/loading-spinner.svg";
 import { cn } from "@/lib/utils";
 import { HospitalSearchParams } from "@/types/hospital";
 import { ChevronLeft } from "lucide-react";
@@ -21,6 +22,7 @@ import useHospitalSearchStore from "@/store/hospitalStore";
 import RegionDrawer from "./RegionDrawer";
 import DesktopLayout from "../layout/DesktopLayout";
 import MobileLayout from "../layout/MobileLayout";
+import Modal from "../layout/Modal";
 
 type SearchFormProps = {
   brtcObj: { [key: string]: string };
@@ -40,6 +42,7 @@ const SearchForm = ({ brtcObj, regionInfo, searchParams }: SearchFormProps) => {
   });
   const [disease, setDisease] = useState(searchParams.disease || DISEASE);
   const [showInfoTag, setShowInfoTag] = useState(true);
+  const [showLoading, setShowLoading] = useState(false);
   const { step, setStep } = useHospitalSearchStore();
 
   // searchParams가 바뀔 때마다 재실행
@@ -172,6 +175,7 @@ const SearchForm = ({ brtcObj, regionInfo, searchParams }: SearchFormProps) => {
                 type="button"
                 onClick={() => {
                   setDisease(DISEASE);
+                  setShowLoading(true);
                   router.push(createQueryParams({ ...params, pageNo: "1" }, pathname));
                   // setStep(1);
                 }}
@@ -183,12 +187,25 @@ const SearchForm = ({ brtcObj, regionInfo, searchParams }: SearchFormProps) => {
               >
                 검색
               </Button>
+              {showLoading && (
+                <Modal position={document.body}>
+                  <div className="w-full h-full flex">
+                    <Image src={LoadingSpinner} alt="로딩중입니다." className="m-auto animate-spin" />
+                  </div>
+                </Modal>
+              )}
             </form>
           </>
         )}
         {step === 1 && (
           <>
-            <div className={"w-full flex items-center gap-2 mt-3 mb-1 px-6"} onClick={() => setStep(0)}>
+            <div
+              className={"w-full flex items-center gap-2 mt-3 mb-1 px-6"}
+              onClick={() => {
+                setStep(0);
+                setShowLoading(false);
+              }}
+            >
               <ChevronLeft size={24} className="w-6 h-6 text-gray-400" />
               <div className="w-full h-fit py-[10px] pr-4 pl-[42px] rounded-lg bg-gray-10 text-label-l font-semibold text-gray-700 relative">
                 <Image src={SearchIcon} alt="검색" className="absolute top-[11.5px] left-4 sm:hidden" />

@@ -15,6 +15,9 @@ import HospitalCardWithDrawer from "./HospitalCardWithDrawer";
 import useHospitalSearchStore from "@/store/hospitalStore";
 import MobileLayout from "../layout/MobileLayout";
 import DesktopLayout from "../layout/DesktopLayout";
+import Modal from "../layout/Modal";
+import Image from "next/image";
+import LoadingSpinner from "../../../public/common/loading-spinner.svg";
 
 const HospitalList = ({ searchParams, user }: { searchParams: HospitalSearchParams; user: User | null }) => {
   const { step } = useHospitalSearchStore();
@@ -35,18 +38,24 @@ const HospitalList = ({ searchParams, user }: { searchParams: HospitalSearchPara
     isLoading,
     isFetching,
     isError,
-    error,
+    error
   } = useHospitalQuery(brtcCd, sggCd, addr, org, disease);
 
   const { data: likes } = useUserLike(browserClient, user?.id);
-  console.log(isLoading, hospitalData?.maxPage);
 
   if (isLoading || isFetching || hospitalData?.maxPage === 0) {
     return (
-      <LoadingHospitalList animate="animate-bounce">
-        <p>데이터를 불러오는 중입니다.</p>
-        <p>잠시만 기다려주세요.</p>
-      </LoadingHospitalList>
+      <>
+        <LoadingHospitalList>
+          <p>데이터를 불러오는 중입니다.</p>
+          <p>잠시만 기다려주세요.</p>
+        </LoadingHospitalList>
+        <Modal position={document.body}>
+          <div className="w-full h-full flex">
+            <Image src={LoadingSpinner} alt="로딩중입니다." className="m-auto animate-spin" />
+          </div>
+        </Modal>
+      </>
     );
   }
   if (isError) {
