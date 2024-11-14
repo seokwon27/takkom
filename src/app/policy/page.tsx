@@ -1,16 +1,16 @@
 import Image from "next/image";
 import kkom from "../../../public/logoIcon.svg";
-import TermsOfUse from "@/components/mypage/markdown/TermsofUse";
+import PrivacyPolicy from "@/components/mypage/markdown/PrivacyPolicy";
 
-const TermsOfUsePage = () => {
+const PrivacyPolicyPage = () => {
   return (
     <div className="grid place-items-center">
       <div className="flex flex-col justify-center items-center mt-[84px]">
         <Image src={kkom} alt="따꼼 로고" className=""></Image>
       </div>
-      <TermsOfUse />
+      <PrivacyPolicy />
     </div>
   );
 };
 
-export default TermsOfUsePage;
+export default PrivacyPolicyPage;

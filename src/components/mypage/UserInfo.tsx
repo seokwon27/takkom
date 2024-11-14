@@ -63,7 +63,7 @@ const Info = () => {
                 아이 정보 수정하기
               </Link>
               <hr className="border-t border-gray-30 w-full" />
-              <Link href={"/"} className=" text-gray-800 text-label-xl">
+              <Link href={"/policy"} className=" text-gray-800 text-label-xl">
                 개인정보 처리방침
               </Link>
               <hr className="border-t border-gray-30 w-full" />
