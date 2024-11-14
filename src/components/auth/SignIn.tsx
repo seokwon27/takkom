@@ -16,11 +16,16 @@ import google from "../../../public/Auth/signin/google.png";
 import kakao from "../../../public/Auth/signin/kakaotalk.svg";
 import kkom from "../../../public/logo.svg";
 import Image from "next/image";
-import { signin } from "@/api/auth-actions";
+// import { signin } from "@/api/auth-actions";
+import ErrorModal from "./SignInErrorModal";
 
 const SignIn = () => {
   // 비밀번호 표시 상태 관리
   const [showPassword, setShowPassword] = useState(false);
+
+  // 로그인 오류 메시지 상태 관리
+  const [showErrorModal, setShowErrorModal] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
 
   const router = useRouter();
 
@@ -43,16 +48,35 @@ const SignIn = () => {
 
   const signIn = async (data: AuthFormSignIn) => {
     try {
-      await signin({
+      const { error } = await browserClient.auth.signInWithPassword({
         email: data.email,
         password: data.password
       });
+      if (error) throw error;
 
       router.push("/");
     } catch (error) {
       console.error("로그인 실패:", error);
+      setErrorMessage("이메일 또는 비밀번호가 틀렸습니다. \n 다시 시도해주세요.");
+      setShowErrorModal(true);
     }
   };
+  // const signIn = async (data: AuthFormSignIn) => {
+  //   console.log("로그인 시도");
+  //   try {
+  //     await signin({
+  //       email: data.email,
+  //       password: data.password
+  //     });
+
+  //     // router.push("/");
+  //   } catch (error) {
+  //     // 로그인 실패 시 모달 열기
+  //     console.error("로그인 실패:", error);
+  //     setErrorMessage("이메일 또는 비밀번호가 틀렸습니다. 다시 시도해주세요.");
+  //     setShowErrorModal(true);
+  //   }
+  // };
 
   const googleSignIn = async () => {
     const { error } = await browserClient.auth.signInWithOAuth({
@@ -179,6 +203,8 @@ const SignIn = () => {
           </div>
         </div>
       </Form>
+
+      <ErrorModal showModal={showErrorModal} onClose={() => setShowErrorModal(false)} message={errorMessage} />
     </div>
   );
 };
