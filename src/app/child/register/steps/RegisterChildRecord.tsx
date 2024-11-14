@@ -29,10 +29,9 @@ const RegisterChildRecord = ({ child, onPrev, onComplete }: RegisterChildRecordP
 
       if (error) {
         console.error("아이 정보 가져오기 오류났음", error);
+      } else {
+        console.log("아이 정보:", data);
       }
-      // else {
-      //   console.log("아이 정보:", data);
-      // }
     };
 
     fetchChildData();
