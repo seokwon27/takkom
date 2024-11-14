@@ -1,20 +1,16 @@
 "use client";
-import { useAgeGroupStore } from "@/utils/zustand/ageGroupStore";
-import category from "../../../public/ageGroup/category.svg";
-import newborn from "../../../public/ageGroup/newborn-baby.svg";
-import yeonga from "../../../public/ageGroup/yeong-a.svg";
-import yua from "../../../public/ageGroup/yua.svg";
-import children from "../../../public/ageGroup/children.svg";
+import { useAgeGroupStore } from "@/store/ageGroupStore";
+import Category from "../../../public/ageGroup/category.svg";
+import Newborn from "../../../public/ageGroup/newborn-baby.svg";
+import Yeonga from "../../../public/ageGroup/yeong-a.svg";
+import Yua from "../../../public/ageGroup/yua.svg";
+import Children from "../../../public/ageGroup/children.svg";
 import Image from "next/image";
-import { useCityDataQuery } from "@/query/useCityDataQuery";
 
 const AgeGroup = () => {
-  const { error } = useCityDataQuery();
-  if (error) console.log(error);
-
   return (
     <div className="text-center items-center justify-center">
-      <div className="flex text-center justify-between p-2 w-full">
+      <div className="flex text-center justify-between w-full">
         <AgeCard age={"전체"} />
         <AgeCard age={"신생아"} />
         <AgeCard age={"영아기"} />
@@ -30,18 +26,24 @@ const AgeCard = ({ age }: { age: string }) => {
   const division = CategorySvg[age];
   return (
     <div className="flex flex-col gap-3 hover:cursor-pointer text-lg font-semibold" onClick={() => setAgeGroup(age)}>
-      <Image src={division} alt={`${age}`} width={100} height={100} />
-      <p className={`${age === ageGroup ? "text-[#303030]" : "text-[#B0B0B0]"}  text-lg font-semibold`}>{age}</p>
+      <Image src={division} alt={`${age}`} className="max-sm:w-[54px] max-sm:h-[54px] w-[100px] h-[100px]" />
+      <p
+        className={`${
+          age === ageGroup ? "text-[#303030]" : "text-[#B0B0B0]"
+        }  text-title-s font-semibold max-sm:text-label-m`}
+      >
+        {age}
+      </p>
     </div>
   );
 };
 
 const CategorySvg: { [key: string]: string } = {
-  전체: category,
-  신생아: newborn,
-  영아기: yeonga,
-  유아기: yua,
-  아동기: children
+  전체: Category,
+  신생아: Newborn,
+  영아기: Yeonga,
+  유아기: Yua,
+  아동기: Children
 };
 
 export default AgeGroup;

@@ -29,56 +29,50 @@ export const ChildCard = ({ child }: ChildCardProps) => {
           <div className="w-full md:w-[50%] flex flex-col justify-start items-start flex-grow-0 flex-shrink-0 p-4 rounded-2xl bg-white shadow-[0px_0px_12px_#7272721A]">
             <div className="flex flex-col gap-4">
               {/* 아이 기본 정보 내 좌/우 영역 나누기 위한 컨테이너 */}
-              <div className="flex items-start justify-center w-full gap-6">
+              <div className="flex items-center justify-between w-full gap-3 md:gap-6">
                 {/* 좌측: 프로필 이미지 */}
-                <div className="w-44 h-44">
-                <Image
-                  src={child.profile || DEFAULT_PROFILE_IMAGE_URL} // 기본 이미지 설정
-                  alt="아이 프로필 이미지"
-                  width={176}
-                  height={176}
-                  className="w-44 h-44 object-cover rounded-[13px]"
-                />
-</div>
+        
+                  <Image
+                    src={child.profile || DEFAULT_PROFILE_IMAGE_URL} // 기본 이미지 설정
+                    alt="아이 프로필 이미지"
+                    width={176} // 이미지 크기 설정
+                    height={176} // 이미지 크기 설정
+                    className="w-24 h-24 md:w-44 md:h-44 object-cover rounded-[13px]" // 이미지 정사각형으로 유지
+                  />
+              
+
                 {/* 우측: 기본 정보 & 수정하기 버튼 */}
-                <div className="flex flex-col justify-start items-start self-stretch flex-grow-0 flex-shrink-0 relative gap-4">
+                <div className="flex flex-col justify-start items-start gap-4 w-full md:w-[calc(100%-176px)]">
                   {/* 이름 & 생년월일 시작 */}
-                  <div className="flex flex-col justify-between items-start flex-grow-0 flex-shrink-0 gap-3 w-40 pt-2">
+                  <div className="flex flex-col justify-between items-start gap-3 w-full pt-2">
                     {/*  아이 이름 영역 */}
-                    <p className="flex-grow-0 flex-shrink-0 text-base font-bold text-center text-neutral-900">
-                      {child.name}
-                    </p>
+                    <p className="text-base font-bold text-center text-neutral-900">{child.name}</p>
 
                     {/* 아이 생일 영역 */}
-                    <div className="flex justify-center items-center flex-grow-0 flex-shrink-0 relative gap-1">
+                    <div className="flex justify-center items-center gap-1">
                       {/* 케이크 아이콘 */}
                       <Image src={CakeIcon} alt="케이크 아이콘" />
 
                       {/* 아이 생일 */}
-                      <p className="flex-grow-0 flex-shrink-0 text-xs font-medium text-center text-gray-400">
-                        {child.birth}
-                      </p>
+                      <p className="text-xs font-medium text-center text-gray-400">{child.birth}</p>
                     </div>
                   </div>
                   {/* 이름 & 생년월일 끝 */}
 
                   {/* 아이 특이사항 */}
-                  <p className="self-stretch flex-grow-0 flex-shrink-0 w-40 h-[50px] text-xs font-medium text-left text-gray-600">
+                  <p className="w-full h-[50px] text-xs font-medium text-left text-gray-600">
                     {child.notes && <span>{child.notes}</span>}
                   </p>
 
                   {/* 수정하기 */}
                   <Link key={child.id} href={`/child/${child.id}/childinfo`}>
-                    <div className="flex justify-center items-center self-stretch flex-grow-0 flex-shrink-0 h-8 relative gap-[8px] p-[7px] rounded-[7px] bg-gray-30 w-full">
-                      <button className="flex-grow-0 flex-shrink-0 text-xs font-medium text-center text-gray-700">
-                        수정하기
-                      </button>
+                    <div className="flex justify-center items-center h-8 gap-[8px] p-[7px] rounded-[7px] bg-gray-30 w-full">
+                      <button className="text-xs font-medium text-center text-gray-700">수정하기</button>
                     </div>
                   </Link>
-                  {/* 수정하기 끝*/}
                 </div>
-                {/* 우측: 기본 정보 & 수정하기 버튼 끝 */}
               </div>
+
               {/* 아이 기본 정보 내 좌/우 영역 나누기 위한 컨테이너 끝 */}
 
               {/* 카메라 아이콘 */}

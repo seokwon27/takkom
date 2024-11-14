@@ -1,6 +1,6 @@
 "use client";
 
-import { useAgeGroupStore } from "@/utils/zustand/ageGroupStore";
+import { useAgeGroupStore } from "@/store/ageGroupStore";
 
 //연령 텍스트 전환
 const formatAgeText = (age: number) => {
@@ -24,16 +24,16 @@ const formatAgeText = (age: number) => {
 const AgeFilter = () => {
   const { subAgeGroup, selectedAge, setSelectedAge } = useAgeGroupStore();
   return (
-    <div className="flex gap-2 mt-20 mb-16">
+    <div className="flex mt-20 mb-16 text-heading-xs max-sm:text-title-xxs max-sm:mt-5 max-sm:mb-5 max-sm:whitespace-nowrap max-sm:overflow-x-auto scrollbar-hide">
       {subAgeGroup.length > 6 ? (
-        <p className=" border-gray-700 border-b-2 text-gray-700 p-2 hover:cursor-pointer font-bold">전체</p>
+        <p className=" border-gray-700 border-b-2 text-gray-700 p-2 hover:cursor-pointer font-bold ">전체</p>
       ) : (
         subAgeGroup.map((age) => {
           return (
             <div
               className={`${
                 age === selectedAge ? ` border-gray-700 border-b-2 text-gray-700` : "text-gray-300"
-              } p-2 hover:cursor-pointer font-bold`}
+              } p-2 hover:cursor-pointer font-bold max-sm:p-[6px]`}
               key={`${age} 개월`}
               onClick={() => {
                 setSelectedAge(age);

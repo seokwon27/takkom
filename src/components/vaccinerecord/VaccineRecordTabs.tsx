@@ -37,16 +37,19 @@ const VaccineRecordTabs = ({ childId, edit, control }: VaccineRecordProps) => {
   const tabs = ["전체", "접종 완료", "미접종"];
 
   return (
-    <Tabs defaultValue="전체" className="flex flex-col items-start gap-4 self-stretch relative w-full flex-[0_0_auto]">
-      <div className="flex justify-between items-center px-8 py-0 self-stretch w-full">
-        <TabsList className="inline-flex items-center gap-2 relative bg-transparent">
+    <Tabs
+      defaultValue="전체"
+      className="flex flex-col items-center sm:items-start gap-4 self-stretch relative w-full sm:max-w-[796px]"
+    >
+      <div className="flex justify-between items-center py-0 self-stretch w-full px-6 sm:min-h-[38px] sm:px-8">
+        <TabsList className="inline-flex items-center gap-2 px-3 sm:px-6 relative bg-transparent">
           {tabs.map((tab) => (
             <TabsTrigger
               key={tab}
               value={tab}
-              className="group flex w-20 items-center justify-center gap-2.5 p-2 relative rounded-none data-[state=active]:border-b-2 data-[state=active]:border-gray-700"
+              className="group flex md:w-20 items-center justify-center gap-2.5 p-2 relative rounded-none data-[state=active]:border-b-2 data-[state=active]:border-gray-700"
             >
-              <p className="relative w-fit mt-[-2.00px] text-gray-300 group-data-[state=active]:text-gray-700 whitespace-nowrap hover:text-gray-700">
+              <p className="relative text-heading-xs text-gray-300 group-data-[state=active]:text-gray-700 whitespace-nowrap hover:text-gray-700">
                 {tab}
               </p>
             </TabsTrigger>
@@ -54,13 +57,23 @@ const VaccineRecordTabs = ({ childId, edit, control }: VaccineRecordProps) => {
         </TabsList>
 
         {/* view페이지에서만 버튼 on */}
-        {!edit && (
+        {edit ? (
+          <Button
+            type="submit"
+            className="inline-flex justify-center gap-2.5 px-3 py-1.5 rounded-[15px] items-center bg-transparent text-title-xs text-primary-300 hover:bg-primary-300 hover:text-white"
+          >
+            완료
+          </Button>
+        ) : (
           <Link
             href={`/child/${childId}/record`}
             className="inline-flex justify-center gap-2.5 px-3 py-1.5 rounded-[15px] items-center"
           >
-            <Button className="w-fit mt-[-1.00px] text-primary-300 whitespace-nowrap bg-transparent hover:bg-primary-50">
-              수정하기
+            <Button
+              type="button"
+              className="w-fit text-title-xs text-gray-400 whitespace-nowrap bg-transparent hover:bg-primary-50 hover:text-primary-300"
+            >
+              수정
             </Button>
           </Link>
         )}
