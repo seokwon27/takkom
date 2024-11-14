@@ -25,14 +25,11 @@ const RegisterForm: React.FC<ChildCardProps> = ({ userId }) => {
   const handleNext = (data: Partial<Child>) => {
     setChildInfo((prev) => ({ ...prev, ...data }));
     setStep((prevStep) => prevStep + 1); // 상태가 설정된 후에 step을 업데이트
-    console.log("다음버튼 클릭됨, 아이 정보 : ", childInfo);
   };
 
   // 이전 단계로 돌아가는 함수
   const handlePrevious = () => {
     setStep(step - 1);
-    console.log("이전버튼 클릭됨, 아이 아이디 : ", childInfo.id)
-    console.log("이전버튼 클릭됨, 아이 정보 : ", childInfo);
   };
 
   // 아이 정보를 최종 등록하는 함수 -- 수정 전
@@ -81,8 +78,7 @@ const RegisterForm: React.FC<ChildCardProps> = ({ userId }) => {
        if (updateError) {
          throw updateError;
        }
-
-       console.log("아이 정보 업데이트 완료:", childInfo.id);
+      //  console.log("아이 정보 업데이트 완료:", childInfo.id);
      } else {
        // 기존 데이터가 없으면 새로 삽입
        const { error: insertError } = await browserClient.from("child").insert([{ ...childInfo, user_id: userId }]);
@@ -91,7 +87,7 @@ const RegisterForm: React.FC<ChildCardProps> = ({ userId }) => {
          throw insertError;
        }
 
-       console.log("아이 등록 완료:", childInfo.id);
+      //  console.log("아이 등록 완료:", childInfo.id);
      }
    } catch (error) {
      console.error("아이 등록 중 오류 발생:", error); // 등록 오류 처리

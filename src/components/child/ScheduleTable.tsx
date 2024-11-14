@@ -68,7 +68,7 @@ const ScheduleTable = ({ child }: { child?: Tables<"child"> }) => {
           <TableHeader className="[&_tr]:border-0 sticky top-0 bg-white">
             <TableRow className="hover:bg-white">
               <TableHead className="h-[22px] p-0">
-                <div className="px-4 pb-1 grid grid-cols-[minmax(180px,auto)_minmax(80px,auto)_minmax(160px,auto)_40px] border-b border-gray-30 text-label-s font-medium text-gray-400">
+                <div className="px-4 pb-1 grid grid-cols-[minmax(180px,auto)_minmax(80px,auto)_minmax(160px,auto)_40px] max-sm:grid-cols-[minmax(70px,auto)_minmax(60px,auto)_minmax(90px,auto)_30px] border-b border-gray-30 text-label-s font-medium text-gray-400">
                   <p>예방접종명</p>
                   <p>백신명</p>
                   <p>날짜</p>
