@@ -6,6 +6,8 @@ import { useParams, useRouter } from "next/navigation";
 import React from "react";
 import { useChildInfoQuery } from "@/query/useChildQuery";
 import { useUserQuery } from "@/query/useUserQuery";
+import PreIcon from "../../../../../public/icon/preIcon.svg";
+import Image from "next/image";
 
 const ChildInfoEditPage = () => {
   // useParams를 이용해 id 추출
@@ -31,12 +33,27 @@ const ChildInfoEditPage = () => {
 
   return (
     <>
-      <div className="flex flex-col flex-grow-0 flex-shrink-0 justify-start items-start w-[588px] gap-20 mx-auto m-20">
-        <div className="flex flex-col justify-start items-start self-stretch mb-6">
-            <p className="self-stretch flex-grow-0 flex-shrink-0 w-[207px] text-[40px] font-bold text-left text-[#303030]">
-              수정하기
-            </p>
+      {/* <div className="flex flex-col flex-grow-0 flex-shrink-0 justify-start items-start w-[588px] gap-20 mx-auto m-20"> */}
+      <div className="container flex flex-col mx-auto justify-center max-w-[588px] mt-[64px] max-sm:mt-3 max-sm:px-6 gap-12">
+        {/* 모바일에서 보이는 레이아웃 */}
+        <div className="w-full px-6 py-2 flex items-center gap-6 sm:hidden">
+          <div className="relative">
+            {/* 이전 버튼 */}
+            <button onClick={() => router.back()}>
+              <Image src={PreIcon} alt="이전" />
+            </button>
+          </div>
+          <div className="flex-1 text-center" style={{ transform: "translateX(-24px)" }}>
+            <p className="text-base font-bold text-[#303030]">수정하기</p>
+          </div>
         </div>
+        {/* 데스크톱에서 보이는 레이아웃 */}
+        <div className="hidden sm:flex w-full px-6 py-2 gap-6">
+          <div className="flex flex-col justify-start items-start self-stretch mb-6">
+            <p className="text-[40px] font-bold text-left text-[#303030]">수정하기</p>
+          </div>
+        </div>
+
         {child ? (
           <EditChildForm child={child} onComplete={() => router.push(`/child/`)} />
         ) : (

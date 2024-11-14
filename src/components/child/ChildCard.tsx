@@ -26,20 +26,90 @@ export const ChildCard = ({ child }: ChildCardProps) => {
         {/* 아이 기본 정보 & 우리 아이 접종 내역 컨테이너 */}
         <div className="flex flex-col md:flex-row justify-start items-start w-full gap-6">
           {/* 아이 기본 정보 컨테이너 */}
+
+          {/* TEST 01 */}
+          {/* <div className="flex flex-col md:flex-row items-center p-4 rounded-lg bg-white w-full max-w-lg mx-auto shadow-[0px_0px_12px_#7272721A]">
+            <div className="md:w-32 md:h-32 flex-shrink-0">
+              <Image
+                src={child.profile}
+                width={176}
+                height={176}
+                alt="profile Image"
+                className="w-44 h-44 object-cover rounded-[13px]"
+              />
+            </div>
+            <div className="flex flex-col items-center md:items-start md:ml-6 mt-4 md:mt-0 space-y-2 md:text-left">
+              <p className="text-base font-bold text-neutral-900">{child.name}</p>
+              <div className="flex items-center space-x-2">
+                <Image src={CakeIcon} alt="아이 생일 좌측에 보여지는 케이크 아이콘" />
+                <p className="text-xs font-medium text-gray-400">{child.birth}</p>
+              </div>
+
+              <p className="h-[50px] text-xs font-medium text-gray-600">{child.notes && <span>{child.notes}</span>}</p>
+
+              <Link key={child.id} href={`/child/${child.id}/childinfo`}>
+                <div className="flex gap-2 p-2 px-10 rounded-[7px] bg-gray-30 w-full">
+                  <button className="text-xs font-medium text-center text-gray-700">수정하기</button>
+                </div>
+              </Link>
+            </div>
+          </div> */}
+
+          {/* TEST 02 */}
+          {/* <div className="w-full flex items-center p-4 flex-grow-0 flex-shrink-0 rounded-lg shadow-lg bg-white space-x-4">
+           
+            <div className="md:w-24 md:h-24 flex-shrink-0">
+              <Image
+                src={child.profile}
+                width={176}
+                height={176}
+                alt="profile Image"
+                className="w-44 h-44 object-cover rounded-[13px]"
+              />
+            </div>
+
+            <div className="flex flex-col space-y-2">
+ 
+              <p className="text-lg font-semibold">{child.name}</p>
+     
+              <div className="flex items-center space-x-2">
+                <Image src={CakeIcon} alt="아이 생일 좌측에 보여지는 케이크 아이콘" className="w-5 h-5" />
+                <p className="text-gray-600">{child.birth}</p>
+              </div>
+
+              <p className="text-gray-500">{child.notes}</p>
+
+              <Link key={child.id} href={`/child/${child.id}/childinfo`}>
+                <button className="px-4 py-2 bg-gray-30 hover:bg-gray-50 text-gray-700 rounded-md font-medium focus:outline-none">
+                  수정하기
+                </button>
+              </Link>
+            </div>
+          </div> */}
+
           <div className="w-full md:w-[50%] flex flex-col justify-start items-start flex-grow-0 flex-shrink-0 p-4 rounded-2xl bg-white shadow-[0px_0px_12px_#7272721A]">
-            <div className="flex flex-col gap-4">
+            <div className="w-full flex flex-col gap-4">
               {/* 아이 기본 정보 내 좌/우 영역 나누기 위한 컨테이너 */}
               <div className="flex items-center justify-between w-full gap-3 md:gap-6">
                 {/* 좌측: 프로필 이미지 */}
-        
+                {/* <div className="md:w-32 md:h-32 flex-shrink-0">
                   <Image
                     src={child.profile || DEFAULT_PROFILE_IMAGE_URL} // 기본 이미지 설정
                     alt="아이 프로필 이미지"
                     width={176} // 이미지 크기 설정
                     height={176} // 이미지 크기 설정
-                    className="w-24 h-24 md:w-44 md:h-44 object-cover rounded-[13px]" // 이미지 정사각형으로 유지
+                    className="w-24 h-24 object-cover rounded-[13px]" // 이미지 정사각형으로 유지
                   />
-              
+                </div> */}
+                <div className="flex-shrink-0">
+                  <Image
+                    src={child.profile}
+                    width={176}
+                    height={176}
+                    alt="profile Image"
+                    className="w-44 h-44 object-cover rounded-[13px]"
+                  />
+                </div>
 
                 {/* 우측: 기본 정보 & 수정하기 버튼 */}
                 <div className="flex flex-col justify-start items-start gap-4 w-full md:w-[calc(100%-176px)]">
@@ -66,7 +136,7 @@ export const ChildCard = ({ child }: ChildCardProps) => {
 
                   {/* 수정하기 */}
                   <Link key={child.id} href={`/child/${child.id}/childinfo`}>
-                    <div className="flex justify-center items-center h-8 gap-[8px] p-[7px] rounded-[7px] bg-gray-30 w-full">
+                    <div className="flex justify-center items-center h-8 gap-[8px] px-4 py-2 rounded-[7px] bg-gray-30 w-full">
                       <button className="text-xs font-medium text-center text-gray-700">수정하기</button>
                     </div>
                   </Link>
