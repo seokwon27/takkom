@@ -55,19 +55,19 @@ const Info = () => {
           <div className="w-full h-fit flex flex-col justify-start items-start gap-6">
             <div className="h-fit w-full flex flex-col justify-start items-start gap-[21px] max-sm:gap-6">
               {/* 임시로 아이정보 페이지로 이동시킴 */}
-              <Link href={"/child"} className=" text-gray-800 text-label-xl font-normal">
+              {/* <Link href={"/"} className=" text-gray-800 text-label-xl font-normal">
                 비밀번호 수정하기
-              </Link>
+              </Link> */}
               <hr className="border-t border-gray-30 w-full" />
               <Link href={"/child"} className=" text-gray-800 text-label-xl">
                 아이 정보 수정하기
               </Link>
               <hr className="border-t border-gray-30 w-full" />
-              <Link href={"/"} className=" text-gray-800 text-label-xl">
+              <Link href={"/policy"} className=" text-gray-800 text-label-xl">
                 개인정보 처리방침
               </Link>
               <hr className="border-t border-gray-30 w-full" />
-              <Link href={"/"} className=" text-gray-800 text-label-xl">
+              <Link href={"/termsofuse"} className=" text-gray-800 text-label-xl">
                 이용 약관
               </Link>
               <hr className="border-t border-gray-30 w-full sm:hidden" />
