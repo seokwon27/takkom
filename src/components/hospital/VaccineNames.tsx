@@ -17,14 +17,12 @@ const VaccineNames = ({ vaccineNames, filter }: { vaccineNames: string[]; filter
   }
 
   const placeHolder = (
-    <div
-      className="flex"
-      data-select="true"
-    >
+    <div className="flex" data-select="true">
       <div className="w-4 h-4 ml-1.5 my-auto relative max-sm:ml-[2px]">
         <ChevronUp
           strokeWidth={2}
-          data-select="true" className={cn(
+          data-select="true"
+          className={cn(
             "w-[16px] h-[16px] m-auto absolute left-0 text-gray-400",
             "transition-all duration-300",
             isOpen ? "opacity-100" : "opacity-0"
@@ -32,19 +30,27 @@ const VaccineNames = ({ vaccineNames, filter }: { vaccineNames: string[]; filter
         />
         <ChevronDown
           strokeWidth={2}
-          data-select="true" className={cn(
+          data-select="true"
+          className={cn(
             "w-[16px] h-[16px] m-auto absolute left-0 text-gray-400",
             "transition-all duration-300",
             isOpen ? "opacity-0" : "opacity-100"
           )}
         />
       </div>
-      <p data-select="true" className="pl-[5px] text-left text-text-l text-gray-700 break-all line-clamp-1 max-sm:text-text-xs max-sm:font-normal">
-        <span data-select="true" className={cn(filteredVaccineIndex !== -1 && "text-title-xxs font-semibold max-sm:text-text-xs")}>{`${
-          filteredVaccine || duplicatedVaccineNames[0]
-        }`}</span>
+      <p
+        data-select="true"
+        className="pl-[5px] text-left text-text-l text-gray-700 break-all line-clamp-1 max-sm:text-text-xs max-sm:font-normal"
+      >
+        <span
+          data-select="true"
+          className={cn(filteredVaccineIndex !== -1 && "text-title-xxs font-semibold max-sm:text-text-xs")}
+        >{`${filteredVaccine || duplicatedVaccineNames[0]}`}</span>
         {!isOpen && (
-          <span data-select="true" className="pl-1 text-text-l max-sm:pl-[3px] max-sm:text-text-xs max-sm:font-normal max-sm:text-gray-500">
+          <span
+            data-select="true"
+            className="pl-1 text-text-l max-sm:pl-[3px] max-sm:text-text-xs max-sm:font-normal max-sm:text-gray-500"
+          >
             외 {filter ? duplicatedVaccineNames.length : duplicatedVaccineNames.length - 1}개
           </span>
         )}

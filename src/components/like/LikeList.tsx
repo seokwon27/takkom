@@ -66,7 +66,11 @@ const LikeList = ({ currentPage, user }: LikeListProps) => {
                     key={info.orgcd}
                     onClick={(e) => {
                       e.stopPropagation();
-                      if ((e.target instanceof HTMLElement || e.target instanceof SVGElement) && e.target.dataset.select) {
+                      if (
+                        (e.target instanceof HTMLElement || e.target instanceof SVGElement) &&
+                        e.target.dataset.select
+                      ) {
+                        // 모바일 클릭 오류 방지용: data-set='true' 달려있을 땐 동작하지 않음
                         return;
                       }
                       setClickedId((prev) => {
