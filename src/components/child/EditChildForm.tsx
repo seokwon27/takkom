@@ -126,7 +126,7 @@ const EditChildForm = ({ child, onComplete }: EditFormProps) => {
   //   // 기본 이미지가 설정되었으므로 상태 업데이트 및 완료 처리
   //   onComplete();
   // };
-  
+
   const handleDeleteImage = async () => {
     try {
       await deleteProfileImage(); // 이미지 삭제 및 기본 이미지로 설정

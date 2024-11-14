@@ -16,7 +16,7 @@ interface RegisterChildRecordProps {
 }
 
 const RegisterChildRecord = ({ child, onPrev, onComplete }: RegisterChildRecordProps) => {
-  console.log("전달받은 아이 정보: ", child.id);
+  //console.log("전달받은 아이 정보: ", child.id);
 
   // id를 사용하여 Supabase에서 해당 아이의 정보를 가져와
   useEffect(() => {
@@ -29,9 +29,10 @@ const RegisterChildRecord = ({ child, onPrev, onComplete }: RegisterChildRecordP
 
       if (error) {
         console.error("아이 정보 가져오기 오류났음", error);
-      } else {
-        console.log("아이 정보:", data);
       }
+      // else {
+      //   console.log("아이 정보:", data);
+      // }
     };
 
     fetchChildData();
