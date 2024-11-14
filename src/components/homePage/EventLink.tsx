@@ -6,7 +6,7 @@ import calendarIcon from "../../../public/homepage/calendar-icon.svg";
 
 const EventLink = () => {
   return (
-    <div className="flex flex-col gap-16 mb-[190px] max-sm:gap-6">
+    <div className="flex flex-col gap-16 mb-[190px] max-sm:gap-6 max-sm:mb-0">
       <div className="text-center">
         <h1 className="text-[40px] text-gray-800 font-bold max-sm:text-heading-s">따꼼만의 이벤트</h1>
       </div>

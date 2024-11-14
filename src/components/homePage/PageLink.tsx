@@ -16,12 +16,12 @@ const PageLink = () => {
     <div className="flex gap-6 mt-[77px] w-full max-w-[1200px] m-auto max-sm:gap-[10px] justify-center max-sm:mt-16 max-sm:px-6">
       <Link
         href={"/vaccineinfo"}
-        className="flex bg-primary-400  px-12 py-20 rounded-2xl text-white w-[736px] h-[472px] relative max-sm:p-5 max-sm:w-[160px] max-sm:h-[240px]"
+        className="flex bg-primary-400  px-12 py-20 rounded-2xl text-white w-[736px] h-[472px] relative max-sm:p-5 max-sm:w-[160px] max-sm:h-[240px] -z-10"
       >
         <Image
           src={linkPerson}
           alt="사람아이콘"
-          className="absolute -bottom-12 -right-6  h-auto max-sm:w-[120px] max-sm:h-[120px] max-sm:right-0 max-sm:-bottom-5"
+          className="absolute -bottom-12 -right-6  h-auto max-sm:w-[120px] max-sm:h-[120px] max-sm:right-0 max-sm:-bottom-5 -z-10"
         />
         <div className="flex flex-col justify-start gap-6 pt-6 max-sm:pt-0 max-sm:w-[107px] max-sm:gap-[10px]">
           <div>
@@ -43,15 +43,15 @@ const PageLink = () => {
       </Link>
 
       <div className="flex flex-col gap-6 max-sm:gap-[10px]">
-        <Link className="p-10 rounded-3xl  bg-[#F0F9FF] relative max-sm:p-5 max-sm:pt-[57px]" href={"/child"}>
+        <Link className="p-10 rounded-3xl  bg-[#F0F9FF] relative max-sm:p-5 max-sm:pt-[57px] -z-20" href={"/child"}>
           <Image
             src={handHeart}
             alt="아이콘"
-            className="absolute right-0 max-sm:w-[75px] max-sm:h-[75px] max-sm:bottom-5 "
+            className="absolute right-0 max-sm:w-[75px] max-sm:h-[75px] max-sm:bottom-5 -z-10"
           />
           <div className="flex flex-col gap-3 max-sm:justify-end">
             <DesktopLayout>
-              <p className="text-2xl text-gray-800 font-bold max-sm:text-heading-xxs max-sm:break-keep">
+              <p className="text-heading-l text-gray-800 font-bold max-sm:text-heading-xxs max-sm:break-keep z-10">
                 우리 아이 접종 관리하기
               </p>
             </DesktopLayout>
@@ -83,7 +83,9 @@ const PageLink = () => {
                   <p className="text-gray-800 text-heading-xxs font-bold whitespace-nowrap">동네 병원 찾기</p>
                 </MobileLayout>
                 <DesktopLayout>
-                  <p className="text-gray-800 text-[32px] font-bold max-sm:text-heading-xxs">우리 동네 병원 찾기</p>
+                  <p className="text-gray-800 text-heading-xxl font-bold max-sm:text-heading-xxs">
+                    우리 동네 병원 찾기
+                  </p>
                 </DesktopLayout>
               </div>
               <div className="flex gap-2">
