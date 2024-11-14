@@ -50,10 +50,9 @@ const CheckboxForm = ({ childId, onSuccess, children }: CheckboxFormProps) => {
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)}>
-        {/* <VaccineRecordList data={vaccineData} vaccinated={vaccinated} edit={true} control={form.control} /> */}
         <VaccineRecordTabs childId={childId} edit={true} control={form.control} />
-
         {children}
+
         <FormMessage />
       </form>
     </Form>
