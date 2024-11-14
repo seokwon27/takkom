@@ -9,6 +9,8 @@ import Image from "next/image";
 import Vaccination11 from "../../../../../public/vaccinerecord/vaccination1-1.svg";
 import Vaccination12 from "../../../../../public/vaccinerecord/vaccination1-2.svg";
 import PreIcon from "../../../../../public/icon/preIcon.svg";
+import { useToast } from "@/hooks/use-toast";
+import { ToastAction } from "@/components/ui/toast";
 
 interface RegisterChildRecordProps {
   child: Child; // child prop 추가
@@ -17,6 +19,7 @@ interface RegisterChildRecordProps {
 }
 
 const RegisterChildRecord = ({ child, onPrev, onComplete }: RegisterChildRecordProps) => {
+    const { toast } = useToast();
   console.log("전달받은 아이 정보: ", child.id);
 
   // id를 사용하여 Supabase에서 해당 아이의 정보를 가져와
@@ -41,6 +44,11 @@ const RegisterChildRecord = ({ child, onPrev, onComplete }: RegisterChildRecordP
   const router = useRouter();
   const onSuccess = () => {
     router.push(`/child`);
+    toast({
+      title: "등록 완료",
+      description: "아이 정보가 성공적으로 등록되었습니다.",
+      action: <ToastAction altText="확인">확인</ToastAction>
+    });
   };
 
   return (
