@@ -42,7 +42,7 @@ const SearchForm = ({ brtcObj, regionInfo, searchParams }: SearchFormProps) => {
   const [disease, setDisease] = useState(searchParams.disease || DISEASE);
   const [showInfoTag, setShowInfoTag] = useState(true);
   const { step, setStep } = useHospitalSearchStore();
-  const device = useDevice();
+  // const device = useDevice();
 
   // searchParams가 바뀔 때마다 재실행
   useEffect(() => {
@@ -191,7 +191,7 @@ const SearchForm = ({ brtcObj, regionInfo, searchParams }: SearchFormProps) => {
       {step === 1 && (
         <>
           <div
-            className={cn("w-full flex items-center gap-2 mt-3 mb-1 px-6", !(step === 1 && device === "mobile") && "hidden")}
+            className={"w-full flex items-center gap-2 mt-3 mb-1 px-6"}
             onClick={() => setStep(0)}
           >
             <ChevronLeft size={24} className="w-6 h-6 text-gray-400" />
@@ -338,18 +338,6 @@ const SearchForm = ({ brtcObj, regionInfo, searchParams }: SearchFormProps) => {
           검색
         </Button>
       </form>
-      <div
-        className={cn("w-full flex items-center gap-2", !(step === 1 && device === "mobile") && "hidden")}
-        onClick={() => setStep(0)}
-      >
-        <ChevronLeft size={24} className="w-6- h-6 text-gray-400" />
-        <div className="w-full h-fit py-[10px] pr-4 pl-[42px] rounded-lg bg-gray-10 text-label-l font-semibold text-gray-700 relative">
-          <Image src={SearchIcon} alt="검색" className="absolute top-[11.5px] left-4 sm:hidden" />
-          <p>
-            {brtcObj[params.brtcCd]} {regionInfo.get(params.brtcCd)?.[params.sggCd]} {params.addr} {params.org}
-          </p>
-        </div>
-      </div>
       <div className={cn("w-full flex justify-end items-center")}>
         <Select
           value={disease}
