@@ -25,7 +25,7 @@ const VaccineLabel = ({ additions }: { additions: boolean[] }) => {
 interface VaccineRecordListProps {
   data: groupVaccinesData;
   vaccinated: Set<string>;
-  edit: boolean;
+  edit?: boolean;
   control?: Control<FormValues>;
 }
 
