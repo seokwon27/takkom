@@ -8,8 +8,12 @@ import { useChildInfoQuery } from "@/query/useChildQuery";
 import { useUserQuery } from "@/query/useUserQuery";
 import PreIcon from "../../../../../public/icon/preIcon.svg";
 import Image from "next/image";
+import { useToast } from "@/hooks/use-toast";
+import { ToastDescription } from "@/components/ui/toast";
 
 const ChildInfoEditPage = () => {
+  const { toast } = useToast();
+
   // useParams를 이용해 id 추출
   const { id } = useParams();
   const router = useRouter();
@@ -30,6 +34,15 @@ const ChildInfoEditPage = () => {
   // userId가 로드될 때까지 로딩 표시
   if (isLoading) return <p>로딩 중...</p>;
   if (error) return <p>오류가 발생했습니다: {error.message}</p>;
+
+  const onComplete = () => {
+    router.push(`/child`);
+
+    toast({
+      description: <ToastDescription className="text-white">수정이 완료되었습니다.</ToastDescription>,
+      variant: "mobile"
+    });
+  };
 
   return (
     <>
@@ -54,11 +67,7 @@ const ChildInfoEditPage = () => {
           </div>
         </div>
 
-        {child ? (
-          <EditChildForm child={child} onComplete={() => router.push(`/child/`)} />
-        ) : (
-          <p>아이 정보를 불러올 수 없습니다.</p>
-        )}
+        {child ? <EditChildForm child={child} onComplete={onComplete} /> : <p>아이 정보를 불러올 수 없습니다.</p>}
       </div>
     </>
   );
