@@ -75,7 +75,11 @@ const HospitalList = ({ searchParams, user }: { searchParams: HospitalSearchPara
           .map((info) => (
             <li
               key={info.orgcd}
-              onClick={() => {
+              onClick={(e) => {
+                e.stopPropagation();
+                if ((e.target instanceof HTMLElement || e.target instanceof SVGElement) && e.target.dataset.select) {
+                  return;
+                }
                 setClickedId((prev) => {
                   if (prev === info.orgcd) {
                     return 0;

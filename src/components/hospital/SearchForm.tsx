@@ -16,7 +16,6 @@ import VaccineFilterOnIcon from "../../../public/hospital/vaccine-filter-on-icon
 import SearchIcon from "../../../public/hospital/search-icon.svg";
 import { cn } from "@/lib/utils";
 import { HospitalSearchParams } from "@/types/hospital";
-import useDevice from "@/utils/useDevice";
 import { ChevronLeft } from "lucide-react";
 import useHospitalSearchStore from "@/store/hospitalStore";
 import RegionDrawer from "./RegionDrawer";
@@ -42,11 +41,9 @@ const SearchForm = ({ brtcObj, regionInfo, searchParams }: SearchFormProps) => {
   const [disease, setDisease] = useState(searchParams.disease || DISEASE);
   const [showInfoTag, setShowInfoTag] = useState(true);
   const { step, setStep } = useHospitalSearchStore();
-  // const device = useDevice();
 
   // searchParams가 바뀔 때마다 재실행
   useEffect(() => {
-    console.log("inner searchParams :", searchParams);
     if (!searchParams.brtcCd || !searchParams.sggCd) {
       setStep(0);
       setParams({
