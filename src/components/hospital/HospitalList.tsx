@@ -51,7 +51,7 @@ const HospitalList = ({ searchParams, user }: { searchParams: HospitalSearchPara
         </LoadingHospitalList>
         <div className="fixed top-0 left-0 bottom-0 right-0 bg-gray-900/50 z-50">
       <div className="w-full h-full flex">
-        <Image src={LoadingSpinner} alt="로딩중입니다." className="m-auto animate-spin" />
+        <Image src={LoadingSpinner} alt="로딩중입니다." className="w-10 max-sm:w-6 m-auto animate-spin" />
       </div>
     </div>
       </>
