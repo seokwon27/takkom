@@ -19,8 +19,6 @@ const SignUp = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [showPasswordCheck, setShowPasswordCheck] = useState(false);
 
-  // const [issignIn, setIsSignIn] = useState(false);
-
   const router = useRouter();
 
   const defaultValues = {
@@ -73,19 +71,6 @@ const SignUp = () => {
 
   const signUp = async (data: AuthFormSignUp) => {
     try {
-      // const { error } = await browserClient.auth.signUp({
-      //   email: data.email,
-      //   password: data.password,
-      //   options: {
-      //     data: {
-      //       name: data.name
-      //     }
-      //   }
-      // });
-
-      // if (error) throw error;
-
-      // server-action으로 변경
       await signup({
         email: data.email,
         password: data.password,
@@ -102,27 +87,6 @@ const SignUp = () => {
     }
   };
 
-  // const getUser = async () => {
-  //   const { data, error } = await browserClient.auth.getSession();
-  //   if (error) {
-  //     // console.log("유져 정보 가져오기 실패! : ", error);
-  //     return null;
-  //   }
-  //   return data?.session?.user?.id || null;
-  // };
-
-  // useEffect(() => {
-  //   const checkSignInStatus = async () => {
-  //     const userId = await getUser();
-  //     if (userId) {
-  //       setIsSignIn(true);
-  //     } else {
-  //       setIsSignIn(false);
-  //     }
-  //   };
-  //   checkSignInStatus();
-  // }, []);
-
   // const passCheck = () => {
   //   if (form.formState.errors.passwordCheck?.message === "비밀번호가 일치합니다.") {
   //     return "text-informative";
@@ -132,7 +96,7 @@ const SignUp = () => {
   // };
 
   return (
-    <div className="flex flex-col justify-center items-center gap-3">
+    <div className="flex flex-col justify-center items-center w-full min-h-screen px-6 py-12">
       <Form {...form}>
         <Image src={kkom} alt="따꼼 로고" className="mb-[80px]" />
         <form onSubmit={form.handleSubmit(signUp, console.log)}>

@@ -59,7 +59,7 @@ const Info = () => {
                 개인정보 처리방침
               </Link>
               <hr className="bg-gray-800 w-full" />
-              <Link href={"/"} className="self-stretch text-[#303030] text-base font-normal leading-normal">
+              <Link href={"/termsofuse"} className="self-stretch text-[#303030] text-base font-normal leading-normal">
                 이용 약관
               </Link>
             </div>

@@ -43,26 +43,11 @@ const SignIn = () => {
 
   const signIn = async (data: AuthFormSignIn) => {
     try {
-      // const { error } = await browserClient.auth.signInWithPassword({
-      //   email: data.email,
-      //   password: data.password,
-      //   options: {
-      //     data: {
-      //       name: data.name
-      //     }
-      //   }
-      // });
-
-      // if (error) throw error;
-
-      // server-action으로 변경
       await signin({
         email: data.email,
         password: data.password
       });
 
-      alert("로그인 성공!");
-      // console.log("로그인 데이터:", data);
       router.push("/");
     } catch (error) {
       console.error("로그인 실패:", error);
@@ -81,8 +66,6 @@ const SignIn = () => {
       }
     });
 
-    // if (data) console.log("로그인 데이터 : ", data);
-
     if (error) console.log("로그인 실패 : ", error);
   };
 
@@ -98,25 +81,11 @@ const SignIn = () => {
       }
     });
 
-    // if (data) console.log("로그인 데이터 : ", data);
-
     if (error) console.log("로그인 실패 : ", error);
   };
 
-  // console.log()만하시고 사용을 안하시네요?
-  // const getUser = async () => {
-  //   const { data, error } = await browserClient.auth.getUser();
-  //   if (error) {
-  //     console.log("유져 정보 가져오기 실패! : ", error);
-  //     return null;
-  //   }
-  //   return data?.user?.id || null;
-  // };
-
-  // console.log(getUser);
-
   return (
-    <div className="flex flex-col justify-center items-center gap-3">
+    <div className="flex flex-col justify-center items-center w-full min-h-screen px-6 py-12">
       <Form {...form}>
         <div className="flex flex-col justify-center items-center">
           <Image src={kkom} alt="따꼼 로고" className="mb-[80px]" />
@@ -129,7 +98,7 @@ const SignIn = () => {
                   <FormItem>
                     <FormLabel className="text-gray-600">이메일</FormLabel>
                     <FormControl>
-                      <div className="relative w-96">
+                      <div className="relative w-96 max-sm:col-span-2 max-sm:relative">
                         <Input
                           className={`w-full h-14 px-6 py-4 ${
                             form.formState.errors.email ? "border-red-500" : "border-gray-300"
@@ -182,7 +151,7 @@ const SignIn = () => {
               <div className="self-stretch justify-between items-start inline-flex">
                 <Button
                   type="submit"
-                  className="w-96 h-14 px-6 py-4 mt-[40px] bg-[#c1d8ff] rounded-xl flex-col justify-center items-center gap-2.5 inline-flex hover:bg-primary-400 text-lg"
+                  className="w-96 h-14 px-6 py-4 mt-[40px] bg-[#c1d8ff] rounded-xl inline-flex items-center justify-center gap-2 text-base font-semibold hover:bg-primary-400 disabled:bg-primary-400"
                 >
                   로그인
                 </Button>
