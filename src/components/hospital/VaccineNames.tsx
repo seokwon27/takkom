@@ -17,10 +17,11 @@ const VaccineNames = ({ vaccineNames, filter }: { vaccineNames: string[]; filter
   }
 
   const placeHolder = (
-    <p className="flex text-gray-700 text-sm line-clamp-1">
-      <div className="w-4 h-4 ml-1.5 mr-[5px] my-auto relative">
+    <div className="flex" data-select="true">
+      <div className="w-4 h-4 ml-1.5 my-auto relative max-sm:ml-[2px]">
         <ChevronUp
-          strokeWidth={3}
+          strokeWidth={2}
+          data-select="true"
           className={cn(
             "w-[16px] h-[16px] m-auto absolute left-0 text-gray-400",
             "transition-all duration-300",
@@ -28,7 +29,8 @@ const VaccineNames = ({ vaccineNames, filter }: { vaccineNames: string[]; filter
           )}
         />
         <ChevronDown
-          strokeWidth={3}
+          strokeWidth={2}
+          data-select="true"
           className={cn(
             "w-[16px] h-[16px] m-auto absolute left-0 text-gray-400",
             "transition-all duration-300",
@@ -36,28 +38,40 @@ const VaccineNames = ({ vaccineNames, filter }: { vaccineNames: string[]; filter
           )}
         />
       </div>
-      <span className={`${filteredVaccineIndex !== -1 && "font-semibold"} mr-1`}>{`${
-        filteredVaccine || duplicatedVaccineNames[0]
-      }`}</span><span>
-      {!isOpen && (
-        <>
-          {" "}
-          외 {filter ? duplicatedVaccineNames.length : duplicatedVaccineNames.length - 1}개
-        </>
-      )}
-    </span>
-    
-      {/* {!isOpen && ` 외 ${filter ? duplicatedVaccineNames.length : duplicatedVaccineNames.length - 1}개`} */}
-    </p>
+      <p
+        data-select="true"
+        className="pl-[5px] text-left text-text-l text-gray-700 break-all line-clamp-1 max-sm:text-text-xs max-sm:font-normal"
+      >
+        <span
+          data-select="true"
+          className={cn(filteredVaccineIndex !== -1 && "text-title-xxs font-semibold max-sm:text-text-xs")}
+        >{`${filteredVaccine || duplicatedVaccineNames[0]}`}</span>
+        {!isOpen && (
+          <span
+            data-select="true"
+            className="pl-1 text-text-l max-sm:pl-[3px] max-sm:text-text-xs max-sm:font-normal max-sm:text-gray-500"
+          >
+            외 {filter ? duplicatedVaccineNames.length : duplicatedVaccineNames.length - 1}개
+          </span>
+        )}
+      </p>
+    </div>
   );
 
   return (
     <>
-      {vaccineNames.length === 1 ? (
-        <p className="line-clamp-1">
-          <span className={`${filteredVaccineIndex !== -1 && "font-semibold"}`}>{vaccineNames[0]}</span> 접종 가능
+      {vaccineNames.length === 1 && !vaccineNames[0] && (
+        <p className="text-text-l line-clamp-1 max-sm:text-text-xs">접종 정보가 없습니다.</p>
+      )}
+      {vaccineNames.length === 1 && vaccineNames[0] && (
+        <p className="text-text-l line-clamp-1 max-sm:text-text-s max-sm:font-normal">
+          <span className={cn("text-title-xxs max-sm:text-text-s", filteredVaccineIndex !== -1 && "font-semibold")}>
+            {vaccineNames[0]}
+          </span>
+          <span className={cn(filteredVaccineIndex !== -1 && "max-sm:text-gray-500")}> 접종 가능</span>
         </p>
-      ) : filter ? (
+      )}
+      {vaccineNames.length > 1 && filter && (
         <Select
           value={""}
           onOpenChange={(open) => {
@@ -66,15 +80,18 @@ const VaccineNames = ({ vaccineNames, filter }: { vaccineNames: string[]; filter
         >
           <SelectTrigger
             className={cn(
-              "h-fit p-1 justify-start border-0 rounded-none  bg-gray-10 text-sm",
+              "h-fit p-1 justify-start border-0 rounded-none bg-gray-10 max-sm:h-6 max-sm:px-1 max-sm:py-[2px]",
               isOpen ? "rounded-t" : "rounded"
             )}
+            onTouchEnd={(e) => {
+              e.stopPropagation();
+              setIsOpen((prev) => !prev);
+            }}
           >
             {placeHolder}
-            {/* <SelectValue placeholder={placeHolder} /> */}
           </SelectTrigger>
           <SelectContent
-            className="max-h-[85px] mt-0 p-0 bg-gray-10 rounded-none rounded-b text-sm"
+            className="max-h-[85px] mt-0 p-0 bg-gray-10 rounded-none rounded-b text-text-l"
             avoidCollisions={false}
           >
             {/** avoidCollision : 충돌이 발생하는 방향의 반대로 select가 열리게 하는 속성, 항상 아래로 열리도록 false로 변경 */}
@@ -83,7 +100,7 @@ const VaccineNames = ({ vaccineNames, filter }: { vaccineNames: string[]; filter
                 <SelectItem
                   value={name}
                   key={name}
-                  className="justify-start h-fit max-w-fit p-0 pl-7 pb-2 last:pb-0 text-sm"
+                  className="justify-start h-fit max-w-fit p-0 pl-7 pb-2 last:pb-0 text-text-l text-gray-700 max-sm:pl-[23px] max-sm:text-text-xs max-sm:font-normal"
                 >
                   {name}
                 </SelectItem>
@@ -91,7 +108,8 @@ const VaccineNames = ({ vaccineNames, filter }: { vaccineNames: string[]; filter
             </SelectGroup>
           </SelectContent>
         </Select>
-      ) : (
+      )}
+      {vaccineNames.length > 1 && !filter && (
         <Select
           value={""}
           onOpenChange={(open) => {
@@ -100,14 +118,14 @@ const VaccineNames = ({ vaccineNames, filter }: { vaccineNames: string[]; filter
         >
           <SelectTrigger
             className={cn(
-              "h-fit p-1 justify-start border-0 rounded-none  bg-gray-10 text-sm line",
+              "h-fit p-1 justify-start border-0 rounded-none bg-gray-10 text-text-l max-sm:h-6 max-sm:px-1 max-sm:py-[2px]",
               isOpen ? "rounded-t" : "rounded"
             )}
           >
             <SelectValue placeholder={placeHolder} />
           </SelectTrigger>
           <SelectContent
-            className="max-h-[85px] mt-0 p-0 bg-gray-10 rounded-none rounded-b text-sm"
+            className="max-h-[85px] mt-0 p-0 bg-gray-10 rounded-none rounded-b text-text-l"
             avoidCollisions={false}
           >
             {/** avoidCollision : 충돌이 발생하는 방향의 반대로 select가 열리게 하는 속성, 항상 아래로 열리도록 false로 변경 */}
@@ -116,7 +134,7 @@ const VaccineNames = ({ vaccineNames, filter }: { vaccineNames: string[]; filter
                 <SelectItem
                   value={name}
                   key={name}
-                  className="justify-start h-fit max-w-fit p-0 pl-7 pb-2 text-sm last:pb-0"
+                  className="justify-start h-fit max-w-fit p-0 pl-7 pb-2 last:pb-0 text-text-l text-gray-700 max-sm:pl-[23px] max-sm:text-text-xs max-sm:font-normal"
                 >
                   {name}
                 </SelectItem>

@@ -1,209 +1,388 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { ReactNode, useEffect, useState } from "react";
 import Image from "next/image";
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { usePathname, useRouter } from "next/navigation";
+import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger } from "@/components/ui/select";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { BRTC, DISEASE, DISEASE_LIST, SGG } from "./constants";
-import { setQueryParams } from "../../utils/hospital/setHospitalQueryParams";
+import { BRTC, DISEASE, DISEASE_LIST, SGG } from "../../constants/constants";
+import { createQueryParams } from "../../utils/hospital/setHospitalQueryParams";
 import InfoTag from "./InfoTag";
-import infoCircle from "../../../public/hospital/info-circle.svg";
-import vaccineFilterOffIcon from "../../../public/hospital/vaccine-filter-off-icon.svg";
-import vaccineFilterOnIcon from "../../../public/hospital/vaccine-filter-on-icon.svg";
+import RegionSelect from "./RegionSelect";
+import InfoCircle from "../../../public/hospital/info-circle.svg";
+import VaccineFilterOffIcon from "../../../public/hospital/vaccine-filter-off-icon.svg";
+import VaccineFilterOnIcon from "../../../public/hospital/vaccine-filter-on-icon.svg";
+import SearchIcon from "../../../public/hospital/search-icon.svg";
 import { cn } from "@/lib/utils";
+import { HospitalSearchParams } from "@/types/hospital";
+import { ChevronLeft } from "lucide-react";
+import useHospitalSearchStore from "@/store/hospitalStore";
+import RegionDrawer from "./RegionDrawer";
+import DesktopLayout from "../layout/DesktopLayout";
+import MobileLayout from "../layout/MobileLayout";
+import LoadingData from "./LoadingData";
 
-const SearchForm = ({
-  brtcObj,
-  regionInfo
-}: {
+type SearchFormProps = {
   brtcObj: { [key: string]: string };
   regionInfo: Map<string, { [key: string]: string }>;
-}) => {
+  searchParams: HospitalSearchParams;
+  children?: ReactNode;
+};
+
+const SearchForm = ({ brtcObj, regionInfo, searchParams }: SearchFormProps) => {
   const router = useRouter();
   const pathname = usePathname();
-  const searchParams = useSearchParams();
   const [params, setParams] = useState<{ brtcCd: string; sggCd: string; addr: string; org: string }>({
-    brtcCd: searchParams.get("brtcCd") ?? BRTC,
-    sggCd: searchParams.get("sggCd") ?? SGG,
-    addr: searchParams.get("addr") ?? "",
-    org: searchParams.get("org") ?? ""
+    brtcCd: searchParams.brtcCd ?? BRTC,
+    sggCd: searchParams.sggCd ?? SGG,
+    addr: searchParams.addr ?? "",
+    org: searchParams.org ?? ""
   });
-  const [disease, setDisease] = useState(searchParams.get("disease") || DISEASE);
+  const [disease, setDisease] = useState(searchParams.disease || DISEASE);
   const [showInfoTag, setShowInfoTag] = useState(true);
+  const [showLoading, setShowLoading] = useState(false);
+  const { step, setStep } = useHospitalSearchStore();
+
+  // searchParams가 바뀔 때마다 재실행
+  useEffect(() => {
+    if (!searchParams.brtcCd || !searchParams.sggCd) {
+      setStep(0);
+      setParams({
+        brtcCd: BRTC,
+        sggCd: SGG,
+        addr: "",
+        org: ""
+      });
+    } else {
+      setStep(1);
+      setParams({
+        brtcCd: searchParams.brtcCd ?? BRTC,
+        sggCd: searchParams.sggCd ?? SGG,
+        addr: searchParams.addr ?? "",
+        org: searchParams.org ?? ""
+      });
+    }
+  }, [searchParams]);
+
+  const onBrtcChange = (value: string) => {
+    setParams((prev) => {
+      const tmpParams = { ...prev, brtcCd: value, sggCd: SGG, addr: "", org: "" };
+      return tmpParams;
+    });
+  };
+
+  const onSggChange = (value: string) => {
+    // 이상하게 기본페이지에서 뒤로가기 하면 실행돼서 빈 문자열이 되는 오류가 있어 조건문 추가
+    if (value) {
+      setParams((prev) => {
+        const tmpParams = { ...prev, sggCd: value, addr: "", org: "" };
+        return tmpParams;
+      });
+    }
+  };
 
   return (
-    <div className="w-full flex flex-col ">
-      <div className="flex gap-2 items-end mb-3">
-        <Image
-          src={infoCircle}
-          alt="정보"
-          onClick={() => {
-            setShowInfoTag((prev) => !prev);
-          }}
-        />
-        <InfoTag isVisible={showInfoTag} />
-      </div>
-      <form className="grid grid-cols-[144fr_144fr_144fr_196fr_100fr] gap-4 mb-4">
-        <Select
-          value={params.brtcCd}
-          onValueChange={(value) => {
-            setParams(() => {
-              // 시도 값이 바뀌면 다른 영역 모두 초기화
-              const tmpParams = { brtcCd: value, sggCd: SGG, addr: "", org: "" };
-              return tmpParams;
-            });
-            // setDisease(DISEASE);
-          }}
-        >
-          <SelectTrigger
-            className={`justify-center text-base font-semibold ${
-              params.brtcCd === BRTC ? "border-gray-300 text-gray-300" : "border-primary-400 text-primary-400"
-            }`}
-          >
-            <SelectValue placeholder={BRTC + "*"} />
-          </SelectTrigger>
-          <SelectContent className="shadow-[0px_0px_16px_rgba(114,114,114,0.1)]">
-            <SelectGroup>
-              <SelectItem value={BRTC} key={BRTC} className="justify-center text-sm font-semibold">
-                {BRTC + "*"}
-              </SelectItem>
-              {Object.entries(brtcObj).map((item) => (
-                <SelectItem value={String(item[0])} key={item[0]} className="justify-center text-sm font-semibold">
-                  {item[1]}
-                </SelectItem>
-              ))}
-            </SelectGroup>
-          </SelectContent>
-        </Select>
+    <>
+      <MobileLayout>
+        {step === 0 && (
+          <>
+            <div className="w-full mt-3 px-6 py-1.5 text-title-m text-gray-800 font-bold">검색</div>
+            <form className="grid grid-cols-[1fr_1fr] gap-4 mt-14 mb-4 px-6">
+              {/* 시도 select */}
+              <RegionDrawer
+                defaultValue={BRTC}
+                regionArray={Object.entries(brtcObj)}
+                trigger={params.brtcCd === BRTC}
+                disabled={false}
+                value={params.brtcCd}
+                onClick={(item: [string, string]) => {
+                  return (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+                    e.stopPropagation();
+                    setParams((prev) => {
+                      const tmpParams = { ...prev, brtcCd: String(item[0]), sggCd: SGG, addr: "", org: "" };
+                      return tmpParams;
+                    });
+                  };
+                }}
+              />
+              {/* 시군구 select */}
+              <RegionDrawer
+                defaultValue={SGG}
+                regionArray={Object.entries(regionInfo.get(params.brtcCd) || {}).sort((a, b) =>
+                  a[1].localeCompare(b[1])
+                )}
+                trigger={params.sggCd === SGG}
+                disabled={params.brtcCd === BRTC}
+                value={params.sggCd}
+                onClick={(item: [string, string]) => {
+                  return (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+                    e.stopPropagation();
+                    setParams((prev) => {
+                      const tmpParams = { ...prev, sggCd: String(item[0]), addr: "", org: "" };
+                      return tmpParams;
+                    });
+                  };
+                }}
+              />
 
-        <Select
-          value={params.sggCd}
-          onValueChange={(value) => {
-            setParams((prev) => {
-              // 시/군/구 값이 바뀌면 입력값 초기화
-              const tmpParams = { ...prev, sggCd: value, addr: "", org: "" };
-              return tmpParams;
-            });
-          }}
-        >
-          <SelectTrigger
-            className={`justify-center text-base font-semibold ${
-              params.sggCd === SGG ? "border-gray-300 text-gray-300" : "border-primary-400 text-primary-400"
-            }`}
+              <div className="max-sm:col-span-2 max-sm:relative">
+                <Input
+                  placeholder="주소"
+                  value={params.addr}
+                  onChange={(e) => {
+                    setShowInfoTag(false);
+                    setParams((prev) => {
+                      const tmpParams = { ...prev, addr: e.target.value };
+                      return tmpParams;
+                    });
+                  }}
+                  disabled={params.brtcCd === BRTC || params.sggCd === SGG}
+                  className={cn(
+                    "h-12 bg-gray-30 border-0 text-gray-500 text-center font-semibold placeholder:text-gray-500",
+                    "focus-visible:bg-white focus-visible:text-gray-600 focus-visible:placeholder:text-gray-400",
+                    "focus-visible:ring-offset-0 focus-visible:ring-1 focus-visible:ring-inset focus-visible:ring-gray-700",
+                    "max-sm:py-3 max-sm:pr-4 max-sm:pl-[42px] max-sm:rounded-xl max-sm:text-left"
+                  )}
+                />
+                <Image src={SearchIcon} alt="검색" className="absolute top-[15px] left-4 sm:hidden" />
+              </div>
+
+              <div className="max-sm:col-span-2 max-sm:relative">
+                <Input
+                  placeholder="병원명"
+                  value={params.org}
+                  onChange={(e) => {
+                    setShowInfoTag(false);
+                    setParams((prev) => {
+                      const tmpParams = { ...prev, org: e.target.value };
+                      return tmpParams;
+                    });
+                  }}
+                  disabled={params.brtcCd === BRTC || params.sggCd === SGG}
+                  className={cn(
+                    "h-12 bg-gray-30 border-0 text-gray-500 text-center font-semibold placeholder:text-gray-500",
+                    "focus-visible:bg-white focus-visible:text-gray-600 focus-visible:placeholder:text-gray-400",
+                    "focus-visible:ring-offset-0 focus-visible:ring-1 focus-visible:ring-inset focus-visible:ring-gray-700",
+                    "max-sm:py-3 max-sm:pr-4 max-sm:pl-[42px] max-sm:rounded-xl max-sm:text-left"
+                  )}
+                />
+                <Image src={SearchIcon} alt="검색" className="absolute top-[15px] left-4 sm:hidden" />
+              </div>
+
+              <Button
+                type="button"
+                onClick={() => {
+                  setDisease(DISEASE);
+                  setShowLoading(true);
+                  router.push(createQueryParams({ ...params, pageNo: "1" }, pathname));
+                  // setStep(1);
+                }}
+                disabled={params.brtcCd === BRTC || params.sggCd === SGG}
+                className={cn(
+                  "h-12 bg-primary-400 rounded-lg text-base font-semibold hover:bg-primary-400 disabled:bg-primary-400",
+                  "max-sm:mt-1 max-sm:col-span-2"
+                )}
+              >
+                검색
+              </Button>
+              {showLoading && <LoadingData/>}
+            </form>
+          </>
+        )}
+        {step === 1 && (
+          <>
+            <div
+              className={"w-full flex items-center gap-2 mt-3 mb-1 px-6"}
+              onClick={() => {
+                setStep(0);
+                setShowLoading(false);
+              }}
+            >
+              <ChevronLeft size={24} className="w-6 h-6 text-gray-400" />
+              <div className="w-full h-fit py-[10px] pr-4 pl-[42px] rounded-lg bg-gray-10 text-label-l font-semibold text-gray-700 relative">
+                <Image src={SearchIcon} alt="검색" className="absolute top-[11.5px] left-4 sm:hidden" />
+                <p>
+                  {brtcObj[params.brtcCd]} {regionInfo.get(params.brtcCd)?.[params.sggCd]} {params.addr} {params.org}
+                </p>
+              </div>
+            </div>
+            <div className={cn("w-full flex justify-end items-center border-b border-gray-30")}>
+              <Select
+                value={disease}
+                onValueChange={(value) => {
+                  setDisease(value);
+                  if (searchParams.brtcCd && searchParams.sggCd) {
+                    const params = { ...searchParams, disease: value, pageNo: "1" };
+                    router.push(createQueryParams(params, pathname));
+                  }
+                }}
+              >
+                <SelectTrigger className={`w-fit p-2 mr-6 border-0`}>
+                  <Image
+                    src={disease === DISEASE ? VaccineFilterOffIcon : VaccineFilterOnIcon}
+                    alt="백신 찾기"
+                    className="max-sm:w-6 max-sm:aspect-square"
+                  />
+                  <span className="ml-2 text-gray-700 text-label-xl font-medium max-sm:text-title-xxs max-sm:text-gray-500 max-sm:font-semibold">
+                    백신 찾기
+                  </span>
+                </SelectTrigger>
+                <SelectContent
+                  align="end"
+                  className="shadow-[0px_0px_16px_rgba(114,114,114,0.1)] max-sm:h-[216px]"
+                  avoidCollisions={false}
+                >
+                  {/** avoidCollision : 충돌이 발생하는 방향의 반대로 select가 열리게 하는 속성, 항상 아래로 열리도록 false로 변경 */}
+                  <SelectGroup>
+                    <SelectItem value={DISEASE} key={DISEASE} className="justify-center max-sm:text-text-m">
+                      {"전체"}
+                    </SelectItem>
+                    {DISEASE_LIST.map((name) => (
+                      <SelectItem value={name} key={name} className="justify-center max-sm:text-text-m">
+                        {name}
+                      </SelectItem>
+                    ))}
+                  </SelectGroup>
+                </SelectContent>
+              </Select>
+            </div>
+          </>
+        )}
+      </MobileLayout>
+      <DesktopLayout>
+        <div className="w-full flex gap-2 items-end mb-3 max-sm:hidden">
+          <Image
+            src={InfoCircle}
+            alt="정보"
+            onClick={() => {
+              setShowInfoTag((prev) => !prev);
+            }}
+            className="cursor-pointer"
+          />
+          <InfoTag isVisible={showInfoTag} />
+        </div>
+        <form className={cn("grid grid-cols-[144fr_144fr_144fr_196fr_100fr] gap-4 mb-4", "max-sm:grid-cols-[1fr_1fr]")}>
+          {/* 시도 select */}
+          <RegionSelect
+            defaultValue={BRTC}
+            regionArray={Object.entries(brtcObj)}
+            trigger={params.brtcCd === BRTC}
+            disabled={false}
+            value={params.brtcCd}
+            onValueChange={onBrtcChange}
+          />
+          {/* 시군구 select */}
+          <RegionSelect
+            defaultValue={SGG}
+            regionArray={Object.entries(regionInfo.get(params.brtcCd) || {}).sort((a, b) => a[1].localeCompare(b[1]))}
+            trigger={params.sggCd === SGG}
             disabled={params.brtcCd === BRTC}
+            value={params.sggCd}
+            onValueChange={onSggChange}
+          />
+
+          <div className="max-sm:col-span-2 max-sm:relative">
+            <Input
+              placeholder="주소"
+              value={params.addr}
+              onChange={(e) => {
+                setShowInfoTag(false);
+                setParams((prev) => {
+                  const tmpParams = { ...prev, addr: e.target.value };
+                  return tmpParams;
+                });
+              }}
+              disabled={params.brtcCd === BRTC || params.sggCd === SGG}
+              className={cn(
+                "h-12 bg-gray-30 border-0 text-gray-500 text-center font-semibold placeholder:text-gray-500",
+                "focus-visible:bg-white focus-visible:text-gray-600 focus-visible:placeholder:text-gray-400",
+                "focus-visible:ring-offset-0 focus-visible:ring-1 focus-visible:ring-inset focus-visible:ring-gray-700",
+                "max-sm:py-3 max-sm:pr-4 max-sm:pl-[42px] max-sm:rounded-xl max-sm:text-left"
+              )}
+            />
+            <Image src={SearchIcon} alt="검색" className="absolute top-[15px] left-4 sm:hidden" />
+          </div>
+
+          <div className="max-sm:col-span-2 max-sm:relative">
+            <Input
+              placeholder="병원명"
+              value={params.org}
+              onChange={(e) => {
+                setShowInfoTag(false);
+                setParams((prev) => {
+                  const tmpParams = { ...prev, org: e.target.value };
+                  return tmpParams;
+                });
+              }}
+              disabled={params.brtcCd === BRTC || params.sggCd === SGG}
+              className={cn(
+                "h-12 bg-gray-30 border-0 text-gray-500 text-center font-semibold placeholder:text-gray-500",
+                "focus-visible:bg-white focus-visible:text-gray-600 focus-visible:placeholder:text-gray-400",
+                "focus-visible:ring-offset-0 focus-visible:ring-1 focus-visible:ring-inset focus-visible:ring-gray-700",
+                "max-sm:py-3 max-sm:pr-4 max-sm:pl-[42px] max-sm:rounded-xl max-sm:text-left"
+              )}
+            />
+            <Image src={SearchIcon} alt="검색" className="absolute top-[15px] left-4 sm:hidden" />
+          </div>
+
+          <Button
+            type="button"
+            onClick={() => {
+              setDisease(DISEASE);
+              router.push(createQueryParams({ ...params, pageNo: "1" }, pathname));
+              setStep(1);
+            }}
+            disabled={params.brtcCd === BRTC || params.sggCd === SGG}
+            className={cn(
+              "h-12 bg-primary-400 rounded-lg text-base font-semibold hover:bg-primary-400 disabled:bg-primary-400",
+              "max-sm:mt-1 max-sm:col-span-2"
+            )}
           >
-            <SelectValue placeholder={SGG + "*"} />
-          </SelectTrigger>
-          <SelectContent className="shadow-[0px_0px_16px_rgba(114,114,114,0.1)]">
-            <SelectGroup>
-              <SelectItem value={SGG} key={SGG} className="justify-center text-sm font-semibold">
-                {SGG + "*"}
-              </SelectItem>
-              {Object.entries(regionInfo.get(params.brtcCd) || {}).map((item) => (
-                <SelectItem value={String(item[0])} key={item[0]} className="justify-center text-sm font-semibold">
-                  {item[1]}
+            검색
+          </Button>
+        </form>
+        <div className={cn("w-full flex justify-end items-center")}>
+          <Select
+            value={disease}
+            onValueChange={(value) => {
+              setDisease(value);
+              if (searchParams.brtcCd && searchParams.sggCd) {
+                const params = { ...searchParams, disease: value, pageNo: "1" };
+                router.push(createQueryParams(params, pathname));
+              }
+            }}
+          >
+            <SelectTrigger className={`w-fit p-2 border-0`}>
+              {disease !== DISEASE && (
+                <p className="h-fit px-3 py-[6px] mr-4 bg-primary-50 ring-inset ring-1 ring-primary-400 rounded-[18px] text-primary-400 text-base">
+                  {disease}
+                </p>
+              )}
+              <Image
+                src={disease === DISEASE ? VaccineFilterOffIcon : VaccineFilterOnIcon}
+                alt="백신 찾기"
+                className="max-sm:w-6 max-sm:aspect-square"
+              />
+              <span className="ml-2 text-gray-700 text-label-xl font-medium">백신 찾기</span>
+            </SelectTrigger>
+            <SelectContent align="end" className="shadow-[0px_0px_16px_rgba(114,114,114,0.1)]" avoidCollisions={false}>
+              {/** avoidCollision : 충돌이 발생하는 방향의 반대로 select가 열리게 하는 속성, 항상 아래로 열리도록 false로 변경 */}
+              <SelectGroup>
+                <SelectItem value={DISEASE} key={DISEASE} className="justify-center">
+                  {"전체"}
                 </SelectItem>
-              ))}
-            </SelectGroup>
-          </SelectContent>
-        </Select>
-
-        <Input
-          placeholder="주소"
-          value={params.addr}
-          onChange={(e) => {
-            setShowInfoTag(false);
-            setParams((prev) => {
-              const tmpParams = { ...prev, addr: e.target.value };
-              return tmpParams;
-            });
-          }}
-          disabled={params.brtcCd === BRTC || params.sggCd === SGG}
-          className={cn(
-            "bg-gray-30 border-0 text-gray-500 text-center font-semibold placeholder:text-gray-500",
-            "focus-visible:bg-white focus-visible:text-gray-600 focus-visible:placeholder:text-gray-600",
-            "focus-visible:ring-offset-0 focus-visible:ring-1 focus-visible:ring-inset focus-visible:ring-gray-700"
-            // params.addr ? "border-primary-400 text-primary-400" : "border-gray-300 text-gray-300"
-          )}
-        />
-        <Input
-          placeholder="병원명"
-          value={params.org}
-          onChange={(e) => {
-            setShowInfoTag(false);
-            setParams((prev) => {
-              const tmpParams = { ...prev, org: e.target.value };
-              return tmpParams;
-            });
-          }}
-          disabled={params.brtcCd === BRTC || params.sggCd === SGG}
-          className={cn(
-            "bg-gray-30 border-0 text-gray-500 text-center font-semibold placeholder:text-gray-500",
-            "focus-visible:bg-white focus-visible:text-gray-600 focus-visible:placeholder:text-gray-600",
-            "focus-visible:ring-offset-0 focus-visible:ring-1 focus-visible:ring-inset focus-visible:ring-gray-700"
-            // params.org ? "border-primary-400 text-primary-400" : "border-gray-300 text-gray-300"
-          )}
-        />
-
-        <Button
-          type="button"
-          onClick={() => {
-            setDisease(DISEASE);
-            setQueryParams({ ...params, pageNo: "1" }, router, pathname);
-          }}
-          disabled={params.brtcCd === BRTC || params.sggCd === SGG}
-          className="bg-primary-400 rounded-lg text-base font-semibold hover:bg-primary-400 disabled:bg-primary-400"
-        >
-          검색
-        </Button>
-      </form>
-      <div className="w-full flex justify-end items-center">
-        <Select
-          value={disease}
-          onValueChange={(value) => {
-            setDisease(value);
-            if (searchParams.has("brtcCd") && searchParams.has("sggCd")) {
-              const brtcCd = searchParams.get("brtcCd") ?? "";
-              const sggCd = searchParams.get("sggCd") ?? "";
-              const addr = searchParams.get("addr") ?? "";
-              const org = searchParams.get("org") ?? "";
-              const params = { brtcCd, sggCd, addr, org, disease: value, pageNo: "1" };
-              setQueryParams(params, router, pathname);
-            }
-          }}
-        >
-          <SelectTrigger className={`w-fit p-2 border-0`}>
-            {disease !== DISEASE && (
-              <p className="h-fit px-3 py-[6px] mr-4 bg-primary-50 ring-inset ring-1 ring-primary-400 rounded-[18px] text-primary-400 text-base">
-                {disease}
-              </p>
-            )}
-            {/* <SelectValue placeholder={DISEASE} /> */}
-            {disease === DISEASE ? (
-              <Image src={vaccineFilterOffIcon} alt="백신 찾기" />
-            ) : (
-              <Image src={vaccineFilterOnIcon} alt="백신 찾기" />
-            )}
-            <span className="ml-2 text-gray-700">백신 찾기</span>
-          </SelectTrigger>
-          <SelectContent align="end" className="shadow-[0px_0px_16px_rgba(114,114,114,0.1)]" avoidCollisions={false}>
-            {/** avoidCollision : 충돌이 발생하는 방향의 반대로 select가 열리게 하는 속성, 항상 아래로 열리도록 false로 변경 */}
-            <SelectGroup>
-              <SelectItem value={DISEASE} key={DISEASE} className="justify-center">
-                {DISEASE}
-              </SelectItem>
-              {DISEASE_LIST.map((name) => (
-                <SelectItem value={name} key={name} className="justify-center">
-                  {name}
-                </SelectItem>
-              ))}
-            </SelectGroup>
-          </SelectContent>
-        </Select>
-      </div>
-    </div>
+                {DISEASE_LIST.map((name) => (
+                  <SelectItem value={name} key={name} className="justify-center">
+                    {name}
+                  </SelectItem>
+                ))}
+              </SelectGroup>
+            </SelectContent>
+          </Select>
+        </div>
+      </DesktopLayout>
+    </>
   );
 };
 

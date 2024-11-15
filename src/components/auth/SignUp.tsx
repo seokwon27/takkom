@@ -12,14 +12,17 @@ import { AuthFormSignUp } from "@/types/user";
 import { Eye, EyeOff } from "lucide-react";
 import Image from "next/image";
 import kkom from "../../../public/logo.svg";
-import { signup } from "@/api/server-action";
+import { signup } from "@/api/auth-actions";
+import SignUpModal from "./SignUpModal";
 
 const SignUp = () => {
   // 비밀번호 표시 상태 관리
+  //TODO : 다 탄스택쿼리로 수정해야함
   const [showPassword, setShowPassword] = useState(false);
   const [showPasswordCheck, setShowPasswordCheck] = useState(false);
-
-  // const [issignIn, setIsSignIn] = useState(false);
+  const [showStatusModal, setShowStatusModal] = useState(false); // 상태 모달 열기/닫기
+  const [status, setStatus] = useState<"success" | "failure">("success"); // 성공/실패 상태
+  const [message, setMessage] = useState(""); // 모달 메시지
 
   const router = useRouter();
 
@@ -73,19 +76,6 @@ const SignUp = () => {
 
   const signUp = async (data: AuthFormSignUp) => {
     try {
-      // const { error } = await browserClient.auth.signUp({
-      //   email: data.email,
-      //   password: data.password,
-      //   options: {
-      //     data: {
-      //       name: data.name
-      //     }
-      //   }
-      // });
-
-      // if (error) throw error;
-
-      // server-action으로 변경
       await signup({
         email: data.email,
         password: data.password,
@@ -93,35 +83,29 @@ const SignUp = () => {
         name: data.name
       });
 
-      alert("회원가입 성공!");
-      // console.log("회원가입 데이터:", data);
-      router.push("/");
-    } catch (error) {
+      setStatus("success");
+      setMessage("회원가입이 성공적으로 완료되었습니다!");
+      setShowStatusModal(true);
+      setTimeout(() => {
+        router.push("/"); // 2초 후 홈으로 리다이렉트
+      }, 2000);
+    } catch (error: unknown) {
       console.error("회원가입 실패:", error);
-      alert("이미 가입 된 정보입니다"); //error case 좀 알아보고 에러별 alert 작성해야할듯
+
+      // error를 Error 타입으로 단언
+      const e = error as Error;
+
+      // 이미 가입된 이메일 처리
+      if (e.message === "이미 가입된 이메일입니다.") {
+        setStatus("failure");
+        setMessage("이미 가입된 이메일입니다.");
+      } else {
+        setStatus("failure");
+        setMessage("회원가입 중 오류가 발생했습니다. \n 다시 시도해주세요.");
+      }
+      setShowStatusModal(true);
     }
   };
-
-  // const getUser = async () => {
-  //   const { data, error } = await browserClient.auth.getSession();
-  //   if (error) {
-  //     // console.log("유져 정보 가져오기 실패! : ", error);
-  //     return null;
-  //   }
-  //   return data?.session?.user?.id || null;
-  // };
-
-  // useEffect(() => {
-  //   const checkSignInStatus = async () => {
-  //     const userId = await getUser();
-  //     if (userId) {
-  //       setIsSignIn(true);
-  //     } else {
-  //       setIsSignIn(false);
-  //     }
-  //   };
-  //   checkSignInStatus();
-  // }, []);
 
   // const passCheck = () => {
   //   if (form.formState.errors.passwordCheck?.message === "비밀번호가 일치합니다.") {
@@ -131,9 +115,8 @@ const SignUp = () => {
   //   }
   // };
 
-
   return (
-    <div className="flex flex-col justify-center items-center gap-3">
+    <div className="flex flex-col justify-center items-center w-full min-h-screen px-6 py-12">
       <Form {...form}>
         <Image src={kkom} alt="따꼼 로고" className="mb-[80px]" />
         <form onSubmit={form.handleSubmit(signUp, console.log)}>
@@ -260,6 +243,13 @@ const SignUp = () => {
           </Button>
         </form>
       </Form>
+      {/* 회원가입 완료 모달 */}
+      <SignUpModal
+        showModal={showStatusModal}
+        onClose={() => setShowStatusModal(false)}
+        status={status}
+        message={message}
+      />
     </div>
   );
 };
