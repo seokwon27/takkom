@@ -153,7 +153,7 @@ const Footer = () => {
               </p>
 
               <p className="relative w-fit mt-[-1.00px] font-label-XL text-gray-600 text-label-xl font-medium tracking-[var(--label-XL-letter-spacing)] whitespace-nowrap [font-style:var(--label-XL-font-style)]">
-                이메일 : ddaggom@ddaggom.co.kr
+                이메일 : takkom@takkom.co.kr
               </p>
             </div>
 
