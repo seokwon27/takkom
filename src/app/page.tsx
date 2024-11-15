@@ -10,7 +10,7 @@ const HomePage = () => {
       <MobileLayout>
         <Image src={Logo} alt="로고" className="mt-3 ml-6" />
       </MobileLayout>
-      <div className="flex flex-col gap-40 max-sm:gap-14">
+      <div className="flex flex-col gap-40 max-sm:gap-14 max-sm:mb-[100px]">
         <PageLink />
         <EventLink />
       </div>
