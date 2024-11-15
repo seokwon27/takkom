@@ -28,7 +28,7 @@ const SignOutModal: React.FC<SignOutModalProps> = ({ showModal, onClose, onSignO
             확인
           </Button>
           <Button
-            className="w-[45%] h-14 text-lg font-semibold text-white rounded-xl bg-gray-400 hover:bg-gray-500"
+            className="w-[50%] h-14 text-lg font-semibold text-white rounded-xl bg-primary-400 hover:bg-primary-500"
             onClick={onClose} // 취소 버튼 클릭 시 모달 닫기
           >
             취소
