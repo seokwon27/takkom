@@ -17,9 +17,10 @@ import MobileLayout from "../layout/MobileLayout";
 import DesktopLayout from "../layout/DesktopLayout";
 import Image from "next/image";
 import LoadingSpinner from "../../../public/common/loading-spinner.svg";
+import { useHospitalContext } from "@/providers/HospitalProvider";
 
 const HospitalList = ({ searchParams, user }: { searchParams: HospitalSearchParams; user: User | null }) => {
-  const { step } = useHospitalSearchStore();
+  const { step } = useHospitalContext(state => state);
   const [clickedId, setClickedId] = useState(0);
   const device = useDevice();
 

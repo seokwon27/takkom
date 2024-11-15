@@ -22,6 +22,7 @@ import RegionDrawer from "./RegionDrawer";
 import DesktopLayout from "../layout/DesktopLayout";
 import MobileLayout from "../layout/MobileLayout";
 import LoadingData from "./LoadingData";
+import { useHospitalContext } from "@/providers/HospitalProvider";
 
 type SearchFormProps = {
   brtcObj: { [key: string]: string };
@@ -33,52 +34,56 @@ type SearchFormProps = {
 const SearchForm = ({ brtcObj, regionInfo, searchParams }: SearchFormProps) => {
   const router = useRouter();
   const pathname = usePathname();
-  const [params, setParams] = useState<{ brtcCd: string; sggCd: string; addr: string; org: string }>({
-    brtcCd: searchParams.brtcCd ?? BRTC,
-    sggCd: searchParams.sggCd ?? SGG,
-    addr: searchParams.addr ?? "",
-    org: searchParams.org ?? ""
-  });
-  const [disease, setDisease] = useState(searchParams.disease || DISEASE);
+  // const [params, setParams] = useState<{ brtcCd: string; sggCd: string; addr: string; org: string }>({
+  //   brtcCd: searchParams.brtcCd ?? BRTC,
+  //   sggCd: searchParams.sggCd ?? SGG,
+  //   addr: searchParams.addr ?? "",
+  //   org: searchParams.org ?? ""
+  // });
+  // const [disease, setDisease] = useState(searchParams.disease || DISEASE);
   const [showInfoTag, setShowInfoTag] = useState(true);
   const [showLoading, setShowLoading] = useState(false);
-  const { step, setStep } = useHospitalSearchStore();
+  const { step, setStep, params, setParams } = useHospitalContext(state => state);
+  console.log(params)
+  // const disease = params.disease
 
-  // searchParams가 바뀔 때마다 재실행
-  useEffect(() => {
-    if (!searchParams.brtcCd || !searchParams.sggCd) {
-      setStep(0);
-      setParams({
-        brtcCd: BRTC,
-        sggCd: SGG,
-        addr: "",
-        org: ""
-      });
-    } else {
-      setStep(1);
-      setParams({
-        brtcCd: searchParams.brtcCd ?? BRTC,
-        sggCd: searchParams.sggCd ?? SGG,
-        addr: searchParams.addr ?? "",
-        org: searchParams.org ?? ""
-      });
-    }
-  }, [searchParams]);
+  // // searchParams가 바뀔 때마다 재실행
+  // useEffect(() => {
+  //   if (!searchParams.brtcCd || !searchParams.sggCd) {
+  //     setStep(0);
+  //     setParams({
+  //       brtcCd: BRTC,
+  //       sggCd: SGG,
+  //       addr: "",
+  //       org: ""
+  //     });
+  //   } else {
+  //     setStep(1);
+  //     setParams({
+  //       brtcCd: searchParams.brtcCd ?? BRTC,
+  //       sggCd: searchParams.sggCd ?? SGG,
+  //       addr: searchParams.addr ?? "",
+  //       org: searchParams.org ?? ""
+  //     });
+  //   }
+  // }, [searchParams]);
 
   const onBrtcChange = (value: string) => {
-    setParams((prev) => {
-      const tmpParams = { ...prev, brtcCd: value, sggCd: SGG, addr: "", org: "" };
-      return tmpParams;
-    });
+    setParams({brtcCd:value, sggCd: SGG, addr: "", org: ""})
+    // setParams((prev) => {
+    //   const tmpParams = { ...prev, brtcCd: value, sggCd: SGG, addr: "", org: "" };
+    //   return tmpParams;
+    // });
   };
 
   const onSggChange = (value: string) => {
     // 이상하게 기본페이지에서 뒤로가기 하면 실행돼서 빈 문자열이 되는 오류가 있어 조건문 추가
     if (value) {
-      setParams((prev) => {
-        const tmpParams = { ...prev, sggCd: value, addr: "", org: "" };
-        return tmpParams;
-      });
+    setParams({sggCd:value, addr: "", org: ""})
+    //    setParams((prev) => {
+    //     const tmpParams = { ...prev, sggCd: value, addr: "", org: "" };
+    //     return tmpParams;
+    //   });
     }
   };
 
@@ -99,10 +104,11 @@ const SearchForm = ({ brtcObj, regionInfo, searchParams }: SearchFormProps) => {
                 onClick={(item: [string, string]) => {
                   return (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
                     e.stopPropagation();
-                    setParams((prev) => {
-                      const tmpParams = { ...prev, brtcCd: String(item[0]), sggCd: SGG, addr: "", org: "" };
-                      return tmpParams;
-                    });
+                    setParams({ brtcCd: String(item[0]), sggCd: SGG, addr: "", org: "" })
+                    // setParams((prev) => {
+                    //   const tmpParams = { ...prev, brtcCd: String(item[0]), sggCd: SGG, addr: "", org: "" };
+                    //   return tmpParams;
+                    // });
                   };
                 }}
               />
@@ -118,10 +124,11 @@ const SearchForm = ({ brtcObj, regionInfo, searchParams }: SearchFormProps) => {
                 onClick={(item: [string, string]) => {
                   return (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
                     e.stopPropagation();
-                    setParams((prev) => {
-                      const tmpParams = { ...prev, sggCd: String(item[0]), addr: "", org: "" };
-                      return tmpParams;
-                    });
+                    setParams({ sggCd: String(item[0]), addr: "", org: "" })
+                    // setParams((prev) => {
+                    //   const tmpParams = { ...prev, sggCd: String(item[0]), addr: "", org: "" };
+                    //   return tmpParams;
+                    // });
                   };
                 }}
               />
@@ -132,10 +139,11 @@ const SearchForm = ({ brtcObj, regionInfo, searchParams }: SearchFormProps) => {
                   value={params.addr}
                   onChange={(e) => {
                     setShowInfoTag(false);
-                    setParams((prev) => {
-                      const tmpParams = { ...prev, addr: e.target.value };
-                      return tmpParams;
-                    });
+                    setParams({addr: e.target.value})
+                    // setParams((prev) => {
+                    //   const tmpParams = { ...prev, addr: e.target.value };
+                    //   return tmpParams;
+                    // });
                   }}
                   disabled={params.brtcCd === BRTC || params.sggCd === SGG}
                   className={cn(
@@ -154,10 +162,11 @@ const SearchForm = ({ brtcObj, regionInfo, searchParams }: SearchFormProps) => {
                   value={params.org}
                   onChange={(e) => {
                     setShowInfoTag(false);
-                    setParams((prev) => {
-                      const tmpParams = { ...prev, org: e.target.value };
-                      return tmpParams;
-                    });
+                    setParams({org: e.target.value})
+                    // setParams((prev) => {
+                    //   const tmpParams = { ...prev, org: e.target.value };
+                    //   return tmpParams;
+                    // });
                   }}
                   disabled={params.brtcCd === BRTC || params.sggCd === SGG}
                   className={cn(
@@ -173,7 +182,7 @@ const SearchForm = ({ brtcObj, regionInfo, searchParams }: SearchFormProps) => {
               <Button
                 type="button"
                 onClick={() => {
-                  setDisease(DISEASE);
+                  setParams({disease: DISEASE});
                   setShowLoading(true);
                   router.push(createQueryParams({ ...params, pageNo: "1" }, pathname));
                   // setStep(1);
@@ -209,18 +218,18 @@ const SearchForm = ({ brtcObj, regionInfo, searchParams }: SearchFormProps) => {
             </div>
             <div className={cn("w-full flex justify-end items-center border-b border-gray-30")}>
               <Select
-                value={disease}
+                value={params.disease}
                 onValueChange={(value) => {
-                  setDisease(value);
+                  setParams({disease: value});
                   if (searchParams.brtcCd && searchParams.sggCd) {
-                    const params = { ...searchParams, disease: value, pageNo: "1" };
-                    router.push(createQueryParams(params, pathname));
+                    const queryParams = { ...params, disease: value, pageNo: "1" };
+                    router.push(createQueryParams(queryParams, pathname));
                   }
                 }}
               >
                 <SelectTrigger className={`w-fit p-2 mr-6 border-0`}>
                   <Image
-                    src={disease === DISEASE ? VaccineFilterOffIcon : VaccineFilterOnIcon}
+                    src={params.disease === DISEASE ? VaccineFilterOffIcon : VaccineFilterOnIcon}
                     alt="백신 찾기"
                     className="max-sm:w-6 max-sm:aspect-square"
                   />
@@ -288,10 +297,11 @@ const SearchForm = ({ brtcObj, regionInfo, searchParams }: SearchFormProps) => {
               value={params.addr}
               onChange={(e) => {
                 setShowInfoTag(false);
-                setParams((prev) => {
-                  const tmpParams = { ...prev, addr: e.target.value };
-                  return tmpParams;
-                });
+                setParams({addr: e.target.value})
+                // setParams((prev) => {
+                //   const tmpParams = { ...prev, addr: e.target.value };
+                //   return tmpParams;
+                // });
               }}
               disabled={params.brtcCd === BRTC || params.sggCd === SGG}
               className={cn(
@@ -310,10 +320,11 @@ const SearchForm = ({ brtcObj, regionInfo, searchParams }: SearchFormProps) => {
               value={params.org}
               onChange={(e) => {
                 setShowInfoTag(false);
-                setParams((prev) => {
-                  const tmpParams = { ...prev, org: e.target.value };
-                  return tmpParams;
-                });
+                setParams({org: e.target.value})
+                // setParams((prev) => {
+                //   const tmpParams = { ...prev, org: e.target.value };
+                //   return tmpParams;
+                // });
               }}
               disabled={params.brtcCd === BRTC || params.sggCd === SGG}
               className={cn(
@@ -329,7 +340,7 @@ const SearchForm = ({ brtcObj, regionInfo, searchParams }: SearchFormProps) => {
           <Button
             type="button"
             onClick={() => {
-              setDisease(DISEASE);
+              setParams({disease: DISEASE});
               router.push(createQueryParams({ ...params, pageNo: "1" }, pathname));
               setStep(1);
             }}
@@ -344,23 +355,23 @@ const SearchForm = ({ brtcObj, regionInfo, searchParams }: SearchFormProps) => {
         </form>
         <div className={cn("w-full flex justify-end items-center")}>
           <Select
-            value={disease}
+            value={params.disease}
             onValueChange={(value) => {
-              setDisease(value);
+              // setParams({disease: value});
               if (searchParams.brtcCd && searchParams.sggCd) {
-                const params = { ...searchParams, disease: value, pageNo: "1" };
-                router.push(createQueryParams(params, pathname));
+                const queryParams = { ...params, disease: value, pageNo: "1" };
+                router.push(createQueryParams(queryParams, pathname));
               }
             }}
           >
             <SelectTrigger className={`w-fit p-2 border-0`}>
-              {disease !== DISEASE && (
+              {params.disease !== DISEASE && (
                 <p className="h-fit px-3 py-[6px] mr-4 bg-primary-50 ring-inset ring-1 ring-primary-400 rounded-[18px] text-primary-400 text-base">
-                  {disease}
+                  {params.disease}
                 </p>
               )}
               <Image
-                src={disease === DISEASE ? VaccineFilterOffIcon : VaccineFilterOnIcon}
+                src={params.disease === DISEASE ? VaccineFilterOffIcon : VaccineFilterOnIcon}
                 alt="백신 찾기"
                 className="max-sm:w-6 max-sm:aspect-square"
               />
