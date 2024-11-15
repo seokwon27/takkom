@@ -54,7 +54,7 @@ const RegisterChildRecord = ({ child, onPrev, onComplete }: RegisterChildRecordP
         alt="Vaccination"
         className="absolute w-[100px] h-[100px] -top-0.5 -left-px object-cover"
       />
-      <CheckboxForm childId={child?.id} onSuccess={onSuccess}>
+      <CheckboxForm childId={child?.id} edit={true} onSuccess={onSuccess}>
         <div className="flex flex-row justify-between">
           <Button
             type="button"
