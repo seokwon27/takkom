@@ -17,10 +17,11 @@ const VaccineNames = ({ vaccineNames, filter }: { vaccineNames: string[]; filter
   }
 
   const placeHolder = (
-    <div className="flex">
+    <div className="flex" data-select="true">
       <div className="w-4 h-4 ml-1.5 my-auto relative max-sm:ml-[2px]">
         <ChevronUp
           strokeWidth={2}
+          data-select="true"
           className={cn(
             "w-[16px] h-[16px] m-auto absolute left-0 text-gray-400",
             "transition-all duration-300",
@@ -29,6 +30,7 @@ const VaccineNames = ({ vaccineNames, filter }: { vaccineNames: string[]; filter
         />
         <ChevronDown
           strokeWidth={2}
+          data-select="true"
           className={cn(
             "w-[16px] h-[16px] m-auto absolute left-0 text-gray-400",
             "transition-all duration-300",
@@ -36,12 +38,19 @@ const VaccineNames = ({ vaccineNames, filter }: { vaccineNames: string[]; filter
           )}
         />
       </div>
-      <p className="pl-[5px] text-left text-text-l text-gray-700 break-all line-clamp-1 max-sm:text-text-xs max-sm:font-normal">
-        <span className={cn(filteredVaccineIndex !== -1 && "text-title-xxs font-semibold max-sm:text-text-xs")}>{`${
-          filteredVaccine || duplicatedVaccineNames[0]
-        }`}</span>
+      <p
+        data-select="true"
+        className="pl-[5px] text-left text-text-l text-gray-700 break-all line-clamp-1 max-sm:text-text-xs max-sm:font-normal"
+      >
+        <span
+          data-select="true"
+          className={cn(filteredVaccineIndex !== -1 && "text-title-xxs font-semibold max-sm:text-text-xs")}
+        >{`${filteredVaccine || duplicatedVaccineNames[0]}`}</span>
         {!isOpen && (
-          <span className="pl-1 text-text-l max-sm:pl-[3px] max-sm:text-text-xs max-sm:font-normal max-sm:text-gray-500">
+          <span
+            data-select="true"
+            className="pl-1 text-text-l max-sm:pl-[3px] max-sm:text-text-xs max-sm:font-normal max-sm:text-gray-500"
+          >
             외 {filter ? duplicatedVaccineNames.length : duplicatedVaccineNames.length - 1}개
           </span>
         )}
@@ -51,19 +60,17 @@ const VaccineNames = ({ vaccineNames, filter }: { vaccineNames: string[]; filter
 
   return (
     <>
-    {(vaccineNames.length === 1 && !vaccineNames[0]) && (
-      <p className="text-text-l line-clamp-1 max-sm:text-text-xs">
-          접종 정보가 없습니다.
-      </p>
-    )}
-    {(vaccineNames.length === 1 && vaccineNames[0]) && (
-      <p className="text-text-l line-clamp-1 max-sm:text-text-s max-sm:font-normal">
-        <span className={cn("text-title-xxs max-sm:text-text-s", filteredVaccineIndex !== -1 && "font-semibold")}>
-          {vaccineNames[0]}
-        </span>
-        <span className={cn(filteredVaccineIndex !== -1 && "max-sm:text-gray-500")}> 접종 가능</span>
-      </p>
-    )}
+      {vaccineNames.length === 1 && !vaccineNames[0] && (
+        <p className="text-text-l line-clamp-1 max-sm:text-text-xs">접종 정보가 없습니다.</p>
+      )}
+      {vaccineNames.length === 1 && vaccineNames[0] && (
+        <p className="text-text-l line-clamp-1 max-sm:text-text-s max-sm:font-normal">
+          <span className={cn("text-title-xxs max-sm:text-text-s", filteredVaccineIndex !== -1 && "font-semibold")}>
+            {vaccineNames[0]}
+          </span>
+          <span className={cn(filteredVaccineIndex !== -1 && "max-sm:text-gray-500")}> 접종 가능</span>
+        </p>
+      )}
       {vaccineNames.length > 1 && filter && (
         <Select
           value={""}
@@ -76,6 +83,10 @@ const VaccineNames = ({ vaccineNames, filter }: { vaccineNames: string[]; filter
               "h-fit p-1 justify-start border-0 rounded-none bg-gray-10 max-sm:h-6 max-sm:px-1 max-sm:py-[2px]",
               isOpen ? "rounded-t" : "rounded"
             )}
+            onTouchEnd={(e) => {
+              e.stopPropagation();
+              setIsOpen((prev) => !prev);
+            }}
           >
             {placeHolder}
           </SelectTrigger>
