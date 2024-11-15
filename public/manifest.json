@@ -1,0 +1,21 @@
+{
+  "name": "따꼼",
+  "short_name": "따꼼",
+  "description": "신생아의 필수 및 선택 예방 접종 정보를 제공하고, 캘린더와 체크리스트를 통해 진행률을 확인할 수 있습니다.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#000000",
+  "icons": [
+    {
+      "src": "/icon/icon-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/icon/icon-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
