@@ -35,7 +35,7 @@ const RootLayout = ({
       <head>
         <meta name="apple-mobile-web-app-capable" content="yes" />
         <meta name="apple-mobile-web-app-status-bar-style" content="default" />
-        <meta name="apple-mobile-web-app-title" content="내 PWA 앱" />
+        <meta name="apple-mobile-web-app-title" content="따꼼" />
       </head>
       <body className={`${pretendard.className} flex flex-col min-h-screen relative`}>
         <Providers>
