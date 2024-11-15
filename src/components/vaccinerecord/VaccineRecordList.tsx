@@ -24,7 +24,7 @@ const VaccineLabel = ({ additions }: { additions: boolean[] }) => {
 
 interface VaccineRecordListProps {
   data: groupVaccinesData;
-  vaccinated: Set<string>;
+  vaccinated?: Set<string>;
   edit?: boolean;
   control?: Control<FormValues>;
 }
@@ -108,7 +108,7 @@ const VaccineRecordList = ({ data, vaccinated, edit, control }: VaccineRecordLis
                     ) : (
                       <CustomCheckbox
                         key={id}
-                        checked={vaccinated.has(id)}
+                        checked={vaccinated ? vaccinated.has(id) : false}
                         additions={additions}
                         index={index}
                         disabled

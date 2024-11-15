@@ -4,7 +4,7 @@ import { useForm } from "react-hook-form";
 import { Form, FormMessage } from "../ui/form";
 
 import { useAddVaccineRecordMutation, useDeleteVaccineRecordMutation } from "@/query/useVaccineRecordMutation";
-import { useVaccineRecordQuery } from "@/query/useVaccineRecordQuery";
+import { useVaccineQuery, useVaccineRecordQuery } from "@/query/useVaccineRecordQuery";
 import { ReactNode, RefObject } from "react";
 
 import VaccineRecordList from "./VaccineRecordList";
@@ -27,6 +27,8 @@ const CheckboxForm = ({ data, childId, onSuccess, children, edit, formRef }: Che
   const { data: vaccineRecord } = useVaccineRecordQuery(childId);
   const { mutateAsync: addVaccineRecord } = useAddVaccineRecordMutation();
   const { mutateAsync: deleteVaccineRecord } = useDeleteVaccineRecordMutation();
+
+  const { data: vaccineData } = useVaccineQuery();
 
   const vaccinated = new Set(vaccineRecord || []);
 
@@ -54,7 +56,11 @@ const CheckboxForm = ({ data, childId, onSuccess, children, edit, formRef }: Che
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} ref={formRef}>
-        <VaccineRecordList data={data} edit={edit} control={form.control} vaccinated={vaccinated} />
+        {data ? (
+          <VaccineRecordList data={data} edit={edit} control={form.control} vaccinated={vaccinated} />
+        ) : (
+          <VaccineRecordList data={vaccineData} edit={edit} control={form.control} />
+        )}
         {children}
 
         <FormMessage />
