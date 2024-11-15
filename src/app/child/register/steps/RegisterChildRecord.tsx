@@ -52,7 +52,7 @@ const RegisterChildRecord = ({ child, onPrev, onComplete }: RegisterChildRecordP
       <Image
         src={Vaccination12}
         alt="Vaccination"
-        className="absolute w-[100px] h-[100px] -top-0.5 -left-px object-cover"
+        className="absolute w-[100px] h-[100px] top-7 -left-px object-cover"
       />
       <CheckboxForm childId={child?.id} edit={true} onSuccess={onSuccess}>
         <div className="flex flex-row justify-between">

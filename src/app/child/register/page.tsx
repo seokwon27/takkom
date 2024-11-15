@@ -1,7 +1,6 @@
 "use client";
 
 import RegisterForm from "@/components/child/RegisterForm";
-import BackButton from "@/components/ui/backbutton";
 import { useUserQuery } from "@/query/useUserQuery";
 import browserClient from "@/utils/supabase/client";
 
@@ -14,9 +13,6 @@ const RegisterPage = () => {
   if (isUserError) return <p>사용자 정보를 가져오는 데 오류가 발생했습니다.</p>;
   return (
     <div>
-      <div className="flex w-full items-start px-6 py-1.5 md:hidden">
-        <BackButton />
-      </div>
       <RegisterForm userId={user?.id ?? ""} />
     </div>
   );
