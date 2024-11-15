@@ -9,6 +9,8 @@ import Image from "next/image";
 import RegisterChildInfoIcon from "../../../../../public/child/register-child-info-icon.svg";
 import RegisterChildInfoBlurredIcon from "../../../../../public/child/register-child-info-blurred-icon.svg";
 import { useRegisterChildMutation } from "@/query/useRegisterChildMutation";
+import { useRouter } from "next/navigation";
+import PreIcon from "../../../../../public/icon/preIcon.svg";
 
 interface RegisterChildInfoProps {
   onNext: (data: Partial<Child>) => void;
@@ -24,6 +26,7 @@ export const formSchema = z.object({
 });
 
 const RegisterChildInfo = ({ onNext, childInfo }: RegisterChildInfoProps) => {
+  const router = useRouter();
   // 자녀 ID를 상태로 관리하여 새로 삽입 방지
   const [childId, setChildId] = useState<string | null>(childInfo.id ?? null);
 
@@ -126,22 +129,40 @@ const RegisterChildInfo = ({ onNext, childInfo }: RegisterChildInfoProps) => {
 
   
   return (
-    <div className="max-w-[588px] mx-auto m-20">
-      <div className="relative mb-20">
-        <Image src={RegisterChildInfoIcon} alt="체크리스트 아이콘" className="w-20 h-20 object-cover" />
+    <div className="container flex flex-col mx-auto justify-center max-w-[588px] mt-16 max-sm:mt-3 max-sm:px-6">
+      {/* <div className="max-w-[588px] mx-auto m-20"> */}
+      {/* 모바일에서 보이는 레이아웃 */}
+      <div className="w-full px-6 py-2 flex items-center gap-6 mb-4 sm:hidden">
+        <div className="relative">
+          {/* 이전 버튼 */}
+          <button onClick={() => router.back()}>
+            <Image src={PreIcon} alt="이전" />
+          </button>
+        </div>
+        <div className="flex-1 text-center" style={{ transform: "translateX(-24px)" }}>
+          <p className="text-base font-bold text-[#303030]">아이 등록하기</p>
+        </div>
+      </div>
+
+      <div className="relative mb-20 max-sm:mb-5">
+        <Image
+          src={RegisterChildInfoIcon}
+          alt="체크리스트 아이콘"
+          className="w-20 h-20 object-cover max-sm:w-14 max-sm:h-14"
+        />
         <Image
           src={RegisterChildInfoBlurredIcon}
           alt="체크리스트 아이콘의 그림자"
-          className="absolute top-2 left-2 w-20 h-20 object-cover"
+          className="absolute top-2 left-2 w-20 h-20 object-cover max-sm:w-14 max-sm:h-14"
         />
       </div>
 
-      <div className="flex flex-col justify-start items-start self-stretch mb-6">
-        <p className="text-4xl font-bold text-left text-gray-800">1단계</p>
+      <div className="flex flex-col justify-start items-start self-stretch mb-6 max-sm:mb-2">
+        <p className="text-title-xl font-bold text-left text-gray-800">1단계</p>
       </div>
 
       <div className="flex flex-col justify-start items-start self-stretch mb-6">
-        <p className="text-s font-semibold text-left text-gray-400">정보를 입력해 주세요.</p>
+        <p className="text-l font-semibold text-left text-gray-400">정보를 입력해 주세요.</p>
       </div>
 
       <RegisterChildInfoForm form={form} onSubmit={handleFormSubmit} setSelectedImage={setSelectedImage} />
