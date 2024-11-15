@@ -27,19 +27,28 @@ export const ChildCard = ({ child }: ChildCardProps) => {
         <div className="flex flex-col md:flex-row justify-start items-start w-full gap-6">
           {/* 아이 기본 정보 컨테이너 */}
           <div className="w-full md:w-[50%] flex flex-col justify-start items-start flex-grow-0 flex-shrink-0 p-4 rounded-2xl bg-white shadow-[0px_0px_12px_#7272721A]">
-            <div className="flex flex-col gap-4">
+            <div className="w-full flex flex-col gap-4">
               {/* 아이 기본 정보 내 좌/우 영역 나누기 위한 컨테이너 */}
               <div className="flex items-center justify-between w-full gap-3 md:gap-6">
                 {/* 좌측: 프로필 이미지 */}
-        
+                {/* <div className="md:w-32 md:h-32 flex-shrink-0">
                   <Image
                     src={child.profile || DEFAULT_PROFILE_IMAGE_URL} // 기본 이미지 설정
                     alt="아이 프로필 이미지"
                     width={176} // 이미지 크기 설정
                     height={176} // 이미지 크기 설정
-                    className="w-24 h-24 md:w-44 md:h-44 object-cover rounded-[13px]" // 이미지 정사각형으로 유지
+                    className="w-24 h-24 object-cover rounded-[13px]" // 이미지 정사각형으로 유지
                   />
-              
+                </div> */}
+                <div className="flex-shrink-0">
+                  <Image
+                    src={child.profile || DEFAULT_PROFILE_IMAGE_URL}
+                    width={176}
+                    height={176}
+                    alt="profile Image"
+                    className="w-44 h-44 object-cover rounded-[13px]"
+                  />
+                </div>
 
                 {/* 우측: 기본 정보 & 수정하기 버튼 */}
                 <div className="flex flex-col justify-start items-start gap-4 w-full md:w-[calc(100%-176px)]">
@@ -66,7 +75,7 @@ export const ChildCard = ({ child }: ChildCardProps) => {
 
                   {/* 수정하기 */}
                   <Link key={child.id} href={`/child/${child.id}/childinfo`}>
-                    <div className="flex justify-center items-center h-8 gap-[8px] p-[7px] rounded-[7px] bg-gray-30 w-full">
+                    <div className="flex justify-center items-center h-8 gap-[8px] px-4 py-2 rounded-[7px] bg-gray-30 w-full">
                       <button className="text-xs font-medium text-center text-gray-700">수정하기</button>
                     </div>
                   </Link>

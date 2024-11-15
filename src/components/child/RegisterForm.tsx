@@ -18,13 +18,6 @@ const RegisterForm: React.FC<ChildCardProps> = ({ userId }) => {
   const [childInfo, setChildInfo] = useState<Partial<Child>>({});
   const [step, setStep] = useState(1); // 기본적으로 1단계로 설정됨
 
-  // 다음 단계로 이동하는 함수
-  // const handleNext = (data: Partial<Child>) => {
-  //   setChildInfo((prev) => ({ ...prev, ...data }));
-  //   setStep(step + 1);
-  //   console.log("다음버튼 클릭됨, 아이 아이디 : ", childInfo.id);
-  // };
-
   const handleNext = (data: Partial<Child>) => {
     setChildInfo((prev) => ({ ...prev, ...data }));
     setStep((prevStep) => prevStep + 1); // 상태가 설정된 후에 step을 업데이트

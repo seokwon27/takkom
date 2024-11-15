@@ -51,8 +51,11 @@ const ChildPage = () => {
   };
 
   return (
-    // flex flex-col lg:flex-row justify-center px-4 sm:px-8 lg:px-12 mx-auto mt-8 lg:mt-16
-    <div className="grow flex flex-col w-full max-w-[996px] items-center mt-8 mx-auto max-sm:max-w-auto">
+    // <div className="grow flex flex-col w-full max-w-[996px] items-center mt-8 mx-auto max-sm:max-w-auto">
+    <div className="container flex flex-col mx-auto justify-center max-w-[996px] mt-16 max-sm:mt-3 max-sm:px-6 ">
+      <div className="py-[6px] mb-4 hidden max-sm:block">
+        <p className="text-gray-800 text-title-m font-semibold">우리아이</p>
+      </div>
       <div className="flex flex-col lg:flex-row gap-6 max-w-[996px] w-full">
         {/* 좌측 사이드바 영역 */}
 

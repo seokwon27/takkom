@@ -5,6 +5,7 @@ import { Providers } from "./providers";
 import Header from "@/components/rootlayout/Header";
 import Footer from "@/components/rootlayout/Footer";
 import { PWAProvider } from "./PWAProvider";
+import { Toaster } from "@/components/ui/toaster";
 
 const pretendard = localFont({
   src: "./fonts/PretendardVariable.woff2",
@@ -44,6 +45,7 @@ const RootLayout = ({
           <main className="grow flex flex-col w-full max-w-[1200px] mx-auto mb-[100px] max-sm:mx-0 max-sm:mb-0">
             {children}
           </main>
+          <Toaster/>
           <Footer />
           <PWAProvider />
         </Providers>
