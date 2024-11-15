@@ -8,7 +8,8 @@ import { dehydrate, HydrationBoundary, QueryClient } from "@tanstack/react-query
 import Image from "next/image";
 import Vaccination11 from "../../../../../public/vaccinerecord/vaccination1-1.svg";
 import Vaccination12 from "../../../../../public/vaccinerecord/vaccination1-2.svg";
-import CheckboxFormWrap from "@/components/vaccinerecord/CheckboxFormWrap";
+
+import VaccineRecordTabs from "@/components/vaccinerecord/VaccineRecordTabs";
 
 interface VaccineRecordEditPageProps {
   params: {
@@ -54,7 +55,7 @@ const VaccineRecordEditPage = async ({ params }: VaccineRecordEditPageProps) => 
               className="absolute size-12 top-1.5 left-[30px] md:size-20 md:top-2"
             />
           </div>
-          <CheckboxFormWrap childId={params.id} />
+          <VaccineRecordTabs childId={params.id} edit={true} />
         </div>
       </div>
     </HydrationBoundary>
