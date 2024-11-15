@@ -13,60 +13,61 @@ import DesktopLayout from "../layout/DesktopLayout";
 
 const PageLink = () => {
   return (
-    <div className="flex gap-6 mt-[77px] w-full max-w-[1200px] m-auto max-sm:gap-[10px] justify-center max-sm:mt-16 max-sm:px-6">
-      <Link
-        href={"/vaccineinfo"}
-        className="flex bg-primary-400  px-12 py-20 rounded-2xl text-white w-[736px] h-[472px] relative max-sm:p-5 max-sm:w-[160px] max-sm:h-[240px] -z-10"
-      >
-        <Image
-          src={linkPerson}
-          alt="사람아이콘"
-          className="absolute -bottom-12 -right-6  h-auto max-sm:w-[120px] max-sm:h-[120px] max-sm:right-0 max-sm:-bottom-5 -z-10"
-        />
-        <div className="flex flex-col justify-start gap-6 pt-6 max-sm:pt-0 max-sm:w-[107px] max-sm:gap-[10px]">
-          <div>
-            <p className="text-heading-xxl font-bold max-sm:hidden">지금 아이에게 필요한</p>
-            <p className="text-heading-xxxl font-bold max-sm:text-heading-s max-sm:break-keep">
-              예방 접종 정보 확인하기
-            </p>
-          </div>
-          <div
-            className="flex justify-center gap-[6px] bg-white text-primary-400 max-w-[135px] p-2 rounded-[50px] text-xl font-bold max-sm:w-[78px] max-sm:h-[26px]
-          max-sm:py-1 max-sm:gap-1"
-          >
+    <div className="flex gap-6 mt-[77px] w-full max-w-[1200px] m-auto max-sm:gap-[10px] justify-center max-sm:mt-16 max-sm:p-6">
+      <Link href={"/vaccineinfo"} className="w-full">
+        <div className="flex bg-primary-400  px-12 py-20 rounded-3xl text-white w-full max-w-[736px] h-[472px] relative max-sm:p-5  max-sm:max-h-[240px] -z-20">
+          <Image
+            src={linkPerson}
+            alt="사람아이콘"
+            className="absolute -bottom-12 -right-6  h-auto max-sm:w-[120px] max-sm:h-[120px] max-sm:right-0 max-sm:-bottom-5 -z-10"
+          />
+          <div className="flex flex-col justify-start gap-6 pt-6 max-sm:pt-0 max-sm:w-[107px] max-sm:gap-[10px]">
             <div>
-              <Image src={searchIcon} alt="돋보기" className="max-sm:w-4 max-sm:h-4" />
+              <p className="text-heading-xxl font-bold max-sm:hidden">지금 아이에게 필요한</p>
+              <p className="text-heading-xxxl font-bold max-sm:text-heading-s max-sm:break-keep">
+                예방 접종 정보 확인하기
+              </p>
             </div>
-            <p className="text-heading-m max-sm:text-heading-xxxs">보러가기</p>
+            <div
+              className="flex justify-center gap-[6px] bg-white text-primary-400 max-w-[135px] p-2 rounded-[50px] text-xl font-bold max-sm:w-[78px] max-sm:h-[26px]
+          max-sm:py-1 max-sm:gap-1"
+            >
+              <div>
+                <Image src={searchIcon} alt="돋보기" className="max-sm:w-4 max-sm:h-4" />
+              </div>
+              <p className="text-heading-m max-sm:text-heading-xxxs">보러가기</p>
+            </div>
           </div>
         </div>
       </Link>
 
-      <div className="flex flex-col gap-6 max-sm:gap-[10px]">
-        <Link className="p-10 rounded-3xl  bg-[#F0F9FF] relative max-sm:p-5 max-sm:pt-[57px] -z-20" href={"/child"}>
-          <Image
-            src={handHeart}
-            alt="아이콘"
-            className="absolute right-0 max-sm:w-[75px] max-sm:h-[75px] max-sm:bottom-5 -z-10"
-          />
-          <div className="flex flex-col gap-3 max-sm:justify-end">
-            <DesktopLayout>
-              <p className="text-heading-l text-gray-800 font-bold max-sm:text-heading-xxs max-sm:break-keep z-10">
-                우리 아이 접종 관리하기
+      <div className="flex flex-col w-full max-w-[440px] gap-6 max-sm:gap-[10px] min-w-[157px] ">
+        <Link className=" " href={"/child"}>
+          <div className="p-10 bg-[#F0F9FF] rounded-3xl relative max-sm:p-5 max-sm:pt-[57px] -z-20">
+            <Image
+              src={handHeart}
+              alt="아이콘"
+              className="absolute right-0 max-sm:w-[75px] max-sm:h-[75px] max-sm:bottom-5 -z-10"
+            />
+            <div className="flex flex-col gap-3 max-sm:justify-end z-10">
+              <DesktopLayout>
+                <p className="text-heading-l text-gray-800 font-bold max-sm:text-heading-xxs max-sm:break-keep">
+                  우리 아이 접종 관리하기
+                </p>
+              </DesktopLayout>
+              <MobileLayout>
+                <p className="text-heading-xxs font-bold text-gray-800">
+                  우리 아이 <br /> 접종 관리하기
+                </p>
+              </MobileLayout>
+              <p className="text-gray-600 max-sm:hidden">
+                아이 맞춤형 접종 정보와 <br />
+                접종 내역을 체크할 수 있어요!
               </p>
-            </DesktopLayout>
-            <MobileLayout>
-              <p className="text-heading-xxs font-bold text-gray-800">
-                우리 아이 <br /> 접종 관리하기
-              </p>
-            </MobileLayout>
-            <p className="text-gray-600 max-sm:hidden">
-              아이 맞춤형 접종 정보와 <br />
-              접종 내역을 체크할 수 있어요!
-            </p>
-            <div className="flex gap-2 justify-center items-center border-[1px] border-primary-300 rounded-3xl w-[103px] h-[38px] max-sm:hidden">
-              <Image src={addCircle} alt="등록아이콘" />
-              <p className="text-primary-300 font-semibold">등록하기</p>
+              <div className="flex gap-2 justify-center items-center border-[1px] border-primary-300 rounded-3xl w-[103px] h-[38px] max-sm:hidden">
+                <Image src={addCircle} alt="등록아이콘" />
+                <p className="text-primary-300 font-semibold">등록하기</p>
+              </div>
             </div>
           </div>
         </Link>
@@ -76,7 +77,7 @@ const PageLink = () => {
           max-sm:p-5"
         >
           <div className="flex w-full justify-between py-5 max-sm:p-0">
-            <div className="flex flex-col justify-center gap-4 max-sm:gap-2 max-sm:justify-start max-sm: relative">
+            <div className="flex flex-col justify-center gap-4 max-sm:gap-2 max-sm:justify-start relative">
               <div>
                 <p className="text-[#008F5D] text-lg font-semibold max-sm:hidden">어디에서 접종 하나요?</p>
                 <MobileLayout>
