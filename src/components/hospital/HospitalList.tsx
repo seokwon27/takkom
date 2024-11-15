@@ -15,6 +15,8 @@ import HospitalCardWithDrawer from "./HospitalCardWithDrawer";
 import useHospitalSearchStore from "@/store/hospitalStore";
 import MobileLayout from "../layout/MobileLayout";
 import DesktopLayout from "../layout/DesktopLayout";
+import Image from "next/image";
+import LoadingSpinner from "../../../public/common/loading-spinner.svg";
 
 const HospitalList = ({ searchParams, user }: { searchParams: HospitalSearchParams; user: User | null }) => {
   const { step } = useHospitalSearchStore();
@@ -33,23 +35,34 @@ const HospitalList = ({ searchParams, user }: { searchParams: HospitalSearchPara
   const {
     data: hospitalData,
     isLoading,
-    isError,
     isFetching,
+    isError,
     error
   } = useHospitalQuery(brtcCd, sggCd, addr, org, disease);
 
   const { data: likes } = useUserLike(browserClient, user?.id);
 
-  if (isLoading || isFetching) {
+  if (isLoading || isFetching || hospitalData?.maxPage === 0) {
     return (
-      <LoadingHospitalList animate="animate-bounce">
-        <p>데이터를 불러오는 중입니다.</p>
-        <p>잠시만 기다려주세요.</p>
-      </LoadingHospitalList>
+      <>
+        <LoadingHospitalList>
+          <p>데이터를 불러오는 중입니다.</p>
+          <p>잠시만 기다려주세요.</p>
+        </LoadingHospitalList>
+        <div className="fixed top-0 left-0 bottom-0 right-0 bg-gray-900/50 z-50">
+      <div className="w-full h-full flex">
+        <Image src={LoadingSpinner} alt="로딩중입니다." className="w-10 max-sm:w-6 m-auto animate-spin" />
+      </div>
+    </div>
+      </>
     );
   }
   if (isError) {
-    return <LoadingHospitalList>{!hospitalData ? "에러가 발생했습니다." : error?.message}</LoadingHospitalList>;
+    return (
+      <LoadingHospitalList>
+        <p>{!hospitalData ? "에러가 발생했습니다." : error?.message}</p>
+      </LoadingHospitalList>
+    );
   }
 
   if ((step === 0 && device === "mobile") || !hospitalData) {
@@ -69,13 +82,18 @@ const HospitalList = ({ searchParams, user }: { searchParams: HospitalSearchPara
 
   return (
     <>
-      <ul className="w-full grid grid-cols-[repeat(10, 1fr)] gap-6 pb-20 bg-white max-sm:gap-3 max-sm:pb-6 max-sm:px-6 max-sm:z-40">
+      <ul className="w-full grid grid-cols-[repeat(10, 1fr)] gap-6 pb-20 bg-white max-sm:gap-3 max-sm:pb-6 max-sm:px-6 max-sm:z-[11]">
         {hospitalData?.items
           .slice(NUM_OF_CARDS_PER_PAGE * (currentPage - 1), NUM_OF_CARDS_PER_PAGE * currentPage)
           .map((info) => (
             <li
               key={info.orgcd}
-              onClick={() => {
+              onClick={(e) => {
+                e.stopPropagation();
+                if ((e.target instanceof HTMLElement || e.target instanceof SVGElement) && e.target.dataset.select) {
+                  // 모바일 클릭 오류 방지용: data-set='true' 달려있을 땐 동작하지 않음
+                  return;
+                }
                 setClickedId((prev) => {
                   if (prev === info.orgcd) {
                     return 0;
@@ -113,67 +131,5 @@ const HospitalList = ({ searchParams, user }: { searchParams: HospitalSearchPara
     </>
   );
 };
-
-//   return (
-//     <section className="w-full grow flex flex-col justify-between items-center mt-16 mb-6 max-sm:mt-4 max-sm:px-6">
-//       {((step === 0 && device === 'mobile') || !hospitalData) && (
-//         <LoadingHospitalList className="mt-0">
-//           <p>우리 동네 병원을 검색해 보세요.</p>
-//         </LoadingHospitalList>
-//       )}
-
-//       {((step === 1 || (step === 0 && device === 'desktop')) && !!hospitalData && hospitalData.totalCount === 0) && (
-//         <LoadingHospitalList className="mt-0">
-//           <p>검색 결과가 없습니다.</p>
-//         </LoadingHospitalList>
-//       )}
-//       {((step === 1 || (step === 0 && device === 'desktop')) && !!hospitalData && hospitalData.totalCount > 0) && (
-//         <>
-//           <ul className="w-full grid grid-cols-[repeat(10, 1fr)] gap-6 max-sm:gap-3">
-//             {hospitalData?.items
-//               .slice(NUM_OF_CARDS_PER_PAGE * (currentPage - 1), NUM_OF_CARDS_PER_PAGE * currentPage)
-//               .map((info) => (
-//                 <li
-//                   key={info.orgcd}
-//                   onClick={() => {
-//                     setClickedId((prev) => {
-//                       if (prev === info.orgcd) {
-//                         return 0;
-//                       }
-//                       return info.orgcd;
-//                     });
-//                   }}
-//                 >
-//                   {device === "desktop" && (
-//                     <HospitalCard
-//                       user={user ?? null}
-//                       hospitalInfo={info}
-//                       clickedId={clickedId}
-//                       filter={disease}
-//                       likes={likes}
-//                     />
-//                   )}
-//                   {device === "mobile" && (
-//                     <HospitalCardWithDrawer
-//                       user={user ?? null}
-//                       hospitalInfo={info}
-//                       clickedId={clickedId}
-//                       filter={disease}
-//                       likes={likes}
-//                     />
-//                   )}
-//                 </li>
-//               ))}
-//           </ul>
-//           <HospitalPagination
-//             maxPage={hospitalData.maxPage}
-//             currentPage={currentPage}
-//             params={{ brtcCd, sggCd, addr, org, disease }}
-//           />
-//         </>
-//       )}
-//     </section>
-//   );
-// };
 
 export default HospitalList;
