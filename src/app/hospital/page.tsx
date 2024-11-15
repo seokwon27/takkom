@@ -4,6 +4,17 @@ import { getBrtcCd, getRegionInfo } from "@/api/hospital-actions";
 import { HospitalSearchParams } from "@/types/hospital";
 import { createClient } from "@/utils/supabase/server";
 import { getUser } from "@/api/userApi";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "따꼼 - 동네 병원 찾기",
+  description: "주소와 병원명을 활용한 맞춤형 검색을 통해 원하는 병원을 찾아볼 수 있어요.",
+  keywords: ["따꼼", "따꼬미", "동네 병원 찾기", "예방접종"],
+  openGraph: {
+    title: "따꼼 - 동네 병원 찾기",
+    description: "주소와 병원명을 활용한 맞춤형 검색을 통해 원하는 병원을 찾아볼 수 있어요."
+  }
+};
 
 const HospitalSearchPage = async ({ searchParams }: { searchParams: HospitalSearchParams }) => {
   const supabaseClient = createClient();
@@ -20,7 +31,6 @@ const HospitalSearchPage = async ({ searchParams }: { searchParams: HospitalSear
       <section className="w-full grow flex flex-col justify-between items-center mt-16 mb-6 bg-white max-sm:mt-[14px] max-sm:mb-0 max-sm:px-0 max-sm:pb-0">
         <HospitalList searchParams={searchParams} user={user} />
       </section>
-      {/* </SearchForm> */}
     </div>
   );
 };
