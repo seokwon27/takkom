@@ -5,7 +5,7 @@ const TermsofUse = () => {
         <p className="font-bold text-heading-xxxl text-gray-900"> 이용 약관 </p>
         <p className="text-heading-m text-gray-900 font-bold">2024.11.04 개정</p>
       </center>
-      <div className="w-[996px]">
+      <div>
         <p className="mt-[100px] mb-[48px] text-title-m text-gray-900 font-bold">제 1 장</p>
         <p className="mb-[24px] text-title-s text-gray-900 font-bold">제 1 조 (목적)</p>
         <p className="text-gray-700 text-text-xl">
