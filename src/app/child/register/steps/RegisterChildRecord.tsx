@@ -20,7 +20,7 @@ interface RegisterChildRecordProps {
 
 const RegisterChildRecord = ({ child, onPrev, onComplete }: RegisterChildRecordProps) => {
   const { toast } = useToast();
-  
+
   // id를 사용하여 Supabase에서 해당 아이의 정보를 가져와
   useEffect(() => {
     const fetchChildData = async () => {
@@ -46,7 +46,7 @@ const RegisterChildRecord = ({ child, onPrev, onComplete }: RegisterChildRecordP
     router.push(`/child`);
     toast({
       description: <ToastDescription className="text-white">등록이 완료되었습니다.</ToastDescription>,
-      variant: "mobile",
+      variant: "mobile"
     });
   };
 
@@ -79,7 +79,7 @@ const RegisterChildRecord = ({ child, onPrev, onComplete }: RegisterChildRecordP
         <h2 className="w-fit text-gray-400">접종 완료한 내역을 선택해주세요.</h2>
       </div>
 
-      <CheckboxForm childId={child?.id} onSuccess={onSuccess}>
+      <CheckboxForm childId={child?.id} onSuccess={onSuccess} edit={true}>
         <div className="flex flex-row justify-between">
           <Button
             type="button"
