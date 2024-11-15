@@ -6,7 +6,9 @@ import VaccineRecordList from "./VaccineRecordList";
 import Link from "next/link";
 import { Button } from "../ui/button";
 import { Control } from "react-hook-form";
-import { FormValues } from "./CheckboxForm";
+import CheckboxForm, { FormValues } from "./CheckboxForm";
+import { useRouter } from "next/navigation";
+import { useRef } from "react";
 
 interface VaccineRecordProps {
   childId: string;
@@ -15,6 +17,8 @@ interface VaccineRecordProps {
 }
 
 const VaccineRecordTabs = ({ childId, edit, control }: VaccineRecordProps) => {
+  const router = useRouter();
+  const formRef = useRef<HTMLFormElement>(null);
   const { data: vaccineData, isLoading: vaccineLoading } = useVaccineQuery();
   const { data: vaccineRecord, isLoading: recordLoading } = useVaccineRecordQuery(childId);
 
@@ -35,6 +39,16 @@ const VaccineRecordTabs = ({ childId, edit, control }: VaccineRecordProps) => {
   };
 
   const tabs = ["전체", "접종 완료", "미접종"];
+
+  const onSuccess = () => {
+    router.push(`/child/${childId}`);
+  };
+
+  const handleSubmitButton = () => {
+    if (formRef.current) {
+      formRef.current.requestSubmit();
+    }
+  };
 
   return (
     <Tabs
@@ -60,6 +74,7 @@ const VaccineRecordTabs = ({ childId, edit, control }: VaccineRecordProps) => {
         {edit ? (
           <Button
             type="submit"
+            onClick={handleSubmitButton}
             className="inline-flex justify-center gap-2.5 px-3 py-1.5 rounded-[15px] items-center bg-transparent text-title-xs text-primary-300 hover:bg-primary-300 hover:text-white"
           >
             완료
@@ -81,12 +96,28 @@ const VaccineRecordTabs = ({ childId, edit, control }: VaccineRecordProps) => {
 
       {tabs.map((tab) => (
         <TabsContent key={tab} value={tab} className="w-full">
-          <VaccineRecordList
-            data={getFilteredVaccineData(tab)}
-            vaccinated={vaccinated}
-            edit={edit}
-            control={edit ? control : undefined}
-          />
+          {edit ? (
+            <CheckboxForm
+              data={getFilteredVaccineData(tab)}
+              formRef={formRef}
+              edit={edit}
+              childId={childId}
+              onSuccess={onSuccess}
+            >
+              <div className="flex flex-col items-start gap-6 relative self-stretch w-full mt-20">
+                <Button className="flex h-[72px] p-[16px 24px] justify-center items-center gap-[10px] self-stretch rounded-xl bg-primary-400 hover:bg-primary-300">
+                  등록 완료
+                </Button>
+              </div>
+            </CheckboxForm>
+          ) : (
+            <VaccineRecordList
+              data={getFilteredVaccineData(tab)}
+              vaccinated={vaccinated}
+              edit={edit}
+              control={edit ? control : undefined}
+            />
+          )}
         </TabsContent>
       ))}
     </Tabs>
