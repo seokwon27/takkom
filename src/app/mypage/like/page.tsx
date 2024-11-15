@@ -16,7 +16,7 @@ const LikePage = async ({ searchParams }: LikePageParams) => {
   return (
     <>
       <MobileLayout className="sticky top-0 z-10">
-        <div className="w-full h-12 flex items-center pt-6 pb-1 px-6 bg-white border-b border-gray-30 text-center relative">
+        <div className="w-full h-12 flex items-center pt-3 pb-1 px-6 bg-white border-b border-gray-30 text-center relative">
           <Link href={"/mypage"}>
             <ChevronLeft size={24} className="w-6 h-6 text-gray-400" />
           </Link>
