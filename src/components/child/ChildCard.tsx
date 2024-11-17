@@ -7,6 +7,7 @@ import Schedule from "./Schedule";
 import CakeIcon from "../../../public/child/cake-icon.svg";
 import InjectorIcon from "../../../public/child/injector-icon.svg";
 import RightArrowIcon from "../../../public/child/right-arrow-icon.svg";
+import { useVaccineQuery, useVaccineRecordQuery } from "@/query/useVaccineRecordQuery";
 
 interface ChildCardProps {
   child?: Child; // 등록된 child가 없으면 undefined일 수 있음
@@ -18,6 +19,75 @@ export const ChildCard = ({ child }: ChildCardProps) => {
   if (!child) {
     return <div>아이가 등록되지 않았습니다.</div>;
   }
+
+  // vaccineData와 vaccineRecord를 가져오는 쿼리
+  const { data: vaccineData } = useVaccineQuery();
+  const { data: vaccineRecord } = useVaccineRecordQuery(child.id);
+
+  // 접종 데이터가 없으면 처리하지 않도록
+  if (!vaccineData || !vaccineRecord) return <div>Loading...</div>;
+
+  // 필수 예방접종과 선택 예방접종 계산하는 함수
+  // const getVaccinesCount = () => {
+  //   let requiredVaccinesCount = 0; // 맞은 필수 접종 수
+  //   let optionalVaccinesCount = 0; // 맞은 선택 접종 수
+  //   let totalRequiredVaccines = 0; // 전체 필수 접종 수
+  //   let totalOptionalVaccines = 0; // 전체 선택 접종 수
+
+  //   vaccineData.forEach((vaccine) => {
+  //     console.log("disease: ", vaccine.disease);
+  //     // 각 disease 항목에 대해서 접종 여부를 체크
+  //     vaccine.disease.forEach((disease) => {
+  //       // disease의 additions 배열에 따른 필수/선택 접종 구분
+  //       disease.additions.forEach((isOptional, index) => {
+  //         const allCheckedVaccine = disease.ids.every((id) => vaccineRecord.includes(id));
+
+  //         // 선택 접종인 경우
+  //         if (isOptional) {
+  //           totalOptionalVaccines++; // 전체 선택 접종 수 증가
+  //           if (allCheckedVaccine) optionalVaccinesCount++; // 맞은 선택 접종 수 증가
+  //         } else {
+  //           // 필수 접종인 경우
+  //           totalRequiredVaccines++; // 전체 필수 접종 수 증가
+  //           if (allCheckedVaccine) requiredVaccinesCount++; // 맞은 필수 접종 수 증가
+  //         }
+  //       });
+  //     });
+  //   });
+
+  //   return { requiredVaccinesCount, totalRequiredVaccines, optionalVaccinesCount, totalOptionalVaccines };
+  // };
+
+  const getVaccinesCount = () => {
+    let requiredVaccinesCount = 0; // 맞은 필수 접종 수
+    let optionalVaccinesCount = 0; // 맞은 선택 접종 수
+    let totalRequiredVaccines = 0; // 전체 필수 접종 수
+    let totalOptionalVaccines = 0; // 전체 선택 접종 수
+
+    vaccineData.forEach((vaccine) => {
+      // 각 disease 항목에 대해서 접종 여부를 체크
+      vaccine.disease.forEach((disease) => {
+        disease.ids.forEach((id, index) => {
+          const isOptional = disease.additions[index]; // additions 배열에서 해당 id의 접종이 선택 접종인지 필수 접종인지 확인
+          const allCheckedVaccine = vaccineRecord.includes(id); // 해당 id가 접종 기록에 포함되어 있는지 확인
+
+          // 전체 접종 수를 계산
+          if (isOptional) {
+            totalOptionalVaccines++; // 선택 접종 수 증가
+            if (allCheckedVaccine) optionalVaccinesCount++; // 선택 접종 완료된 경우
+          } else {
+            totalRequiredVaccines++; // 필수 접종 수 증가
+            if (allCheckedVaccine) requiredVaccinesCount++; // 필수 접종 완료된 경우
+          }
+        });
+      });
+    });
+
+    return { requiredVaccinesCount, totalRequiredVaccines, optionalVaccinesCount, totalOptionalVaccines };
+  };
+
+  const { requiredVaccinesCount, totalRequiredVaccines, optionalVaccinesCount, totalOptionalVaccines } =
+    getVaccinesCount();
 
   return (
     <>
@@ -119,7 +189,7 @@ export const ChildCard = ({ child }: ChildCardProps) => {
           {/* 아이 기본 정보 컨테이너 끝 */}
 
           {/* 우리아이 접종 내역 전체 컨테이너 */}
-          <div className="flex justify-center items-start flex-grow h-52 gap-[288px] p-4 rounded-2xl bg-primary-300">
+          <div className="w-full flex justify-center items-start flex-grow h-52 gap-[288px] p-4 rounded-2xl bg-primary-300">
             <div className="flex flex-col justify-between items-end self-stretch flex-grow">
               <div className="flex flex-col justify-start items-start self-stretch flex-grow gap-3">
                 {/* 우리 아이 접종 내역 타이틀 컨테이너 */}
@@ -139,30 +209,34 @@ export const ChildCard = ({ child }: ChildCardProps) => {
                 {/* 필수 접종 & 선택 접종 디스플레이 컨테이너 */}
                 <div className="flex flex-col justify-start items-start self-stretch flex-grow gap-2">
                   {/* 필수 접종 & 선택 접종 */}
-                  <div className="flex justify-center items-center self-stretch flex-grow relative p-2 rounded-xl">
+                  {/* <div className="flex justify-center items-center self-stretch flex-grow relative p-2 rounded-xl">
                     <p className="text-white text-sm">
                       접종 완료 내역과 앞으로의 접종 일정을 간편하게 관리하세요! 아이의 건강 기록을 손쉽게 확인할 수
                       있습니다.
                     </p>
-                  </div>
+                  </div> */}
 
-                  {/* <div className="flex justify-start items-start self-stretch flex-grow">
+                  <div className="flex justify-start items-start self-stretch flex-grow">
                     <div className="flex justify-center items-center self-stretch flex-grow relative gap-4 p-4 rounded-xl bg-white">
                       <div className="flex flex-col justify-center items-center self-stretch flex-grow relative gap-4">
                         <p className="flex-grow-0 flex-shrink-0 text-base font-semibold text-left text-gray-600">
                           필수 접종
                         </p>
-                        <p className="flex-grow-0 flex-shrink-0 text-sm font-semibold text-left text-[#ff7664]">4개</p>
+                        <p className="flex-grow-0 flex-shrink-0 text-sm font-semibold text-left text-[#ff7664]">
+                          {requiredVaccinesCount} / {totalRequiredVaccines}개
+                        </p>
                       </div>
 
                       <div className="flex flex-col justify-center items-center self-stretch flex-grow relative gap-4">
                         <p className="flex-grow-0 flex-shrink-0 text-base font-semibold text-left text-gray-600">
                           선택 접종
                         </p>
-                        <p className="flex-grow-0 flex-shrink-0 text-sm font-semibold text-left text-[#5ebe15]">2개</p>
+                        <p className="flex-grow-0 flex-shrink-0 text-sm font-semibold text-left text-[#5ebe15]">
+                          {optionalVaccinesCount} / {totalOptionalVaccines}개
+                        </p>
                       </div>
                     </div>
-                  </div> */}
+                  </div>
 
                   {/* 자세히 보기 컨테이너 */}
                   <div className="flex justify-end items-center self-stretch flex-grow-0 flex-shrink-0 relative gap-1">
