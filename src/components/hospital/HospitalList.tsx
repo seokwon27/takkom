@@ -42,9 +42,6 @@ const HospitalList = ({ searchParams, user }: { searchParams: HospitalSearchPara
 
   const { data: likes } = useUserLike(browserClient, user?.id);
 
-  console.log('step:', step)
-  console.log(hospitalData)
-
   if (isLoading || isFetching) {
     return (
       <>

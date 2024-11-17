@@ -47,10 +47,10 @@ const PaginationLink = ({ className, isActive, size = "icon", ...props }: Pagina
 );
 PaginationLink.displayName = "PaginationLink";
 
-// size={24} strokeWidth={3} className="scale-150 max-sm:scale-100" added by 해인
+// strokeWidth={3} className="scale-150 max-sm:scale-100" added by 해인
 const PaginationPrevious = ({ className, ...props }: React.ComponentProps<typeof PaginationLink>) => (
   <PaginationLink aria-label="Go to previous page" size="default" className={cn("gap-1 pl-2.5", className)} {...props}>
-    <ChevronLeft size={24} strokeWidth={3} className="scale-150 max-sm:scale-100" />
+    <ChevronLeft strokeWidth={3} className="size-24 max-sm:size-18 scale-150 max-sm:scale-100" />
     {/* <span>이전</span> */}
   </PaginationLink>
 );
@@ -60,7 +60,7 @@ PaginationPrevious.displayName = "PaginationPrevious";
 const PaginationNext = ({ className, ...props }: React.ComponentProps<typeof PaginationLink>) => (
   <PaginationLink aria-label="Go to next page" size="default" className={cn("gap-1 pr-2.5", className)} {...props}>
     {/* <span>다음</span> */}
-    <ChevronRight size={24} strokeWidth={3} className="scale-150 max-sm:scale-100" />
+    <ChevronRight strokeWidth={3} className="size-24 max-sm:size-18 scale-150 max-sm:scale-100" />
   </PaginationLink>
 );
 PaginationNext.displayName = "PaginationNext";
