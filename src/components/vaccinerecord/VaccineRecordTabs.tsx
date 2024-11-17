@@ -104,8 +104,8 @@ const VaccineRecordTabs = ({ childId, edit, control }: VaccineRecordProps) => {
               childId={childId}
               onSuccess={onSuccess}
             >
-              <div className="flex flex-col items-start gap-6 relative self-stretch w-full mt-20">
-                <Button className="flex h-[72px] p-[16px 24px] justify-center items-center gap-[10px] self-stretch rounded-xl bg-primary-400 hover:bg-primary-300">
+              <div className="flex w-full mt-9 md:mt-20">
+                <Button className="flex w-full h-14 md:h-[72px] p-[16px 24px] justify-center items-center rounded-xl bg-primary-400 hover:bg-primary-300">
                   등록 완료
                 </Button>
               </div>
