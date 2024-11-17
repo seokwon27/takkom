@@ -1,6 +1,6 @@
 import React from "react";
-import LoadingHospitalList from "@/components/hospital/LoadingHospitalList";
-import LoadingSearchForm from "@/components/hospital/LoadingSearchForm";
+import LoadingHospitalList from "@/components/hospital/HospitalListLoading";
+import LoadingSearchForm from "@/components/hospital/SearchFormSkeleton";
 
 const LoadingHospitalSearchPage = () => {
   return (

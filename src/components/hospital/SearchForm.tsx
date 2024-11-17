@@ -48,20 +48,20 @@ const SearchForm = ({ brtcObj, regionInfo, searchParams }: SearchFormProps) => {
   useEffect(() => {
     if (!searchParams.brtcCd || !searchParams.sggCd) {
       setStep(0);
-      setParams({
-        brtcCd: BRTC,
-        sggCd: SGG,
-        addr: "",
-        org: ""
-      });
+      // setParams({
+      //   brtcCd: BRTC,
+      //   sggCd: SGG,
+      //   addr: "",
+      //   org: ""
+      // });
     } else {
       setStep(1);
-      setParams({
-        brtcCd: searchParams.brtcCd ?? BRTC,
-        sggCd: searchParams.sggCd ?? SGG,
-        addr: searchParams.addr ?? "",
-        org: searchParams.org ?? ""
-      });
+      // setParams({
+      //   brtcCd: searchParams.brtcCd ?? BRTC,
+      //   sggCd: searchParams.sggCd ?? SGG,
+      //   addr: searchParams.addr ?? "",
+      //   org: searchParams.org ?? "",
+      // });
     }
   }, [searchParams]);
 

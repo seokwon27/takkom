@@ -5,7 +5,7 @@ import HospitalCard from "./HospitalCard";
 import HospitalPagination from "./HospitalPagination";
 import { useHospitalQuery } from "@/query/useHospitalQuery";
 import { NUM_OF_CARDS_PER_PAGE } from "../../constants/constants";
-import LoadingHospitalList from "./LoadingHospitalList";
+import LoadingHospitalList from "./HospitalListLoading";
 import { useUserLike } from "@/query/useUserQuery";
 import browserClient from "@/utils/supabase/client";
 import { HospitalSearchParams } from "@/types/hospital";
@@ -42,7 +42,10 @@ const HospitalList = ({ searchParams, user }: { searchParams: HospitalSearchPara
 
   const { data: likes } = useUserLike(browserClient, user?.id);
 
-  if (isLoading || isFetching || hospitalData?.maxPage === 0) {
+  console.log('step:', step)
+  console.log(hospitalData)
+
+  if (isLoading || isFetching) {
     return (
       <>
         <LoadingHospitalList>
@@ -50,10 +53,10 @@ const HospitalList = ({ searchParams, user }: { searchParams: HospitalSearchPara
           <p>잠시만 기다려주세요.</p>
         </LoadingHospitalList>
         <div className="fixed top-0 left-0 bottom-0 right-0 bg-gray-900/50 z-50">
-      <div className="w-full h-full flex">
-        <Image src={LoadingSpinner} alt="로딩중입니다." className="w-10 max-sm:w-6 m-auto animate-spin" />
-      </div>
-    </div>
+          <div className="w-full h-full flex">
+            <Image src={LoadingSpinner} alt="로딩중입니다." className="w-10 max-sm:w-6 m-auto animate-spin" />
+          </div>
+        </div>
       </>
     );
   }
@@ -72,7 +75,7 @@ const HospitalList = ({ searchParams, user }: { searchParams: HospitalSearchPara
       </LoadingHospitalList>
     );
   }
-  if ((step === 1 || (step === 0 && device === "desktop")) && !!hospitalData && hospitalData.totalCount === 0) {
+  if ((step === 1 || device === "desktop") && !!hospitalData && hospitalData.totalCount === 0) {
     return (
       <LoadingHospitalList>
         <p>검색 결과가 없습니다.</p>
