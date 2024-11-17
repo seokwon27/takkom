@@ -138,7 +138,7 @@ const EditChildForm = ({ child, onComplete }: EditFormProps) => {
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8 w-full">
+      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8 w-full max-sm:pb-[132px] max-sm:mb-0">
         {/* 프로필 이미지 업로드 필드 */}
         <FormField
           control={form.control}
@@ -243,7 +243,7 @@ const EditChildForm = ({ child, onComplete }: EditFormProps) => {
         {/* 완료 버튼 */}
         <Button
           type="submit"
-          className="w-full h-14 text-lg font-semibold text-white rounded-xl p-6 bg-primary-400 hover:bg-primary-500"
+          className="w-full h-14 text-lg font-semibold text-white rounded-xl p-6 bg-primary-400 hover:bg-primary-500 max-sm:mb-24"
         >
           완료
         </Button>

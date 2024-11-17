@@ -52,7 +52,7 @@ const ChildPage = () => {
 
   return (
     // <div className="grow flex flex-col w-full max-w-[996px] items-center mt-8 mx-auto max-sm:max-w-auto">
-    <div className="container flex flex-col mx-auto justify-center max-w-[996px] mt-16 max-sm:mt-3 max-sm:px-6 ">
+    <div className="container flex flex-col mx-auto justify-center max-w-[996px] mt-16 max-sm:mt-3 max-sm:px-6 max-sm:pb-[132px] max-sm:mb-0 ">
       <div className="py-[6px] mb-4 hidden max-sm:block">
         <p className="text-gray-800 text-title-m font-semibold">우리아이</p>
       </div>
@@ -92,7 +92,7 @@ const ChildPage = () => {
         </aside> */}
         {/* <aside className="max-w-[180px] w-full bg-white sm:w-auto">
           <div className="flex flex-col max-sm:flex-row shadow-[0px_0px_12px_#7272721A] p-3"> */}
-        <aside className="w-full bg-white lg:max-w-[180px] max-lg:w-auto">
+        <aside className="w-full bg-white lg:max-w-[180px] max-lg:w-auto max-sm:p-0">
           <div className="flex flex-col max-lg:flex-row p-3 rounded-xl bg-white shadow-[0px_0px_12px_#7272721A] gap-2">
             {children && children.length > 0 && (
               <div className="flex flex-col overflow-x-auto max-lg:flex-row lg:flex-col gap-2">

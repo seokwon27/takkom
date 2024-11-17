@@ -22,7 +22,7 @@ export const ChildCard = ({ child }: ChildCardProps) => {
   return (
     <>
       {/* 아이 카드 전체 컨테이너 */}
-      <div className="flex flex-col justify-center items-center w-full max-w-[792px] gap-6 p-6 rounded-2xl bg-neutral-50 mb-6">
+      <div className="flex flex-col justify-center items-center w-full max-w-[792px] gap-6 p-6 rounded-2xl bg-neutral-50 mb-6 max-sm:p-0">
         {/* 아이 기본 정보 & 우리 아이 접종 내역 컨테이너 */}
         <div className="flex flex-col md:flex-row justify-start items-start w-full gap-6">
           {/* 아이 기본 정보 컨테이너 */}
