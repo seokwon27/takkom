@@ -241,11 +241,11 @@ const SearchForm = ({ brtcObj, regionInfo, searchParams }: SearchFormProps) => {
                 >
                   {/** avoidCollision : 충돌이 발생하는 방향의 반대로 select가 열리게 하는 속성, 항상 아래로 열리도록 false로 변경 */}
                   <SelectGroup>
-                    <SelectItem value={DISEASE} key={DISEASE} className="justify-center max-sm:text-text-m">
+                    <SelectItem value={DISEASE} key={DISEASE} className="justify-center max-sm:text-text-m max-sm:h-fit max-sm:p-1">
                       {"전체"}
                     </SelectItem>
                     {DISEASE_LIST.map((name) => (
-                      <SelectItem value={name} key={name} className="justify-center max-sm:text-text-m">
+                      <SelectItem value={name} key={name} className="justify-center max-sm:text-text-m max-sm:h-fit max-sm:p-1">
                         {name}
                       </SelectItem>
                     ))}

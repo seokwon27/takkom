@@ -83,10 +83,6 @@ const VaccineNames = ({ vaccineNames, filter }: { vaccineNames: string[]; filter
               "h-fit p-1 justify-start border-0 rounded-none bg-gray-10 max-sm:h-6 max-sm:px-1 max-sm:py-[2px]",
               isOpen ? "rounded-t" : "rounded"
             )}
-            onTouchEnd={(e) => {
-              e.stopPropagation();
-              setIsOpen((prev) => !prev);
-            }}
           >
             {placeHolder}
           </SelectTrigger>
