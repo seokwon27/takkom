@@ -134,7 +134,7 @@ const VaccineNames = ({ vaccineNames, filter }: { vaccineNames: string[]; filter
                 <SelectItem
                   value={name}
                   key={name}
-                  className="justify-start h-fit max-w-fit p-0 pl-7 pb-2 last:pb-0 text-text-l text-gray-700 max-sm:pl-[23px] max-sm:text-text-xs max-sm:font-normal"
+                  className="justify-start h-fit max-w-fit p-0 pl-7 pb-2 last:pb-0 text-text-l text-gray-700 cursor-default max-sm:pl-[23px] max-sm:text-text-xs max-sm:font-normal"
                 >
                   {name}
                 </SelectItem>
