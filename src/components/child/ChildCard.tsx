@@ -15,14 +15,14 @@ interface ChildCardProps {
 }
 
 export const ChildCard = ({ child }: ChildCardProps) => {
+  // vaccineData와 vaccineRecord를 가져오는 쿼리
+  const { data: vaccineData } = useVaccineQuery();
+  const { data: vaccineRecord } = useVaccineRecordQuery(child?.id);
+
   // child가 없을 때를 대비한 처리
   if (!child) {
     return <div>아이가 등록되지 않았습니다.</div>;
   }
-
-  // vaccineData와 vaccineRecord를 가져오는 쿼리
-  const { data: vaccineData } = useVaccineQuery();
-  const { data: vaccineRecord } = useVaccineRecordQuery(child.id);
 
   // 접종 데이터가 없으면 처리하지 않도록
   if (!vaccineData || !vaccineRecord) return <div>Loading...</div>;
