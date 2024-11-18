@@ -1,4 +1,4 @@
-'use client'
+"use client";
 
 import { useUserQuery } from "@/query/useUserQuery";
 import browserClient from "@/utils/supabase/client";
@@ -7,23 +7,23 @@ import Link from "next/link";
 
 const HeaderAuth = () => {
   // 소셜 로그인 정보 반영하기 위해서
-  const queryClient = useQueryClient()
-  const {data: user} = useUserQuery(browserClient);
+  const queryClient = useQueryClient();
+  const { data: user } = useUserQuery(browserClient);
   browserClient.auth.onAuthStateChange(() => {
-    queryClient.invalidateQueries({queryKey: ['user']})
-  })
+    queryClient.invalidateQueries({ queryKey: ["user"] });
+  });
 
   return (
     <ul className="flex gap-4 items-center">
       {!user ? (
         <>
           <li>
-            <Link className="font-medium" href={"/signin"}>
+            <Link className="font-medium p-[8px]" href={"/signin"}>
               로그인
             </Link>
           </li>
           <li>
-            <Link className="font-medium" href={"/signup"}>
+            <Link className="font-medium p-[8px]" href={"/signup"}>
               회원가입
             </Link>
           </li>
