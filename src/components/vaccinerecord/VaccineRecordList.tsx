@@ -31,9 +31,9 @@ interface VaccineRecordListProps {
 
 const VaccineRecordList = ({ data, vaccinated, edit, control }: VaccineRecordListProps) => {
   return (
-    <div className="flex flex-col w-full px-6 items-start self-stretch gap-2.5 sm:px-8 sm:rounded-2xl sm:max-w-[796px]">
+    <div className="flex flex-col w-full items-start self-stretch gap-2.5 sm:px-8 sm:rounded-2xl sm:max-w-[796px]">
       <div className="flex flex-col min-w-[327px] items-center gap-4 sm:self-stretch sm:max-w-full sm:gap-5 sm:items-start">
-        <div className="flex w-full min-h-9 gap-[18px] p-3 items-center self-stretch text-title-xxxs text-gray-700 font-semibold bg-primary-50 rounded-[18px] sm:rounded-[20px] sm:h-10 sm:px-4 sm:gap-10">
+        <div className="flex w-full min-h-9 gap-[18px] p-3 items-center self-stretch text-heading-xxs text-gray-700 font-semibold bg-primary-50 rounded-[18px] sm:rounded-[20px] sm:h-10 sm:px-4 sm:gap-10">
           <div className="hidden sm:block sm:w-10"></div>
           <div className="w-[100px] sm:w-[184px]">예방 접종명</div>
           <div className="w-[52px] sm:w-[132px]">백신명</div>
