@@ -53,32 +53,36 @@ const HospitalCardWithDrawer = ({ user, hospitalInfo, clickedId, filter, likes }
   const { mutate: addLike } = useAddLikeMutation(user?.id);
   const { mutate: cancelLike } = useCancelLikeMutation(user?.id);
 
+  const onHeartClick = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+    e.stopPropagation();
+    if (user) {
+      if (!likeData) {
+        addLike({ hospitalInfo });
+      }
+      if (!!likeData) {
+        cancelLike({ id: likeData?.id });
+      }
+    }
+  };
+
   return (
     <>
       <div
         className={cn(
-          "w-full h-fit min-h-[200px] flex bg-white border border-gray-30 rounded-3xl p-4 justify-between items-start shadow-[0px_0px_16px_rgba(114,114,114,0.1)] pointer-active:auto",
+          "w-full h-fit min-h-[200px] flex bg-white border border-gray-30 rounded-3xl p-5 justify-between items-start shadow-[0px_0px_16px_rgba(114,114,114,0.1)] pointer-active:auto",
           "max-sm:min-h-fit max-sm:p-3 max-sm:rounded-xl max-sm:shadow-[0px_0px_7px_rgba(114,114,114,0.1)]",
           orgcd === clickedId && "max-sm:border-primary-400 max-sm:shadow-none"
         )}
       >
         <div className="w-[160px] flex justify-center items-center bg-gray-10 rounded-xl aspect-square overflow-hidden relative max-sm:size-[86px] sm:rounded-md">
           <Image src={Ambulance} alt="병원 이미지" className="object-cover" />
-          <div className="absolute top-[6px] left-[6px] aspect-square cursor-pointer size-[14px] sm:size-6">
+          <div
+            className="absolute top-[6px] left-[6px] aspect-square cursor-pointer size-[18px] sm:top-2 sm:left-2 sm:size-10 sm:p-[5px]"
+            onClick={onHeartClick}
+          >
             <Heart
               fill={like ? `#FF4737` : `#171717`}
-              onClick={(e) => {
-                e.stopPropagation();
-                if (user) {
-                  if (!likeData) {
-                    addLike({ hospitalInfo });
-                  }
-                  if (!!likeData) {
-                    cancelLike({ id: likeData?.id });
-                  }
-                }
-              }}
-              className={cn("opacity-50 size-[14px] sm:size-6", {
+              className={cn("opacity-50 self-center size-[18px] sm:size-[30px]", {
                 "text-[#FF4737]": like,
                 "text-gray-900": !like
               })}

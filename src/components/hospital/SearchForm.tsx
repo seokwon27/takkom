@@ -44,6 +44,9 @@ const SearchForm = ({ brtcObj, regionInfo, searchParams }: SearchFormProps) => {
   const [showLoading, setShowLoading] = useState(false);
   const { step, setStep } = useHospitalContext(state => state);
 
+
+  
+
   // searchParams가 바뀔 때마다 재실행
   useEffect(() => {
     if (!searchParams.brtcCd || !searchParams.sggCd) {
