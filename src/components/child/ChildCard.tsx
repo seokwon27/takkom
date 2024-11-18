@@ -120,20 +120,20 @@ export const ChildCard = ({ child }: ChildCardProps) => {
                       <Image src={CakeIcon} alt="케이크 아이콘" />
 
                       {/* 아이 생일 */}
-                      <p className="text-xs font-medium text-center text-gray-400">{child.birth}</p>
+                      <p className="text-text-s font-medium text-center text-gray-400">{child.birth}</p>
                     </div>
                   </div>
                   {/* 이름 & 생년월일 끝 */}
 
                   {/* 아이 특이사항 */}
-                  <p className="w-full h-[50px] text-xs font-medium text-left text-gray-600">
+                  <p className="w-full h-[50px] text-text-s font-medium text-left text-gray-600">
                     {child.notes && <span>{child.notes}</span>}
                   </p>
 
                   {/* 수정하기 */}
-                  <Link key={child.id} href={`/child/${child.id}/childinfo`}>
-                    <div className="flex justify-center items-center h-8 gap-[8px] px-4 py-2 rounded-[7px] bg-gray-30 w-full">
-                      <button className="text-xs font-medium text-center text-gray-700">수정하기</button>
+                  <Link key={child.id} href={`/child/${child.id}/childinfo`} className="w-full">
+                    <div className="flex justify-center items-center h-8 gap-[8px] px-4 py-2 rounded-[7px] bg-gray-30">
+                      <button className="text-text-s font-medium text-center text-gray-700">수정하기</button>
                     </div>
                   </Link>
                 </div>
