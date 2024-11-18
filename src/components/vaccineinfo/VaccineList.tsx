@@ -102,6 +102,7 @@ const VaccineList = () => {
               vaccine={`${item.vaccine_name} ${item.vaccine_turn}차`}
               target={item.target}
               process={item.process}
+              additional={item.additional}
             />
           ))}
         </div>

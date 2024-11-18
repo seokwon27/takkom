@@ -137,6 +137,7 @@ export type Database = {
       }
       vaccine_duplicate: {
         Row: {
+          additional: boolean
           description: string
           disease_name: string
           id: string
@@ -147,6 +148,7 @@ export type Database = {
           vaccine_turn: string
         }
         Insert: {
+          additional?: boolean
           description?: string
           disease_name?: string
           id?: string
@@ -157,6 +159,7 @@ export type Database = {
           vaccine_turn?: string
         }
         Update: {
+          additional?: boolean
           description?: string
           disease_name?: string
           id?: string
