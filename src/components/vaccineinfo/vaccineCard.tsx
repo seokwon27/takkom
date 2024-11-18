@@ -21,8 +21,8 @@ const VaccineCard = ({
   return (
     <div
       className={`${
-        vaccineId === vaccine ? "border-primary-400 border-2" : ""
-      }  p-10 flex flex-col gap-8 rounded-3xl max-h-[358px] hover:cursor-pointer shadow-[0px_0px_16px_0px_rgba(114,114,114,0.10)]
+        vaccineId === vaccine ? "border-primary-400 " : "border-transparent"
+      } border-2 p-10 flex flex-col gap-8 rounded-3xl max-h-[358px] hover:cursor-pointer shadow-[0px_0px_16px_0px_rgba(114,114,114,0.10)]
       max-sm:max-h-[140px]  max-sm:px-6 max-sm:py-4 max-sm:gap-[10px]
       `}
       onClick={() => {
