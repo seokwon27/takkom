@@ -39,7 +39,14 @@ const VaccineList = () => {
     if (!allData) return [];
     return selectedAge === 1000
       ? allData
-      : allData.filter((item) => JSON.parse(item.vaccinate_date || "[]").includes(selectedAge));
+      : allData
+          .filter((item) => JSON.parse(item.vaccinate_date || "[]").includes(selectedAge))
+          .sort(
+            (a, b) =>
+              a.disease_name.localeCompare(b.disease_name) ||
+              a.vaccine_name.localeCompare(b.vaccine_name) ||
+              a.vaccine_turn.localeCompare(b.vaccine_turn)
+          );
   }, [allData, selectedAge]);
 
   // 총 페이지 수 계산
