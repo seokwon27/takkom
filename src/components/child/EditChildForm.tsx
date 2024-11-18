@@ -246,7 +246,7 @@ const EditChildForm = ({ child, onComplete }: EditFormProps) => {
           render={({ field }) => (
             <FormItem>
               <FormLabel className="text-gray-800">특이사항(선택)</FormLabel>
-              <FormControl className="text-gary-700 px-6 py-4 rounded-xl">
+              <FormControl className="text-gary-700">
                 <Input className="h-full text-text-xl" placeholder="특이사항을 입력하세요" {...field} />
               </FormControl>
               <FormMessage />
