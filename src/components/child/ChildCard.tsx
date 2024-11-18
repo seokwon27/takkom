@@ -126,7 +126,7 @@ export const ChildCard = ({ child }: ChildCardProps) => {
                   {/* 이름 & 생년월일 끝 */}
 
                   {/* 아이 특이사항 */}
-                  <p className="w-full h-[50px] text-text-s font-medium text-left text-gray-600">
+                  <p className="w-full h-[50px] text-text-s font-medium text-left text-gray-600 overflow-y-auto">
                     {child.notes && <span>{child.notes}</span>}
                   </p>
 
