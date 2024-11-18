@@ -43,7 +43,7 @@ const PageLink = () => {
 
       <div className="flex flex-col w-full max-w-[440px] gap-6 max-sm:gap-[10px] min-w-[157px] ">
         <Link className=" " href={"/child"}>
-          <div className="p-10 bg-[#F0F9FF] rounded-3xl relative max-sm:p-5 max-sm:pt-[57px] -z-20">
+          <div className="p-10 bg-[#F0F9FF] rounded-3xl h-[224px] relative max-sm:p-5 max-sm:pt-[57px]  max-sm:h-[115px] -z-20">
             <Image
               src={handHeart}
               alt="아이콘"
@@ -73,13 +73,12 @@ const PageLink = () => {
         </Link>
         <Link
           href={"/hospital"}
-          className="flex justify-center items-center px-9 py-10 rounded-3xl border-[0.6px] border-gray-30 shadow-[0px_0px_16px_0px_rgba(114,114,114,0.10)] relative
-          max-sm:p-5"
+          className="flex justify-center items-center px-9 py-10 rounded-3xl border-[0.6px] h-[224px] border-gray-30 shadow-[0px_0px_16px_0px_rgba(114,114,114,0.10)] relative max-sm:p-5 max-sm:h-[115px]"
         >
           <div className="flex w-full justify-between py-5 max-sm:p-0">
             <div className="flex flex-col justify-center gap-4 max-sm:gap-2 max-sm:justify-start relative">
               <div>
-                <p className="text-[#008F5D] text-lg font-semibold max-sm:hidden">어디에서 접종 하나요?</p>
+                <p className="text-[#008F5D] text-title-s font-semibold max-sm:hidden">어디에서 접종 하나요?</p>
                 <MobileLayout>
                   <p className="text-gray-800 text-heading-xxs font-bold whitespace-nowrap">동네 병원 찾기</p>
                 </MobileLayout>

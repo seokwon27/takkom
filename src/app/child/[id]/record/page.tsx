@@ -10,7 +10,7 @@ import Vaccination11 from "../../../../../public/vaccinerecord/vaccination1-1.sv
 import Vaccination12 from "../../../../../public/vaccinerecord/vaccination1-2.svg";
 
 import VaccineRecordTabs from "@/components/vaccinerecord/VaccineRecordTabs";
-import BackButton from "@/components/ui/backbutton";
+import BackButton from "@/components/ui/back-button";
 
 interface VaccineRecordEditPageProps {
   params: {

@@ -26,14 +26,16 @@ const AgeFilter = () => {
   return (
     <div className="flex mt-20 mb-16 text-heading-xs max-sm:text-title-xxs max-sm:mt-5 max-sm:mb-5 max-sm:whitespace-nowrap max-sm:overflow-x-auto scrollbar-hide">
       {subAgeGroup.length > 6 ? (
-        <p className=" border-gray-700 border-b-2 text-gray-700 p-2 hover:cursor-pointer font-bold ">전체</p>
+        <p className=" border-gray-700 border-b-2 text-gray-700 p-2 hover:cursor-pointer font-bold w-20 text-center">
+          전체
+        </p>
       ) : (
         subAgeGroup.map((age) => {
           return (
             <div
               className={`${
                 age === selectedAge ? ` border-gray-700 border-b-2 text-gray-700` : "text-gray-300"
-              } p-2 hover:cursor-pointer font-bold max-sm:p-[6px]`}
+              } p-2 hover:cursor-pointer font-bold max-sm:p-[6px] w-20 text-center`}
               key={`${age} 개월`}
               onClick={() => {
                 setSelectedAge(age);

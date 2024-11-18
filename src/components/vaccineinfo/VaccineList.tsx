@@ -39,7 +39,14 @@ const VaccineList = () => {
     if (!allData) return [];
     return selectedAge === 1000
       ? allData
-      : allData.filter((item) => JSON.parse(item.vaccinate_date || "[]").includes(selectedAge));
+      : allData
+          .filter((item) => JSON.parse(item.vaccinate_date || "[]").includes(selectedAge))
+          .sort(
+            (a, b) =>
+              a.disease_name.localeCompare(b.disease_name) ||
+              a.vaccine_name.localeCompare(b.vaccine_name) ||
+              a.vaccine_turn.localeCompare(b.vaccine_turn)
+          );
   }, [allData, selectedAge]);
 
   // 총 페이지 수 계산
@@ -86,16 +93,19 @@ const VaccineList = () => {
 
   return (
     <>
-      <div className="grid grid-cols-2 gap-6 min-h-[800px] mb-4 max-sm:grid-cols-1">
-        {currentPageData.map((item) => (
-          <VaccineCard
-            key={item.id}
-            disease={item.disease_name}
-            vaccine={`${item.vaccine_name} ${item.vaccine_turn}차`}
-            target={item.target}
-            process={item.process}
-          />
-        ))}
+      <div className="min-h-[800px]">
+        <div className="grid grid-cols-2 gap-6  mb-4 max-sm:grid-cols-1">
+          {currentPageData.map((item) => (
+            <VaccineCard
+              key={item.id}
+              disease={item.disease_name}
+              vaccine={`${item.vaccine_name} ${item.vaccine_turn}차`}
+              target={item.target}
+              process={item.process}
+              additional={item.additional}
+            />
+          ))}
+        </div>
       </div>
       <SearchButton />
 

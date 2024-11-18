@@ -5,6 +5,7 @@ import { HospitalSearchParams } from "@/types/hospital";
 import { createClient } from "@/utils/supabase/server";
 import { getUser } from "@/api/userApi";
 import { Metadata } from "next";
+import HospitalProvider from "@/providers/HospitalProvider";
 
 export const metadata: Metadata = {
   title: "따꼼 - 동네 병원 찾기",
@@ -18,20 +19,20 @@ export const metadata: Metadata = {
 
 const HospitalSearchPage = async ({ searchParams }: { searchParams: HospitalSearchParams }) => {
   const supabaseClient = createClient();
-  const brtcObj = await getBrtcCd();
-  const regionInfo = await getRegionInfo();
 
-  const user = await getUser(supabaseClient);
+  const [brtcObj, regionInfo, user] = await Promise.all([getBrtcCd(), getRegionInfo(), getUser(supabaseClient)]);
 
   return (
-    <div className="w-full max-w-[792px] grow flex flex-col items-center mx-auto max-sm:max-w-auto">
-      <section className="w-full flex flex-col bg-white max-sm:sticky max-sm:top-0 max-sm:z-[41]">
-        <SearchForm brtcObj={brtcObj} regionInfo={regionInfo} searchParams={searchParams} />
-      </section>
-      <section className="w-full grow flex flex-col justify-between items-center mt-16 mb-6 bg-white max-sm:mt-[14px] max-sm:mb-0 max-sm:px-0 max-sm:pb-0">
-        <HospitalList searchParams={searchParams} user={user} />
-      </section>
-    </div>
+    <HospitalProvider key={JSON.stringify(searchParams)} params={searchParams}>
+      <div className="w-full max-w-[792px] grow flex flex-col items-center mx-auto max-sm:max-w-auto">
+        <section className="w-full flex flex-col bg-white max-sm:sticky max-sm:top-0 max-sm:z-[41]">
+          <SearchForm brtcObj={brtcObj} regionInfo={regionInfo} searchParams={searchParams} />
+        </section>
+        <section className="w-full grow flex flex-col justify-between items-center mt-16 mb-6 bg-white max-sm:mt-[14px] max-sm:mb-0 max-sm:px-0 max-sm:pb-0">
+          <HospitalList searchParams={searchParams} user={user} />
+        </section>
+      </div>
+    </HospitalProvider>
   );
 };
 

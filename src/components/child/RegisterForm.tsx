@@ -5,7 +5,7 @@ import RegisterChildInfo from "@/app/child/register/steps/RegisterChildInfo";
 import RegisterChildRecord from "@/app/child/register/steps/RegisterChildRecord";
 import { Child } from "@/types/childType";
 import browserClient from "@/utils/supabase/client";
-import BackButton from "../ui/backbutton";
+import BackButton from "../ui/back-button";
 import { useRouter } from "next/navigation";
 import { useChildrenQuery } from "@/query/useChildQuery";
 
