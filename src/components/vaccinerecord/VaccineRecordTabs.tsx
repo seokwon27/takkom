@@ -61,7 +61,7 @@ const VaccineRecordTabs = ({ childId, edit, control }: VaccineRecordProps) => {
             <TabsTrigger
               key={tab}
               value={tab}
-              className="group flex md:w-20 items-center justify-center gap-2.5 p-2 relative rounded-none data-[state=active]:border-b-2 data-[state=active]:border-gray-700"
+              className="group flex md:w-20 items-center justify-center gap-2.5 p-2 relative rounded-none data-[state=active]:border-b-2 data-[state=active]:border-gray-700 data-[state=active]:shadow-none"
             >
               <p className="relative text-heading-xs font-bold text-gray-300 group-data-[state=active]:text-gray-700 whitespace-nowrap hover:text-gray-700">
                 {tab}
