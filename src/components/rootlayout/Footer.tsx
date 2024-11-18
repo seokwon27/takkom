@@ -9,7 +9,7 @@ const Footer = () => {
 
       <div className="flex flex-col w-full max-w-[1200px] max-h-[480px] items-start gap-12 p-10 bg-[#f7f9fa]">
         <div className="flex items-start justify-between self-stretch w-full flex-[0_0_auto]">
-          <div className="flex flex-col w-[272px] items-start gap-3">
+          <div className="flex flex-col w-[273px] items-start gap-3">
             {/* 고객센터 */}
             <div className="min-w-[200px] flex flex-col items-start gap-3 self-stretch w-full flex-[0_0_auto]">
               <p className="self-stretch mt-[-1.00px] text-heading-s font-bold text-gray-800">고객센터</p>
