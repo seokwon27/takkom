@@ -42,17 +42,17 @@ const RegionDrawer = ({ defaultValue, regionArray, trigger, disabled, value, onC
             e.stopPropagation();
           }}
         >
-          {regionArray.map((item) => (
+          {regionArray.map(([code, name]) => (
             <DrawerClose
-              value={String(item[0])}
-              key={item[0]}
+              value={String(code)}
+              key={code}
               className={cn(
                 "flex h-8 p-0 justify-between mb-4 bg-transparent text-label-xl font-medium text-left hover:bg-transparent"
               )}
-              onClick={onClick(item)}
+              onClick={onClick([code, name])}
             >
-              {item[1]}
-              <Check size={20} className={cn("w-5 h-5 text-primary-400", item[0] !== value && 'hidden')} />
+              {name}
+              <Check size={20} className={cn("w-5 h-5 text-primary-400", code !== value && 'hidden')} />
             </DrawerClose>
           ))}
         </div>

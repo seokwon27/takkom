@@ -64,25 +64,26 @@ const HospitalCardWithDrawer = ({ user, hospitalInfo, clickedId, filter, likes }
       >
         <div className="w-[160px] flex justify-center items-center bg-gray-10 rounded-xl aspect-square overflow-hidden relative max-sm:size-[86px] sm:rounded-md">
           <Image src={Ambulance} alt="병원 이미지" className="object-cover" />
-          <Heart
-            fill={like ? `#FF4737` : `#171717`}
-            size={14}
-            onClick={(e) => {
-              e.stopPropagation();
-              if (user) {
-                if (!likeData) {
-                  addLike({ hospitalInfo });
+          <div className="absolute top-[6px] left-[6px] aspect-square cursor-pointer size-[14px] sm:size-6">
+            <Heart
+              fill={like ? `#FF4737` : `#171717`}
+              onClick={(e) => {
+                e.stopPropagation();
+                if (user) {
+                  if (!likeData) {
+                    addLike({ hospitalInfo });
+                  }
+                  if (!!likeData) {
+                    cancelLike({ id: likeData?.id });
+                  }
                 }
-                if (!!likeData) {
-                  cancelLike({ id: likeData?.id });
-                }
-              }
-            }}
-            className={cn(
-              like ? "text-[#FF4737]" : "text-gray-900",
-              "opacity-50 absolute top-[6px] left-[6px] aspect-square cursor-pointer sm:w-[14px]"
-            )}
-          />
+              }}
+              className={cn("opacity-50 size-[14px] sm:size-6", {
+                "text-[#FF4737]": like,
+                "text-gray-900": !like
+              })}
+            />
+          </div>
         </div>
         <div className="flex-1 h-full flex flex-col gap-4 mx-[24px] max-sm:ml-2 max-sm:mr-0 max-sm:gap-1">
           <div className="flex gap-3 max-sm:gap-2">

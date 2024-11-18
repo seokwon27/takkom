@@ -65,14 +65,14 @@ const SearchForm = ({ brtcObj, regionInfo, searchParams }: SearchFormProps) => {
     }
   }, [searchParams]);
 
-  const onBrtcChange = (value: string) => {
+  const onBrtcSelectChange = (value: string) => {
     setParams((prev) => {
       const tmpParams = { ...prev, brtcCd: value, sggCd: SGG, addr: "", org: "" };
       return tmpParams;
     });
   };
 
-  const onSggChange = (value: string) => {
+  const onSggSelectChange = (value: string) => {
     // 이상하게 기본페이지에서 뒤로가기 하면 실행돼서 빈 문자열이 되는 오류가 있어 조건문 추가
     if (value) {
       setParams((prev) => {
@@ -81,6 +81,26 @@ const SearchForm = ({ brtcObj, regionInfo, searchParams }: SearchFormProps) => {
       });
     }
   };
+
+  const onBrtcDrawerChange = ([code, ]: [string, string]) => {
+    return (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+      e.stopPropagation();
+      setParams((prev) => {
+        const tmpParams = { ...prev, brtcCd: String(code), sggCd: SGG, addr: "", org: "" };
+        return tmpParams;
+      });
+    };
+  }
+
+  const onSggDrawerChange = ([code, ]: [string, string]) => {
+    return (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+      e.stopPropagation();
+      setParams((prev) => {
+        const tmpParams = { ...prev, sggCd: String(code), addr: "", org: "" };
+        return tmpParams;
+      });
+    };
+  }
 
   return (
     <>
@@ -96,15 +116,7 @@ const SearchForm = ({ brtcObj, regionInfo, searchParams }: SearchFormProps) => {
                 trigger={params.brtcCd === BRTC}
                 disabled={false}
                 value={params.brtcCd}
-                onClick={(item: [string, string]) => {
-                  return (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
-                    e.stopPropagation();
-                    setParams((prev) => {
-                      const tmpParams = { ...prev, brtcCd: String(item[0]), sggCd: SGG, addr: "", org: "" };
-                      return tmpParams;
-                    });
-                  };
-                }}
+                onClick={onBrtcDrawerChange}
               />
               {/* 시군구 select */}
               <RegionDrawer
@@ -115,15 +127,7 @@ const SearchForm = ({ brtcObj, regionInfo, searchParams }: SearchFormProps) => {
                 trigger={params.sggCd === SGG}
                 disabled={params.brtcCd === BRTC}
                 value={params.sggCd}
-                onClick={(item: [string, string]) => {
-                  return (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
-                    e.stopPropagation();
-                    setParams((prev) => {
-                      const tmpParams = { ...prev, sggCd: String(item[0]), addr: "", org: "" };
-                      return tmpParams;
-                    });
-                  };
-                }}
+                onClick={onSggDrawerChange}
               />
 
               <div className="max-sm:col-span-2 max-sm:relative">
@@ -270,7 +274,7 @@ const SearchForm = ({ brtcObj, regionInfo, searchParams }: SearchFormProps) => {
             trigger={params.brtcCd === BRTC}
             disabled={false}
             value={params.brtcCd}
-            onValueChange={onBrtcChange}
+            onValueChange={onBrtcSelectChange}
           />
           {/* 시군구 select */}
           <RegionSelect
@@ -279,7 +283,7 @@ const SearchForm = ({ brtcObj, regionInfo, searchParams }: SearchFormProps) => {
             trigger={params.sggCd === SGG}
             disabled={params.brtcCd === BRTC}
             value={params.sggCd}
-            onValueChange={onSggChange}
+            onValueChange={onSggSelectChange}
           />
 
           <div className="max-sm:col-span-2 max-sm:relative">
