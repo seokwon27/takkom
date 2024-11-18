@@ -13,6 +13,7 @@ import DeleteIcon from "../../../public/child/delete-icon.svg";
 import Image from "next/image";
 import { useUpdateChildMutation } from "@/query/useUpdateChildMutation";
 import { useDeleteProfileImageMutation } from "@/query/useChildQuery";
+import { useQueryClient } from "@tanstack/react-query";
 
 interface EditFormProps {
   child: Child; // 수정할 자식 데이터
@@ -28,6 +29,7 @@ const formSchema = z.object({
 });
 
 const EditChildForm = ({ child, onComplete }: EditFormProps) => {
+  const queryClient = useQueryClient();
   const { mutateAsync: updateChildInfo } = useUpdateChildMutation();
   const { mutateAsync: deleteProfileImage } = useDeleteProfileImageMutation(child.id);
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -100,8 +102,15 @@ const EditChildForm = ({ child, onComplete }: EditFormProps) => {
       notes: data.notes,
       profile: profileUrl
     });
+    queryClient.setQueryData(["child", child.id], {
+      ...child, // 기존 데이터 유지
+      name: data.name,
+      birth: data.birth,
+      notes: data.notes,
+      profile: profileUrl
+    });
 
-    onComplete();
+    onComplete(); 
   };
 
   // 프로필 이미지 삭제 함수 -- 수정 전
@@ -130,6 +139,11 @@ const EditChildForm = ({ child, onComplete }: EditFormProps) => {
   const handleDeleteImage = async () => {
     try {
       await deleteProfileImage(); // 이미지 삭제 및 기본 이미지로 설정
+      // 이미지 삭제 후 캐시 갱신
+      queryClient.setQueryData(["child", child.id], {
+        ...child,
+        profile: DEFAULT_PROFILE_IMAGE_URL // 기본 이미지로 설정
+      });
       onComplete(); // 완료 처리
     } catch (error) {
       console.log("프로필 이미지 삭제 오류: ", error);
@@ -243,7 +257,7 @@ const EditChildForm = ({ child, onComplete }: EditFormProps) => {
         {/* 완료 버튼 */}
         <Button
           type="submit"
-          className="w-full h-14 text-lg font-semibold text-white rounded-xl p-6 bg-primary-400 hover:bg-primary-500"
+          className="w-full h-14 text-lg font-semibold text-white rounded-xl p-6 bg-primary-400 hover:bg-primary-500 max-sm:mb-24"
         >
           완료
         </Button>

@@ -40,7 +40,6 @@ const HospitalPagination = ({
   return (
     <Pagination className="bg-white max-sm:mx-0 max-sm:px-6 max-sm:pb-[132px] max-sm:mb-0 max-sm:z-10">
       <PaginationContent className="gap-0">
-        {/* {maxPage >= 5 && ( */}
         <PaginationItem aria-disabled={currentPage === 1}>
           <PaginationLink
             href={createQueryParams({ ...params, pageNo: String(1) }, pathname)}
@@ -48,15 +47,14 @@ const HospitalPagination = ({
             aria-disabled={currentPage === 1}
             className="w-6 h-6 p-0 text-gray-300 hover:bg-transparent hover:text-gray-300 max-sm:w-[18px]"
           >
-            <ChevronsLeft size={24} strokeWidth={3} className="scale-150 max-sm:scale-100" />
+            <ChevronsLeft strokeWidth={3} className="size-24 scale-150 max-sm:scale-100" />
           </PaginationLink>
         </PaginationItem>
-        {/* )} */}
         <PaginationItem aria-disabled={currentPage === 1}>
           <PaginationPrevious
             href={currentPage > 1 ? createQueryParams({ ...params, pageNo: String(currentPage - 1) }, pathname) : "#"}
             aria-disabled={currentPage === 1}
-            className="w-6 h-6 p-0 mr-4 ml-1 text-gray-300 hover:bg-transparent hover:text-gray-300 max-sm:mr-2"
+            className="w-6 h-6 p-0 mr-4 ml-2 text-gray-300 hover:bg-transparent hover:text-gray-300 max-sm:ml-1 max-sm:mr-2"
           />
         </PaginationItem>
         {maxPage >= 5 ? (
@@ -107,7 +105,7 @@ const HospitalPagination = ({
             href={
               currentPage < maxPage ? createQueryParams({ ...params, pageNo: String(currentPage + 1) }, pathname) : "#"
             }
-            className="w-6 h-6 p-0 ml-8 mr-1 text-gray-300 hover:bg-transparent hover:text-gray-300 max-sm:ml-4"
+            className="w-6 h-6 p-0 ml-8 mr-2 text-gray-300 hover:bg-transparent hover:text-gray-300 max-sm:ml-4 max-sm:mr-1"
           />
         </PaginationItem>
         {/* {maxPage >= 5 && ( */}
@@ -118,7 +116,7 @@ const HospitalPagination = ({
             aria-disabled={currentPage === maxPage}
             className="w-6 h-6 p-0 text-lg text-gray-300 hover:bg-transparent hover:text-gray-300"
           >
-            <ChevronsRight size={24} strokeWidth={3} className="scale-150 max-sm:scale-100" />
+            <ChevronsRight strokeWidth={3} className="size-24 scale-150 max-sm:scale-100" />
           </PaginationLink>
         </PaginationItem>
         {/* )} */}
