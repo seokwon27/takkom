@@ -109,10 +109,10 @@ const SignIn = () => {
   };
 
   return (
-    <div className="flex flex-col justify-center items-center w-full min-h-screen px-6 py-12">
+    <div className="flex flex-col justify-center items-center w-full mt-[100px] max-sm:mt-[40px]">
       <Form {...form}>
         <div className="flex flex-col justify-center items-center">
-          <Image src={kkom} alt="따꼼 로고" className="mb-[80px]" />
+          <Image src={kkom} alt="따꼼 로고" className="mb-[64px]" />
           <div>
             <form onSubmit={form.handleSubmit(signIn)}>
               <FormField
@@ -189,16 +189,18 @@ const SignIn = () => {
                 회원가입
               </Link>
             </div>
-            <div className="self-stretch text-center text-[#4a4a4a] text-base font-normal leading-normal mb-[24px] mt-[80px]">
-              간편 로그인
-            </div>
-            <div className="flex flex-row justify-center items-center gap-[24px] mb-[100px]">
-              <Button onClick={googleSignIn} className="bg-transparent hover:bg-transparent">
-                <Image src={google} alt="구글 소셜 로그인" />
-              </Button>
-              <Button onClick={kakaoSignIn} className="bg-transparent hover:bg-transparent">
-                <Image src={kakao} alt="카카오 소셜 로그인" />
-              </Button>
+            <div>
+              <div className="self-stretch text-center text-[#4a4a4a] text-base font-normal leading-normal mb-[24px] mt-[32px]">
+                간편 로그인
+              </div>
+              <div className="flex flex-row justify-center items-center gap-[24px] mb-[100px]">
+                <Button onClick={googleSignIn} className="bg-transparent hover:bg-transparent">
+                  <Image src={google} alt="구글 소셜 로그인" />
+                </Button>
+                <Button onClick={kakaoSignIn} className="bg-transparent hover:bg-transparent">
+                  <Image src={kakao} alt="카카오 소셜 로그인" />
+                </Button>
+              </div>
             </div>
           </div>
         </div>
