@@ -70,7 +70,6 @@ const VaccineRecordTabs = ({ childId, edit, control }: VaccineRecordProps) => {
           ))}
         </TabsList>
 
-        {/* view페이지에서만 버튼 on */}
         {edit ? (
           <Button
             type="submit"
