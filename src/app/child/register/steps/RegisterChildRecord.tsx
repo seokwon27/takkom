@@ -51,7 +51,7 @@ const RegisterChildRecord = ({ child, onPrev, onComplete }: RegisterChildRecordP
   };
 
   return (
-    <div className="container flex flex-col mx-auto justify-center max-w-[792px] mt-16 max-sm:mt-3 max-sm:px-6">
+    <div className="container flex flex-col mx-auto justify-center max-w-[792px] mt-16 max-sm:mt-3 max-sm:px-6 max-sm:pb-[132px] max-sm:mb-0">
       {/* 모바일에서 보이는 레이아웃 */}
       <div className="w-full px-6 py-2 flex items-center gap-6 mb-4 sm:hidden">
         <div className="relative">

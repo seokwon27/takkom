@@ -46,8 +46,7 @@ const ChildInfoEditPage = () => {
 
   return (
     <>
-      {/* <div className="flex flex-col flex-grow-0 flex-shrink-0 justify-start items-start w-[588px] gap-20 mx-auto m-20"> */}
-      <div className="container flex flex-col mx-auto justify-center max-w-[588px] mt-[64px] max-sm:mt-3 max-sm:px-6 gap-12">
+      <div className="container flex flex-col mx-auto justify-center max-w-[588px] mt-[64px] max-sm:mt-3 max-sm:px-6 gap-12 max-sm:mb-[132px]">
         {/* 모바일에서 보이는 레이아웃 */}
         <div className="w-full px-6 py-2 flex items-center gap-6 sm:hidden">
           <div className="relative">
