@@ -42,7 +42,7 @@ const RootLayout = ({
       <body className={`${pretendard.className} flex flex-col min-h-screen relative`}>
         <Providers>
           <Header />
-          <main className="grow flex flex-col w-full max-w-[1200px] mx-auto mb-[100px] max-sm:mx-0 max-sm:mb-0">
+          <main className="grow flex flex-col w-full max-w-[1200px] mx-auto mb-[100px] max-sm:mx-0 max-sm:mb-0 ">
             {children}
           </main>
           <Toaster/>
