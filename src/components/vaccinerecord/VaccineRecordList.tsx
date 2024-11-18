@@ -1,6 +1,6 @@
 "use client";
 
-import { Control, Controller } from "react-hook-form";
+import { Control, Controller, ControllerRenderProps } from "react-hook-form";
 import { groupVaccinesData } from "@/types/vaccineType";
 import { FormValues } from "./CheckboxForm";
 import CustomCheckbox from "./ui/CustomCheckbox";
@@ -30,6 +30,21 @@ interface VaccineRecordListProps {
 }
 
 const VaccineRecordList = ({ data, vaccinated, edit, control }: VaccineRecordListProps) => {
+  const getDisabledState = (index: number, ids: string[], fieldValue: string[]): boolean => {
+    return (
+      // 이전 체크박스가 체크 되어 있지 않다면 비활성화 또는
+      (0 < index && !fieldValue.includes(ids[index - 1])) ||
+      // 다음 체크박스가 체크 되어 있다면 비활성화
+      (index < ids.length - 1 && fieldValue.includes(ids[index + 1]))
+    );
+  };
+
+  const handleCheckedChange =
+    (id: string, field: ControllerRenderProps<FormValues, "selectVaccines">) => (isChecked: boolean) => {
+      const newValue = isChecked ? [...field.value, id] : field.value.filter((v) => v !== id);
+      field.onChange(newValue);
+    };
+
   return (
     <div className="flex flex-col w-full items-start self-stretch gap-2.5 sm:px-8 sm:rounded-2xl sm:max-w-[796px]">
       <div className="flex flex-col min-w-[327px] items-center gap-4 sm:self-stretch sm:max-w-full sm:gap-5 sm:items-start">
@@ -92,16 +107,8 @@ const VaccineRecordList = ({ data, vaccinated, edit, control }: VaccineRecordLis
                             additions={additions}
                             index={index}
                             checked={field.value.includes(id)}
-                            disabled={
-                              // 이전 체크박스가 체크 되어 있지 않다면 비활성화 또는
-                              (0 < index && !field.value.includes(ids[index - 1])) ||
-                              // 다음 체크박스가 체크 되어 있다면 비활성화
-                              (index < ids.length - 1 && field.value.includes(ids[index + 1]))
-                            }
-                            onCheckedChange={(isChecked) => {
-                              const newValue = isChecked ? [...field.value, id] : field.value.filter((v) => v !== id);
-                              field.onChange(newValue);
-                            }}
+                            disabled={getDisabledState(index, ids, field.value)}
+                            onCheckedChange={handleCheckedChange(id, field)}
                           />
                         )}
                       />
