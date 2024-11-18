@@ -17,12 +17,20 @@ import SearchIcon from "../../../public/hospital/search-icon.svg";
 import { cn } from "@/lib/utils";
 import { HospitalSearchParams } from "@/types/hospital";
 import { ChevronLeft } from "lucide-react";
-import useHospitalSearchStore from "@/store/hospitalStore";
 import RegionDrawer from "./RegionDrawer";
 import DesktopLayout from "../layout/DesktopLayout";
 import MobileLayout from "../layout/MobileLayout";
 import LoadingData from "./LoadingData";
 import { useHospitalContext } from "@/providers/HospitalProvider";
+
+const DefaultParams = {
+  brtcCd: BRTC,
+  sggCd: SGG,
+  addr: "",
+  org: "",
+  disease: DISEASE,
+  pageNo: "1"
+};
 
 type SearchFormProps = {
   brtcObj: { [key: string]: string };
@@ -43,20 +51,15 @@ const SearchForm = ({ brtcObj, regionInfo, searchParams }: SearchFormProps) => {
   // const [disease, setDisease] = useState(searchParams.disease || DISEASE);
   const [showInfoTag, setShowInfoTag] = useState(true);
   const [showLoading, setShowLoading] = useState(false);
-  const { step, setStep, params, setParams } = useHospitalContext(state => state);
-  console.log(params)
+  const { step, setStep, params, setParams } = useHospitalContext((state) => state);
+  console.log(params);
   // const disease = params.disease
 
   // // searchParams가 바뀔 때마다 재실행
   // useEffect(() => {
   //   if (!searchParams.brtcCd || !searchParams.sggCd) {
   //     setStep(0);
-  //     setParams({
-  //       brtcCd: BRTC,
-  //       sggCd: SGG,
-  //       addr: "",
-  //       org: ""
-  //     });
+  //     reset();
   //   } else {
   //     setStep(1);
   //     setParams({
@@ -69,7 +72,7 @@ const SearchForm = ({ brtcObj, regionInfo, searchParams }: SearchFormProps) => {
   // }, [searchParams]);
 
   const onBrtcChange = (value: string) => {
-    setParams({brtcCd:value, sggCd: SGG, addr: "", org: ""})
+    setParams({...DefaultParams, brtcCd: value });
     // setParams((prev) => {
     //   const tmpParams = { ...prev, brtcCd: value, sggCd: SGG, addr: "", org: "" };
     //   return tmpParams;
@@ -79,11 +82,11 @@ const SearchForm = ({ brtcObj, regionInfo, searchParams }: SearchFormProps) => {
   const onSggChange = (value: string) => {
     // 이상하게 기본페이지에서 뒤로가기 하면 실행돼서 빈 문자열이 되는 오류가 있어 조건문 추가
     if (value) {
-    setParams({sggCd:value, addr: "", org: ""})
-    //    setParams((prev) => {
-    //     const tmpParams = { ...prev, sggCd: value, addr: "", org: "" };
-    //     return tmpParams;
-    //   });
+      setParams({ sggCd: value, addr: "", org: "" });
+      //    setParams((prev) => {
+      //     const tmpParams = { ...prev, sggCd: value, addr: "", org: "" };
+      //     return tmpParams;
+      //   });
     }
   };
 
@@ -104,7 +107,7 @@ const SearchForm = ({ brtcObj, regionInfo, searchParams }: SearchFormProps) => {
                 onClick={(item: [string, string]) => {
                   return (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
                     e.stopPropagation();
-                    setParams({ brtcCd: String(item[0]), sggCd: SGG, addr: "", org: "" })
+                    setParams({ brtcCd: String(item[0]), sggCd: SGG, addr: "", org: "" });
                     // setParams((prev) => {
                     //   const tmpParams = { ...prev, brtcCd: String(item[0]), sggCd: SGG, addr: "", org: "" };
                     //   return tmpParams;
@@ -124,7 +127,7 @@ const SearchForm = ({ brtcObj, regionInfo, searchParams }: SearchFormProps) => {
                 onClick={(item: [string, string]) => {
                   return (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
                     e.stopPropagation();
-                    setParams({ sggCd: String(item[0]), addr: "", org: "" })
+                    setParams({ sggCd: String(item[0]), addr: "", org: "" });
                     // setParams((prev) => {
                     //   const tmpParams = { ...prev, sggCd: String(item[0]), addr: "", org: "" };
                     //   return tmpParams;
@@ -139,7 +142,7 @@ const SearchForm = ({ brtcObj, regionInfo, searchParams }: SearchFormProps) => {
                   value={params.addr}
                   onChange={(e) => {
                     setShowInfoTag(false);
-                    setParams({addr: e.target.value})
+                    setParams({ addr: e.target.value });
                     // setParams((prev) => {
                     //   const tmpParams = { ...prev, addr: e.target.value };
                     //   return tmpParams;
@@ -152,7 +155,7 @@ const SearchForm = ({ brtcObj, regionInfo, searchParams }: SearchFormProps) => {
                     "focus-visible:ring-offset-0 focus-visible:ring-1 focus-visible:ring-inset focus-visible:ring-gray-700",
                     "max-sm:py-3 max-sm:pr-4 max-sm:pl-[42px] max-sm:rounded-xl max-sm:text-left",
                     {
-                      'text-gray-700': params.addr
+                      "text-gray-700": params.addr
                     }
                   )}
                 />
@@ -165,7 +168,7 @@ const SearchForm = ({ brtcObj, regionInfo, searchParams }: SearchFormProps) => {
                   value={params.org}
                   onChange={(e) => {
                     setShowInfoTag(false);
-                    setParams({org: e.target.value})
+                    setParams({ org: e.target.value });
                     // setParams((prev) => {
                     //   const tmpParams = { ...prev, org: e.target.value };
                     //   return tmpParams;
@@ -178,7 +181,7 @@ const SearchForm = ({ brtcObj, regionInfo, searchParams }: SearchFormProps) => {
                     "focus-visible:ring-offset-0 focus-visible:ring-1 focus-visible:ring-inset focus-visible:ring-gray-700",
                     "max-sm:py-3 max-sm:pr-4 max-sm:pl-[42px] max-sm:rounded-xl max-sm:text-left",
                     {
-                      'text-gray-700': params.org
+                      "text-gray-700": params.org
                     }
                   )}
                 />
@@ -188,7 +191,7 @@ const SearchForm = ({ brtcObj, regionInfo, searchParams }: SearchFormProps) => {
               <Button
                 type="button"
                 onClick={() => {
-                  setParams({disease: DISEASE});
+                  setParams({ disease: DISEASE });
                   setShowLoading(true);
                   router.push(createQueryParams({ ...params, pageNo: "1" }, pathname));
                   // setStep(1);
@@ -201,7 +204,7 @@ const SearchForm = ({ brtcObj, regionInfo, searchParams }: SearchFormProps) => {
               >
                 검색
               </Button>
-              {showLoading && <LoadingData/>}
+              {showLoading && <LoadingData />}
             </form>
           </>
         )}
@@ -226,7 +229,7 @@ const SearchForm = ({ brtcObj, regionInfo, searchParams }: SearchFormProps) => {
               <Select
                 value={params.disease}
                 onValueChange={(value) => {
-                  setParams({disease: value});
+                  setParams({ disease: value });
                   if (searchParams.brtcCd && searchParams.sggCd) {
                     const queryParams = { ...params, disease: value, pageNo: "1" };
                     router.push(createQueryParams(queryParams, pathname));
@@ -250,11 +253,19 @@ const SearchForm = ({ brtcObj, regionInfo, searchParams }: SearchFormProps) => {
                 >
                   {/** avoidCollision : 충돌이 발생하는 방향의 반대로 select가 열리게 하는 속성, 항상 아래로 열리도록 false로 변경 */}
                   <SelectGroup>
-                    <SelectItem value={DISEASE} key={DISEASE} className="justify-center max-sm:text-text-m max-sm:h-fit max-sm:p-1">
+                    <SelectItem
+                      value={DISEASE}
+                      key={DISEASE}
+                      className="justify-center max-sm:text-text-m max-sm:h-fit max-sm:p-1"
+                    >
                       {"전체"}
                     </SelectItem>
                     {DISEASE_LIST.map((name) => (
-                      <SelectItem value={name} key={name} className="justify-center max-sm:text-text-m max-sm:h-fit max-sm:p-1">
+                      <SelectItem
+                        value={name}
+                        key={name}
+                        className="justify-center max-sm:text-text-m max-sm:h-fit max-sm:p-1"
+                      >
                         {name}
                       </SelectItem>
                     ))}
@@ -303,7 +314,7 @@ const SearchForm = ({ brtcObj, regionInfo, searchParams }: SearchFormProps) => {
               value={params.addr}
               onChange={(e) => {
                 setShowInfoTag(false);
-                setParams({addr: e.target.value})
+                setParams({ addr: e.target.value });
                 // setParams((prev) => {
                 //   const tmpParams = { ...prev, addr: e.target.value };
                 //   return tmpParams;
@@ -316,7 +327,7 @@ const SearchForm = ({ brtcObj, regionInfo, searchParams }: SearchFormProps) => {
                 "focus-visible:ring-offset-0 focus-visible:ring-1 focus-visible:ring-inset focus-visible:ring-gray-700",
                 "max-sm:py-3 max-sm:pr-4 max-sm:pl-[42px] max-sm:rounded-xl max-sm:text-left",
                 {
-                  'text-gray-700': params.addr
+                  "text-gray-700": params.addr
                 }
               )}
             />
@@ -329,7 +340,7 @@ const SearchForm = ({ brtcObj, regionInfo, searchParams }: SearchFormProps) => {
               value={params.org}
               onChange={(e) => {
                 setShowInfoTag(false);
-                setParams({org: e.target.value})
+                setParams({ org: e.target.value });
                 // setParams((prev) => {
                 //   const tmpParams = { ...prev, org: e.target.value };
                 //   return tmpParams;
@@ -342,7 +353,7 @@ const SearchForm = ({ brtcObj, regionInfo, searchParams }: SearchFormProps) => {
                 "focus-visible:ring-offset-0 focus-visible:ring-1 focus-visible:ring-inset focus-visible:ring-gray-700",
                 "max-sm:py-3 max-sm:pr-4 max-sm:pl-[42px] max-sm:rounded-xl max-sm:text-left",
                 {
-                  'text-gray-700': params.org
+                  "text-gray-700": params.org
                 }
               )}
             />
@@ -352,7 +363,7 @@ const SearchForm = ({ brtcObj, regionInfo, searchParams }: SearchFormProps) => {
           <Button
             type="button"
             onClick={() => {
-              setParams({disease: DISEASE});
+              setParams({ disease: DISEASE });
               router.push(createQueryParams({ ...params, pageNo: "1" }, pathname));
               setStep(1);
             }}
@@ -369,7 +380,7 @@ const SearchForm = ({ brtcObj, regionInfo, searchParams }: SearchFormProps) => {
           <Select
             value={params.disease}
             onValueChange={(value) => {
-              // setParams({disease: value});
+              setParams({ disease: value });
               if (searchParams.brtcCd && searchParams.sggCd) {
                 const queryParams = { ...params, disease: value, pageNo: "1" };
                 router.push(createQueryParams(queryParams, pathname));

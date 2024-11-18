@@ -4,7 +4,7 @@ import React, { useState } from "react";
 import HospitalCard from "./HospitalCard";
 import HospitalPagination from "./HospitalPagination";
 import { useHospitalQuery } from "@/query/useHospitalQuery";
-import { NUM_OF_CARDS_PER_PAGE } from "../../constants/constants";
+import { DISEASE, NUM_OF_CARDS_PER_PAGE } from "../../constants/constants";
 import LoadingHospitalList from "./HospitalListLoading";
 import { useUserLike } from "@/query/useUserQuery";
 import browserClient from "@/utils/supabase/client";
@@ -12,26 +12,20 @@ import { HospitalSearchParams } from "@/types/hospital";
 import { User } from "@supabase/supabase-js";
 import useDevice from "@/utils/useDevice";
 import HospitalCardWithDrawer from "./HospitalCardWithDrawer";
-import useHospitalSearchStore from "@/store/hospitalStore";
 import MobileLayout from "../layout/MobileLayout";
 import DesktopLayout from "../layout/DesktopLayout";
 import Image from "next/image";
 import LoadingSpinner from "../../../public/common/loading-spinner.svg";
 import { useHospitalContext } from "@/providers/HospitalProvider";
 
-const HospitalList = ({ searchParams, user }: { searchParams: HospitalSearchParams; user: User | null }) => {
-  const { step } = useHospitalContext(state => state);
+const HospitalList = ({ user }: { searchParams: HospitalSearchParams; user: User | null }) => {
+  const { step, params } = useHospitalContext(state => state);
   const [clickedId, setClickedId] = useState(0);
   const device = useDevice();
 
-  const [brtcCd, sggCd, addr, org, disease, currentPage] = [
-    searchParams.brtcCd ?? "",
-    searchParams.sggCd ?? "",
-    searchParams.addr ?? "",
-    searchParams.org ?? "",
-    searchParams.disease ?? "",
-    Number(searchParams.pageNo) ?? 1
-  ];
+  const {brtcCd, sggCd, addr, org} = params
+  const disease = params.disease === DISEASE ? "" : params.disease
+  const currentPage = Number(params.pageNo ?? 1)
 
   const {
     data: hospitalData,

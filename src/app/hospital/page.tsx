@@ -25,7 +25,7 @@ const HospitalSearchPage = async ({ searchParams }: { searchParams: HospitalSear
   const user = await getUser(supabaseClient);
 
   return (
-    <HospitalProvider params={!!searchParams ? searchParams : }>
+    <HospitalProvider key={JSON.stringify(searchParams)} params={searchParams}>
       <div className="w-full max-w-[792px] grow flex flex-col items-center mx-auto max-sm:max-w-auto">
         <section className="w-full flex flex-col bg-white max-sm:sticky max-sm:top-0 max-sm:z-[41]">
           <SearchForm brtcObj={brtcObj} regionInfo={regionInfo} searchParams={searchParams} />
