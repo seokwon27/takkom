@@ -62,7 +62,7 @@ const HospitalCardWithDrawer = ({ user, hospitalInfo, clickedId, filter, likes }
           orgcd === clickedId && "max-sm:border-primary-400 max-sm:shadow-none"
         )}
       >
-        <div className="w-[160px] flex justify-center items-center bg-gray-10 rounded-xl aspect-square overflow-hidden relative max-sm:w-[86px] sm:rounded-md">
+        <div className="w-[160px] flex justify-center items-center bg-gray-10 rounded-xl aspect-square overflow-hidden relative max-sm:size-[86px] sm:rounded-md">
           <Image src={Ambulance} alt="병원 이미지" className="object-cover" />
           <Heart
             fill={like ? `#FF4737` : `#171717`}
@@ -80,7 +80,7 @@ const HospitalCardWithDrawer = ({ user, hospitalInfo, clickedId, filter, likes }
             }}
             className={cn(
               like ? "text-[#FF4737]" : "text-gray-900",
-              "opacity-50 absolute top-[6px] left-[6px] aspect-square sm:w-[14px]"
+              "opacity-50 absolute top-[6px] left-[6px] aspect-square cursor-pointer sm:w-[14px]"
             )}
           />
         </div>

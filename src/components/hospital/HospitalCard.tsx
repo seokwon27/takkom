@@ -53,6 +53,18 @@ const HospitalCard = ({ user, hospitalInfo, clickedId, filter, likes }: Hospital
   const { mutate: addLike } = useAddLikeMutation(user?.id);
   const { mutate: cancelLike } = useCancelLikeMutation(user?.id);
 
+  const onHeartClick = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+    e.stopPropagation();
+    if (user) {
+      if (!likeData) {
+        addLike({ hospitalInfo });
+      }
+      if (!!likeData) {
+        cancelLike({ id: likeData?.id });
+      }
+    }
+  };
+
   return (
     <>
       <div
@@ -65,18 +77,8 @@ const HospitalCard = ({ user, hospitalInfo, clickedId, filter, likes }: Hospital
         <div className="size-[160px] flex justify-center items-center bg-gray-10 rounded-xl overflow-hidden relative max-sm:size-[86px] sm:rounded-md">
           <Image src={Ambulance} alt="병원 이미지" className="object-cover" />
           <div
-            className=" absolute top-[6px] left-[6px] aspect-square sm:top-3 sm:left-3 sm:w-10 sm:p-1"
-            onClick={(e) => {
-              e.stopPropagation();
-              if (user) {
-                if (!likeData) {
-                  addLike({ hospitalInfo });
-                }
-                if (!!likeData) {
-                  cancelLike({ id: likeData?.id });
-                }
-              }
-            }}
+            className=" absolute top-[6px] left-[6px] aspect-square cursor-pointer sm:top-3 sm:left-3 sm:w-10 sm:p-1"
+            onClick={onHeartClick}
           >
             <Heart
               fill={like ? `#FF4737` : `#171717`}

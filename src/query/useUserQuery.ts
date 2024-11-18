@@ -7,7 +7,8 @@ import { QueryClient, useQuery, UseQueryResult } from "@tanstack/react-query";
 export const useUserQuery = (supabaseClient: SupabaseDatabase): UseQueryResult<User> => {
   return useQuery({
     queryKey: ["user"],
-    queryFn: () => getUser(supabaseClient)
+    queryFn: () => getUser(supabaseClient),
+    staleTime:Infinity
   });
 };
 
@@ -24,6 +25,7 @@ export const useUserLike = (supabaseClient: SupabaseDatabase, userId?: string) =
   return useQuery({
     queryKey: ["user", "like", userId ?? ''],
     queryFn: () => getUserLike(supabaseClient, userId),
-    enabled: !!userId
+    enabled: !!userId,
+    staleTime: Infinity
   });
 };
