@@ -29,6 +29,7 @@ const formSchema = z.object({
 });
 
 const EditChildForm = ({ child, onComplete }: EditFormProps) => {
+
   const queryClient = useQueryClient();
   const { mutateAsync: updateChildInfo } = useUpdateChildMutation();
   const { mutateAsync: deleteProfileImage } = useDeleteProfileImageMutation(child.id);
@@ -102,6 +103,7 @@ const EditChildForm = ({ child, onComplete }: EditFormProps) => {
       notes: data.notes,
       profile: profileUrl
     });
+
     queryClient.setQueryData(["child", child.id], {
       ...child, // 기존 데이터 유지
       name: data.name,
@@ -110,7 +112,8 @@ const EditChildForm = ({ child, onComplete }: EditFormProps) => {
       profile: profileUrl
     });
 
-    onComplete(); 
+    
+    onComplete();
   };
 
   // 프로필 이미지 삭제 함수 -- 수정 전
