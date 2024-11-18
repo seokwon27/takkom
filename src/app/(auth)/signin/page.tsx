@@ -2,7 +2,7 @@ import SignIn from "@/components/auth/SignIn";
 
 const SignInPage = () => {
   return (
-    <section className="grid place-items-center gap-6 mt-[77px] w-full max-w-[1200px] m-auto max-sm:max-w-auto">
+    <section className="w-full max-w-[790px] grow flex flex-col items-center mx-auto max-sm:max-w-auto">
       <SignIn />
     </section>
   );
