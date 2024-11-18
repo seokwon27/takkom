@@ -57,10 +57,14 @@ const Info = () => {
               {/* 임시로 아이정보 페이지로 이동시킴 */}
               {/* <Link href={"/"} className=" text-gray-800 text-label-xl font-normal">
                 비밀번호 수정하기
-              </Link> */}
-              <hr className="border-t border-gray-30 w-full" />
+              </Link>
+              <hr className="border-t border-gray-30 w-full" /> */}
               <Link href={"/child"} className=" text-gray-800 text-label-xl">
                 아이 정보 수정하기
+              </Link>
+              <hr className="border-t border-gray-30 w-full" />
+              <Link href={"/mypage/like"} className=" text-gray-800 text-label-xl font-normal">
+                나의 관심 병원
               </Link>
               <hr className="border-t border-gray-30 w-full" />
               <Link href={"/policy"} className=" text-gray-800 text-label-xl">

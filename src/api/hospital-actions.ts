@@ -115,7 +115,7 @@ export type HospitalData = { items: HopsitalItem[]; totalCount: number; maxPage:
 // 병원 목록 가져오기
 export const getHospitals = async (
   input: HospitalParams
-): Promise<{ items: HopsitalItem[]; totalCount: number; maxPage: number }> => {
+): Promise<HospitalData> => {
   const params = { serviceKey, ...input, numOfRows: "100", pageNo: "1" };
   const searchParams = new URLSearchParams(params).toString();
   const res = await fetch(BASE_URL + `/getOrgList3?` + searchParams, {
@@ -129,6 +129,10 @@ export const getHospitals = async (
   const { header, body } = xmlParser<HospitalType>(data);
   // console.log(xmlParser<HospitalType>(data))
   let item = Array.isArray(body.items.item) ? body.items.item : [body.items.item];
+  
+  if (item[0] === undefined) {
+    return defaultHospitalData;
+  }
 
   if (header.resultCode !== 0) {
     return defaultHospitalData;

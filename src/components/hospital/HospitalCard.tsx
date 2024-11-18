@@ -62,11 +62,10 @@ const HospitalCard = ({ user, hospitalInfo, clickedId, filter, likes }: Hospital
           orgcd === clickedId && "max-sm:border-primary-400 max-sm:shadow-none"
         )}
       >
-        <div className="w-[160px] flex justify-center items-center bg-gray-10 rounded-xl aspect-square overflow-hidden relative max-sm:w-[86px] sm:rounded-md">
+        <div className="size-[160px] flex justify-center items-center bg-gray-10 rounded-xl overflow-hidden relative max-sm:size-[86px] sm:rounded-md">
           <Image src={Ambulance} alt="병원 이미지" className="object-cover" />
-          <Heart
-            fill={like ? `#FF4737` : `#171717`}
-            size={14}
+          <div
+            className=" absolute top-[6px] left-[6px] aspect-square sm:top-3 sm:left-3 sm:w-10 sm:p-1"
             onClick={(e) => {
               e.stopPropagation();
               if (user) {
@@ -78,11 +77,16 @@ const HospitalCard = ({ user, hospitalInfo, clickedId, filter, likes }: Hospital
                 }
               }
             }}
-            className={cn(
-              like ? "text-[#FF4737]" : "text-gray-900",
-              "opacity-50 absolute top-[6px] left-[6px] aspect-square sm:w-[14px]"
-            )}
-          />
+          >
+            <Heart
+              fill={like ? `#FF4737` : `#171717`}
+              // size={14}
+              className={cn("opacity-50 size-[14px] sm:size-6", {
+                "text-[#FF4737]": like,
+                "text-gray-900": !like
+              })}
+            />
+          </div>
         </div>
         <div className="flex-1 h-full flex flex-col gap-4 mx-[24px] max-sm:ml-2 max-sm:mr-0 max-sm:gap-2">
           <div className="flex gap-3 max-sm:gap-2">
