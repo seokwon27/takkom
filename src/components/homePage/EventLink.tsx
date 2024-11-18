@@ -9,7 +9,7 @@ const EventLink = () => {
   return (
     <div className="flex flex-col gap-16 mb-[190px] max-sm:gap-6 max-sm:mb-0">
       <div className="text-center">
-        <h1 className="text-[40px] text-gray-800 font-bold max-sm:text-heading-s">따꼼만의 이벤트</h1>
+        <h1 className="text-[40px] leading-[54px]  text-gray-800 font-bold max-sm:text-heading-s">따꼼만의 이벤트</h1>
       </div>
       <div className="w-full h-fit overflow-scroll scrollbar-hide">
         <div className="flex w-full justify-between max-sm:w-fit max-sm:gap-4">
@@ -19,7 +19,7 @@ const EventLink = () => {
                 <Image src={ambulance} alt="앰뷸런스" className="h-[120px] max-sm:h-[106px]" />
               </div>
               <div className="flex flex-col gap-2 text-center">
-                <h2 className="text-[##393939] text-2xl font-bold max-sm:text-heading-xxs">설문에 참여해보세요!</h2>
+                <h2 className="text-gray-800 text-heading-l font-bold max-sm:text-heading-xxs">설문에 참여해보세요!</h2>
                 <p className="text-primary-400 font-bold max-sm:text-label-s">추첨을 통해 기프티콘 증정</p>
               </div>
             </div>
@@ -29,7 +29,9 @@ const EventLink = () => {
               <Image src={mapIcon} alt="맵아이콘" className="max-sm:h-[94px]" />
             </div>
             <div className="flex flex-col gap-2 text-center">
-              <h2 className="text-[##393939] text-2xl font-bold max-sm:text-heading-xxs">방문했던 병원을 추천해요!</h2>
+              <h2 className="text-gray-800 text-heading-l font-bold max-sm:text-heading-xxs">
+                방문했던 병원을 추천해요!
+              </h2>
               <p className="text-primary-400 font-bold max-sm:text-label-s">인기글 선정시 1000 point</p>
             </div>
           </div>
@@ -38,7 +40,7 @@ const EventLink = () => {
               <Image src={calendarIcon} alt="달력" className="max-sm:h-[94px]" />
             </div>
             <div className="flex flex-col gap-2 text-center">
-              <h2 className="text-[##393939] text-2xl font-bold max-sm:text-heading-xxs">EVERY 출석 이벤트</h2>
+              <h2 className="text-gray-800 text-heading-l font-bold max-sm:text-heading-xxs">EVERY 출석 이벤트</h2>
               <p className="text-primary-400 font-bold max-sm:text-label-s">포인트와 푸짐한 상품까지</p>
             </div>
           </div>

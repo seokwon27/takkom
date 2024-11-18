@@ -27,15 +27,13 @@ export const useAgeGroupStore = create<AgeState>((set) => ({
       return {
         ageGroup: newText,
         subAgeGroup: subGroup[newText],
-        selectedAge: subGroup[newText][0],
-        currentDisease: ""
+        selectedAge: subGroup[newText][0]
       };
     }), //
   setSelectedAge: (newAge: number) =>
     set(() => {
       return {
-        selectedAge: newAge,
-        currentDisease: ""
+        selectedAge: newAge
       };
     }),
   setCurrentDisease: (newText: string) => set({ currentDisease: newText }),

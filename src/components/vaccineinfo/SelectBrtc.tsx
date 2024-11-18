@@ -58,18 +58,26 @@ const SelectBrtc = () => {
               // console.log(value);
             }}
           >
-            <SelectTrigger className="justify-center">
+            <SelectTrigger
+              className={`justify-center border-none text-title-xs bg-gray-30  font-bold ${
+                brtc === "" ? "text-gray-400" : "text-gray-700"
+              }`}
+            >
               <SelectValue placeholder="시/도" />
             </SelectTrigger>
             <SelectContent>
               <SelectGroup className="z-[100]">
                 {isPending
-                  ? "도시 정보"
+                  ? "로딩중입니다"
                   : brtcObj.map((item) => {
                       const [brtcCd, brtcName] = item;
 
                       return (
-                        <SelectItem className="justify-center" value={brtcCd} key={brtcCd}>
+                        <SelectItem
+                          className="justify-center text-gray-700 text-title-xxs font-semibold"
+                          value={brtcCd}
+                          key={brtcCd}
+                        >
                           {brtcName}
                         </SelectItem>
                       );
@@ -88,7 +96,12 @@ const SelectBrtc = () => {
                 // console.log(value);
               }}
             >
-              <SelectTrigger className="justify-center" disabled={!brtc}>
+              <SelectTrigger
+                className={`justify-center border-none text-title-xs bg-gray-30  font-bold ${
+                  sgg === "" ? "text-gray-400" : "text-gray-700"
+                }`}
+                disabled={!brtc}
+              >
                 <SelectValue placeholder="시/군/구" />
               </SelectTrigger>
               <SelectContent>
@@ -96,7 +109,11 @@ const SelectBrtc = () => {
                   {regionInfo.map((item) => {
                     const [sggCd, sggName] = item;
                     return (
-                      <SelectItem className="justify-center" value={sggCd} key={sggCd}>
+                      <SelectItem
+                        className="justify-center text-gray-700 text-title-xxs font-semibold"
+                        value={sggCd}
+                        key={sggCd}
+                      >
                         {sggName}
                       </SelectItem>
                     );
@@ -108,7 +125,7 @@ const SelectBrtc = () => {
         </div>
       </div>
       <Button
-        className="text-white p-6 bg-primary-400 hover:bg-primary-300 disabled:bg-primary-100"
+        className="text-white p-6 rounded-xl bg-primary-400 hover:bg-primary-300 disabled:bg-primary-100"
         onClick={handleClick}
         disabled={!brtc || !sgg}
       >
