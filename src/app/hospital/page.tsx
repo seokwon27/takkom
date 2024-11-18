@@ -19,10 +19,8 @@ export const metadata: Metadata = {
 
 const HospitalSearchPage = async ({ searchParams }: { searchParams: HospitalSearchParams }) => {
   const supabaseClient = createClient();
-  const brtcObj = await getBrtcCd();
-  const regionInfo = await getRegionInfo();
 
-  const user = await getUser(supabaseClient);
+  const [brtcObj, regionInfo, user] = await Promise.all([getBrtcCd(), getRegionInfo(), getUser(supabaseClient)]);
 
   return (
     <HospitalProvider key={JSON.stringify(searchParams)} params={searchParams}>
