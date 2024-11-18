@@ -34,7 +34,7 @@ export const SearchModal = ({
               <Image src={closeBtn} alt="closeBtn" />
             </button>
           </div>
-          <h1 className="text-gray-800 text-lg font-semibold">지역을 선택해 주세요.</h1>
+          <h1 className="text-gray-800 text-title-s font-semibold">지역을 선택해 주세요.</h1>
         </div>
         <SelectBrtc />
       </div>
