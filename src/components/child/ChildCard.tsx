@@ -27,37 +27,6 @@ export const ChildCard = ({ child }: ChildCardProps) => {
   // 접종 데이터가 없으면 처리하지 않도록
   if (!vaccineData || !vaccineRecord) return <div>Loading...</div>;
 
-  // 필수 예방접종과 선택 예방접종 계산하는 함수
-  // const getVaccinesCount = () => {
-  //   let requiredVaccinesCount = 0; // 맞은 필수 접종 수
-  //   let optionalVaccinesCount = 0; // 맞은 선택 접종 수
-  //   let totalRequiredVaccines = 0; // 전체 필수 접종 수
-  //   let totalOptionalVaccines = 0; // 전체 선택 접종 수
-
-  //   vaccineData.forEach((vaccine) => {
-  //     console.log("disease: ", vaccine.disease);
-  //     // 각 disease 항목에 대해서 접종 여부를 체크
-  //     vaccine.disease.forEach((disease) => {
-  //       // disease의 additions 배열에 따른 필수/선택 접종 구분
-  //       disease.additions.forEach((isOptional, index) => {
-  //         const allCheckedVaccine = disease.ids.every((id) => vaccineRecord.includes(id));
-
-  //         // 선택 접종인 경우
-  //         if (isOptional) {
-  //           totalOptionalVaccines++; // 전체 선택 접종 수 증가
-  //           if (allCheckedVaccine) optionalVaccinesCount++; // 맞은 선택 접종 수 증가
-  //         } else {
-  //           // 필수 접종인 경우
-  //           totalRequiredVaccines++; // 전체 필수 접종 수 증가
-  //           if (allCheckedVaccine) requiredVaccinesCount++; // 맞은 필수 접종 수 증가
-  //         }
-  //       });
-  //     });
-  //   });
-
-  //   return { requiredVaccinesCount, totalRequiredVaccines, optionalVaccinesCount, totalOptionalVaccines };
-  // };
-
   const getVaccinesCount = () => {
     let requiredVaccinesCount = 0; // 맞은 필수 접종 수
     let optionalVaccinesCount = 0; // 맞은 선택 접종 수
@@ -127,15 +96,7 @@ export const ChildCard = ({ child }: ChildCardProps) => {
               {/* 아이 기본 정보 내 좌/우 영역 나누기 위한 컨테이너 */}
               <div className="flex items-center justify-between w-full gap-3 md:gap-6">
                 {/* 좌측: 프로필 이미지 */}
-                {/* <div className="md:w-32 md:h-32 flex-shrink-0">
-                  <Image
-                    src={child.profile || DEFAULT_PROFILE_IMAGE_URL} // 기본 이미지 설정
-                    alt="아이 프로필 이미지"
-                    width={176} // 이미지 크기 설정
-                    height={176} // 이미지 크기 설정
-                    className="w-24 h-24 object-cover rounded-[13px]" // 이미지 정사각형으로 유지
-                  />
-                </div> */}
+
                 <div className="flex-shrink-0">
                   <Image
                     src={child.profile || DEFAULT_PROFILE_IMAGE_URL}
@@ -177,13 +138,6 @@ export const ChildCard = ({ child }: ChildCardProps) => {
                   </Link>
                 </div>
               </div>
-
-              {/* 아이 기본 정보 내 좌/우 영역 나누기 위한 컨테이너 끝 */}
-
-              {/* 카메라 아이콘 */}
-              {/* <div className="flex flex-col justify-center items-center flex-grow-0 flex-shrink-0 h-10 w-10 absolute left-[124px] top-[124px] overflow-hidden gap-2.5 p-0.5 rounded-[20px] bg-white">
-                <Image src={CameraIcon} alt="카메라 아이콘" />
-              </div> */}
             </div>
           </div>
           {/* 아이 기본 정보 컨테이너 끝 */}
@@ -209,13 +163,6 @@ export const ChildCard = ({ child }: ChildCardProps) => {
                 {/* 필수 접종 & 선택 접종 디스플레이 컨테이너 */}
                 <div className="flex flex-col justify-start items-start self-stretch flex-grow gap-2">
                   {/* 필수 접종 & 선택 접종 */}
-                  {/* <div className="flex justify-center items-center self-stretch flex-grow relative p-2 rounded-xl">
-                    <p className="text-white text-sm">
-                      접종 완료 내역과 앞으로의 접종 일정을 간편하게 관리하세요! 아이의 건강 기록을 손쉽게 확인할 수
-                      있습니다.
-                    </p>
-                  </div> */}
-
                   <div className="flex justify-start items-start self-stretch flex-grow">
                     <div className="flex justify-center items-center self-stretch flex-grow relative gap-4 p-4 rounded-xl bg-white">
                       <div className="flex flex-col justify-center items-center self-stretch flex-grow relative gap-4">
