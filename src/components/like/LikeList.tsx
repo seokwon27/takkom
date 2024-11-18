@@ -4,7 +4,7 @@ import { useUserLike } from "@/query/useUserQuery";
 import browserClient from "@/utils/supabase/client";
 import { User } from "@supabase/supabase-js";
 import React, { useState } from "react";
-import LoadingHospitalList from "../hospital/LoadingHospitalList";
+import LoadingHospitalList from "../hospital/HospitalListLoading";
 import { NUM_OF_CARDS_PER_PAGE } from "@/constants/constants";
 import HospitalCard from "../hospital/HospitalCard";
 import HospitalPagination from "../hospital/HospitalPagination";

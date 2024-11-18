@@ -83,10 +83,6 @@ const VaccineNames = ({ vaccineNames, filter }: { vaccineNames: string[]; filter
               "h-fit p-1 justify-start border-0 rounded-none bg-gray-10 max-sm:h-6 max-sm:px-1 max-sm:py-[2px]",
               isOpen ? "rounded-t" : "rounded"
             )}
-            onTouchEnd={(e) => {
-              e.stopPropagation();
-              setIsOpen((prev) => !prev);
-            }}
           >
             {placeHolder}
           </SelectTrigger>
@@ -134,7 +130,7 @@ const VaccineNames = ({ vaccineNames, filter }: { vaccineNames: string[]; filter
                 <SelectItem
                   value={name}
                   key={name}
-                  className="justify-start h-fit max-w-fit p-0 pl-7 pb-2 last:pb-0 text-text-l text-gray-700 max-sm:pl-[23px] max-sm:text-text-xs max-sm:font-normal"
+                  className="justify-start h-fit max-w-fit p-0 pl-7 pb-2 last:pb-0 text-text-l text-gray-700 cursor-default max-sm:pl-[23px] max-sm:text-text-xs max-sm:font-normal"
                 >
                   {name}
                 </SelectItem>

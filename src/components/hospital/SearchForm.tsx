@@ -60,7 +60,7 @@ const SearchForm = ({ brtcObj, regionInfo, searchParams }: SearchFormProps) => {
         brtcCd: searchParams.brtcCd ?? BRTC,
         sggCd: searchParams.sggCd ?? SGG,
         addr: searchParams.addr ?? "",
-        org: searchParams.org ?? ""
+        org: searchParams.org ?? "",
       });
     }
   }, [searchParams]);
@@ -139,10 +139,13 @@ const SearchForm = ({ brtcObj, regionInfo, searchParams }: SearchFormProps) => {
                   }}
                   disabled={params.brtcCd === BRTC || params.sggCd === SGG}
                   className={cn(
-                    "h-12 bg-gray-30 border-0 text-gray-500 text-center font-semibold placeholder:text-gray-500",
-                    "focus-visible:bg-white focus-visible:text-gray-600 focus-visible:placeholder:text-gray-400",
+                    "h-12 bg-gray-30 border-0 text-gray-400 text-center font-semibold placeholder:text-gray-500",
+                    "focus-visible:bg-white focus-visible:text-gray-700 focus-visible:placeholder:text-gray-400",
                     "focus-visible:ring-offset-0 focus-visible:ring-1 focus-visible:ring-inset focus-visible:ring-gray-700",
-                    "max-sm:py-3 max-sm:pr-4 max-sm:pl-[42px] max-sm:rounded-xl max-sm:text-left"
+                    "max-sm:py-3 max-sm:pr-4 max-sm:pl-[42px] max-sm:rounded-xl max-sm:text-left",
+                    {
+                      'text-gray-700': params.addr
+                    }
                   )}
                 />
                 <Image src={SearchIcon} alt="검색" className="absolute top-[15px] left-4 sm:hidden" />
@@ -161,10 +164,13 @@ const SearchForm = ({ brtcObj, regionInfo, searchParams }: SearchFormProps) => {
                   }}
                   disabled={params.brtcCd === BRTC || params.sggCd === SGG}
                   className={cn(
-                    "h-12 bg-gray-30 border-0 text-gray-500 text-center font-semibold placeholder:text-gray-500",
-                    "focus-visible:bg-white focus-visible:text-gray-600 focus-visible:placeholder:text-gray-400",
+                    "h-12 bg-gray-30 border-0 text-gray-400 text-center font-semibold placeholder:text-gray-500",
+                    "focus-visible:bg-white focus-visible:text-gray-700 focus-visible:placeholder:text-gray-400",
                     "focus-visible:ring-offset-0 focus-visible:ring-1 focus-visible:ring-inset focus-visible:ring-gray-700",
-                    "max-sm:py-3 max-sm:pr-4 max-sm:pl-[42px] max-sm:rounded-xl max-sm:text-left"
+                    "max-sm:py-3 max-sm:pr-4 max-sm:pl-[42px] max-sm:rounded-xl max-sm:text-left",
+                    {
+                      'text-gray-700': params.org
+                    }
                   )}
                 />
                 <Image src={SearchIcon} alt="검색" className="absolute top-[15px] left-4 sm:hidden" />
@@ -235,11 +241,11 @@ const SearchForm = ({ brtcObj, regionInfo, searchParams }: SearchFormProps) => {
                 >
                   {/** avoidCollision : 충돌이 발생하는 방향의 반대로 select가 열리게 하는 속성, 항상 아래로 열리도록 false로 변경 */}
                   <SelectGroup>
-                    <SelectItem value={DISEASE} key={DISEASE} className="justify-center max-sm:text-text-m">
+                    <SelectItem value={DISEASE} key={DISEASE} className="justify-center max-sm:text-text-m max-sm:h-fit max-sm:p-1">
                       {"전체"}
                     </SelectItem>
                     {DISEASE_LIST.map((name) => (
-                      <SelectItem value={name} key={name} className="justify-center max-sm:text-text-m">
+                      <SelectItem value={name} key={name} className="justify-center max-sm:text-text-m max-sm:h-fit max-sm:p-1">
                         {name}
                       </SelectItem>
                     ))}
@@ -295,10 +301,13 @@ const SearchForm = ({ brtcObj, regionInfo, searchParams }: SearchFormProps) => {
               }}
               disabled={params.brtcCd === BRTC || params.sggCd === SGG}
               className={cn(
-                "h-12 bg-gray-30 border-0 text-gray-500 text-center font-semibold placeholder:text-gray-500",
-                "focus-visible:bg-white focus-visible:text-gray-600 focus-visible:placeholder:text-gray-400",
+                "h-12 bg-gray-30 border-0 text-gray-400 text-center font-semibold placeholder:text-gray-500",
+                "focus-visible:bg-white focus-visible:text-gray-700 focus-visible:placeholder:text-gray-400",
                 "focus-visible:ring-offset-0 focus-visible:ring-1 focus-visible:ring-inset focus-visible:ring-gray-700",
-                "max-sm:py-3 max-sm:pr-4 max-sm:pl-[42px] max-sm:rounded-xl max-sm:text-left"
+                "max-sm:py-3 max-sm:pr-4 max-sm:pl-[42px] max-sm:rounded-xl max-sm:text-left",
+                {
+                  'text-gray-700': params.addr
+                }
               )}
             />
             <Image src={SearchIcon} alt="검색" className="absolute top-[15px] left-4 sm:hidden" />
@@ -317,10 +326,13 @@ const SearchForm = ({ brtcObj, regionInfo, searchParams }: SearchFormProps) => {
               }}
               disabled={params.brtcCd === BRTC || params.sggCd === SGG}
               className={cn(
-                "h-12 bg-gray-30 border-0 text-gray-500 text-center font-semibold placeholder:text-gray-500",
-                "focus-visible:bg-white focus-visible:text-gray-600 focus-visible:placeholder:text-gray-400",
+                "h-12 bg-gray-30 border-0 text-gray-700 text-center font-semibold placeholder:text-gray-500",
+                "focus-visible:bg-white focus-visible:text-gray-700 focus-visible:placeholder:text-gray-400",
                 "focus-visible:ring-offset-0 focus-visible:ring-1 focus-visible:ring-inset focus-visible:ring-gray-700",
-                "max-sm:py-3 max-sm:pr-4 max-sm:pl-[42px] max-sm:rounded-xl max-sm:text-left"
+                "max-sm:py-3 max-sm:pr-4 max-sm:pl-[42px] max-sm:rounded-xl max-sm:text-left",
+                {
+                  'text-gray-700': params.org
+                }
               )}
             />
             <Image src={SearchIcon} alt="검색" className="absolute top-[15px] left-4 sm:hidden" />
