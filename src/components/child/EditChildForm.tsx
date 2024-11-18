@@ -215,9 +215,9 @@ const EditChildForm = ({ child, onComplete }: EditFormProps) => {
           name="name"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>이름</FormLabel>
-              <FormControl>
-                <Input placeholder="이름을 입력하세요" {...field} />
+              <FormLabel className="text-gray-800">이름</FormLabel>
+              <FormControl className="text-gary-700 px-6 py-4 rounded-xl">
+                <Input className="h-full text-text-xl" placeholder="이름을 입력하세요" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -230,9 +230,9 @@ const EditChildForm = ({ child, onComplete }: EditFormProps) => {
           name="birth"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>생년월일</FormLabel>
-              <FormControl>
-                <Input type="date" {...field} />
+              <FormLabel className="text-gray-800">생년월일</FormLabel>
+              <FormControl className="text-gary-700 px-6 py-4 rounded-xl">
+                <Input className="h-full text-text-xl" type="date" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -245,9 +245,9 @@ const EditChildForm = ({ child, onComplete }: EditFormProps) => {
           name="notes"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>특이사항(선택)</FormLabel>
-              <FormControl>
-                <Input placeholder="특이사항을 입력하세요" {...field} />
+              <FormLabel className="text-gray-800">특이사항(선택)</FormLabel>
+              <FormControl className="text-gary-700 px-6 py-4 rounded-xl">
+                <Input className="h-full text-text-xl" placeholder="특이사항을 입력하세요" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>

@@ -88,9 +88,13 @@ const RegisterChildInfoForm = ({ form, onSubmit, setSelectedImage }: RegisterChi
           name="name"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>이름(필수)</FormLabel>
-              <FormControl>
-                <Input placeholder="ex. 김따꼼" {...field} className="w-full placeholder:text-gray-200" />
+              <FormLabel className="text-gray-800">이름(필수)</FormLabel>
+              <FormControl className="text-gary-700 px-6 py-4 rounded-xl">
+                <Input
+                  placeholder="ex. 김따꼼"
+                  {...field}
+                  className="h-full text-text-xl w-full placeholder:text-gray-200"
+                />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -103,12 +107,12 @@ const RegisterChildInfoForm = ({ form, onSubmit, setSelectedImage }: RegisterChi
           name="birth"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>생년월일(필수)</FormLabel>
-              <FormControl>
+              <FormLabel className="text-gray-800">생년월일(필수)</FormLabel>
+              <FormControl className="text-gary-700 px-6 py-4 rounded-xl">
                 <Input
                   type="date"
                   {...field}
-                  className="placeholder:text-gray-200"
+                  className="h-full text-text-xl placeholder:text-gray-200"
                   onChange={(e) => handleDateChange(e, field)}
                 />
               </FormControl>
@@ -123,9 +127,14 @@ const RegisterChildInfoForm = ({ form, onSubmit, setSelectedImage }: RegisterChi
           name="notes"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>특이사항(선택)</FormLabel>
-              <FormControl>
-                <Input placeholder="최대 200자" {...field} maxLength={200} className="placeholder:text-gray-200" />
+              <FormLabel className="text-gray-800">특이사항(선택)</FormLabel>
+              <FormControl className="text-gary-700 px-6 py-4 rounded-xl">
+                <Input
+                  placeholder="최대 200자"
+                  {...field}
+                  maxLength={200}
+                  className="h-full text-text-xl placeholder:text-gray-200"
+                />
               </FormControl>
               <FormMessage />
             </FormItem>
