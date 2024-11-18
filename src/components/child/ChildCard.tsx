@@ -153,8 +153,8 @@ export const ChildCard = ({ child }: ChildCardProps) => {
                   </div>
 
                   <div className="flex flex-col justify-center items-start flex-grow relative gap-1">
-                    <p className="flex-grow-0 flex-shrink-0 text-xl font-bold text-left text-white">
-                      우리 아이 접종 내역
+                    <p className="flex-grow-0 flex-shrink-0 text-title-m font-bold text-left text-white">
+                      우리 아이 접종 체크리스트
                     </p>
                   </div>
                 </div>
@@ -166,19 +166,15 @@ export const ChildCard = ({ child }: ChildCardProps) => {
                   <div className="flex justify-start items-start self-stretch flex-grow">
                     <div className="flex justify-center items-center self-stretch flex-grow relative gap-4 p-4 rounded-xl bg-white">
                       <div className="flex flex-col justify-center items-center self-stretch flex-grow relative gap-4">
-                        <p className="flex-grow-0 flex-shrink-0 text-base font-semibold text-left text-gray-600">
-                          필수 접종
-                        </p>
-                        <p className="flex-grow-0 flex-shrink-0 text-sm font-semibold text-left text-[#ff7664]">
+                        <p className="flex-grow-0 flex-shrink-0 text-title-xs text-left text-gray-600">필수 접종</p>
+                        <p className="flex-grow-0 flex-shrink-0 text-title-m font-semibold text-left text-[#ff7664]">
                           {requiredVaccinesCount} / {totalRequiredVaccines}개
                         </p>
                       </div>
-
+                      <div style={{ width: 0, height: 60, border: "1px #C2D9FF solid" }}></div>
                       <div className="flex flex-col justify-center items-center self-stretch flex-grow relative gap-4">
-                        <p className="flex-grow-0 flex-shrink-0 text-base font-semibold text-left text-gray-600">
-                          선택 접종
-                        </p>
-                        <p className="flex-grow-0 flex-shrink-0 text-sm font-semibold text-left text-[#5ebe15]">
+                        <p className="flex-grow-0 flex-shrink-0 text-title-xs text-left text-gray-600">선택 접종</p>
+                        <p className="flex-grow-0 flex-shrink-0 text-title-m font-semibold text-left text-[#5ebe15]">
                           {optionalVaccinesCount} / {totalOptionalVaccines}개
                         </p>
                       </div>
@@ -189,9 +185,7 @@ export const ChildCard = ({ child }: ChildCardProps) => {
                   <div className="flex justify-end items-center self-stretch flex-grow-0 flex-shrink-0 relative gap-1">
                     <Link href={`/child/${child.id}`}>
                       <div className="flex flex-col justify-center items-start flex-grow-0 flex-shrink-0 relative gap-1">
-                        <p className="flex-grow-0 flex-shrink-0 text-xs font-semibold text-left text-white">
-                          자세히 보기
-                        </p>
+                        <p className="flex-grow-0 flex-shrink-0 text-text-l text-left text-white">자세히 보기</p>
                       </div>
                     </Link>
                     <Image src={RightArrowIcon} alt="오른쪽 화살표 아이콘" />
