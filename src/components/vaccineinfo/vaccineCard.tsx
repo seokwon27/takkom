@@ -9,12 +9,14 @@ const VaccineCard = ({
   disease,
   vaccine,
   target,
-  process
+  process,
+  additional
 }: {
   disease: string;
   vaccine: string;
   target: string;
   process: string;
+  additional: boolean;
 }) => {
   const { setCurrentDisease, setVaccineId, vaccineId } = useAgeGroupStore();
 
@@ -56,7 +58,7 @@ const VaccineCard = ({
       <div className="flex gap-2">
         <Tag />
         {/* 추가접종정보에 따른 태그 입력 */}
-        {/* {additional === true ? <Tag name="additional" /> : <Tag name="required" />} */}
+        {additional === true ? <Tag name="additional" /> : <Tag name="required" />}
       </div>
     </div>
   );
