@@ -12,17 +12,18 @@ import { HospitalSearchParams } from "@/types/hospital";
 import { User } from "@supabase/supabase-js";
 import useDevice from "@/utils/useDevice";
 import HospitalCardWithDrawer from "./HospitalCardWithDrawer";
-import useHospitalSearchStore from "@/store/hospitalStore";
 import MobileLayout from "../layout/MobileLayout";
 import DesktopLayout from "../layout/DesktopLayout";
 import Image from "next/image";
 import LoadingSpinner from "../../../public/common/loading-spinner.svg";
+import { useHospitalContext } from "@/providers/HospitalProvider";
 
-const HospitalList = ({ searchParams, user }: { searchParams: HospitalSearchParams; user: User | null }) => {
-  const { step } = useHospitalSearchStore();
+const HospitalList = ({searchParams, user }: { searchParams: HospitalSearchParams; user: User | null }) => {
+  const { step } = useHospitalContext(state => state);
   const [clickedId, setClickedId] = useState(0);
   const device = useDevice();
 
+  // const {brtcCd, sggCd, addr, org} = params
   const [brtcCd, sggCd, addr, org, disease, currentPage] = [
     searchParams.brtcCd ?? "",
     searchParams.sggCd ?? "",
@@ -42,7 +43,7 @@ const HospitalList = ({ searchParams, user }: { searchParams: HospitalSearchPara
 
   const { data: likes } = useUserLike(browserClient, user?.id);
 
-  if (isLoading || isFetching) {
+  if (isLoading || isFetching ) {
     return (
       <>
         <LoadingHospitalList>

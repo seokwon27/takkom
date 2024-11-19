@@ -29,6 +29,7 @@ const formSchema = z.object({
 });
 
 const EditChildForm = ({ child, onComplete }: EditFormProps) => {
+
   const queryClient = useQueryClient();
   const { mutateAsync: updateChildInfo } = useUpdateChildMutation();
   const { mutateAsync: deleteProfileImage } = useDeleteProfileImageMutation(child.id);
@@ -102,6 +103,7 @@ const EditChildForm = ({ child, onComplete }: EditFormProps) => {
       notes: data.notes,
       profile: profileUrl
     });
+
     queryClient.setQueryData(["child", child.id], {
       ...child, // 기존 데이터 유지
       name: data.name,
@@ -110,7 +112,8 @@ const EditChildForm = ({ child, onComplete }: EditFormProps) => {
       profile: profileUrl
     });
 
-    onComplete(); 
+    
+    onComplete();
   };
 
   // 프로필 이미지 삭제 함수 -- 수정 전
@@ -215,9 +218,9 @@ const EditChildForm = ({ child, onComplete }: EditFormProps) => {
           name="name"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>이름</FormLabel>
-              <FormControl>
-                <Input placeholder="이름을 입력하세요" {...field} />
+              <FormLabel className="text-gray-800">이름</FormLabel>
+              <FormControl className="text-gary-700 px-6 py-4 rounded-xl">
+                <Input className="h-full text-text-xl" placeholder="이름을 입력하세요" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -230,9 +233,9 @@ const EditChildForm = ({ child, onComplete }: EditFormProps) => {
           name="birth"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>생년월일</FormLabel>
-              <FormControl>
-                <Input type="date" {...field} />
+              <FormLabel className="text-gray-800">생년월일</FormLabel>
+              <FormControl className="text-gary-700 px-6 py-4 rounded-xl">
+                <Input className="h-full text-text-xl" type="date" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -245,9 +248,9 @@ const EditChildForm = ({ child, onComplete }: EditFormProps) => {
           name="notes"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>특이사항(선택)</FormLabel>
-              <FormControl>
-                <Input placeholder="특이사항을 입력하세요" {...field} />
+              <FormLabel className="text-gray-800">특이사항(선택)</FormLabel>
+              <FormControl className="text-gary-700">
+                <Input className="h-full text-text-xl" placeholder="특이사항을 입력하세요" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
