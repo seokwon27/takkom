@@ -7,7 +7,7 @@ import { useHospitalQuery } from "@/query/useHospitalQuery";
 import { useUserLike } from "@/query/useUserQuery";
 import browserClient from "@/utils/supabase/client";
 import useQueryParams from "@/hooks/use-query-param";
-import { HospitalSearchParams } from "@/types/hospital";
+import { HopsitalItem, HospitalSearchParams } from "@/types/hospital";
 import { User } from "@supabase/supabase-js";
 import { NUM_OF_CARDS_PER_PAGE } from "../../constants/constants";
 import HospitalCard from "./HospitalCard";
@@ -49,6 +49,19 @@ const HospitalList = ({ searchParams, user }: HospitalListProps) => {
   } = useHospitalQuery(brtcCd, sggCd, addr, org, disease);
 
   const { data: likes } = useUserLike(browserClient, user?.id);
+
+  const handleClick = (e: React.MouseEvent<HTMLLIElement, MouseEvent>, info: HopsitalItem) => {
+    if ((e.target instanceof HTMLElement || e.target instanceof SVGElement) && e.target.dataset.select) {
+      // 모바일 클릭 오류 방지용: data-set='true' 달려있을 땐 동작하지 않음
+      return;
+    }
+    setClickedId((prev) => {
+      if (prev === info.orgcd) {
+        return 0;
+      }
+      return info.orgcd;
+    });
+  }
 
   if (isLoading || isFetching) {
     return (
@@ -98,16 +111,7 @@ const HospitalList = ({ searchParams, user }: HospitalListProps) => {
               key={info.orgcd}
               onClick={(e) => {
                 e.stopPropagation();
-                if ((e.target instanceof HTMLElement || e.target instanceof SVGElement) && e.target.dataset.select) {
-                  // 모바일 클릭 오류 방지용: data-set='true' 달려있을 땐 동작하지 않음
-                  return;
-                }
-                setClickedId((prev) => {
-                  if (prev === info.orgcd) {
-                    return 0;
-                  }
-                  return info.orgcd;
-                });
+                handleClick(e, info)
               }}
             >
               <MobileLayout>

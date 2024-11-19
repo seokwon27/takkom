@@ -23,7 +23,7 @@ https://takkom.vercel.app/
 8. [와이어프레임](#와이어프레임)
 9. [API 명세서](#API-명세서)
 10. [기능 설명](#기능-설명)
-11. [Trouble Shooting](#trouble-shooting) 
+11. [Trouble Shooting](#trouble-shooting)
 12. [자랑하고 싶은 코드](#자랑하고-싶은-코드)
 13. [프로젝트 소감](#프로젝트-소감)
     <br /><br /><br />
@@ -193,8 +193,159 @@ https://takkom.vercel.app/
 
 ## API 명세서
 
-(추후에 ... )
-<br/><br/><br/>
+### 기본정보
+
+- API 이름 : [질병관리청 어린이 국가예방접종 지원사업 위탁의료기관 현환 정보](https://www.data.go.kr/data/15084303/openapi.do?recommendDataYn=Y#/API%20%EB%AA%A9%EB%A1%9D/getOrgList3)
+- 버전: 1.0.0
+- Base URL: https://apis.data.go.kr/1790387/orglist3
+
+### 인증
+
+- 인증방식: 공공데이터포털에서 받은 인증키
+
+### 메서드
+
+- GET
+
+### 엔드포인트
+
+- GET /getOrgList3
+
+  - 지역코드, 검색어를 기준으로 어린이 국가예방접종 지정의료기관 상세정보를 조회하는 의료기관 정보 조회 기능
+  - 요청 파라미터:
+    - serviceKey: 인증키
+    - brtcCd: 시도 코드
+    - sggCd: 시군구 코드
+    - searchTpcd: 검색어 구분 코드(주소(ADDR) / 기관명(ORG))
+    - searchWord: 검색어
+    - numOfRows: 페이지당 표출 데이터 수
+    - pageNo: 현재 페이지
+  - 상태 코드: 200
+    <details>
+    <summary>응답 예시</summary>
+    <div markdown="1">
+      ```xml
+      <response>
+      <header>
+        <resultCode>00</resultCode>
+        <resultMsg>NORMAL SERVICE.</resultMsg>
+      </header>
+      <body>
+        <dataTime>20241119070519460</dataTime>
+        <pageNo>1</pageNo>
+        <numOfRows>2</numOfRows>
+        <totalCount>170</totalCount>
+        <maxPage>85</maxPage>
+        <items>
+          <item>
+            <orgcd>12348287</orgcd>
+            <orgnm>(의)성광의료재단 차움의원</orgnm>
+            <orgTlno>02-3015-5000</orgTlno>
+            <orgAddr>서울특별시 강남구 도산대로 442, (청담동) 피엔폴루스 2층일부, 3층일부</orgAddr>
+            <expnYmd>20240820</expnYmd>
+            <vcnList>
+              <vcnInfo>
+                <vcnNm>사람유두종바이러스(HPV, 가다실)_자궁경부암</vcnNm>
+                <vcncd>2001</vcncd>
+              </vcnInfo>
+            </vcnList>
+          </item>
+          <item>
+            <orgcd>13312545</orgcd>
+            <orgnm>365삼성의원</orgnm>
+            <orgTlno>02-555-0365</orgTlno>
+            <orgAddr>서울특별시 강남구 도곡로 331, (역삼동) 7층</orgAddr>
+            <expnYmd>20240730</expnYmd>
+            <vcnList>
+              <vcnInfo>
+                <vcnNm>인플루엔자(Flu)</vcnNm>
+                <vcncd>0901</vcncd>
+              </vcnInfo>
+            </vcnList>
+          </item>
+        </items>
+      </body>
+      </response>
+      ```
+    </div>
+    </details>
+
+- GET /getCondBrtcCd3
+
+  - 의료기관 조회 기준 목록(시도) 조회
+  - 요청 파라미터:
+    - serviceKey: 인증키
+  - 상태 코드: 200
+    <details>
+    <summary>응답 예시</summary>
+    <div markdown="1">
+    ```xml
+    <response>
+    <header>
+      <resultCode>00</resultCode>
+      <resultMsg>NORMAL SERVICE.</resultMsg>
+    </header>
+    <body>
+      <dataTime>20241119055641411</dataTime>
+      <pageNo>1</pageNo>
+      <numOfRows>17</numOfRows>
+      <totalCount>17</totalCount>
+      <items>
+        <item>
+          <cd>1100000000</cd>
+          <cdNm>서울특별시</cdNm>
+        </item>
+        <item>
+          <cd>2600000000</cd>
+          <cdNm>부산광역시</cdNm>
+        </item>
+        ...
+      </items>
+    </body>
+    </response>
+    ```
+    <div>
+    </details>
+
+- GET /getCondSggCd3
+
+  - 의료기관 조회 기준 목록(시군구) 조회
+  - 요청 파라미터:
+
+    - serviceKey: 인증키
+    - brtcCd: 시도 코드
+
+  - 응답 코드: 200
+    <details>
+    <summary>응답 예시</summary>
+    <div markdown="1">
+    ```xml
+    <response>
+      <header>
+        <resultCode>00</resultCode>
+        <resultMsg>NORMAL SERVICE.</resultMsg>
+      </header>
+      <body>
+        <dataTime>20241119070316188</dataTime>
+        <pageNo>1</pageNo>
+        <numOfRows>25</numOfRows>
+        <totalCount>25</totalCount>
+        <items>
+          <item>
+            <cd>11680</cd>
+            <cdNm>강남구</cdNm>
+          </item>
+          <item>
+            <cd>11740</cd>
+            <cdNm>강동구</cdNm>
+          </item>
+          ...
+        </items>
+      </body>
+      </response>
+    ```
+    </div>
+    </details>
 
 ## 기능 설명
 
@@ -232,7 +383,6 @@ https://takkom.vercel.app/
 2. 로그아웃 기능
    <br/><br/><br/>
 
-
 ## Trouble Shooting
 
 ### 1. 접종 정보 페이지: 페이지네이션
@@ -245,33 +395,15 @@ https://takkom.vercel.app/
 
 - 문제상황: 검색창과 페이지네이션에 사용할 state를 너무 많이 설정해, React에서 오류가 발생
 - 해결방법: 검색창에 입력된 정보를 모두 하나의 state로 합치고, 페이지네이션에 필요한 정보는 쿼리스트링으로 넘기게 되었습니다.
-- 이전에는 `brtcCd`, `sggCd`, `addr`, `org`에 대한 state가 별도로 존재하지만 아래 처럼 `params`라는 이름의 state로 합쳤습니다.
 
-  ```tsx
-  const SearchForm = (...) => {
-    ...
-    const searchParams = useSearchParams();
-    const [params, setParams] = useState<{ brtcCd: string; sggCd: string; addr: string; org: string }>({
-      brtcCd: searchParams.get("brtcCd") ?? BRTC,
-      sggCd: searchParams.get("sggCd") ?? SGG,
-      addr: searchParams.get("addr") ?? "",
-      org: searchParams.get("org") ?? ""
-    });
-    const [disease, setDisease] = useState(searchParams.get("disease") || DISEASE);
-    const [showInfoTag, setShowInfoTag] = useState(true);
+  - 이전에는 `brtcCd`, `sggCd`, `addr`, `org`에 대한 state가 별도로 존재했지만 현재는 `params`라는 이름의 state로 합쳤습니다.
 
-    return (
-      ...
-    )
-  };
-  ```
-
-- 페이지내이션은 상위컴포넌트에서 `currentPage`와 `startNum`을 저장해 state를 prop으로 넘겨주었지만, 데이터를 불러오는 과정과 렌더링되는 과정에서 오류와 경고가 발생해 쿼리스트링으로 불러오게 되었습니다. 쿼리 스트링을 사용하니 한층 더 간결하게 페이지네이션을 구현할 수 있었습니다.
+  - 페이지내이션은 상위 컴포넌트에서 `currentPage`와 `startNum`을 저장해 state를 prop으로 넘겨주었지만, 데이터를 불러오는 과정과 렌더링되는 과정에서 오류와 경고가 발생해 쿼리스트링으로 불러오게 되었습니다. 쿼리스트링을 사용하니 한층 더 간결하게 페이지네이션을 구현할 수 있었습니다.
 
   ```tsx
   // 상위 컴포넌트
-  const HospitalList = () => {
-    const searchParams = useSearchParams();
+  const HospitalList = ({ searchParams, user }: HospitalListProps) => {
+    const [params] = useQueryParams(new URLSearchParams(searchParams).toString());
     const [brtcCd, sggCd, addr, org, disease, currentPage] = [
       searchParams.get("brtcCd") ?? "",
       searchParams.get("sggCd") ?? "",
@@ -295,36 +427,49 @@ https://takkom.vercel.app/
   };
 
   export default HospitalList;
+  ```
 
-  // 페이지네이션 컴포넌트
-  const HospitalPagination = ({
-    maxPage,
-    currentPage,
-    params
-  }: {
-    maxPage: number;
-    currentPage: number;
-    params: { brtcCd: string; sggCd: string; addr: string; org: string; disease?: string };
-  }) => {
-    const pathname = usePathname();
+- 문제상황: 데스크탑에서 잘 되던 병원 카드의 접종 목록 클릭이 일관되지 않음.
+- 해결방볍:
 
-    let startNum = 1;
-    if (maxPage >= 5) {
-      if (currentPage - 2 >= 1 && currentPage + 2 < maxPage) {
-        startNum = currentPage - 2;
-      } else if (currentPage + 2 >= maxPage) {
-        startNum = maxPage - 4;
+  - 병원카드를 나열할 때 사용한 li 태그에서 onClick 함수를 `data-select='true'`가 추가된 컴포넌트와 겹칠 시 이벤트가 실행되지 않도록 했습니다.
+
+  ```tsx
+  const HospitalList = ({ searchParams, user }: HospitalListProps) => {
+    ...
+    const handleClick = (e: React.MouseEvent<HTMLLIElement, MouseEvent>, info: HopsitalItem) => {
+      if ((e.target instanceof HTMLElement || e.target instanceof SVGElement) && e.target.dataset.select) {
+        // 모바일 클릭 오류 방지용: data-set='true' 달려있을 땐 동작하지 않음
+        return;
       }
+      setClickedId((prev) => {
+        if (prev === info.orgcd) {
+          return 0;
+        }
+        return info.orgcd;
+      });
     }
-    if (currentPage - 2 < 1) {
-      startNum = 1;
-    }
-
     return (
       ...
-    )
+              <li
+                key={info.orgcd}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  handleClick(e, info);
+                }}
+              >
+                ...
+              </li>
+
+      ...
+    );
   };
   ```
+
+- 문제상황: 검색어를 적용하거나 백신 찾기로 필터를 설정하면 페이지 로딩이 너무 길어짐.
+- 해결방법
+  - `useRouter()` 대신 History API를 사용해 SPA처럼 페이지 전환.
+  - `use-query-param.ts`에 커스텀 훅을 만들어 페이지 상태 변화를 감지할 수 있도록 함.
 
 ### 3. 복잡한 라벨 로직을 컴포넌트 분리로 개선
 
@@ -538,46 +683,87 @@ https://takkom.vercel.app/
 
 ### [동네 병원 찾기]
 
-- '어린이 국가예방접종 지원사업 위탁의료기관 현황 정보' api를 사용하여 해당 지원사업을 진행중인 병원 정보를 가져왔습니다. 공공데이터로 api 구조를 원하는대로 바꿀 수 없어 지원하는 기능을 사용하여 모든 병원 정보를 불러온 후 추가로 필터링을 거쳐 데이터를 나열했습니다.
+1. 병원 정보 데이터 가져오는 방법 개선
 
-- 아래 코드는 첫 100개의 데이터를 불러와 추가 데이터가 있는지 확인한 후 `Promise.all`을 사용해 남은 데이터를 불러와 합쳐주는 코드입니다. Api에서 '시도, 시군구', '시도, 시군구, 주소' 또는 '시도, 시군구, 병원명' 검색까지만 지원해, 저희가 제공하려는 서비스보다 기능이 부족해 위 과정을 거치게 되었습니다. 이후 `useQuery` 커스텀 훅을 통해 데이터를 캐싱하여 불필요한 요청을 하지 않도록 했습니다. 자주 변동되는 데이터는 아니지만 업데이트 될 수 있으므로 1시간마다 `revalidate`하도록 했습니다.
+   - '어린이 국가예방접종 지원사업 위탁의료기관 현황 정보' api를 사용하여 해당 지원사업을 진행중인 병원 정보를 가져왔습니다. 공공데이터로 api 구조를 원하는대로 바꿀 수 없어 지원하는 기능을 사용하여 모든 병원 정보를 불러온 후 추가로 필터링을 거쳐 데이터를 나열했습니다.
 
-  ```tsx
-  // 병원 목록 가져오기
-  export const getHospitals = async (
-    input: HospitalParams
-  ): Promise<HospitalData> => {
-    const params = { serviceKey, ...input, numOfRows: "100", pageNo: "1" };
-    const searchParams = new URLSearchParams(params).toString();
-    const res = await fetch(BASE_URL + `/getOrgList3?` + searchParams, {
-      method: "GET",
-      next: {
-        revalidate: 60 * 60
-      }
-    });
+   - 아래 코드는 첫 100개의 데이터를 불러와 추가 데이터가 있는지 확인한 후 `Promise.all`을 사용해 남은 데이터를 불러와 합쳐주는 코드입니다. Api에서 '시도, 시군구', '시도, 시군구, 주소' 또는 '시도, 시군구, 병원명' 검색까지만 지원해, 저희가 제공하려는 서비스보다 기능이 부족해 위 과정을 거치게 되었습니다. 이후 `useQuery` 커스텀 훅을 통해 데이터를 캐싱하여 불필요한 요청을 하지 않도록 했습니다. 자주 변동되는 데이터는 아니지만 업데이트 될 수 있으므로 1시간마다 `revalidate`하도록 했습니다.
 
-    ...
+   ```tsx
+   // 병원 목록 가져오기
+   export const getHospitals = async (
+     input: HospitalParams
+   ): Promise<HospitalData> => {
+     const params = { serviceKey, ...input, numOfRows: "100", pageNo: "1" };
+     ...
+     const res = await fetch( ... , {
+       method: "GET",
+       next: {
+         revalidate: 3600
+       }
+     });
 
-    if (body.maxPage > 1) {
-      const allData = await Promise.all(
-        Array(body.maxPage - 1)
-          .fill(0)
-          .map(async (_, idx) => {
-            params.pageNo = String(idx + 2);
-            const searchParams = new URLSearchParams(params).toString();
+     ...
 
-            const res = await fetch(BASE_URL + `/getOrgList3?` + searchParams, {...});
-            ...
-          })
-      );
-      for (const data of allData) {
-        item = item.concat(data);
-      }
-    }
+     if (body.maxPage > 1) {
+       const allData = await Promise.all(
+         Array(body.maxPage - 1)
+           .fill(0)
+           .map(async (_, idx) => {
+             ...
+             const res = await fetch( ... , {...});
+             ...
+           })
+       );
+       ...
+     }
 
-    return { items: item, totalCount: body.totalCount, maxPage: Math.ceil(body.totalCount / NUM_OF_CARDS_PER_PAGE) };
-  };
-  ```
+     ...
+   };
+   ```
+
+2. 페이지 로딩 개선
+
+   - Next.js 14 App Router의 `router.push()`를 사용하니 페이지 로딩이 너무 길어지는 문제점이 있었습니다. 이를 트러블 슈팅에서 이야기한 것처럼 아래와 같은 커스텀 훅을 만들어 페이지 로딩 시간을 단축할 수 있었습니다.
+
+   - `setQueryParams` 함수는 History API를 사용해 url을 변경해주는 함수입니다. `SearchForm.tsx`에서 검색 버튼을 누르면 커스텀 훅에 input으로 넣는 값의 state를 변경해, 연관된 `HospitalList.tsx`에서도 변경된 검색어들을 객체로 받을 수 있도록 했습니다.
+
+   ```tsx
+   const useQueryParams = (currentQuery: string): [HospitalSearchParams, (params: HospitalSearchParams) => void] => {
+     const [params, setParams] = useState<HospitalSearchParams>(Object.fromEntries(new URLSearchParams(currentQuery)));
+
+     useEffect(() => {
+       // 클라이언트 환경에서만 실행됨
+       if (typeof window === "undefined") {
+         return;
+       }
+
+       const handlePopState = () => {
+         // 뒤로 가기 또는 앞으로 가기 시 (= url 변경 시 발생) 쿼리 파라미터 업데이트
+         setParams(Object.fromEntries(new URLSearchParams(window.location.search)));
+       };
+
+       // 처음 마운트될 때 실행
+       handlePopState();
+
+       // popstate 이벤트 리스너 추가
+       window.addEventListener("popstate", handlePopState);
+
+       // 언마운트될 때 이벤트 리스너 제거
+       return () => {
+         window.removeEventListener("popstate", handlePopState);
+       };
+     }, [currentQuery]);
+
+     const setQueryParams = (params: HospitalSearchParams) => {
+       const newUrl = createQueryParams(params, "/hospital");
+       window.history.pushState({ ...window.history.state, as: newUrl, url: newUrl }, "", newUrl);
+       window.dispatchEvent(new PopStateEvent("popstate"));
+     };
+
+     return [params, setQueryParams];
+   };
+   ```
 
 ### [우리 아이 맞춤형 플랜]
 
@@ -799,3 +985,28 @@ https://takkom.vercel.app/
 ## 프로젝트 소감
 
 <img width="691" alt="Screenshot 2024-11-06 at 8 31 36 PM" src="https://github.com/user-attachments/assets/86d45e55-5e9a-479a-a77d-49a9724a0e62">
+
+- 이석원
+
+  - 소감소감
+
+- 조해인
+
+  - 따꼼 프로젝트를 진행하며 실제 서비스 처럼 제공하기 위해 많이 노력했습니다. 사용자 테스트를 받아보니 저희가 생각하지 못한 부분에 대해 많이 말씀을 해주셔서 좀 더 생각의 폭을 넓힐 수 있었습니다. 또한 이전에는 데스크탑 환경만 고려했는데, 모바일 환경도 고려하게 되면서 PC환경에서 없던 클릭 이벤트 중첩 문제처럼 약간의 차이점을 느낄 수 있었습니다. 동네 병원 찾기 페이지에서 검색 버튼을 누르면 로딩이 길다는 피드백이 많았는데, 페이지 로딩 시간을 단축하기 위해 노력하며 한층 성장했다고 느꼈습니다.
+
+    다들 한달 동안 고생하셨습니다. 감사합니다!
+
+- 이예람
+
+  - 소감소감
+
+- 장세희
+
+  - 소감소감
+
+- 정지형
+
+  - 소감소감
+
+- 전수빈
+  - 소감소감
