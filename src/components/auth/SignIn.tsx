@@ -36,7 +36,7 @@ const SignIn = () => {
 
   // 로그인 페이지 스키마
   const schema = z.object({
-    email: z.string().min(8, { message: "아이디를 8자리 이상 입력해주세요." }),
+    email: z.string().min(8, { message: "이메일을 8자리 이상 입력해주세요." }),
     password: z.string().min(8, { message: "비밀번호를 8자리 이상 입력해주세요." })
   });
 
@@ -119,7 +119,7 @@ const SignIn = () => {
                 control={form.control}
                 name="email"
                 render={({ field }) => (
-                  <FormItem>
+                  <FormItem className="mb-[16px]">
                     <FormLabel className="text-gray-600">이메일</FormLabel>
                     <FormControl>
                       <div className="relative w-96 max-sm:col-span-2 max-sm:relative">
@@ -146,7 +146,7 @@ const SignIn = () => {
                   <FormItem>
                     <FormLabel className="text-gray-600">비밀번호</FormLabel>
                     <FormControl>
-                      <div className="relative w-96">
+                      <div className="relative">
                         <Input
                           className={`w-full h-14 px-6 py-4 ${
                             form.formState.errors.password ? "border-red-500" : "border-gray-300"
@@ -172,20 +172,20 @@ const SignIn = () => {
                   </FormItem>
                 )}
               />
-              <div className="self-stretch justify-between items-start inline-flex">
+              <div className="self-stretch justify-between items-start inline-flex mt-[24px]">
                 <Button
                   type="submit"
-                  className="w-96 h-14 px-6 py-4 mt-[40px] bg-[#c1d8ff] rounded-xl inline-flex items-center justify-center gap-2 text-base font-semibold hover:bg-primary-400 disabled:bg-primary-400"
+                  className="w-96 h-14 px-6 py-4 bg-[#c1d8ff] rounded-xl inline-flex items-center justify-center gap-2 text-base font-semibold hover:bg-primary-400 disabled:bg-primary-400"
                 >
                   로그인
                 </Button>
               </div>
             </form>
-            <div className="flex justify-center items-center gap-2.5 p-3 md-[12px]">
-              <Link href={"/"} className="text-[#636363] text-base font-normal leading-normal m-[12px]">
+            <div className="flex justify-center items-center gap-[15px] p-[15px]">
+              <Link href={"/"} className="text-[#636363] text-base font-normal leading-normal p-[12px]">
                 비밀번호 찾기
               </Link>
-              <Link href={"/signup"} className="text-[#636363] text-base font-normal leading-normal m-[12px]">
+              <Link href={"/signup"} className="text-[#636363] text-base font-normal leading-normal p-[12px]">
                 회원가입
               </Link>
             </div>
