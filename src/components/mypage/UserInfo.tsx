@@ -63,7 +63,7 @@ const Info = () => {
                 아이 정보 수정하기
               </Link>
               <hr className="border-t border-gray-30 w-full" />
-              <Link href={"/mypage/like"} className=" text-gray-800 text-label-xl font-normal">
+              <Link href={"/mypage/like?pageNo=1"} className=" text-gray-800 text-label-xl font-normal">
                 나의 관심 병원
               </Link>
               <hr className="border-t border-gray-30 w-full" />

@@ -22,6 +22,19 @@ const LikeList = ({ currentPage, user }: LikeListProps) => {
   const totalCount = likes?.length ?? 0;
   const maxPage = Math.ceil(totalCount / NUM_OF_CARDS_PER_PAGE) || 1;
 
+  const handleClick = (e: React.MouseEvent<HTMLLIElement, MouseEvent>, info: HopsitalItem) => {
+    if ((e.target instanceof HTMLElement || e.target instanceof SVGElement) && e.target.dataset.select) {
+      // 모바일 클릭 오류 방지용: data-set='true' 달려있을 땐 동작하지 않음
+      return;
+    }
+    setClickedId((prev) => {
+      if (prev === info.orgcd) {
+        return 0;
+      }
+      return info.orgcd;
+    });
+  };
+
   if (isLoading) {
     return (
       <LoadingHospitalList>
@@ -66,19 +79,7 @@ const LikeList = ({ currentPage, user }: LikeListProps) => {
                     key={info.orgcd}
                     onClick={(e) => {
                       e.stopPropagation();
-                      if (
-                        (e.target instanceof HTMLElement || e.target instanceof SVGElement) &&
-                        e.target.dataset.select
-                      ) {
-                        // 모바일 클릭 오류 방지용: data-set='true' 달려있을 땐 동작하지 않음
-                        return;
-                      }
-                      setClickedId((prev) => {
-                        if (prev === info.orgcd) {
-                          return 0;
-                        }
-                        return info.orgcd;
-                      });
+                      handleClick(e, info);
                     }}
                   >
                     {device === "desktop" && (
