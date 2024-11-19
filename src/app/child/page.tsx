@@ -50,9 +50,13 @@ const ChildPage = () => {
     setSelectedChildId(childId);
   };
 
-  return (
+  // 아이 정보 삭제 함수
+  const handleDelete = (id: string) => {
+    setChildren((prevChildren) => prevChildren.filter((child) => child.id !== id));
+  };
 
-    <div className="container flex flex-col mx-auto justify-center max-w-[996px] mt-16 max-sm:mt-3 max-sm:px-6 max-sm:pb-[132px] max-sm:mb-0 ">
+  return (
+    <div className="container flex flex-col mx-auto justify-center max-w-[996px] mt-16 max-sm:mt-3 max-sm:px-6 max-sm:pb-[132px] max-sm:mb-0 xl:bg-gray-10">
       <div className="py-[6px] mb-4 hidden max-sm:block">
         <p className="text-gray-800 text-title-m font-semibold">우리아이</p>
       </div>
@@ -96,7 +100,7 @@ const ChildPage = () => {
                 {selectedChildId
                   ? children
                       .filter((child) => child.id === selectedChildId)
-                      .map((child) => <ChildCard key={child.id} child={child} />)
+                      .map((child) => <ChildCard key={child.id} child={child} onDelete={handleDelete} />)
                   : null}
               </div>
             </div>

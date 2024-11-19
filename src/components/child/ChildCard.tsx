@@ -1,28 +1,56 @@
-import React from "react";
+import React, { useState } from "react";
 import { Child } from "@/types/childType";
 import Image from "next/image";
-import { DEFAULT_PROFILE_IMAGE_URL } from "@/utils/supabase/client";
+import browserClient, { DEFAULT_PROFILE_IMAGE_URL } from "@/utils/supabase/client";
 import Link from "next/link";
 import Schedule from "./Schedule";
 import CakeIcon from "../../../public/child/cake-icon.svg";
 import InjectorIcon from "../../../public/child/injector-icon.svg";
 import RightArrowIcon from "../../../public/child/right-arrow-icon.svg";
 import { useVaccineQuery, useVaccineRecordQuery } from "@/query/useVaccineRecordQuery";
+import { browser } from "process";
+import { ToastDescription } from "@radix-ui/react-toast";
+import { useToast } from "@/hooks/use-toast";
 
 interface ChildCardProps {
   child?: Child; // 등록된 child가 없으면 undefined일 수 있음
   onEdit?: (child: Child) => void; // 수정 기능을 위해 child를 전달
+  onDelete?: (childId: string) => void;
 }
 
-export const ChildCard = ({ child }: ChildCardProps) => {
+export const ChildCard = ({ child, onDelete }: ChildCardProps) => {
+  const { toast } = useToast();
+
   // vaccineData와 vaccineRecord를 가져오는 쿼리
   const { data: vaccineData } = useVaccineQuery();
   const { data: vaccineRecord } = useVaccineRecordQuery(child?.id);
+  const [menuOpen, setMenuOpen] = useState(false);
 
   // child가 없을 때를 대비한 처리
   if (!child) {
     return <div>아이가 등록되지 않았습니다.</div>;
   }
+
+  // 햄버거 메뉴 버튼 클릭 시 메뉴 열기/닫기 토글
+  const toggleMenu = () => {
+    setMenuOpen(!menuOpen);
+  };
+
+  const handleDelete = async () => {
+    if (onDelete) {
+      const { error } = await browserClient.from("child").delete().match({ id: child.id });
+
+      if (error) {
+        console.error("아이 삭제에 실패했습니다:", error.message);
+      } else {
+        onDelete(child.id);
+        toast({
+          description: <ToastDescription className="text-white">{child.name}이(가) 삭제되었습니다.</ToastDescription>,
+          variant: "mobile"
+        });
+      }
+    }
+  };
 
   // 접종 데이터가 없으면 처리하지 않도록
   if (!vaccineData || !vaccineRecord) return <div>Loading...</div>;
@@ -61,7 +89,24 @@ export const ChildCard = ({ child }: ChildCardProps) => {
   return (
     <>
       {/* 아이 카드 전체 컨테이너 */}
-      <div className="flex flex-col justify-center items-center w-full max-w-[792px] gap-6 p-6 rounded-2xl bg-neutral-50 mb-6 max-sm:p-0">
+      <div className="relative flex flex-col justify-center items-center w-full max-w-[792px] gap-6 p-6 rounded-2xl bg-gray-10 mb-6 max-sm:p-0">
+        {/* 미트볼 메뉴 버튼 */}
+        <button onClick={toggleMenu} className="absolute top-0 right-4 text-primary-300 hover:text-primary-400">
+          &#8230;
+        </button>
+
+        {/* 삭제하기 버튼이 보이는 메뉴 */}
+        {menuOpen && (
+          <div className="absolute top-7 right-10 bg-white shadow-md rounded-md p-2 z-10">
+            <button
+              onClick={handleDelete}
+              className="text-text-l text-gray-700 hover:text-gray-800 bg-gray-30 font-medium px-6 py-4 min-w-[132px]"
+            >
+              삭제하기
+            </button>
+          </div>
+        )}
+
         {/* 아이 기본 정보 & 우리 아이 접종 내역 컨테이너 */}
         <div className="flex flex-col md:flex-row justify-start items-start w-full gap-6">
           {/* 아이 기본 정보 컨테이너 */}
