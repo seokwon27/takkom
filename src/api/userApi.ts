@@ -33,7 +33,7 @@ export const getChildren = async (supabaseClient: SupabaseDatabase, userId?: str
 
 
 // like table에서 사용자가 좋아요한 병원 목록 가져오기
-export const getUserLike = async (supabaseClient: SupabaseDatabase, userId?: string) => {
+export const getUserLike = async (supabaseClient: SupabaseDatabase, userId: string) => {
   if (userId) {
     const { data, error } = await supabaseClient.from("like").select().eq("user_id", userId);
 
