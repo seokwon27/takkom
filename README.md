@@ -221,51 +221,54 @@ https://takkom.vercel.app/
     - numOfRows: 페이지당 표출 데이터 수
     - pageNo: 현재 페이지
   - 상태 코드: 200
-  - 응답 예시:
-
-    ```xml
-    <response>
-    <header>
-      <resultCode>00</resultCode>
-      <resultMsg>NORMAL SERVICE.</resultMsg>
-    </header>
-    <body>
-      <dataTime>20241119070519460</dataTime>
-      <pageNo>1</pageNo>
-      <numOfRows>2</numOfRows>
-      <totalCount>170</totalCount>
-      <maxPage>85</maxPage>
-      <items>
-        <item>
-          <orgcd>12348287</orgcd>
-          <orgnm>(의)성광의료재단 차움의원</orgnm>
-          <orgTlno>02-3015-5000</orgTlno>
-          <orgAddr>서울특별시 강남구 도산대로 442, (청담동) 피엔폴루스 2층일부, 3층일부</orgAddr>
-          <expnYmd>20240820</expnYmd>
-          <vcnList>
-            <vcnInfo>
-              <vcnNm>사람유두종바이러스(HPV, 가다실)_자궁경부암</vcnNm>
-              <vcncd>2001</vcncd>
-            </vcnInfo>
-          </vcnList>
-        </item>
-        <item>
-          <orgcd>13312545</orgcd>
-          <orgnm>365삼성의원</orgnm>
-          <orgTlno>02-555-0365</orgTlno>
-          <orgAddr>서울특별시 강남구 도곡로 331, (역삼동) 7층</orgAddr>
-          <expnYmd>20240730</expnYmd>
-          <vcnList>
-            <vcnInfo>
-              <vcnNm>인플루엔자(Flu)</vcnNm>
-              <vcncd>0901</vcncd>
-            </vcnInfo>
-          </vcnList>
-        </item>
-      </items>
-    </body>
-    </response>
-    ```
+    <details>
+    <summary>응답 예시</summary>
+    <div markdown="1">
+      ```xml
+      <response>
+      <header>
+        <resultCode>00</resultCode>
+        <resultMsg>NORMAL SERVICE.</resultMsg>
+      </header>
+      <body>
+        <dataTime>20241119070519460</dataTime>
+        <pageNo>1</pageNo>
+        <numOfRows>2</numOfRows>
+        <totalCount>170</totalCount>
+        <maxPage>85</maxPage>
+        <items>
+          <item>
+            <orgcd>12348287</orgcd>
+            <orgnm>(의)성광의료재단 차움의원</orgnm>
+            <orgTlno>02-3015-5000</orgTlno>
+            <orgAddr>서울특별시 강남구 도산대로 442, (청담동) 피엔폴루스 2층일부, 3층일부</orgAddr>
+            <expnYmd>20240820</expnYmd>
+            <vcnList>
+              <vcnInfo>
+                <vcnNm>사람유두종바이러스(HPV, 가다실)_자궁경부암</vcnNm>
+                <vcncd>2001</vcncd>
+              </vcnInfo>
+            </vcnList>
+          </item>
+          <item>
+            <orgcd>13312545</orgcd>
+            <orgnm>365삼성의원</orgnm>
+            <orgTlno>02-555-0365</orgTlno>
+            <orgAddr>서울특별시 강남구 도곡로 331, (역삼동) 7층</orgAddr>
+            <expnYmd>20240730</expnYmd>
+            <vcnList>
+              <vcnInfo>
+                <vcnNm>인플루엔자(Flu)</vcnNm>
+                <vcncd>0901</vcncd>
+              </vcnInfo>
+            </vcnList>
+          </item>
+        </items>
+      </body>
+      </response>
+      ```
+    </div>
+    </details>
 
 - GET /getCondBrtcCd3
 
@@ -273,8 +276,9 @@ https://takkom.vercel.app/
   - 요청 파라미터:
     - serviceKey: 인증키
   - 상태 코드: 200
-  - 응답 예시:
-
+    <details>
+    <summary>응답 예시</summary>
+    <div markdown="1">
     ```xml
     <response>
     <header>
@@ -300,6 +304,8 @@ https://takkom.vercel.app/
     </body>
     </response>
     ```
+    <div>
+    </details>
 
 - GET /getCondSggCd3
 
@@ -310,8 +316,9 @@ https://takkom.vercel.app/
     - brtcCd: 시도 코드
 
   - 응답 코드: 200
-  - 응답 예시:
-
+    <details>
+    <summary>응답 예시</summary>
+    <div markdown="1">
     ```xml
     <response>
       <header>
@@ -337,9 +344,8 @@ https://takkom.vercel.app/
       </body>
       </response>
     ```
-
-(추후에 ... )
-<br/><br/><br/>
+    </div>
+    </details>
 
 ## 기능 설명
 
