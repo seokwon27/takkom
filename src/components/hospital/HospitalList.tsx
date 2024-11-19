@@ -21,14 +21,14 @@ import LoadingSpinner from "../../../public/common/loading-spinner.svg";
 
 type HospitalListProps = {
   searchParams: HospitalSearchParams;
-  user: User | null
+  user: User | null;
 };
 
 const HospitalList = ({ searchParams, user }: HospitalListProps) => {
   const { step } = useHospitalContext((state) => state);
   const [clickedId, setClickedId] = useState(0);
   const device = useDevice();
-  const [params,] = useQueryParams(new URLSearchParams(searchParams).toString())
+  const [params] = useQueryParams(new URLSearchParams(searchParams).toString());
 
   // const {brtcCd, sggCd, addr, org} = params
   const [brtcCd, sggCd, addr, org, disease, currentPage] = [

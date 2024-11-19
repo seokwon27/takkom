@@ -50,12 +50,12 @@ const SearchForm = ({ brtcObj, regionInfo, searchParams }: SearchFormProps) => {
     } else {
       setStep(1);
     }
-    setParams(() => ({
+    setParams({
       brtcCd: currentParams.brtcCd ?? BRTC,
       sggCd: currentParams.sggCd ?? SGG,
       addr: currentParams.addr ?? "",
       org: currentParams.org ?? ""
-    }));
+    });
     setDisease((prev) => {
       if (prev !== currentParams?.disease) {
         return currentParams?.disease ?? DISEASE;

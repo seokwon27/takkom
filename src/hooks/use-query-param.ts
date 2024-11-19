@@ -31,7 +31,7 @@ const useQueryParams = (currentQuery: string): [HospitalSearchParams, (params: H
   }, [currentQuery]);
 
   const setQueryParams = (params: HospitalSearchParams) => {
-    const newUrl = createQueryParams(params, window.location.pathname);
+    const newUrl = createQueryParams(params, "/hospital");
     window.history.pushState({ ...window.history.state, as: newUrl, url: newUrl }, "", newUrl);
     window.dispatchEvent(new PopStateEvent("popstate"));
   };
