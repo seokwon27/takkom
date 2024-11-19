@@ -66,12 +66,12 @@ const VaccineRecordList = ({ data, vaccinated, edit, control }: VaccineRecordLis
           </div>
         </div>
 
-        <ul className="flex flex-col w-full items-start gap-3 self-stretch sm:gap-4 sm:max-w-[732px] sm:min-h-[674px]">
+        <ul className="flex flex-col w-full items-start gap-3 self-stretch sm:gap-4 sm:min-h-[674px]">
           {data?.map(({ vaccineName, disease }) =>
             disease.map(({ diseaseName, ids, additions }) => (
               <li
                 key={vaccineName}
-                className="flex px-3 w-full self-stretch gap-[18px] items-center sm:gap-10 sm:px-4 sm:rounded sm:max-w-[732px] sm:min-h-7"
+                className="flex px-3 w-full self-stretch gap-[18px] items-center sm:gap-10 sm:px-4 sm:rounded sm:min-h-7"
               >
                 {/* width: 640px 이상에서 보여지는 라벨 */}
                 <div className="hidden sm:block">
@@ -88,7 +88,7 @@ const VaccineRecordList = ({ data, vaccinated, edit, control }: VaccineRecordLis
                         {/* width: 640px 이상에서 보여지는 블럭 */}
                         <div
                           onClick={() => handleNameClick(ids, field)}
-                          className="items-center gap-10 relative min-w-[356px] min-h-6 cursor-pointer hidden sm:inline-flex"
+                          className="items-center gap-10 relative min-h-6 cursor-pointer hidden sm:inline-flex"
                         >
                           <div className="flex w-[184px] items-center justify-center gap-2.5">
                             <p className="flex-1 h-6  text-gray-700 font-semibold text-title-xxs">{diseaseName}</p>
@@ -104,13 +104,18 @@ const VaccineRecordList = ({ data, vaccinated, edit, control }: VaccineRecordLis
                         </div>
 
                         {/* width: 640px 미만에서 보여지는 블럭 */}
-                        <div className="flex w-[100px] h-[24px] gap-1 sm:hidden">
-                          <p className="overflow-hidden whitespace-nowrap text-ellipsis text-heading-xxs text-gray-700 font-semibold -tracking-[0.21px] hover:overflow-visible hover:bg-white hover:whitespace-normal">
-                            {diseaseName}
-                          </p>
-                        </div>
-                        <div className="overflow-hidden text-ellipsis whitespace-nowrap text-text-l w-[52px] h-[24px] text-gray-500 -tracking-[0.21px] hover:overflow-visible hover:bg-white hover:whitespace-normal sm:hidden">
-                          {vaccineName}
+                        <div
+                          onClick={() => handleNameClick(ids, field)}
+                          className="inline-flex relative cursor-pointer gap-[18px] sm:hidden"
+                        >
+                          <div className="flex w-[100px] h-[24px] gap-1 sm:hidden">
+                            <p className="overflow-hidden whitespace-nowrap text-ellipsis text-heading-xxs text-gray-700 font-semibold -tracking-[0.21px] hover:overflow-visible hover:bg-white hover:whitespace-normal">
+                              {diseaseName}
+                            </p>
+                          </div>
+                          <div className="overflow-hidden text-ellipsis whitespace-nowrap text-text-l w-[52px] h-[24px] text-gray-500 -tracking-[0.21px] hover:overflow-visible hover:bg-white hover:whitespace-normal sm:hidden">
+                            {vaccineName}
+                          </div>
                         </div>
 
                         <div className="flex items-center gap-1 sm:gap-3 sm:flex-1 sm:max-w-[224px] sm:min-h-7">

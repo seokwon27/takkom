@@ -38,11 +38,11 @@ const VaccineRecordEditPage = async ({ params }: VaccineRecordEditPageProps) => 
 
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>
-      <div className="flex flex-col min-w-[375px] pb-20 justify-center items-center mx-auto md:w-[796px] md:gap-20 md:items-start md:my-[100px]">
-        <div className="flex w-full items-start py-1.5 sticky top-0 bg-white z-50 md:hidden">
+      <div className="flex flex-col w-full px-6 pb-20 justify-center items-center mx-auto sm:max-w-[796px] sm:gap-20 sm:items-start sm:my-[100px]">
+        <div className="flex w-full items-start py-1.5 sticky top-0 bg-white z-50 sm:hidden">
           <BackButton childId={childId} />
         </div>
-        <div className="flex flex-col gap-10 relative self-stretch w-full md:max-w-[796px] md:items-start">
+        <div className="flex flex-col gap-10 relative self-stretch w-full sm:max-w-[796px] sm:items-start">
           <VaccineRecordTitle />
           <VaccineRecordTabs childId={params.id} edit={true} />
         </div>
