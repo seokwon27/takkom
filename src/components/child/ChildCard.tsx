@@ -8,7 +8,6 @@ import CakeIcon from "../../../public/child/cake-icon.svg";
 import InjectorIcon from "../../../public/child/injector-icon.svg";
 import RightArrowIcon from "../../../public/child/right-arrow-icon.svg";
 import { useVaccineQuery, useVaccineRecordQuery } from "@/query/useVaccineRecordQuery";
-import { browser } from "process";
 import { ToastDescription } from "@radix-ui/react-toast";
 import { useToast } from "@/hooks/use-toast";
 
@@ -97,7 +96,7 @@ export const ChildCard = ({ child, onDelete }: ChildCardProps) => {
 
         {/* 삭제하기 버튼이 보이는 메뉴 */}
         {menuOpen && (
-          <div className="absolute top-7 right-10 bg-white shadow-md rounded-md p-2 z-10">
+          <div className="absolute top-7 right-0 bg-white shadow-md rounded-md p-2 z-10">
             <button
               onClick={handleDelete}
               className="text-text-l text-gray-700 hover:text-gray-800 bg-gray-30 font-medium px-6 py-4 min-w-[132px]"
