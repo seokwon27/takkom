@@ -4,21 +4,17 @@ import { HospitalSearchParams } from "@/types/hospital";
 import { createQueryParams } from "@/utils/hospital/setHospitalQueryParams";
 import { useState, useEffect } from "react";
 
-const useQueryParams = (
-  currentQuery: string
-): [string, HospitalSearchParams, (params: HospitalSearchParams) => void] => {
-  const [query, setQuery] = useState("/hospital" + currentQuery);
+const useQueryParams = (currentQuery: string): [HospitalSearchParams, (params: HospitalSearchParams) => void] => {
   const [params, setParams] = useState<HospitalSearchParams>(Object.fromEntries(new URLSearchParams(currentQuery)));
 
   useEffect(() => {
     // 클라이언트 환경에서만 실행됨
-    if (typeof window === 'undefined') {
+    if (typeof window === "undefined") {
       return;
     }
-    
+
     const handlePopState = () => {
       // 뒤로 가기 또는 앞으로 가기 시 (= url 변경 시 발생) 쿼리 파라미터 업데이트
-      setQuery(window.location.pathname + currentQuery);
       setParams(Object.fromEntries(new URLSearchParams(window.location.search)));
     };
 
@@ -40,7 +36,7 @@ const useQueryParams = (
     window.dispatchEvent(new PopStateEvent("popstate"));
   };
 
-  return [query, params, setQueryParams];
+  return [params, setQueryParams];
 };
 
 export default useQueryParams;

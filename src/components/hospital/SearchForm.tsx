@@ -6,22 +6,22 @@ import { usePathname } from "next/navigation";
 import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger } from "@/components/ui/select";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { BRTC, DISEASE, DISEASE_LIST, SGG } from "../../constants/constants";
+import { useHospitalContext } from "@/providers/HospitalProvider";
 import { createQueryParams } from "../../utils/hospital/setHospitalQueryParams";
+import { HospitalSearchParams } from "@/types/hospital";
+import { BRTC, DISEASE, DISEASE_LIST, SGG } from "../../constants/constants";
+import RegionDrawer from "./RegionDrawer";
+import DesktopLayout from "../layout/DesktopLayout";
+import MobileLayout from "../layout/MobileLayout";
+import useQueryParams from "@/hooks/use-query-param";
+import { cn } from "@/lib/utils";
+import { ChevronLeft } from "lucide-react";
 import InfoTag from "./InfoTag";
 import RegionSelect from "./RegionSelect";
 import InfoCircle from "../../../public/hospital/info-circle.svg";
 import VaccineFilterOffIcon from "../../../public/hospital/vaccine-filter-off-icon.svg";
 import VaccineFilterOnIcon from "../../../public/hospital/vaccine-filter-on-icon.svg";
 import SearchIcon from "../../../public/hospital/search-icon.svg";
-import { cn } from "@/lib/utils";
-import { HospitalSearchParams } from "@/types/hospital";
-import { ChevronLeft } from "lucide-react";
-import RegionDrawer from "./RegionDrawer";
-import DesktopLayout from "../layout/DesktopLayout";
-import MobileLayout from "../layout/MobileLayout";
-import { useHospitalContext } from "@/providers/HospitalProvider";
-import useQueryParams from "@/hooks/use-query-param";
 
 type SearchFormProps = {
   brtcObj: { [key: string]: string };
@@ -32,14 +32,14 @@ type SearchFormProps = {
 const SearchForm = ({ brtcObj, regionInfo, searchParams }: SearchFormProps) => {
   const pathname = usePathname();
   const [currentQuery, setCurrentQuery] = useState(new URLSearchParams(searchParams).toString());
-  const [query, currentParams, setQueryParams] = useQueryParams(currentQuery);
+  const [currentParams, setQueryParams] = useQueryParams(currentQuery);
   const [params, setParams] = useState<{ brtcCd: string; sggCd: string; addr: string; org: string }>({
-    brtcCd: searchParams.brtcCd ?? BRTC,
-    sggCd: searchParams.sggCd ?? SGG,
-    addr: searchParams.addr ?? "",
-    org: searchParams.org ?? ""
+    brtcCd: currentParams.brtcCd ?? BRTC,
+    sggCd: currentParams.sggCd ?? SGG,
+    addr: currentParams.addr ?? "",
+    org: currentParams.org ?? ""
   });
-  const [disease, setDisease] = useState(searchParams.disease || DISEASE);
+  const [disease, setDisease] = useState(currentParams.disease || DISEASE);
   const [showInfoTag, setShowInfoTag] = useState(true);
   const { step, setStep } = useHospitalContext((state) => state);
 
@@ -58,10 +58,10 @@ const SearchForm = ({ brtcObj, regionInfo, searchParams }: SearchFormProps) => {
     }));
     setDisease((prev) => {
       if (prev !== currentParams?.disease) {
-        return currentParams?.disease ?? DISEASE
+        return currentParams?.disease ?? DISEASE;
       }
-      return prev
-    })
+      return prev;
+    });
   }, [searchParams, currentParams]);
 
   const onBrtcSelectChange = (value: string) => {
@@ -101,7 +101,7 @@ const SearchForm = ({ brtcObj, regionInfo, searchParams }: SearchFormProps) => {
     };
   };
 
-  const onVaccineChange = (value:string) => {
+  const onVaccineChange = (value: string) => {
     setDisease(value);
     if (currentParams.brtcCd && currentParams.sggCd) {
       const params = { ...currentParams, disease: value, pageNo: "1" };
@@ -112,8 +112,8 @@ const SearchForm = ({ brtcObj, regionInfo, searchParams }: SearchFormProps) => {
   const onButtonClick = () => {
     setDisease(DISEASE);
     const newURL = createQueryParams({ ...params, pageNo: "1" }, pathname);
-    if (newURL !== query) {
-      setCurrentQuery(newURL);
+    if (newURL !== pathname + "?" + currentQuery) {
+      setCurrentQuery(new URLSearchParams({ ...params, pageNo: "1" }).toString());
       setQueryParams({ ...params, pageNo: "1" });
     }
     setStep(1);
@@ -222,10 +222,7 @@ const SearchForm = ({ brtcObj, regionInfo, searchParams }: SearchFormProps) => {
               </div>
             </div>
             <div className={cn("w-full flex justify-end items-center border-b border-gray-30")}>
-              <Select
-                value={disease}
-                onValueChange={onVaccineChange}
-              >
+              <Select value={disease} onValueChange={onVaccineChange}>
                 <SelectTrigger className={`w-fit p-2 mr-6 border-0`}>
                   <Image
                     src={disease === DISEASE ? VaccineFilterOffIcon : VaccineFilterOnIcon}
@@ -347,10 +344,7 @@ const SearchForm = ({ brtcObj, regionInfo, searchParams }: SearchFormProps) => {
           </Button>
         </form>
         <div className={cn("w-full flex justify-end items-center")}>
-          <Select
-            value={disease}
-            onValueChange={onVaccineChange}
-          >
+          <Select value={disease} onValueChange={onVaccineChange}>
             <SelectTrigger className={`w-fit p-2 border-0`}>
               {disease !== DISEASE && (
                 <p className="h-fit px-3 py-[6px] mr-4 bg-primary-50 ring-inset ring-1 ring-primary-400 rounded-[18px] text-primary-400 text-base">
