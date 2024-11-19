@@ -118,7 +118,6 @@ const SearchForm = ({ brtcObj, regionInfo, searchParams }: SearchFormProps) => {
     }
     setStep(1);
   };
-  console.log(step)
 
   return (
     <>
