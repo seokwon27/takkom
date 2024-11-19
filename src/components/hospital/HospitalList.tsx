@@ -1,36 +1,43 @@
 "use client";
 
 import React, { useState } from "react";
-import HospitalCard from "./HospitalCard";
-import HospitalPagination from "./HospitalPagination";
+import Image from "next/image";
+import { useHospitalContext } from "@/providers/HospitalProvider";
 import { useHospitalQuery } from "@/query/useHospitalQuery";
-import { NUM_OF_CARDS_PER_PAGE } from "../../constants/constants";
-import LoadingHospitalList from "./HospitalListLoading";
 import { useUserLike } from "@/query/useUserQuery";
 import browserClient from "@/utils/supabase/client";
-import { HospitalSearchParams } from "@/types/hospital";
+import useQueryParams from "@/hooks/use-query-param";
+import { HopsitalItem, HospitalSearchParams } from "@/types/hospital";
 import { User } from "@supabase/supabase-js";
+import { NUM_OF_CARDS_PER_PAGE } from "../../constants/constants";
+import HospitalCard from "./HospitalCard";
+import HospitalPagination from "./HospitalPagination";
+import LoadingHospitalList from "./HospitalListLoading";
 import useDevice from "@/utils/useDevice";
 import HospitalCardWithDrawer from "./HospitalCardWithDrawer";
 import MobileLayout from "../layout/MobileLayout";
 import DesktopLayout from "../layout/DesktopLayout";
-import Image from "next/image";
 import LoadingSpinner from "../../../public/common/loading-spinner.svg";
-import { useHospitalContext } from "@/providers/HospitalProvider";
 
-const HospitalList = ({searchParams, user }: { searchParams: HospitalSearchParams; user: User | null }) => {
-  const { step } = useHospitalContext(state => state);
+type HospitalListProps = {
+  searchParams: HospitalSearchParams;
+  user: User | null;
+};
+
+const HospitalList = ({ searchParams, user }: HospitalListProps) => {
+  const { step } = useHospitalContext((state) => state);
   const [clickedId, setClickedId] = useState(0);
   const device = useDevice();
+  const [params] = useQueryParams(new URLSearchParams(searchParams).toString());
 
   // const {brtcCd, sggCd, addr, org} = params
   const [brtcCd, sggCd, addr, org, disease, currentPage] = [
-    searchParams.brtcCd ?? "",
-    searchParams.sggCd ?? "",
-    searchParams.addr ?? "",
-    searchParams.org ?? "",
-    searchParams.disease ?? "",
-    Number(searchParams.pageNo) ?? 1
+    params.brtcCd ?? "",
+    params.sggCd ?? "",
+    params.addr ?? "",
+    params.org ?? "",
+    params.disease ?? "",
+    Number(params.pageNo) ?? 1
   ];
 
   const {
@@ -43,7 +50,20 @@ const HospitalList = ({searchParams, user }: { searchParams: HospitalSearchParam
 
   const { data: likes } = useUserLike(browserClient, user?.id);
 
-  if (isLoading || isFetching ) {
+  const handleClick = (e: React.MouseEvent<HTMLLIElement, MouseEvent>, info: HopsitalItem) => {
+    if ((e.target instanceof HTMLElement || e.target instanceof SVGElement) && e.target.dataset.select) {
+      // 모바일 클릭 오류 방지용: data-set='true' 달려있을 땐 동작하지 않음
+      return;
+    }
+    setClickedId((prev) => {
+      if (prev === info.orgcd) {
+        return 0;
+      }
+      return info.orgcd;
+    });
+  }
+
+  if (isLoading || isFetching) {
     return (
       <>
         <LoadingHospitalList>
@@ -91,16 +111,7 @@ const HospitalList = ({searchParams, user }: { searchParams: HospitalSearchParam
               key={info.orgcd}
               onClick={(e) => {
                 e.stopPropagation();
-                if ((e.target instanceof HTMLElement || e.target instanceof SVGElement) && e.target.dataset.select) {
-                  // 모바일 클릭 오류 방지용: data-set='true' 달려있을 땐 동작하지 않음
-                  return;
-                }
-                setClickedId((prev) => {
-                  if (prev === info.orgcd) {
-                    return 0;
-                  }
-                  return info.orgcd;
-                });
+                handleClick(e, info)
               }}
             >
               <MobileLayout>
