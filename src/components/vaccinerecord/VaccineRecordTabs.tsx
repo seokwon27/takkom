@@ -79,13 +79,10 @@ const VaccineRecordTabs = ({ childId, edit, control }: VaccineRecordProps) => {
             완료
           </Button>
         ) : (
-          <Link
-            href={`/child/${childId}/record`}
-            className="inline-flex justify-center gap-2.5 px-3 py-1.5 rounded-[15px] items-center"
-          >
+          <Link href={`/child/${childId}/record`} className="inline-flex justify-center gap-2.5 items-center">
             <Button
               type="button"
-              className="w-fit text-title-xs text-gray-400 whitespace-nowrap bg-transparent hover:bg-primary-50 hover:text-primary-300"
+              className="w-fit text-title-xs text-gray-400 whitespace-nowrap bg-transparent px-3 py-1.5 rounded-[15px] hover:bg-primary-300 hover:text-white"
             >
               수정
             </Button>
