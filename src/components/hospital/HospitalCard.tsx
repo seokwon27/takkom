@@ -96,7 +96,7 @@ const HospitalCard = ({ user, hospitalInfo, clickedId, filter, likes }: Hospital
             <p className="text-label-l text-gray-300 max-sm:text-label-s">병원 이름</p>
             <p className="text-text-l grow text-gray-700 line-clamp-1 max-sm:text-text-s">{orgnm}</p>
 
-            <p className="text-label-l text-gray-300 max-sm:text-label-s">병원 주소</p>
+            <p className="mt-0 mb-auto text-label-l text-gray-300 max-sm:text-label-s">병원 주소</p>
             <p className="text-text-l text-gray-700 break-all line-clamp-2 max-sm:text-text-s max-sm:line-clamp-1">
               {orgAddr}
             </p>

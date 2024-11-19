@@ -70,7 +70,7 @@ const HospitalCardWithDrawer = ({ user, hospitalInfo, clickedId, filter, likes }
           orgcd === clickedId && "max-sm:border-primary-400 max-sm:shadow-none"
         )}
       >
-        <div className="w-[160px] flex justify-center items-center bg-gray-10 rounded-xl aspect-square overflow-hidden relative max-sm:size-[86px] sm:rounded-md">
+        <div className="w-[160px] flex justify-center items-center bg-gray-10 rounded-md aspect-square overflow-hidden relative max-sm:size-[86px] max-sm:rounded-lg">
           <Image src={Ambulance} alt="병원 이미지" className="object-cover" />
           <div
             className="absolute top-[6px] left-[6px] aspect-square cursor-pointer size-[18px] sm:top-2 sm:left-2 sm:size-10 sm:p-[5px]"
@@ -95,8 +95,12 @@ const HospitalCardWithDrawer = ({ user, hospitalInfo, clickedId, filter, likes }
             <p className="text-label-l text-gray-300 max-sm:text-label-s">병원 이름</p>
             <p className="text-text-l grow text-gray-700 line-clamp-1 max-sm:text-text-s">{orgnm}</p>
 
-            <p className="text-label-l text-gray-300 max-sm:text-label-s">병원 주소</p>
-            <p className="text-text-l text-gray-700 break-all line-clamp-2 max-sm:text-text-s max-sm:line-clamp-1">
+            <p className={cn("mt-0 mb-auto text-label-l text-gray-300 max-sm:text-label-s")}>병원 주소</p>
+            <p
+              className={cn("text-text-l text-gray-700 break-all line-clamp-2 max-sm:text-text-s max-sm:line-clamp-1", {
+                "max-sm:line-clamp-none": clickedId === orgcd
+              })}
+            >
               {orgAddr}
             </p>
 
