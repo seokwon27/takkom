@@ -45,6 +45,15 @@ const VaccineRecordList = ({ data, vaccinated, edit, control }: VaccineRecordLis
       field.onChange(newValue);
     };
 
+  const handleNameClick = (ids: string[], field: ControllerRenderProps<FormValues, "selectVaccines">) => {
+    const unCheckedIndex = ids.findIndex((id) => !field.value.includes(id));
+
+    if (unCheckedIndex !== -1) {
+      const newValue = [...field.value, ids[unCheckedIndex]];
+      field.onChange(newValue);
+    }
+  };
+
   return (
     <div className="flex flex-col w-full items-start self-stretch gap-2.5 sm:px-8 sm:rounded-2xl sm:max-w-[796px]">
       <div className="flex flex-col min-w-[327px] items-center gap-4 sm:self-stretch sm:max-w-full sm:gap-5 sm:items-start">
@@ -69,33 +78,99 @@ const VaccineRecordList = ({ data, vaccinated, edit, control }: VaccineRecordLis
                   <VaccineLabel additions={additions} />
                 </div>
 
-                {/* width: 640px 이상에서 보여지는 블럭 */}
-                <div className="items-center gap-10 relative min-w-[356px] min-h-6 hidden sm:inline-flex">
-                  <div className="flex w-[184px] items-center justify-center gap-2.5">
-                    <p className="flex-1 h-6  text-gray-700 font-semibold text-title-xxs">{diseaseName}</p>
-                  </div>
+                {edit && control ? (
+                  <Controller
+                    key={`${vaccineName}-${diseaseName}`}
+                    control={control}
+                    name="selectVaccines"
+                    render={({ field }) => (
+                      <>
+                        {/* width: 640px 이상에서 보여지는 블럭 */}
+                        <div
+                          onClick={() => handleNameClick(ids, field)}
+                          className="items-center gap-10 relative min-w-[356px] min-h-6 cursor-pointer hidden sm:inline-flex"
+                        >
+                          <div className="flex w-[184px] items-center justify-center gap-2.5">
+                            <p className="flex-1 h-6  text-gray-700 font-semibold text-title-xxs">{diseaseName}</p>
+                          </div>
 
-                  <div className="flex flex-col w-[132px] items-start gap-2.5 relative">
-                    <div className="flex items-start gap-2.5">
-                      <div className="flex items-center justify-center gap-2.5 py-0.5 self-stretch w-full flex-[0_0_auto]">
-                        <p className=" text-gray-500 text-label-l">{vaccineName}</p>
+                          <div className="flex flex-col w-[132px] items-start gap-2.5 relative">
+                            <div className="flex items-start gap-2.5">
+                              <div className="flex items-center justify-center gap-2.5 py-0.5 self-stretch w-full flex-[0_0_auto]">
+                                <p className=" text-gray-500 text-label-l">{vaccineName}</p>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+
+                        {/* width: 640px 미만에서 보여지는 블럭 */}
+                        <div className="flex w-[100px] h-[24px] gap-1 sm:hidden">
+                          <p className="overflow-hidden whitespace-nowrap text-ellipsis text-heading-xxs text-gray-700 font-semibold -tracking-[0.21px] hover:overflow-visible hover:bg-white hover:whitespace-normal">
+                            {diseaseName}
+                          </p>
+                        </div>
+                        <div className="overflow-hidden text-ellipsis whitespace-nowrap text-text-l w-[52px] h-[24px] text-gray-500 -tracking-[0.21px] hover:overflow-visible hover:bg-white hover:whitespace-normal sm:hidden">
+                          {vaccineName}
+                        </div>
+
+                        <div className="flex items-center gap-1 sm:gap-3 sm:flex-1 sm:max-w-[224px] sm:min-h-7">
+                          {ids.map((id, index) => (
+                            <CustomCheckbox
+                              key={id}
+                              additions={additions}
+                              index={index}
+                              checked={field.value.includes(id)}
+                              disabled={getDisabledState(index, ids, field.value)}
+                              onCheckedChange={handleCheckedChange(id, field)}
+                            />
+                          ))}
+                        </div>
+                      </>
+                    )}
+                  />
+                ) : (
+                  <>
+                    {/* width: 640px 이상에서 보여지는 블럭 */}
+                    <div className="items-center gap-10 relative min-w-[356px] min-h-6 hidden sm:inline-flex">
+                      <div className="flex w-[184px] items-center justify-center gap-2.5">
+                        <p className="flex-1 h-6  text-gray-700 font-semibold text-title-xxs">{diseaseName}</p>
+                      </div>
+
+                      <div className="flex flex-col w-[132px] items-start gap-2.5 relative">
+                        <div className="flex items-start gap-2.5">
+                          <div className="flex items-center justify-center gap-2.5 py-0.5 self-stretch w-full flex-[0_0_auto]">
+                            <p className=" text-gray-500 text-label-l">{vaccineName}</p>
+                          </div>
+                        </div>
                       </div>
                     </div>
-                  </div>
-                </div>
 
-                {/* width: 640px 미만에서 보여지는 블럭 */}
-                <div className="flex w-[100px] h-[24px] gap-1 sm:hidden">
-                  <p className="overflow-hidden whitespace-nowrap text-ellipsis text-heading-xxs text-gray-700 font-semibold -tracking-[0.21px] hover:overflow-visible hover:bg-white hover:whitespace-normal">
-                    {diseaseName}
-                  </p>
-                </div>
-                <div className="overflow-hidden text-ellipsis whitespace-nowrap text-text-l w-[52px] h-[24px] text-gray-500 -tracking-[0.21px] hover:overflow-visible hover:bg-white hover:whitespace-normal sm:hidden">
-                  {vaccineName}
-                </div>
+                    {/* width: 640px 미만에서 보여지는 블럭 */}
+                    <div className="flex w-[100px] h-[24px] gap-1 sm:hidden">
+                      <p className="overflow-hidden whitespace-nowrap text-ellipsis text-heading-xxs text-gray-700 font-semibold -tracking-[0.21px] hover:overflow-visible hover:bg-white hover:whitespace-normal">
+                        {diseaseName}
+                      </p>
+                    </div>
+                    <div className="overflow-hidden text-ellipsis whitespace-nowrap text-text-l w-[52px] h-[24px] text-gray-500 -tracking-[0.21px] hover:overflow-visible hover:bg-white hover:whitespace-normal sm:hidden">
+                      {vaccineName}
+                    </div>
+
+                    <div className="flex items-center gap-1 sm:gap-3 sm:flex-1 sm:max-w-[224px] sm:min-h-7">
+                      {ids.map((id, index) => (
+                        <CustomCheckbox
+                          key={id}
+                          checked={vaccinated ? vaccinated.has(id) : false}
+                          additions={additions}
+                          index={index}
+                          disabled
+                        />
+                      ))}
+                    </div>
+                  </>
+                )}
 
                 {/* 체크박스 */}
-                <div className="flex items-center gap-1 sm:gap-3 sm:flex-1 sm:max-w-[224px] sm:min-h-7">
+                {/* <div className="flex items-center gap-1 sm:gap-3 sm:flex-1 sm:max-w-[224px] sm:min-h-7">
                   {ids.map((id, index) =>
                     edit && control ? (
                       <Controller
@@ -122,7 +197,7 @@ const VaccineRecordList = ({ data, vaccinated, edit, control }: VaccineRecordLis
                       />
                     )
                   )}
-                </div>
+                </div> */}
               </li>
             ))
           )}
