@@ -37,7 +37,7 @@ const ChildInfoEditPage = () => {
 
   const onComplete = () => {
     toast({
-      description: <ToastDescription className="text-white text-text-s">수정이 완료되었습니다.</ToastDescription>,
+      description: <ToastDescription className="text-white">수정이 완료되었습니다.</ToastDescription>,
       variant: "mobile"
     });
     router.back();
