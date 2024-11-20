@@ -83,12 +83,7 @@ const SignUp = () => {
         name: data.name
       });
 
-      setStatus("success");
-      setMessage("회원가입이 성공적으로 완료되었습니다!");
-      setShowStatusModal(true);
-      setTimeout(() => {
-        router.push("/"); // 2초 후 홈으로 리다이렉트
-      }, 2000);
+      router.push("/");
     } catch (error: unknown) {
       console.error("회원가입 실패:", error);
 
@@ -106,14 +101,6 @@ const SignUp = () => {
       setShowStatusModal(true);
     }
   };
-
-  // const passCheck = () => {
-  //   if (form.formState.errors.passwordCheck?.message === "비밀번호가 일치합니다.") {
-  //     return "text-informative";
-  //   } else {
-  //     return "text-negative";
-  //   }
-  // };
 
   return (
     <div className="flex flex-col justify-center items-center w-full max-w-[384px]">
