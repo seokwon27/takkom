@@ -65,9 +65,11 @@ export type HospitalSearchParams = {
 };
 
 export type OpenAPI_Error = {
-  cmmMsgHeader: {
-    errMsg: string;
-    returnAuthMsg: string;
-    returnReasonCode: number;
+  OpenAPI_ServiceResponse: {
+    cmmMsgHeader: {
+      errMsg: string;
+      returnAuthMsg: string;
+      returnReasonCode: number;
+    };
   };
 };
