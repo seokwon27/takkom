@@ -15,7 +15,18 @@ const ChildPage = () => {
   // userId가 설정된 후에만 useChildrenQuery 호출
   const userId = user?.id; // 현재 로그인한 사용자의 ID를 설정
   const { data: childrenData, isLoading, error } = useChildrenQuery(browserClient, userId);
+  // 여기까지 서버에서 요청하는걸로 바꾸기.... 하나의 서브액션으로 처리해서 Children만 반환....을 받아서 각각의 컴포넌트에 데이터를 내려주기???
 
+  // 22-27 loading.tsx, error.tsx 로 로딩표시 에러표시 가능
+  // 사용자 정보를 로드하는 동안 로딩 표시
+  if (isUserLoading) return <p>로딩 중...</p>;
+  if (isUserError) return <p>사용자 정보를 가져오는 데 오류가 발생했습니다.</p>;
+
+  // userId가 로드될 때까지 로딩 표시
+  if (isLoading) return <p>로딩 중...</p>;
+  if (error) return <p>오류가 발생했습니다: {error.message}</p>;
+
+  // 아래 로직은 각각이 아니고~~ 하나의 클라이언트 컴포넌트를 만들어야함 여기서 상태들을 관리하고
   const [children, setChildren] = useState<Child[]>([]);
   const [selectedChildId, setSelectedChildId] = useState<string | null>(null);
 
@@ -35,14 +46,6 @@ const ChildPage = () => {
     }
   }, [childrenData]);
 
-  // 사용자 정보를 로드하는 동안 로딩 표시
-  if (isUserLoading) return <p>로딩 중...</p>;
-  if (isUserError) return <p>사용자 정보를 가져오는 데 오류가 발생했습니다.</p>;
-
-  // userId가 로드될 때까지 로딩 표시
-  if (isLoading) return <p>로딩 중...</p>;
-  if (error) return <p>오류가 발생했습니다: {error.message}</p>;
-
   const handleTabClick = (childId: string) => {
     setSelectedChildId(childId);
   };
@@ -57,7 +60,8 @@ const ChildPage = () => {
       <div className="py-[6px] mb-4 hidden max-sm:block">
         <p className="text-gray-800 text-title-m font-semibold">우리아이</p>
       </div>
-      <div className="flex flex-col lg:flex-row gap-6 max-w-[996px] w-full">
+      {/* 여기 통째로 분리: 시작 */}
+      <div className="flex flex-col lg:flex-row gap-4 max-w-[996px] w-full">
         {/* 좌측 사이드바 영역 */}
         <Sidebar children={children} selectedChildId={selectedChildId} onTabClick={handleTabClick} />
 
@@ -72,6 +76,7 @@ const ChildPage = () => {
           )}
         </main>
       </div>
+      {/* 여기 통째로 분리: 끝 */}
     </div>
   );
 };
