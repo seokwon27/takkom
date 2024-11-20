@@ -1,0 +1,9 @@
+# *
+User-agent: *
+Allow: /
+
+# Host
+Host: https://www.takkom.site
+
+# Sitemaps
+Sitemap: https://www.takkom.site/sitemap.xml
