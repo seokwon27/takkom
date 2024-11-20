@@ -7,29 +7,62 @@ import ChildTapIcon from "../../../public/child/child-icon-gray.svg";
 import Image from "next/image";
 import { useState } from "react";
 import { Child } from "@/types/childType";
-import { getChildren, getUser } from "@/api/userApi";
+// import { Metadata } from "next";
 
-const ChildPage = async() => {
-  const user = await getUser(browserClient);
-  if (!user) {
-    return <p>로그인이 필요합니다.</p>;
-  }
+// export const metadata: Metadata = {
+//   title: "따꼼 - 우리 아이 맞춤형 플랜",
+//   description: "아이를 등록해서 시기에 맞는 접종 정보와 접종 기록을 관리할 수 있어요.",
+//   keywords: ["따꼼", "따꼬미", "우리 아이 맞춤", "예방접종"],
+//   openGraph: {
+//     title: "따꼼 - 우리 아이 맞춤형 플랜",
+//     description: "아이를 등록해서 시기에 맞는 접종 정보와 접종 기록을 관리할 수 있어요.",
+//     url: "https://www.takkom.site/child",
+//     images: [
+//       {
+//         url: "/opengraph/child-og.png",
+//         width: 1280,
+//         height: 680,
+//         alt: "따꼼 - 우리 아이 맞춤형 플랜"
+//       }
+//     ]
+//   }
+// };
 
-  const childrenData = await getChildren(browserClient, user.id);
+const ChildPage = () => {
+  // 현재 로그인한 사용자 정보를 가져오기 위한 useUserQuery 훅 호출
+  const { data: user, isLoading: isUserLoading, isError: isUserError } = useUserQuery(browserClient);
 
-  // 생년월일 기준 정렬
-  const sortedChildren = childrenData.sort((a: Child, b: Child) => {
-    const dateA = new Date(a.birth).getTime();
-    const dateB = new Date(b.birth).getTime();
-    return dateA - dateB;
-  });
+  // userId가 설정된 후에만 useChildrenQuery 호출
+  const userId = user?.id; // 현재 로그인한 사용자의 ID를 설정
+  const { data: childrenData, isLoading, error } = useChildrenQuery(browserClient, userId);
 
-  const [selectedChildId, setSelectedChildId] = useState<string | null>(
-    sortedChildren.length > 0 ? sortedChildren[0].id : null
-  );
-  const [children, setChildren] = useState<Child[]>(sortedChildren);
+  const [children, setChildren] = useState<Child[]>([]);
+  const [selectedChildId, setSelectedChildId] = useState<string | null>(null);
 
-  // 탭 클릭 시 아이 선택
+  useEffect(() => {
+    if (childrenData) {
+      // 생년월일 기준으로 정렬된 children 배열을 상태로 설정
+      const sortedChildren = [...childrenData].sort((a, b) => {
+        const dateA = new Date(a.birth).getTime();
+        const dateB = new Date(b.birth).getTime();
+        return dateA - dateB;
+      });
+      setChildren(sortedChildren);
+      // 정렬된 배열의 첫 번째 아이의 ID를 selectedChildId로 설정
+      if (sortedChildren.length > 0) {
+        setSelectedChildId(sortedChildren[0].id);
+      }
+    }
+  }, [childrenData]);
+
+  // 사용자 정보를 로드하는 동안 로딩 표시
+  if (isUserLoading) return <p>로딩 중...</p>;
+  if (isUserError) return <p>사용자 정보를 가져오는 데 오류가 발생했습니다.</p>;
+
+  // userId가 로드될 때까지 로딩 표시
+  if (isLoading) return <p>로딩 중...</p>;
+  if (error) return <p>오류가 발생했습니다: {error.message}</p>;
+
   const handleTabClick = (childId: string) => {
     setSelectedChildId(childId);
   };

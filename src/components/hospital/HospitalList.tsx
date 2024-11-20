@@ -61,7 +61,7 @@ const HospitalList = ({ searchParams, user }: HospitalListProps) => {
       }
       return info.orgcd;
     });
-  }
+  };
 
   if (isLoading || isFetching) {
     return (
@@ -111,7 +111,7 @@ const HospitalList = ({ searchParams, user }: HospitalListProps) => {
               key={info.orgcd}
               onClick={(e) => {
                 e.stopPropagation();
-                handleClick(e, info)
+                handleClick(e, info);
               }}
             >
               <MobileLayout>

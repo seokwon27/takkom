@@ -8,6 +8,30 @@ import { dehydrate, HydrationBoundary, QueryClient } from "@tanstack/react-query
 import BackButton from "@/components/ui/back-button";
 import VaccineRecordTabs from "@/components/vaccinerecord/VaccineRecordTabs";
 import VaccineRecordTitle from "@/components/vaccinerecord/VaccineRecordTitle";
+import { Metadata } from "next";
+
+export const generateMetadata = ({ params }: { params: { id: string } }): Metadata => {
+  const { id } = params;
+
+  return {
+    title: "따꼼 - 체크리스트",
+    description: "우리아이의 접종 내역을 간편하게 기록하고 확인할 수 있어요.",
+    keywords: ["따꼼", "따꼬미", "체크리스트", "예방접종"],
+    openGraph: {
+      title: "따꼼 - 체크리스트",
+      description: "우리아이의 접종 내역을 간편하게 기록하고 확인할 수 있어요.",
+      url: `https://www.takkom.site/child/${id}/record`,
+      images: [
+        {
+          url: "/opengraph/checklist-og.png",
+          width: 1280,
+          height: 680,
+          alt: "따꼼 - 체크리스트"
+        }
+      ]
+    }
+  };
+};
 
 interface VaccineRecordEditPageProps {
   params: {

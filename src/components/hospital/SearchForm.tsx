@@ -197,7 +197,7 @@ const SearchForm = ({ brtcObj, regionInfo, searchParams }: SearchFormProps) => {
                 disabled={params.brtcCd === BRTC || params.sggCd === SGG}
                 className={cn(
                   "h-12 bg-primary-400 rounded-lg text-base font-semibold hover:bg-primary-400 disabled:bg-primary-400",
-                  "max-sm:mt-1 max-sm:col-span-2"
+                  "max-sm:mt-1 max-sm:col-span-2 max-sm:rounded-xl"
                 )}
               >
                 검색
@@ -213,8 +213,8 @@ const SearchForm = ({ brtcObj, regionInfo, searchParams }: SearchFormProps) => {
                 setStep(0);
               }}
             >
-              <ChevronLeft size={24} className="w-6 h-6 text-gray-400" />
-              <div className="w-full h-fit py-[10px] pr-4 pl-[42px] rounded-lg bg-gray-10 text-label-l font-semibold text-gray-700 relative">
+              <ChevronLeft size={24} className="w-6 h-6 text-gray-400 cursor-pointer" />
+              <div className="w-full h-fit py-[10px] pr-4 pl-[42px] rounded-lg bg-gray-10 text-label-l font-semibold text-gray-700 cursor-pointer relative">
                 <Image src={SearchIcon} alt="검색" className="absolute top-[11.5px] left-4 sm:hidden" />
                 <p>
                   {brtcObj[params.brtcCd]} {regionInfo.get(params.brtcCd)?.[params.sggCd]} {params.addr} {params.org}

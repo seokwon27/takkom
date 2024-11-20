@@ -1,11 +1,14 @@
 "use server";
 
-import { defaultHospitalData, NUM_OF_CARDS_PER_PAGE } from "@/constants/constants";
-import { HopsitalItem, HospitalType, RegionType } from "@/types/hospital";
+import { NUM_OF_CARDS_PER_PAGE } from "@/constants/constants";
+import { HospitalData, HospitalType, RegionType } from "@/types/hospital";
 import { XMLParser } from "fast-xml-parser";
 
 const serviceKey = process.env.HOSPITAL_KEY_DEC as string;
 const BASE_URL = "https://apis.data.go.kr/1790387/orglist3";
+
+// 검색 결과가 없을 때 기본값
+const DEFAULT_HOSPITAL_DATA: HospitalData = { items: [], totalCount: 0, maxPage: 1 };
 
 // xml to json 변환
 // fetch된 데이터를 .text()를 통해 text로 변환한 값을 넣어야 함.
@@ -101,7 +104,7 @@ export const getRegionInfo = async (): Promise<Map<string, { [key: string]: stri
 };
 
 // 병원 목록 가져오기 위한 input params
-export type HospitalParams = {
+type HospitalParams = {
   // numOfRows: string;
   brtcCd: string; // 각 시/도에 해당하는 코드
   sggCd: string; // 각 시/군/구에 해당하는 코드
@@ -109,13 +112,8 @@ export type HospitalParams = {
   searchWord?: string; // 입력한 검색어 word
 };
 
-// 병원 목록 결과 type
-export type HospitalData = { items: HopsitalItem[]; totalCount: number; maxPage: number };
-
 // 병원 목록 가져오기
-export const getHospitals = async (
-  input: HospitalParams
-): Promise<HospitalData> => {
+export const getHospitals = async (input: HospitalParams): Promise<HospitalData> => {
   const params = { serviceKey, ...input, numOfRows: "100", pageNo: "1" };
   const searchParams = new URLSearchParams(params).toString();
   const res = await fetch(BASE_URL + `/getOrgList3?` + searchParams, {
@@ -129,13 +127,13 @@ export const getHospitals = async (
   const { header, body } = xmlParser<HospitalType>(data);
   // console.log(xmlParser<HospitalType>(data))
   let item = Array.isArray(body.items.item) ? body.items.item : [body.items.item];
-  
+
   if (item[0] === undefined) {
-    return defaultHospitalData;
+    return DEFAULT_HOSPITAL_DATA;
   }
 
   if (header.resultCode !== 0) {
-    return defaultHospitalData;
+    return DEFAULT_HOSPITAL_DATA;
   }
 
   if (body.maxPage > 1) {
@@ -168,7 +166,7 @@ export const getHospitals = async (
 };
 
 // 병원 목록 가져오기 위한 input params
-export type HospitalsMutliConditionParams = {
+type HospitalsMutliConditionParams = {
   // pageNo: string;
   // numOfRows: string;
   brtcCd: string; // 각 시/도에 해당하는 코드
@@ -203,7 +201,7 @@ export const getHospitalsMutliConditions = async (input: HospitalsMutliCondition
     // console.log("addr & org 4 :", addr, org);
     const tmpData = await getHospitals({ brtcCd, sggCd, searchTpcd: "ORG", searchWord: org });
     if (tmpData.totalCount === 0) {
-      return defaultHospitalData;
+      return DEFAULT_HOSPITAL_DATA;
     }
     const items = tmpData.items.filter((item) => item.orgAddr.includes(addr));
     const totalCount = items.length;
@@ -214,7 +212,7 @@ export const getHospitalsMutliConditions = async (input: HospitalsMutliCondition
     // console.log("addr & org 5 :", addr, org);
     const tmpData = await getHospitals({ brtcCd, sggCd });
     if (tmpData.totalCount === 0) {
-      return defaultHospitalData;
+      return DEFAULT_HOSPITAL_DATA;
     }
     const items = tmpData.items.filter((item) => {
       if (Array.isArray(item.vcnList.vcnInfo)) {
@@ -231,7 +229,7 @@ export const getHospitalsMutliConditions = async (input: HospitalsMutliCondition
     // console.log("addr & org 6 :", addr, org);
     const tmpData = await getHospitals({ brtcCd, sggCd, searchTpcd: "ADDR", searchWord: addr });
     if (tmpData.totalCount === 0) {
-      return defaultHospitalData;
+      return DEFAULT_HOSPITAL_DATA;
     }
     const items = tmpData.items.filter((item) => {
       if (Array.isArray(item.vcnList.vcnInfo)) {
@@ -248,7 +246,7 @@ export const getHospitalsMutliConditions = async (input: HospitalsMutliCondition
     // console.log("addr & org 7 :", addr, org);
     const tmpData = await getHospitals({ brtcCd, sggCd, searchTpcd: "ORG", searchWord: org });
     if (tmpData.totalCount === 0) {
-      return defaultHospitalData;
+      return DEFAULT_HOSPITAL_DATA;
     }
     const items = tmpData.items.filter((item) => {
       if (Array.isArray(item.vcnList.vcnInfo)) {
@@ -266,7 +264,7 @@ export const getHospitalsMutliConditions = async (input: HospitalsMutliCondition
     // console.log("addr & org 8 :", addr, org);
     const tmpData = await getHospitals({ brtcCd, sggCd, searchTpcd: "ORG", searchWord: org });
     if (tmpData.totalCount === 0) {
-      return defaultHospitalData;
+      return DEFAULT_HOSPITAL_DATA;
     }
     const items = tmpData.items.filter((item) => {
       if (item.orgAddr.includes(addr)) {
@@ -284,5 +282,5 @@ export const getHospitalsMutliConditions = async (input: HospitalsMutliCondition
     return { items, totalCount, maxPage };
   }
 
-  return defaultHospitalData;
+  return DEFAULT_HOSPITAL_DATA;
 };

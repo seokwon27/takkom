@@ -3,6 +3,7 @@
 import { createClient } from "@/utils/supabase/server";
 import { AuthFormSignIn, AuthFormSignUp, AuthResponseWithUser } from "@/types/user";
 import { redirect } from "next/navigation";
+import { revalidatePath } from "next/cache";
 
 export async function signin(formData: AuthFormSignIn) {
   const supabase = createClient();
@@ -20,8 +21,8 @@ export async function signin(formData: AuthFormSignIn) {
     console.error("Sign Up Error:", error);
   }
 
-  // revalidatePath("/", "layout");
-  // redirect("/");
+  revalidatePath("/", "layout");
+  redirect("/");
 }
 
 export async function signup(formData: AuthFormSignUp): Promise<AuthResponseWithUser> {

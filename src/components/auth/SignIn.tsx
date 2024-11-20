@@ -29,6 +29,9 @@ const SignIn = () => {
 
   const router = useRouter();
 
+  // 비밀번호 정규식 영어, 숫자 포함 8글자
+  const passwordRegex = /^(?=.*[a-zA-Z])(?=.*\d).{8,}$/;
+
   const defaultValues = {
     email: "",
     password: ""
@@ -36,8 +39,11 @@ const SignIn = () => {
 
   // 로그인 페이지 스키마
   const schema = z.object({
-    email: z.string().min(8, { message: "아이디를 8자리 이상 입력해주세요." }),
-    password: z.string().min(8, { message: "비밀번호를 8자리 이상 입력해주세요." })
+    email: z.string().min(8, { message: "이메일을 8자리 이상 입력해주세요." }),
+    password: z
+      .string()
+      .min(8, { message: "비밀번호를 8자리 이상 입력해주세요." })
+      .refine((value) => passwordRegex.test(value), { message: "영문, 숫자를 포함하여 8자리 이상 입력해주세요." })
   });
 
   const form = useForm({
@@ -109,22 +115,24 @@ const SignIn = () => {
   };
 
   return (
-    <div className="flex flex-col justify-center items-center w-full mt-[100px] max-sm:mt-[40px]">
+    <div className="flex flex-col justify-center items-center w-full min-h-screen px-6 py-12">
       <Form {...form}>
         <div className="flex flex-col justify-center items-center">
-          <Image src={kkom} alt="따꼼 로고" className="mb-[64px]" />
+          <Image src={kkom} alt="따꼼 로고" className="mb-[80px] max-sm:mb-[64px]" />
           <div>
             <form onSubmit={form.handleSubmit(signIn)}>
               <FormField
                 control={form.control}
                 name="email"
                 render={({ field }) => (
-                  <FormItem>
-                    <FormLabel className="text-gray-600">이메일</FormLabel>
+                  <FormItem className="mb-[24px]">
+                    <FormLabel className="text-gray-600">
+                      이메일 <span className="text-primary-400">*</span>
+                    </FormLabel>
                     <FormControl>
-                      <div className="relative w-96 max-sm:col-span-2 max-sm:relative">
+                      <div className="relative w-full max-sm:col-span-2 max-sm:relative">
                         <Input
-                          className={`w-full h-14 px-6 py-4 ${
+                          className={`w-full h-[50px] px-[24px] py-[16px] max-sm:mx-[24px]${
                             form.formState.errors.email ? "border-red-500" : "border-gray-300"
                           }`}
                           placeholder="이메일을 입력해주세요."
@@ -143,10 +151,12 @@ const SignIn = () => {
                 control={form.control}
                 name="password"
                 render={({ field }) => (
-                  <FormItem>
-                    <FormLabel className="text-gray-600">비밀번호</FormLabel>
+                  <FormItem className="mb-[24px]">
+                    <FormLabel className="text-gray-600">
+                      비밀번호 <span className="text-primary-400">*</span>
+                    </FormLabel>
                     <FormControl>
-                      <div className="relative w-96">
+                      <div className="relative">
                         <Input
                           className={`w-full h-14 px-6 py-4 ${
                             form.formState.errors.password ? "border-red-500" : "border-gray-300"
@@ -172,20 +182,23 @@ const SignIn = () => {
                   </FormItem>
                 )}
               />
-              <div className="self-stretch justify-between items-start inline-flex">
+              <div className="self-stretch justify-between items-start inline-flex mt-[24px]">
                 <Button
                   type="submit"
-                  className="w-96 h-14 px-6 py-4 mt-[40px] bg-[#c1d8ff] rounded-xl inline-flex items-center justify-center gap-2 text-base font-semibold hover:bg-primary-400 disabled:bg-primary-400"
+                  disabled={!form.formState.isValid} // 폼이 유효하지 않으면 버튼 비활성화
+                  className={`w-96 max-sm:w-80 h-14 px-6 py-4 rounded-xl inline-flex items-center justify-center gap-2 text-base font-semibold hover:bg-primary-500 ${
+                    form.formState.isValid ? "bg-primary-400" : "bg-[#c1d8ff] cursor-not-allowed"
+                  }`} // 값이 입력 됐을 때 색상 변경
                 >
                   로그인
                 </Button>
               </div>
             </form>
-            <div className="flex justify-center items-center gap-2.5 p-3 md-[12px]">
-              <Link href={"/"} className="text-[#636363] text-base font-normal leading-normal m-[12px]">
+            <div className="flex justify-center items-center gap-[15px] p-[15px]">
+              <Link href={"/"} className="text-[#636363] text-base font-normal leading-normal p-[12px]">
                 비밀번호 찾기
               </Link>
-              <Link href={"/signup"} className="text-[#636363] text-base font-normal leading-normal m-[12px]">
+              <Link href={"/signup"} className="text-[#636363] text-base font-normal leading-normal p-[12px]">
                 회원가입
               </Link>
             </div>

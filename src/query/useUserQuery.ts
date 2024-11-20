@@ -24,7 +24,11 @@ export const prefetchUser = async (queryClient: QueryClient, supabaseClient: Sup
 export const useUserLike = (supabaseClient: SupabaseDatabase, userId?: string) => {
   return useQuery({
     queryKey: ["user", "like", userId ?? ''],
-    queryFn: () => getUserLike(supabaseClient, userId),
+    queryFn: () => {
+      if (!userId) {
+        throw new Error('User data not available');
+      }
+      return getUserLike(supabaseClient, userId)},
     enabled: !!userId,
     staleTime: Infinity
   });
