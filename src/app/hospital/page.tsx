@@ -13,7 +13,16 @@ export const metadata: Metadata = {
   keywords: ["따꼼", "따꼬미", "동네 병원 찾기", "예방접종"],
   openGraph: {
     title: "따꼼 - 동네 병원 찾기",
-    description: "주소와 병원명을 활용한 맞춤형 검색을 통해 원하는 병원을 찾아볼 수 있어요."
+    description: "주소와 병원명을 활용한 맞춤형 검색을 통해 원하는 병원을 찾아볼 수 있어요.",
+    url: "https://www.takkom.site/hospital",
+    images: [
+      {
+        url: "/openGraph/hospital.png",
+        width: 1280,
+        height: 680,
+        alt: "따꼼 - 동네 병원 찾기"
+      }
+    ]
   }
 };
 
