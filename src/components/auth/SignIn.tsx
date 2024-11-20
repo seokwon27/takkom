@@ -195,7 +195,7 @@ const SignIn = () => {
               </div>
             </form>
             <div className="flex justify-center items-center gap-[15px] p-[15px]">
-              <Link href={"/"} className="text-[#636363] text-base font-normal leading-normal p-[12px]">
+              <Link href={"/pass"} className="text-[#636363] text-base font-normal leading-normal p-[12px]">
                 비밀번호 찾기
               </Link>
               <Link href={"/signup"} className="text-[#636363] text-base font-normal leading-normal p-[12px]">
