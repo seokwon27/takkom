@@ -119,7 +119,7 @@ const SignUp = () => {
     <div className="flex flex-col justify-center items-center w-full max-w-[384px]">
       <Form {...form}>
         <Image src={kkom} alt="따꼼 로고" className="mb-[80px]" />
-        <form className="w-full" onSubmit={form.handleSubmit(signUp, console.log)}>
+        <form className="w-full" onSubmit={form.handleSubmit(signUp)}>
           <FormField
             control={form.control}
             name="email"
@@ -246,7 +246,7 @@ const SignUp = () => {
           <Button
             type="submit"
             disabled={!form.formState.isValid} // 폼이 유효하지 않으면 버튼 비활성화
-            className={`w-96 max-sm:w-80 h-14 px-6 py-4 mt-[40px] mb-[141px] bg-[#c1d8ff] rounded-xl flex-col justify-center items-center gap-2.5 inline-flex ${
+            className={`w-96 max-sm:w-80 h-14 px-6 py-4 mt-[40px] mb-[141px] bg-[#c1d8ff] rounded-xl flex-col justify-center items-center gap-2.5 inline-flex hover:bg-primary-500 ${
               form.formState.isValid ? "bg-primary-400" : "bg-[#c1d8ff] cursor-not-allowed"
             }`}
           >

@@ -186,7 +186,7 @@ const SignIn = () => {
                 <Button
                   type="submit"
                   disabled={!form.formState.isValid} // 폼이 유효하지 않으면 버튼 비활성화
-                  className={`w-96 max-sm:w-80 h-14 px-6 py-4 rounded-xl inline-flex items-center justify-center gap-2 text-base font-semibold ${
+                  className={`w-96 max-sm:w-80 h-14 px-6 py-4 rounded-xl inline-flex items-center justify-center gap-2 text-base font-semibold hover:bg-primary-500 ${
                     form.formState.isValid ? "bg-primary-400" : "bg-[#c1d8ff] cursor-not-allowed"
                   }`} // 값이 입력 됐을 때 색상 변경
                 >
