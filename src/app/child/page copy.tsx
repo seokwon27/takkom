@@ -1,55 +1,58 @@
+"use client";
 import ChildCard from "@/components/child/ChildCard";
 import RegisterButton from "@/components/child/RegisterButton";
 import browserClient from "@/utils/supabase/client";
+import { useUserQuery } from "@/query/useUserQuery";
+import { useChildrenQuery } from "@/query/useChildQuery";
 import NoChildIcon from "../../../public/child/no-child-icon.svg";
 import ChildTapIconActive from "../../../public/child/child-icon-white.svg";
 import ChildTapIcon from "../../../public/child/child-icon-gray.svg";
 import Image from "next/image";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Child } from "@/types/childType";
-import { getChildren, getUser } from "@/api/userApi";
 
-const ChildPage = async() => {
-  const user = await getUser(browserClient);
-  if (!user) {
-    return <p>로그인이 필요합니다.</p>;
-  }
+const ChildPage = () => {
+  // 현재 로그인한 사용자 정보를 가져오기 위한 useUserQuery 훅 호출
+  const { data: user, isLoading: isUserLoading, isError: isUserError } = useUserQuery(browserClient);
 
-  const childrenData = await getChildren(browserClient, user.id);
+  // userId가 설정된 후에만 useChildrenQuery 호출
+  const userId = user?.id; // 현재 로그인한 사용자의 ID를 설정
+  const { data: childrenData, isLoading, error } = useChildrenQuery(browserClient, userId);
 
-  // 생년월일 기준 정렬
-  const sortedChildren = childrenData.sort((a: Child, b: Child) => {
-    const dateA = new Date(a.birth).getTime();
-    const dateB = new Date(b.birth).getTime();
-    return dateA - dateB;
-  });
+  const [children, setChildren] = useState<Child[]>([]);
+  const [selectedChildId, setSelectedChildId] = useState<string | null>(null);
 
-  const [selectedChildId, setSelectedChildId] = useState<string | null>(
-    sortedChildren.length > 0 ? sortedChildren[0].id : null
-  );
-  const [children, setChildren] = useState<Child[]>(sortedChildren);
+  useEffect(() => {
+    if (childrenData) {
+      // 생년월일 기준으로 정렬된 children 배열을 상태로 설정
+      const sortedChildren = [...childrenData].sort((a, b) => {
+        const dateA = new Date(a.birth).getTime();
+        const dateB = new Date(b.birth).getTime();
+        return dateA - dateB;
+      });
+      setChildren(sortedChildren);
+      // 정렬된 배열의 첫 번째 아이의 ID를 selectedChildId로 설정
+      if (sortedChildren.length > 0) {
+        setSelectedChildId(sortedChildren[0].id);
+      }
+    }
+  }, [childrenData]);
 
-  // 탭 클릭 시 아이 선택
+  // 사용자 정보를 로드하는 동안 로딩 표시
+  if (isUserLoading) return <p>로딩 중...</p>;
+  if (isUserError) return <p>사용자 정보를 가져오는 데 오류가 발생했습니다.</p>;
+
+  // userId가 로드될 때까지 로딩 표시
+  if (isLoading) return <p>로딩 중...</p>;
+  if (error) return <p>오류가 발생했습니다: {error.message}</p>;
+
   const handleTabClick = (childId: string) => {
     setSelectedChildId(childId);
   };
 
-  // 아이 삭제 함수
-  const handleDelete = async (id: string) => {
-    // 서버에서 아이 삭제 요청
-    const { error } = await browserClient.from("child").delete().eq("id", id);
-
-    if (error) {
-      console.error("아이 삭제 실패:", error.message);
-      return;
-    }
-
-    // 로컬 상태에서 삭제된 아이를 제거
+  // 아이 정보 삭제 함수
+  const handleDelete = (id: string) => {
     setChildren((prevChildren) => prevChildren.filter((child) => child.id !== id));
-    // 선택된 아이가 삭제된 경우, 새로운 아이를 선택
-    if (selectedChildId === id) {
-      setSelectedChildId(children.length > 1 ? children[1].id : null);
-    }
   };
 
   return (

@@ -44,7 +44,9 @@ export const ChildCard = ({ child, onDelete }: ChildCardProps) => {
       } else {
         onDelete(child.id);
         toast({
-          description: <ToastDescription className="text-white text-text-s">{child.name}이(가) 삭제되었습니다.</ToastDescription>,
+          description: (
+            <ToastDescription className="text-white text-text-s">{child.name}이(가) 삭제되었습니다.</ToastDescription>
+          ),
           variant: "mobile"
         });
       }
