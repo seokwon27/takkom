@@ -197,7 +197,7 @@ const SearchForm = ({ brtcObj, regionInfo, searchParams }: SearchFormProps) => {
                 disabled={params.brtcCd === BRTC || params.sggCd === SGG}
                 className={cn(
                   "h-12 bg-primary-400 rounded-lg text-base font-semibold hover:bg-primary-400 disabled:bg-primary-400",
-                  "max-sm:mt-1 max-sm:col-span-2"
+                  "max-sm:mt-1 max-sm:col-span-2 max-sm:rounded-xl"
                 )}
               >
                 검색

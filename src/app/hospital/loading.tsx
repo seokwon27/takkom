@@ -2,7 +2,7 @@ import React from "react";
 import LoadingHospitalList from "@/components/hospital/HospitalListLoading";
 import LoadingSearchForm from "@/components/hospital/SearchFormSkeleton";
 
-const LoadingHospitalSearchPage = () => {
+const HospitalSearchLoading = () => {
   return (
     <div className="w-full max-w-[792px] grow flex flex-col items-center mx-auto max-sm:max-w-auto">
       <LoadingSearchForm />
@@ -13,4 +13,4 @@ const LoadingHospitalSearchPage = () => {
   );
 };
 
-export default LoadingHospitalSearchPage;
+export default HospitalSearchLoading;

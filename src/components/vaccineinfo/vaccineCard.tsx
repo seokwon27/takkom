@@ -3,7 +3,7 @@ import React from "react";
 import Image from "next/image";
 import Target from "../../../public/vaccineInfo/target.svg";
 import Process from "../../../public/vaccineInfo/process.svg";
-import Tag from "../hospital/Tag";
+import Tag from "../hospital/VaccinateTag";
 
 const VaccineCard = ({
   disease,
