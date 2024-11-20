@@ -2,6 +2,7 @@ import { updateChildInfo } from "@/api/childInfoApi";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 interface UpdateChildMutationProps {
+  userId: string;
   childId: string;
   name: string;
   birth: string;
@@ -12,12 +13,13 @@ export const useUpdateChildMutation = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
+    // child 정보를 업데이트하는 함수
     mutationFn: ({ childId, name, birth, notes, profile }: UpdateChildMutationProps) =>
       updateChildInfo(childId, name, birth, notes, profile),
-    onSuccess: () => {
-      // 자식 정보를 가져오는 쿼리 키로 캐시를 무효화
+    onSuccess: (_, { userId, childId }) => {
+      // 쿼리 키를 useChildInfoQuery에서 사용한 것과 동일하게 설정
       queryClient.invalidateQueries({
-        queryKey: ["child"]
+        queryKey: ["childInfo", userId, childId]
       });
     },
     onError: (error) => {
