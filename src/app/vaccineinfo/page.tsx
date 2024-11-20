@@ -4,8 +4,22 @@ import VaccineList from "@/components/vaccineinfo/VaccineList";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "따꼼 예방 접종",
-  description: "예방접종 리스트를 연령별로 확인할 수 있습니다"
+  title: "따꼼 - 예방접종 정보",
+  description: "우리 아이에게 시기별로 필요한 예방접종 정보를 제공해요.",
+  keywords: ["따꼼", "따꼬미", "예방접종"],
+  openGraph: {
+    title: "따꼼 - 예방접종 정보",
+    description: "우리 아이에게 시기별로 필요한 예방접종 정보를 제공해요.",
+    url: "https://www.takkom.site/vaccineinfo",
+    images: [
+      {
+        url: "/opengraph/vaccine-og.png",
+        width: 1280,
+        height: 680,
+        alt: "따꼼 - 예방접종 정보"
+      }
+    ]
+  }
 };
 
 const VaccineInfoPage = async () => {

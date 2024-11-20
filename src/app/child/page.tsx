@@ -10,6 +10,26 @@ import ChildTapIcon from "../../../public/child/child-icon-gray.svg";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import { Child } from "@/types/childType";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "따꼼 - 우리 아이 맞춤형 플랜",
+  description: "아이를 등록해서 시기에 맞는 접종 정보와 접종 기록을 관리할 수 있어요.",
+  keywords: ["따꼼", "따꼬미", "우리 아이 맞춤", "예방접종"],
+  openGraph: {
+    title: "따꼼 - 우리 아이 맞춤형 플랜",
+    description: "아이를 등록해서 시기에 맞는 접종 정보와 접종 기록을 관리할 수 있어요.",
+    url: "https://www.takkom.site/child",
+    images: [
+      {
+        url: "/opengraph/child-og.png",
+        width: 1280,
+        height: 680,
+        alt: "따꼼 - 우리 아이 맞춤형 플랜"
+      }
+    ]
+  }
+};
 
 const ChildPage = () => {
   // 현재 로그인한 사용자 정보를 가져오기 위한 useUserQuery 훅 호출
