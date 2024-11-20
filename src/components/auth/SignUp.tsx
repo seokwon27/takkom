@@ -46,10 +46,7 @@ const SignUp = () => {
         .string()
         .min(8, { message: "8자리 이상 입력해주세요." })
         .refine((value) => passwordRegex.test(value), { message: "영문, 숫자를 포함하여 8자리 이상 입력해주세요." }),
-      passwordCheck: z
-        .string()
-        .min(8, { message: "영문, 숫자를 포함하여 8자리 이상 입력해주세요" })
-        .refine((value) => passwordRegex.test(value), { message: "영문, 숫자를 포함하여 8자리 이상 입력해주세요." }),
+      passwordCheck: z.string().min(8, { message: "영문, 숫자를 포함하여 8자리 이상 입력해주세요" }),
       name: z.string().min(1, { message: "이름을 입력해주세요." })
     })
     .superRefine(({ password, passwordCheck }, ctx) => {
