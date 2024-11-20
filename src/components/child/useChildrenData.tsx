@@ -13,7 +13,9 @@ const useChildrenData = () => {
   const [children, setChildren] = useState<Child[]>([]);
   const [selectedChildId, setSelectedChildId] = useState<string | null>(null);
 
-  useEffect(() => {
+    useEffect(() => {
+        console.log("childrenData:", childrenData);
+        
     if (childrenData) {
       const sortedChildren = [...childrenData].sort((a, b) => {
         const dateA = new Date(a.birth).getTime();
@@ -38,6 +40,5 @@ const useChildrenData = () => {
     error
   };
 };
-
 
 export default useChildrenData;
