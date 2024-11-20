@@ -116,10 +116,10 @@ const SignUp = () => {
   // };
 
   return (
-    <div className="flex flex-col justify-center items-center w-full min-h-screen px-6 py-12">
+    <div className="flex flex-col justify-center items-center w-full max-w-[384px]">
       <Form {...form}>
         <Image src={kkom} alt="따꼼 로고" className="mb-[80px]" />
-        <form onSubmit={form.handleSubmit(signUp, console.log)}>
+        <form className="w-full" onSubmit={form.handleSubmit(signUp, console.log)}>
           <FormField
             control={form.control}
             name="email"
@@ -127,7 +127,7 @@ const SignUp = () => {
               <FormItem>
                 <FormLabel className="text-gray-600">이메일</FormLabel>
                 <FormControl>
-                  <div className="relative w-96">
+                  <div className="relative w-full max-sm:w-80">
                     <Input
                       className={`w-full h-14 px-6 py-4 ${
                         form.formState.errors.email ? "border-red-500" : "border-gray-300"
@@ -151,7 +151,7 @@ const SignUp = () => {
               <FormItem>
                 <FormLabel className="text-gray-600">비밀번호</FormLabel>
                 <FormControl>
-                  <div className="relative w-96">
+                  <div className="relative w-full">
                     <Input
                       className={`w-full h-14 px-6 py-4 ${
                         form.formState.errors.password ? "border-red-500" : "border-gray-300"
@@ -185,7 +185,7 @@ const SignUp = () => {
               <FormItem>
                 <FormLabel className="text-gray-600">비밀번호 확인</FormLabel>
                 <FormControl>
-                  <div className="relative w-96">
+                  <div className="relative w-full">
                     <Input
                       className={`w-full h-14 px-6 py-4 ${
                         form.formState.errors.passwordCheck ? "border-red-500" : "border-gray-300"
@@ -219,7 +219,7 @@ const SignUp = () => {
               <FormItem>
                 <FormLabel className="text-gray-600">이름</FormLabel>
                 <FormControl>
-                  <div className="relative w-96">
+                  <div className="relative w-full">
                     <Input
                       className={`w-full h-14 px-6 py-4 ${
                         form.formState.errors.name ? "border-red-500" : "border-gray-300"
@@ -237,7 +237,10 @@ const SignUp = () => {
           />
           <Button
             type="submit"
-            className="w-96 h-14 px-6 py-4 mt-[40px] mb-[141px] bg-[#c1d8ff] rounded-xl flex-col justify-center items-center gap-2.5 inline-flex hover:bg-primary-400 text-lg"
+            disabled={!form.formState.isValid} // 폼이 유효하지 않으면 버튼 비활성화
+            className={`w-96 max-sm:w-80 h-14 px-6 py-4 mt-[40px] mb-[141px] bg-[#c1d8ff] rounded-xl flex-col justify-center items-center gap-2.5 inline-flex ${
+              form.formState.isValid ? "bg-primary-400" : "bg-[#c1d8ff] cursor-not-allowed"
+            }`}
           >
             회원가입
           </Button>
