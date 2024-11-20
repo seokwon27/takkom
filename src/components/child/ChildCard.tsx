@@ -1,7 +1,5 @@
 "use client";
 import React, { useState } from "react";
-import { Child } from "@/types/childType";
-import Image from "next/image";
 import browserClient, { DEFAULT_PROFILE_IMAGE_URL } from "@/utils/supabase/client";
 import Link from "next/link";
 import Schedule from "./Schedule";
@@ -11,6 +9,8 @@ import RightArrowIcon from "../../../public/child/right-arrow-icon.svg";
 import { useVaccineQuery, useVaccineRecordQuery } from "@/query/useVaccineRecordQuery";
 import { ToastDescription } from "@radix-ui/react-toast";
 import { useToast } from "@/hooks/use-toast";
+import { Child } from "@/types/childType";
+import Image from "next/image";
 
 interface ChildCardProps {
   child?: Child; // 등록된 child가 없으면 undefined일 수 있음

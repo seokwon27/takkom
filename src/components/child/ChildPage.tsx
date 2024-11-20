@@ -1,8 +1,8 @@
 "use client";
 import Loading from "@/components/child/loading";
 import ErrorMessage from "@/components/child/error";
-import useChildrenData from "@/components/child/useChildrenData";
-import ChildPageContent from "@/components/child/ChildPageContent";
+import useChildrenData from "./useChildrenData";
+import ChildPageContent from "./ChildPageContent";
 
 const ChildPageWrap = () => {
   const { children, setChildren, selectedChildId, setSelectedChildId, isUserLoading, isUserError, isLoading, error } =
@@ -28,12 +28,9 @@ const ChildPageWrap = () => {
         <p className="text-gray-800 text-title-m font-semibold">우리아이</p>
       </div>
 
-      <ChildPageContent
-        children={children}
-        selectedChildId={selectedChildId}
-        onTabClick={handleTabClick}
-        onDelete={handleDelete}
-      />
+      <ChildPageContent selectedChildId={selectedChildId} onTabClick={handleTabClick} onDelete={handleDelete}>
+        {children}
+      </ChildPageContent>
     </div>
   );
 };

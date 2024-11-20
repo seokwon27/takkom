@@ -11,17 +11,21 @@ interface ChildPageContentProps {
   onDelete: (id: string) => void;
 }
 
-const ChildPageContent: React.FC<ChildPageContentProps> = ({ children, selectedChildId, onTabClick, onDelete }) => {
+const ChildPageContent: React.FC<ChildPageContentProps> = ({ selectedChildId, onTabClick, onDelete, children }) => {
   return (
     <div className="flex flex-col lg:flex-row gap-4 max-w-[996px] w-full">
       {/* 좌측 사이드바 영역 */}
-      <Sidebar children={children} selectedChildId={selectedChildId} onTabClick={onTabClick} />
+      <Sidebar selectedChildId={selectedChildId} onTabClick={onTabClick}>
+        {children}
+      </Sidebar>
 
       {/* 메인 콘텐츠 영역 */}
       <main className="flex-grow w-full">
         {children && children.length > 0 ? (
           <div className="flex flex-col gap-4">
-            <ChildCardList children={children} selectedChildId={selectedChildId} onDelete={onDelete} />
+            <ChildCardList selectedChildId={selectedChildId} onDelete={onDelete}>
+              {children}
+            </ChildCardList>
           </div>
         ) : (
           <NoChildren />
