@@ -31,14 +31,14 @@ const PhoneModal = ({
           <p className="text-heading-m font-bold mb-2 max-sm:mb-[6px] max-sm:text-heading-s">문의하기</p>
           <p className="text-label-xl text-gray-900 max-sm:text-label-l">예약을 위해 병원에 문의 해보세요.</p>
         </div>
-        <div className="h-[42px] flex items-center gap-6 bg-gray-30 rounded-lg px-4 py-2 mt-6 mb-[32px] max-sm:mb-6 max-sm:gap-5">
+        <div className="h-[42px] flex items-center gap-6 bg-gray-30 rounded-lg px-4 py-2 mt-6 mb-[32px] max-sm:mb-6 max-sm:gap-5 max-sm:rounded-md">
           <Image src={PhoneImg} alt="전화" className="w-5 h-5 max-sm:w-[18px] max-sm:h-[18px]" />
           <p className="text-md font-semibold text-gray-600 max-sm:text-title-ssx ">
             {phoneNumber.replaceAll("-", " - ")}
           </p>
         </div>
         <Button
-          className="w-full h-14 text-lg font-semibold text-white rounded-xl p-6 bg-primary-400 hover:bg-primary-400 max-sm:h-11 max-sm:py-4 max-sm:text-title-s"
+          className="w-full h-14 text-lg font-semibold text-white rounded-xl p-6 bg-primary-400 hover:bg-primary-400 max-sm:h-11 max-sm:py-4 max-sm:rounded-lg max-sm:text-title-s"
           onClick={(e) => {
             e.stopPropagation();
             setShowModal((prev) => !prev);
