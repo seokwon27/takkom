@@ -9,9 +9,7 @@ const VaccineRecordTitle = () => {
     <div className="flex flex-col items-start gap-6 relative md:gap-12 md:min-w-[323px] md:min-h-[171px]">
       <Image src={Vaccination11} alt="Vaccination" className="size-12 relative md:size-20" />
       <div className="flex flex-row items-center relative gap-2 md:gap-3 md:px-6">
-        <h1 className="self-stretch text-heading-s text-gray-800 font-bold md:text-heading-xxl">
-          우리 아이 접종 체크리스트
-        </h1>
+        <h1 className="text-heading-s text-gray-800 font-bold md:text-heading-xxl">우리 아이 접종 체크리스트</h1>
         <IconHover />
       </div>
       <Image
