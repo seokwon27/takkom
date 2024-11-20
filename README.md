@@ -185,10 +185,15 @@ https://takkom.vercel.app/
 
 ## 와이어프레임
 
-![1 홈페이지](https://github.com/user-attachments/assets/45258cdf-67b7-40c0-a2b2-db37bcf37213)
-![2 접종 리스트](https://github.com/user-attachments/assets/38f38ade-805c-4098-a39c-08f789bcad3c)
-![2 페이지 이동](https://github.com/user-attachments/assets/36640b0f-b22f-4106-8ecb-fcb0eb459585)
-![3 병원검색페이지](https://github.com/user-attachments/assets/819e6b5b-c9d1-426a-b926-004fd667f9bc)
+|                                                                                                                                       |                                                                                                                                       |                                                                                                                                       |
+| :-----------------------------------------------------------------------------------------------------------------------------------: | :-----------------------------------------------------------------------------------------------------------------------------------: | :-----------------------------------------------------------------------------------------------------------------------------------: |
+| <img src="https://github.com/user-attachments/assets/45258cdf-67b7-40c0-a2b2-db37bcf37213" alt="1 홈페이지" width="400" height="300"> | <img src="https://github.com/user-attachments/assets/45258cdf-67b7-40c0-a2b2-db37bcf37213" alt="1 홈페이지" width="400" height="300"> | <img src="https://github.com/user-attachments/assets/45258cdf-67b7-40c0-a2b2-db37bcf37213" alt="1 홈페이지" width="400" height="300"> |
+|                                                               홈페이지                                                                |                                                               회원가입                                                                |                                                                로그인                                                                 |
+| <img src="https://github.com/user-attachments/assets/38f38ade-805c-4098-a39c-08f789bcad3c" alt="1 홈페이지" width="400" height="300"> | <img src="https://github.com/user-attachments/assets/819e6b5b-c9d1-426a-b926-004fd667f9bc" alt="1 홈페이지" width="400" height="300"> | <img src="https://github.com/user-attachments/assets/45258cdf-67b7-40c0-a2b2-db37bcf37213" alt="1 홈페이지" width="400" height="300"> |
+|                                                           접종 정보 페이지                                                            |                                                         우리동네 병원 페이지                                                          |                                                            우리아이 페이지                                                            |
+| <img src="https://github.com/user-attachments/assets/45258cdf-67b7-40c0-a2b2-db37bcf37213" alt="1 홈페이지" width="400" height="300"> |                                                                                                                                       |                                                                                                                                       |
+|                                                              체크리스트                                                               |                                                                                                                                       |                                                                                                                                       |
+
 <br/><br/><br/>
 
 ## API 명세서
@@ -411,8 +416,19 @@ const filteredData = useMemo(() => {
 const totalPages = Math.ceil(filteredData.length / ITEMS_PER_PAGE);
 ```
 
-- 문제:
--
+- 문제: 지역 선택 모달 창 구현 후 API 호출 시간이 길어져 사용자 경험 떨어짐
+- 문제 원인: 먼저 TanStack Query 개발자도구, 크롬 개발자 도구의 성능 통계 기능, console.time을 활용해 성능 데이터를 수집 결과, 도시정보 데이터 요청 후 화면에 표시되기 까지 1700ms 가 소요된다는 점을 파악(api 응답속도의 문제)
+- TanStack Query의 prefetchQuery 기능을 활용해 데이터를 미리 가져오는 방식을 적용. 적용결과 약 0.59초 590ms 로 단축 되었음을 확인
+
+  ```tsx
+  //상위컴포넌트에서 데이터 캐싱
+  useEffect(() => {
+    queryClient.prefetchQuery({
+      queryKey: ["cities"],
+      queryFn: fetchCityData
+    });
+  }, []);
+  ```
 
 ### 2. 동네 병원 찾기 (전해인)
 
