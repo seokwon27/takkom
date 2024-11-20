@@ -15,7 +15,7 @@ const MobileSelect = ({ onClose }: { onClose: () => void }) => {
           {<Image src={PreIcon} alt="이전" />}
         </button>
       </div>
-      <p className="text-left text-title-s font-semibold">지역을 선택해 주세요.</p>
+      <p className="text-left text-gray-800 text-title-s font-semibold">지역을 선택해 주세요.</p>
       <SelectBrtc />
     </div>
   );
