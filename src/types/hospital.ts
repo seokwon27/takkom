@@ -21,7 +21,7 @@ export type RegionType = {
   };
 };
 
-export type vcnInfo = {
+type VcnInfo = {
   vcnNm: string; // 백신 이름 (접종명)
   vcncd: string; // 백신 코드
 };
@@ -33,7 +33,7 @@ export type HopsitalItem = {
   expnYmd: number; // 병원 ?
   orgcd: number; // 병원 코드
   vcnList: {
-    vcnInfo: vcnInfo[] | vcnInfo;
+    vcnInfo: VcnInfo[] | VcnInfo;
   };
 };
 
@@ -55,6 +55,10 @@ export type HospitalType = {
   };
 };
 
+// 병원 목록 결과 type
+export type HospitalData = { items: HopsitalItem[]; totalCount: number; maxPage: number };
+
+// 쿼리스트링에 저장될 변수들 타입
 export type HospitalSearchParams = {
   brtcCd?: string;
   sggCd?: string;
@@ -64,10 +68,15 @@ export type HospitalSearchParams = {
   pageNo?: string;
 };
 
+// 공공데이터 에러 타입
 export type OpenAPI_Error = {
   cmmMsgHeader: {
     errMsg: string;
     returnAuthMsg: string;
     returnReasonCode: number;
   };
+};
+
+export type OpenAPI_ErrorMessage = {
+  message: string;
 };
