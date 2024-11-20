@@ -45,7 +45,7 @@ const RegisterChildRecord = ({ child, onPrev, onComplete }: RegisterChildRecordP
   const onSuccess = () => {
     router.push(`/child`);
     toast({
-      description: <ToastDescription className="text-white">등록이 완료되었습니다.</ToastDescription>,
+      description: <ToastDescription className="text-white text-text-s">등록이 완료되었습니다.</ToastDescription>,
       variant: "mobile"
     });
   };

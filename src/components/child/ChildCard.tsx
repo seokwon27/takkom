@@ -44,7 +44,7 @@ export const ChildCard = ({ child, onDelete }: ChildCardProps) => {
       } else {
         onDelete(child.id);
         toast({
-          description: <ToastDescription className="text-white">{child.name}이(가) 삭제되었습니다.</ToastDescription>,
+          description: <ToastDescription className="text-white text-text-s">{child.name}이(가) 삭제되었습니다.</ToastDescription>,
           variant: "mobile"
         });
       }
@@ -115,20 +115,20 @@ export const ChildCard = ({ child, onDelete }: ChildCardProps) => {
               <div className="flex items-center justify-between w-full gap-3 md:gap-6">
                 {/* 좌측: 프로필 이미지 */}
 
-                <div className="flex-shrink-0">
+                <div className="flex-shrink-0 w-32 h-32 sm:w-36 sm:h-36 md:w-44 md:h-44 relative overflow-hidden rounded-[13px]">
                   <Image
                     src={child.profile || DEFAULT_PROFILE_IMAGE_URL}
                     width={176}
                     height={176}
                     alt="profile Image"
-                    className="w-44 h-44 object-cover rounded-[13px]"
+                    className="absolute w-full h-full object-cover"
                   />
                 </div>
 
                 {/* 우측: 기본 정보 & 수정하기 버튼 */}
-                <div className="flex flex-col justify-start items-start gap-4 w-full md:w-[calc(100%-176px)]">
+                <div className="flex flex-col justify-start items-start w-full md:w-[calc(100%-176px)] gap-0 lg:gap-3">
                   {/* 이름 & 생년월일 시작 */}
-                  <div className="flex flex-col justify-between items-start gap-3 w-full pt-2">
+                  <div className="flex flex-col justify-between items-start w-full pt-2  gap-2 lg:gap-3 max-lg:pt-0">
                     {/*  아이 이름 영역 */}
                     <p className="text-base font-bold text-center text-neutral-900">{child.name}</p>
 
