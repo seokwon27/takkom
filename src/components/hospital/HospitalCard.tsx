@@ -53,30 +53,32 @@ const HospitalCard = ({ user, hospitalInfo, clickedId, filter, likes }: Hospital
   const { mutate: addLike } = useAddLikeMutation(user?.id);
   const { mutate: cancelLike } = useCancelLikeMutation(user?.id);
 
+  const onHeartClick = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+    e.stopPropagation();
+    if (user) {
+      if (!likeData) {
+        addLike({ hospitalInfo });
+      }
+      if (!!likeData) {
+        cancelLike({ id: likeData?.id });
+      }
+    }
+  };
+
   return (
     <>
       <div
         className={cn(
-          "w-full h-fit min-h-[200px] flex border border-gray-30 rounded-3xl p-4 justify-between items-start shadow-[0px_0px_16px_rgba(114,114,114,0.1)]",
+          "w-full h-fit min-h-[200px] flex border border-gray-30 rounded-3xl p-5 justify-between items-start shadow-[0px_0px_16px_rgba(114,114,114,0.1)]",
           "max-sm:min-h-fit max-sm:p-3 max-sm:rounded-xl max-sm:shadow-[0px_0px_7px_rgba(114,114,114,0.1)]",
           orgcd === clickedId && "max-sm:border-primary-400 max-sm:shadow-none"
         )}
       >
-        <div className="size-[160px] flex justify-center items-center bg-gray-10 rounded-xl overflow-hidden relative max-sm:size-[86px] sm:rounded-md">
+        <div className="size-[160px] flex justify-center items-center bg-gray-10 rounded-xl overflow-hidden relative max-sm:size-[86px] max-sm:rounded-md">
           <Image src={Ambulance} alt="병원 이미지" className="object-cover" />
           <div
-            className=" absolute top-[6px] left-[6px] aspect-square sm:top-3 sm:left-3 sm:w-10 sm:p-1"
-            onClick={(e) => {
-              e.stopPropagation();
-              if (user) {
-                if (!likeData) {
-                  addLike({ hospitalInfo });
-                }
-                if (!!likeData) {
-                  cancelLike({ id: likeData?.id });
-                }
-              }
-            }}
+            className=" absolute top-[6px] left-[6px] aspect-square cursor-pointer sm:top-3 sm:left-3 sm:w-10 sm:p-1"
+            onClick={onHeartClick}
           >
             <Heart
               fill={like ? `#FF4737` : `#171717`}

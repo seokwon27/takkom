@@ -1,78 +1,77 @@
 "use client";
 
-import React, { ReactNode, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import Image from "next/image";
-import { usePathname, useRouter } from "next/navigation";
+import { usePathname } from "next/navigation";
 import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger } from "@/components/ui/select";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { BRTC, DISEASE, DISEASE_LIST, SGG } from "../../constants/constants";
+import { useHospitalContext } from "@/providers/HospitalProvider";
 import { createQueryParams } from "../../utils/hospital/setHospitalQueryParams";
+import { HospitalSearchParams } from "@/types/hospital";
+import { BRTC, DISEASE, DISEASE_LIST, SGG } from "../../constants/constants";
+import RegionDrawer from "./RegionDrawer";
+import DesktopLayout from "../layout/DesktopLayout";
+import MobileLayout from "../layout/MobileLayout";
+import useQueryParams from "@/hooks/use-query-param";
+import { cn } from "@/lib/utils";
+import { ChevronLeft } from "lucide-react";
 import InfoTag from "./InfoTag";
 import RegionSelect from "./RegionSelect";
 import InfoCircle from "../../../public/hospital/info-circle.svg";
 import VaccineFilterOffIcon from "../../../public/hospital/vaccine-filter-off-icon.svg";
 import VaccineFilterOnIcon from "../../../public/hospital/vaccine-filter-on-icon.svg";
 import SearchIcon from "../../../public/hospital/search-icon.svg";
-import { cn } from "@/lib/utils";
-import { HospitalSearchParams } from "@/types/hospital";
-import { ChevronLeft } from "lucide-react";
-import useHospitalSearchStore from "@/store/hospitalStore";
-import RegionDrawer from "./RegionDrawer";
-import DesktopLayout from "../layout/DesktopLayout";
-import MobileLayout from "../layout/MobileLayout";
-import LoadingData from "./LoadingData";
 
 type SearchFormProps = {
   brtcObj: { [key: string]: string };
   regionInfo: Map<string, { [key: string]: string }>;
   searchParams: HospitalSearchParams;
-  children?: ReactNode;
 };
 
 const SearchForm = ({ brtcObj, regionInfo, searchParams }: SearchFormProps) => {
-  const router = useRouter();
   const pathname = usePathname();
+  const [currentQuery, setCurrentQuery] = useState(new URLSearchParams(searchParams).toString());
+  const [currentParams, setQueryParams] = useQueryParams(currentQuery);
   const [params, setParams] = useState<{ brtcCd: string; sggCd: string; addr: string; org: string }>({
-    brtcCd: searchParams.brtcCd ?? BRTC,
-    sggCd: searchParams.sggCd ?? SGG,
-    addr: searchParams.addr ?? "",
-    org: searchParams.org ?? ""
+    brtcCd: currentParams.brtcCd ?? BRTC,
+    sggCd: currentParams.sggCd ?? SGG,
+    addr: currentParams.addr ?? "",
+    org: currentParams.org ?? ""
   });
-  const [disease, setDisease] = useState(searchParams.disease || DISEASE);
+  const [disease, setDisease] = useState(currentParams.disease || DISEASE);
   const [showInfoTag, setShowInfoTag] = useState(true);
-  const [showLoading, setShowLoading] = useState(false);
-  const { step, setStep } = useHospitalSearchStore();
+  const { step, setStep } = useHospitalContext((state) => state);
 
   // searchParams가 바뀔 때마다 재실행
   useEffect(() => {
-    if (!searchParams.brtcCd || !searchParams.sggCd) {
+    if (!currentParams.brtcCd || !currentParams.sggCd) {
       setStep(0);
-      setParams({
-        brtcCd: BRTC,
-        sggCd: SGG,
-        addr: "",
-        org: ""
-      });
     } else {
       setStep(1);
-      setParams({
-        brtcCd: searchParams.brtcCd ?? BRTC,
-        sggCd: searchParams.sggCd ?? SGG,
-        addr: searchParams.addr ?? "",
-        org: searchParams.org ?? "",
-      });
     }
-  }, [searchParams]);
+    setParams({
+      brtcCd: currentParams.brtcCd ?? BRTC,
+      sggCd: currentParams.sggCd ?? SGG,
+      addr: currentParams.addr ?? "",
+      org: currentParams.org ?? ""
+    });
+    setDisease((prev) => {
+      if (prev !== currentParams?.disease) {
+        return currentParams?.disease ?? DISEASE;
+      }
+      return prev;
+    });
+  }, [searchParams, currentParams]);
 
-  const onBrtcChange = (value: string) => {
+  const onBrtcSelectChange = (value: string) => {
     setParams((prev) => {
       const tmpParams = { ...prev, brtcCd: value, sggCd: SGG, addr: "", org: "" };
       return tmpParams;
     });
   };
 
-  const onSggChange = (value: string) => {
+  const onSggSelectChange = (value: string) => {
     // 이상하게 기본페이지에서 뒤로가기 하면 실행돼서 빈 문자열이 되는 오류가 있어 조건문 추가
     if (value) {
       setParams((prev) => {
@@ -80,6 +79,44 @@ const SearchForm = ({ brtcObj, regionInfo, searchParams }: SearchFormProps) => {
         return tmpParams;
       });
     }
+  };
+
+  const onBrtcDrawerChange = ([code]: [string, string]) => {
+    return (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+      e.stopPropagation();
+      setParams((prev) => {
+        const tmpParams = { ...prev, brtcCd: String(code), sggCd: SGG, addr: "", org: "" };
+        return tmpParams;
+      });
+    };
+  };
+
+  const onSggDrawerChange = ([code]: [string, string]) => {
+    return (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+      e.stopPropagation();
+      setParams((prev) => {
+        const tmpParams = { ...prev, sggCd: String(code), addr: "", org: "" };
+        return tmpParams;
+      });
+    };
+  };
+
+  const onVaccineChange = (value: string) => {
+    setDisease(value);
+    if (currentParams.brtcCd && currentParams.sggCd) {
+      const params = { ...currentParams, disease: value, pageNo: "1" };
+      setQueryParams(params);
+    }
+  };
+
+  const onButtonClick = () => {
+    setDisease(DISEASE);
+    const newURL = createQueryParams({ ...params, pageNo: "1" }, pathname);
+    if (newURL !== pathname + "?" + currentQuery) {
+      setCurrentQuery(new URLSearchParams({ ...params, pageNo: "1" }).toString());
+      setQueryParams({ ...params, pageNo: "1" });
+    }
+    setStep(1);
   };
 
   return (
@@ -96,15 +133,7 @@ const SearchForm = ({ brtcObj, regionInfo, searchParams }: SearchFormProps) => {
                 trigger={params.brtcCd === BRTC}
                 disabled={false}
                 value={params.brtcCd}
-                onClick={(item: [string, string]) => {
-                  return (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
-                    e.stopPropagation();
-                    setParams((prev) => {
-                      const tmpParams = { ...prev, brtcCd: String(item[0]), sggCd: SGG, addr: "", org: "" };
-                      return tmpParams;
-                    });
-                  };
-                }}
+                onClick={onBrtcDrawerChange}
               />
               {/* 시군구 select */}
               <RegionDrawer
@@ -115,15 +144,7 @@ const SearchForm = ({ brtcObj, regionInfo, searchParams }: SearchFormProps) => {
                 trigger={params.sggCd === SGG}
                 disabled={params.brtcCd === BRTC}
                 value={params.sggCd}
-                onClick={(item: [string, string]) => {
-                  return (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
-                    e.stopPropagation();
-                    setParams((prev) => {
-                      const tmpParams = { ...prev, sggCd: String(item[0]), addr: "", org: "" };
-                      return tmpParams;
-                    });
-                  };
-                }}
+                onClick={onSggDrawerChange}
               />
 
               <div className="max-sm:col-span-2 max-sm:relative">
@@ -139,13 +160,10 @@ const SearchForm = ({ brtcObj, regionInfo, searchParams }: SearchFormProps) => {
                   }}
                   disabled={params.brtcCd === BRTC || params.sggCd === SGG}
                   className={cn(
-                    "h-12 bg-gray-30 border-0 text-gray-400 text-center font-semibold placeholder:text-gray-500",
-                    "focus-visible:bg-white focus-visible:text-gray-700 focus-visible:placeholder:text-gray-400",
+                    "h-12 bg-gray-30 border-0 text-gray-500 text-center font-semibold placeholder:text-gray-500",
+                    "focus-visible:bg-white focus-visible:text-gray-600 focus-visible:placeholder:text-gray-400",
                     "focus-visible:ring-offset-0 focus-visible:ring-1 focus-visible:ring-inset focus-visible:ring-gray-700",
-                    "max-sm:py-3 max-sm:pr-4 max-sm:pl-[42px] max-sm:rounded-xl max-sm:text-left",
-                    {
-                      'text-gray-700': params.addr
-                    }
+                    "max-sm:py-3 max-sm:pr-4 max-sm:pl-[42px] max-sm:rounded-xl max-sm:text-left"
                   )}
                 />
                 <Image src={SearchIcon} alt="검색" className="absolute top-[15px] left-4 sm:hidden" />
@@ -164,13 +182,10 @@ const SearchForm = ({ brtcObj, regionInfo, searchParams }: SearchFormProps) => {
                   }}
                   disabled={params.brtcCd === BRTC || params.sggCd === SGG}
                   className={cn(
-                    "h-12 bg-gray-30 border-0 text-gray-400 text-center font-semibold placeholder:text-gray-500",
-                    "focus-visible:bg-white focus-visible:text-gray-700 focus-visible:placeholder:text-gray-400",
+                    "h-12 bg-gray-30 border-0 text-gray-500 text-center font-semibold placeholder:text-gray-500",
+                    "focus-visible:bg-white focus-visible:text-gray-600 focus-visible:placeholder:text-gray-400",
                     "focus-visible:ring-offset-0 focus-visible:ring-1 focus-visible:ring-inset focus-visible:ring-gray-700",
-                    "max-sm:py-3 max-sm:pr-4 max-sm:pl-[42px] max-sm:rounded-xl max-sm:text-left",
-                    {
-                      'text-gray-700': params.org
-                    }
+                    "max-sm:py-3 max-sm:pr-4 max-sm:pl-[42px] max-sm:rounded-xl max-sm:text-left"
                   )}
                 />
                 <Image src={SearchIcon} alt="검색" className="absolute top-[15px] left-4 sm:hidden" />
@@ -178,12 +193,7 @@ const SearchForm = ({ brtcObj, regionInfo, searchParams }: SearchFormProps) => {
 
               <Button
                 type="button"
-                onClick={() => {
-                  setDisease(DISEASE);
-                  setShowLoading(true);
-                  router.push(createQueryParams({ ...params, pageNo: "1" }, pathname));
-                  // setStep(1);
-                }}
+                onClick={onButtonClick}
                 disabled={params.brtcCd === BRTC || params.sggCd === SGG}
                 className={cn(
                   "h-12 bg-primary-400 rounded-lg text-base font-semibold hover:bg-primary-400 disabled:bg-primary-400",
@@ -192,7 +202,6 @@ const SearchForm = ({ brtcObj, regionInfo, searchParams }: SearchFormProps) => {
               >
                 검색
               </Button>
-              {showLoading && <LoadingData/>}
             </form>
           </>
         )}
@@ -202,7 +211,6 @@ const SearchForm = ({ brtcObj, regionInfo, searchParams }: SearchFormProps) => {
               className={"w-full flex items-center gap-2 mt-3 mb-1 px-6"}
               onClick={() => {
                 setStep(0);
-                setShowLoading(false);
               }}
             >
               <ChevronLeft size={24} className="w-6 h-6 text-gray-400" />
@@ -214,16 +222,7 @@ const SearchForm = ({ brtcObj, regionInfo, searchParams }: SearchFormProps) => {
               </div>
             </div>
             <div className={cn("w-full flex justify-end items-center border-b border-gray-30")}>
-              <Select
-                value={disease}
-                onValueChange={(value) => {
-                  setDisease(value);
-                  if (searchParams.brtcCd && searchParams.sggCd) {
-                    const params = { ...searchParams, disease: value, pageNo: "1" };
-                    router.push(createQueryParams(params, pathname));
-                  }
-                }}
-              >
+              <Select value={disease} onValueChange={onVaccineChange}>
                 <SelectTrigger className={`w-fit p-2 mr-6 border-0`}>
                   <Image
                     src={disease === DISEASE ? VaccineFilterOffIcon : VaccineFilterOnIcon}
@@ -241,11 +240,11 @@ const SearchForm = ({ brtcObj, regionInfo, searchParams }: SearchFormProps) => {
                 >
                   {/** avoidCollision : 충돌이 발생하는 방향의 반대로 select가 열리게 하는 속성, 항상 아래로 열리도록 false로 변경 */}
                   <SelectGroup>
-                    <SelectItem value={DISEASE} key={DISEASE} className="justify-center max-sm:text-text-m max-sm:h-fit max-sm:p-1">
+                    <SelectItem value={DISEASE} key={DISEASE} className="justify-center max-sm:text-text-m">
                       {"전체"}
                     </SelectItem>
                     {DISEASE_LIST.map((name) => (
-                      <SelectItem value={name} key={name} className="justify-center max-sm:text-text-m max-sm:h-fit max-sm:p-1">
+                      <SelectItem value={name} key={name} className="justify-center max-sm:text-text-m">
                         {name}
                       </SelectItem>
                     ))}
@@ -276,7 +275,7 @@ const SearchForm = ({ brtcObj, regionInfo, searchParams }: SearchFormProps) => {
             trigger={params.brtcCd === BRTC}
             disabled={false}
             value={params.brtcCd}
-            onValueChange={onBrtcChange}
+            onValueChange={onBrtcSelectChange}
           />
           {/* 시군구 select */}
           <RegionSelect
@@ -285,7 +284,7 @@ const SearchForm = ({ brtcObj, regionInfo, searchParams }: SearchFormProps) => {
             trigger={params.sggCd === SGG}
             disabled={params.brtcCd === BRTC}
             value={params.sggCd}
-            onValueChange={onSggChange}
+            onValueChange={onSggSelectChange}
           />
 
           <div className="max-sm:col-span-2 max-sm:relative">
@@ -301,13 +300,10 @@ const SearchForm = ({ brtcObj, regionInfo, searchParams }: SearchFormProps) => {
               }}
               disabled={params.brtcCd === BRTC || params.sggCd === SGG}
               className={cn(
-                "h-12 bg-gray-30 border-0 text-gray-400 text-center font-semibold placeholder:text-gray-500",
-                "focus-visible:bg-white focus-visible:text-gray-700 focus-visible:placeholder:text-gray-400",
+                "h-12 bg-gray-30 border-0 text-gray-500 text-center font-semibold placeholder:text-gray-500",
+                "focus-visible:bg-white focus-visible:text-gray-600 focus-visible:placeholder:text-gray-400",
                 "focus-visible:ring-offset-0 focus-visible:ring-1 focus-visible:ring-inset focus-visible:ring-gray-700",
-                "max-sm:py-3 max-sm:pr-4 max-sm:pl-[42px] max-sm:rounded-xl max-sm:text-left",
-                {
-                  'text-gray-700': params.addr
-                }
+                "max-sm:py-3 max-sm:pr-4 max-sm:pl-[42px] max-sm:rounded-xl max-sm:text-left"
               )}
             />
             <Image src={SearchIcon} alt="검색" className="absolute top-[15px] left-4 sm:hidden" />
@@ -326,13 +322,10 @@ const SearchForm = ({ brtcObj, regionInfo, searchParams }: SearchFormProps) => {
               }}
               disabled={params.brtcCd === BRTC || params.sggCd === SGG}
               className={cn(
-                "h-12 bg-gray-30 border-0 text-gray-700 text-center font-semibold placeholder:text-gray-500",
-                "focus-visible:bg-white focus-visible:text-gray-700 focus-visible:placeholder:text-gray-400",
+                "h-12 bg-gray-30 border-0 text-gray-500 text-center font-semibold placeholder:text-gray-500",
+                "focus-visible:bg-white focus-visible:text-gray-600 focus-visible:placeholder:text-gray-400",
                 "focus-visible:ring-offset-0 focus-visible:ring-1 focus-visible:ring-inset focus-visible:ring-gray-700",
-                "max-sm:py-3 max-sm:pr-4 max-sm:pl-[42px] max-sm:rounded-xl max-sm:text-left",
-                {
-                  'text-gray-700': params.org
-                }
+                "max-sm:py-3 max-sm:pr-4 max-sm:pl-[42px] max-sm:rounded-xl max-sm:text-left"
               )}
             />
             <Image src={SearchIcon} alt="검색" className="absolute top-[15px] left-4 sm:hidden" />
@@ -340,11 +333,7 @@ const SearchForm = ({ brtcObj, regionInfo, searchParams }: SearchFormProps) => {
 
           <Button
             type="button"
-            onClick={() => {
-              setDisease(DISEASE);
-              router.push(createQueryParams({ ...params, pageNo: "1" }, pathname));
-              setStep(1);
-            }}
+            onClick={onButtonClick}
             disabled={params.brtcCd === BRTC || params.sggCd === SGG}
             className={cn(
               "h-12 bg-primary-400 rounded-lg text-base font-semibold hover:bg-primary-400 disabled:bg-primary-400",
@@ -355,16 +344,7 @@ const SearchForm = ({ brtcObj, regionInfo, searchParams }: SearchFormProps) => {
           </Button>
         </form>
         <div className={cn("w-full flex justify-end items-center")}>
-          <Select
-            value={disease}
-            onValueChange={(value) => {
-              setDisease(value);
-              if (searchParams.brtcCd && searchParams.sggCd) {
-                const params = { ...searchParams, disease: value, pageNo: "1" };
-                router.push(createQueryParams(params, pathname));
-              }
-            }}
-          >
+          <Select value={disease} onValueChange={onVaccineChange}>
             <SelectTrigger className={`w-fit p-2 border-0`}>
               {disease !== DISEASE && (
                 <p className="h-fit px-3 py-[6px] mr-4 bg-primary-50 ring-inset ring-1 ring-primary-400 rounded-[18px] text-primary-400 text-base">

@@ -13,7 +13,11 @@ const PhoneModal = ({
   setShowModal: React.Dispatch<React.SetStateAction<boolean>>;
 }) => {
   return createPortal(
-    <div className="fixed top-0 left-0 bottom-0 right-0 bg-gray-900/50 z-50 pointer-active-auto">
+    <div className="fixed top-0 left-0 bottom-0 right-0 bg-gray-900/50 z-50 pointer-active-auto"
+    onClick={(e) => {
+      e.stopPropagation();
+      setShowModal(prev => !prev)
+    }}>
       <div // 모달창
         className={cn(
           "w-full max-w-[360px] h-fit max-h-[269px] flex flex-col justify-between p-6 rounded-xl bg-white fixed top-[50%] left-[50%] -translate-x-1/2 -translate-y-1/2",

@@ -15,7 +15,7 @@ const MobileNav = () => {
 
   return (
     <nav className="fixed bottom-0 left-0 right-0 z-10 bg-white md:hidden shadow-[0px_0px_24px_rgba(0,0,0,0.05)]">
-      <ul className="grid grid-cols-[repeat(5,1fr)] items-center h-[54px] px-4 text-text-s">
+      <ul className="grid grid-cols-[repeat(5,1fr)] h-[46px] items-center mx-4 mt-2 mb-6 text-text-s">
         <li className="w-full">
           <Link
             href="/"
@@ -26,7 +26,7 @@ const MobileNav = () => {
           >
             <Image src={HomeIcon} alt={"홈버튼"} className="h-6 w-6" />
 
-            <span className="text-xs">홈</span>
+            <span className="text-text-s">홈</span>
           </Link>
         </li>
         <li className="w-full">
@@ -38,7 +38,7 @@ const MobileNav = () => {
             )}
           >
             <Image src={InfoIcon} alt={"예방접종 아이콘"} className="h-6 w-6" />
-            <span className="text-xs">예방접종</span>
+            <span className="text-text-s">예방접종</span>
           </Link>
         </li>
         <li className="w-full">
@@ -50,7 +50,7 @@ const MobileNav = () => {
             )}
           >
             <Image src={ChildIcon} alt={"우리아이 아이콘"} className="h-6 w-6" />
-            <span className="text-xs">우리아이</span>
+            <span className="text-text-s">우리아이</span>
           </Link>
         </li>
         <li className="w-full">
@@ -62,7 +62,7 @@ const MobileNav = () => {
             )}
           >
             <Image src={SearchIcon} alt={"병원 찾기 아이콘"} className="h-6 w-6" />
-            <span className="text-xs">병원 찾기</span>
+            <span className="text-text-s">병원 찾기</span>
           </Link>
         </li>
         <li className="w-full">
@@ -74,7 +74,7 @@ const MobileNav = () => {
             )}
           >
             <Image src={UserIcon} alt={"마이페이지 아이콘"} className="h-6 w-6" />
-            <span className="text-xs">MY</span>
+            <span className="text-text-s">MY</span>
           </Link>
         </li>
       </ul>
