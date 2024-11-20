@@ -2,7 +2,7 @@ const PrivacyPolicy = () => {
   return (
     <>
       <center>
-        <p className="font-bold text-heading-xxxl text-gray-900"> 이용 약관 </p>
+        <p className="font-bold text-heading-xxxl text-gray-900"> 개인정보 처리방침 </p>
         <p className="text-heading-m text-gray-900 font-bold">2024.11.04 개정</p>
       </center>
       <div>

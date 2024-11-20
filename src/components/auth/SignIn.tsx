@@ -132,7 +132,7 @@ const SignIn = () => {
                     <FormControl>
                       <div className="relative w-full max-sm:col-span-2 max-sm:relative">
                         <Input
-                          className={`w-full h-[50px] px-[24px] py-[16px] max-sm:mx-[24px]${
+                          className={`w-96 max-sm:w-80 h-[50px] px-[24px] py-[16px] max-sm:mx-[24px]${
                             form.formState.errors.email ? "border-red-500" : "border-gray-300"
                           }`}
                           placeholder="이메일을 입력해주세요."
@@ -158,7 +158,7 @@ const SignIn = () => {
                     <FormControl>
                       <div className="relative">
                         <Input
-                          className={`w-full h-14 px-6 py-4 ${
+                          className={`w-96 max-sm:w-80 h-14 px-6 py-4 ${
                             form.formState.errors.password ? "border-red-500" : "border-gray-300"
                           }`}
                           type={showPassword ? "text" : "password"}
