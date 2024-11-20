@@ -29,6 +29,9 @@ const SignIn = () => {
 
   const router = useRouter();
 
+  // 비밀번호 정규식 영어, 숫자 포함 8글자
+  const passwordRegex = /^(?=.*[a-zA-Z])(?=.*\d).{8,}$/;
+
   const defaultValues = {
     email: "",
     password: ""
@@ -37,7 +40,10 @@ const SignIn = () => {
   // 로그인 페이지 스키마
   const schema = z.object({
     email: z.string().min(8, { message: "이메일을 8자리 이상 입력해주세요." }),
-    password: z.string().min(8, { message: "비밀번호를 8자리 이상 입력해주세요." })
+    password: z
+      .string()
+      .min(8, { message: "비밀번호를 8자리 이상 입력해주세요." })
+      .refine((value) => passwordRegex.test(value), { message: "영문, 숫자를 포함하여 8자리 이상 입력해주세요." })
   });
 
   const form = useForm({
@@ -119,8 +125,10 @@ const SignIn = () => {
                 control={form.control}
                 name="email"
                 render={({ field }) => (
-                  <FormItem className="mb-[16px]">
-                    <FormLabel className="text-gray-600">이메일</FormLabel>
+                  <FormItem className="mb-[24px]">
+                    <FormLabel className="text-gray-600">
+                      이메일 <span className="text-primary-400">*</span>
+                    </FormLabel>
                     <FormControl>
                       <div className="relative w-full max-sm:col-span-2 max-sm:relative">
                         <Input
@@ -143,8 +151,10 @@ const SignIn = () => {
                 control={form.control}
                 name="password"
                 render={({ field }) => (
-                  <FormItem>
-                    <FormLabel className="text-gray-600">비밀번호</FormLabel>
+                  <FormItem className="mb-[24px]">
+                    <FormLabel className="text-gray-600">
+                      비밀번호 <span className="text-primary-400">*</span>
+                    </FormLabel>
                     <FormControl>
                       <div className="relative">
                         <Input
