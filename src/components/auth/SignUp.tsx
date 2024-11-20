@@ -118,7 +118,7 @@ const SignUp = () => {
                 <FormControl>
                   <div className="relative w-full max-sm:w-80">
                     <Input
-                      className={`w-full h-14 px-6 py-4 ${
+                      className={`w-96 max-sm:w-80 h-14 px-6 py-4 ${
                         form.formState.errors.email ? "border-red-500" : "border-gray-300"
                       }`}
                       placeholder="이메일을 입력해주세요."
@@ -144,7 +144,7 @@ const SignUp = () => {
                 <FormControl>
                   <div className="relative w-full ">
                     <Input
-                      className={`w-full h-14 px-6 py-4 ${
+                      className={`w-96 max-sm:w-80 h-14 px-6 py-4 ${
                         form.formState.errors.password ? "border-red-500" : "border-gray-300"
                       }`}
                       type={showPassword ? "text" : "password"}
@@ -180,7 +180,7 @@ const SignUp = () => {
                 <FormControl>
                   <div className="relative w-full">
                     <Input
-                      className={`w-full h-14 px-6 py-4 mb-[24px] ${
+                      className={`w-96 max-sm:w-80 h-14 px-6 py-4 mb-[24px] ${
                         form.formState.errors.passwordCheck ? "border-red-500" : "border-gray-300"
                       }`}
                       type={showPasswordCheck ? "text" : "password"}
@@ -216,7 +216,7 @@ const SignUp = () => {
                 <FormControl>
                   <div className="relative w-full">
                     <Input
-                      className={`w-full h-14 px-6 py-4 mb-[24px] ${
+                      className={`w-96 max-sm:w-80 h-14 px-6 py-4 mb-[24px] ${
                         form.formState.errors.name ? "border-red-500" : "border-gray-300"
                       }`}
                       placeholder="이름을 입력해주세요."
