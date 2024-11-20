@@ -118,7 +118,7 @@ const VaccineRecordList = ({ data, vaccinated, edit, control }: VaccineRecordLis
                           </div>
                         </div>
 
-                        <div className="flex items-center gap-1 sm:gap-3 sm:flex-1 sm:max-w-[224px] sm:min-h-7">
+                        <div className="flex items-center gap-1 sm:gap-3 sm:flex-1 sm:min-h-7">
                           {ids.map((id, index) => (
                             <CustomCheckbox
                               key={id}
@@ -151,16 +151,18 @@ const VaccineRecordList = ({ data, vaccinated, edit, control }: VaccineRecordLis
                     </div>
 
                     {/* width: 640px 미만에서 보여지는 블럭 */}
-                    <div className="flex w-[100px] h-[24px] gap-1 sm:hidden">
-                      <p className="overflow-hidden whitespace-nowrap text-ellipsis text-heading-xxs text-gray-700 font-semibold -tracking-[0.21px] hover:overflow-visible hover:bg-white hover:whitespace-normal">
-                        {diseaseName}
-                      </p>
-                    </div>
-                    <div className="overflow-hidden text-ellipsis whitespace-nowrap text-text-l w-[52px] h-[24px] text-gray-500 -tracking-[0.21px] hover:overflow-visible hover:bg-white hover:whitespace-normal sm:hidden">
-                      {vaccineName}
+                    <div className="inline-flex relative cursor-pointer gap-[18px] sm:hidden">
+                      <div className="flex w-[100px] h-[24px] gap-1 sm:hidden">
+                        <p className="overflow-hidden whitespace-nowrap text-ellipsis text-heading-xxs text-gray-700 font-semibold -tracking-[0.21px] hover:overflow-visible hover:bg-white hover:whitespace-normal">
+                          {diseaseName}
+                        </p>
+                      </div>
+                      <div className="overflow-hidden text-ellipsis whitespace-nowrap text-text-l w-[52px] h-[24px] text-gray-500 -tracking-[0.21px] hover:overflow-visible hover:bg-white hover:whitespace-normal sm:hidden">
+                        {vaccineName}
+                      </div>
                     </div>
 
-                    <div className="flex items-center gap-1 sm:gap-3 sm:flex-1 sm:max-w-[224px] sm:min-h-7">
+                    <div className="flex items-center gap-1 sm:gap-3 sm:flex-1 sm:min-h-7">
                       {ids.map((id, index) => (
                         <CustomCheckbox
                           key={id}

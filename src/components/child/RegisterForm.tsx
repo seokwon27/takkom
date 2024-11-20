@@ -5,8 +5,6 @@ import RegisterChildInfo from "@/app/child/register/steps/RegisterChildInfo";
 import RegisterChildRecord from "@/app/child/register/steps/RegisterChildRecord";
 import { Child } from "@/types/childType";
 import browserClient from "@/utils/supabase/client";
-import BackButton from "../ui/back-button";
-import { useRouter } from "next/navigation";
 import { useChildrenQuery } from "@/query/useChildQuery";
 
 interface ChildCardProps {
@@ -15,7 +13,6 @@ interface ChildCardProps {
 }
 
 const RegisterForm: React.FC<ChildCardProps> = ({ userId }) => {
-  const router = useRouter();
   // 만약 `child`가 주어지지 않았다면 빈 객체로 초기화
   const [childInfo, setChildInfo] = useState<Partial<Child>>({});
   const [step, setStep] = useState(1); // 기본적으로 1단계로 설정됨
@@ -67,18 +64,8 @@ const RegisterForm: React.FC<ChildCardProps> = ({ userId }) => {
     }
   };
 
-  const handleBackButton = () => {
-    if (step === 1) {
-      router.back();
-    }
-    setStep(1);
-  };
-
   return (
     <div>
-      <div className="flex w-full items-start px-6 py-1.5 md:hidden">
-        <BackButton onBack={handleBackButton} />
-      </div>
       {step === 1 ? (
         <RegisterChildInfo onNext={handleNext} userId={userId} childInfo={childInfo} />
       ) : (
