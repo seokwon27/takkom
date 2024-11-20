@@ -83,12 +83,7 @@ const SignUp = () => {
         name: data.name
       });
 
-      setStatus("success");
-      setMessage("회원가입이 성공적으로 완료되었습니다!");
-      setShowStatusModal(true);
-      setTimeout(() => {
-        router.push("/"); // 2초 후 홈으로 리다이렉트
-      }, 2000);
+      router.push("/");
     } catch (error: unknown) {
       console.error("회원가입 실패:", error);
 
@@ -107,14 +102,6 @@ const SignUp = () => {
     }
   };
 
-  // const passCheck = () => {
-  //   if (form.formState.errors.passwordCheck?.message === "비밀번호가 일치합니다.") {
-  //     return "text-informative";
-  //   } else {
-  //     return "text-negative";
-  //   }
-  // };
-
   return (
     <div className="flex flex-col justify-center items-center w-full max-w-[384px]">
       <Form {...form}>
@@ -131,7 +118,7 @@ const SignUp = () => {
                 <FormControl>
                   <div className="relative w-full max-sm:w-80">
                     <Input
-                      className={`w-full h-14 px-6 py-4 ${
+                      className={`w-96 max-sm:w-80 h-14 px-6 py-4 ${
                         form.formState.errors.email ? "border-red-500" : "border-gray-300"
                       }`}
                       placeholder="이메일을 입력해주세요."
@@ -157,7 +144,7 @@ const SignUp = () => {
                 <FormControl>
                   <div className="relative w-full ">
                     <Input
-                      className={`w-full h-14 px-6 py-4 ${
+                      className={`w-96 max-sm:w-80 h-14 px-6 py-4 ${
                         form.formState.errors.password ? "border-red-500" : "border-gray-300"
                       }`}
                       type={showPassword ? "text" : "password"}
@@ -193,7 +180,7 @@ const SignUp = () => {
                 <FormControl>
                   <div className="relative w-full">
                     <Input
-                      className={`w-full h-14 px-6 py-4 mb-[24px] ${
+                      className={`w-96 max-sm:w-80 h-14 px-6 py-4 mb-[24px] ${
                         form.formState.errors.passwordCheck ? "border-red-500" : "border-gray-300"
                       }`}
                       type={showPasswordCheck ? "text" : "password"}
@@ -229,7 +216,7 @@ const SignUp = () => {
                 <FormControl>
                   <div className="relative w-full">
                     <Input
-                      className={`w-full h-14 px-6 py-4 mb-[24px] ${
+                      className={`w-96 max-sm:w-80 h-14 px-6 py-4 mb-[24px] ${
                         form.formState.errors.name ? "border-red-500" : "border-gray-300"
                       }`}
                       placeholder="이름을 입력해주세요."
