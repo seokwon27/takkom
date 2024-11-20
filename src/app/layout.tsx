@@ -18,16 +18,16 @@ export const metadata: Metadata = {
   title: "따꼼",
   description: "우리 아이 예방 접종 정보를 저장하고 무료 접종 병원을 찾을 수 있습니다.",
   manifest: "/manifest.json",
-  keywords: ["따꼼", "따꼬미", "동네 병원 찾기", "예방접종", "필수접종", "우리아이"],
+  keywords: ["따꼼", "따꼬미", "동네 병원 찾기", "예방접종", "필수접종", "우리 아이"],
   openGraph: {
     title: "따꼼",
     description: "우리 아이 예방 접종 정보를 저장하고 무료 접종 병원을 찾을 수 있습니다.",
     url: "https://www.takkom.site",
     images: [
       {
-        url: "/icon/icon-192x192.png",
-        width: 192,
-        height: 192,
+        url: "/opengraph/main-og.png",
+        width: 1280,
+        height: 680,
         alt: "따꼼 로고"
       }
     ]
