@@ -28,9 +28,9 @@ const RegionSelect = ({ defaultValue, regionArray, trigger, disabled, value, onV
           <SelectItem value={defaultValue} key={defaultValue} className="justify-center text-title-xxs font-semibold">
             {defaultValue}
           </SelectItem>
-          {regionArray.map((item) => (
-            <SelectItem value={String(item[0])} key={item[0]} className="justify-center text-title-xxs font-semibold">
-              {item[1]}
+          {regionArray.map(([code, name]) => (
+            <SelectItem value={String(code)} key={code} className="justify-center text-title-xxs font-semibold">
+              {name}
             </SelectItem>
           ))}
         </SelectGroup>
