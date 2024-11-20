@@ -53,17 +53,17 @@ const VaccineRecordTabs = ({ childId, edit, control }: VaccineRecordProps) => {
   return (
     <Tabs
       defaultValue="전체"
-      className="flex flex-col items-center sm:items-start gap-4 self-stretch relative w-full sm:max-w-[796px]"
+      className="flex flex-col items-center sm:items-start gap-2 sm:gap-4 self-stretch relative w-full sm:max-w-[796px]"
     >
       <div className="flex justify-between items-center py-0 self-stretch w-full sm:min-h-[38px] sm:px-8">
-        <TabsList className="inline-flex items-center gap-2 px-3 sm:px-6 relative bg-transparent">
+        <TabsList className="flex items-center gap-2 sm:px-6 relative bg-transparent">
           {tabs.map((tab) => (
             <TabsTrigger
               key={tab}
               value={tab}
-              className="group flex md:w-20 items-center justify-center gap-2.5 p-2 relative rounded-none data-[state=active]:border-b-2 data-[state=active]:border-gray-700 data-[state=active]:shadow-none"
+              className="group flex items-center justify-center gap-2.5 p-2 w-16 relative rounded-none data-[state=active]:border-b-2 data-[state=active]:border-gray-700 data-[state=active]:shadow-none md:w-20"
             >
-              <p className="relative text-heading-xs font-bold text-gray-300 group-data-[state=active]:text-gray-700 whitespace-nowrap hover:text-gray-700">
+              <p className="relative text-heading-xxs font-bold text-gray-300 group-data-[state=active]:text-gray-700 hover:text-gray-700">
                 {tab}
               </p>
             </TabsTrigger>

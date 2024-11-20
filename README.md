@@ -64,7 +64,7 @@ https://takkom.vercel.app/
 
 - **이석원**: 연령별 예방접종 정보 페이지
 - **조해인**: 동네 병원 찾기 페이지
-- **장세희**: 우리 아이 맞춤형 페이지: 아이 등록하기
+- **장세희**: 우리 아이 맞춤형 페이지: 아이 등록/수정하기
 - **정지형**: 우리 아이 맞춤형 페이지: 우리아이 접종 내역
 - **이예람**: 회원가입, 일반로그인, 소셜로그인
 - **전수빈**: 와이어프레임, UI 디자인, 로고
@@ -385,13 +385,13 @@ https://takkom.vercel.app/
 
 ## Trouble Shooting
 
-### 1. 접종 정보 페이지: 페이지네이션
+### 1. 접종 정보 페이지: 페이지네이션 (이석원)
 
 - 문제: 페이지네이션 적용한 정보 리스트에서 필터링 적용 시 최초 전체 로딩에서 설정된 페이지에 데이터가 고정되는 현상
 - 문제 원인: 데이터 fetch시 supabase의 count를 통해 totalPage를 설정하면서 데이터 자체에 페이지가 적용되었으나, 데이터를 가져온 후 client에서 상태를 통한 필터링으로 생기는 문제
 - 해결방법: client에서 데이터를 가공하여 출력하기 때문에 페이지네이션 또한 페이지 상태를 추가하여 가공한 데이터를 기반으로 작동하도록 수정함.
 
-### 2. 동네 병원 찾기
+### 2. 동네 병원 찾기 (전해인)
 
 - 문제상황: 검색창과 페이지네이션에 사용할 state를 너무 많이 설정해, React에서 오류가 발생
 - 해결방법: 검색창에 입력된 정보를 모두 하나의 state로 합치고, 페이지네이션에 필요한 정보는 쿼리스트링으로 넘기게 되었습니다.
@@ -471,7 +471,7 @@ https://takkom.vercel.app/
   - `useRouter()` 대신 History API를 사용해 SPA처럼 페이지 전환.
   - `use-query-param.ts`에 커스텀 훅을 만들어 페이지 상태 변화를 감지할 수 있도록 함.
 
-### 3. 복잡한 라벨 로직을 컴포넌트 분리로 개선
+### 3. 복잡한 라벨 로직을 컴포넌트 분리로 개선 (정지형)
 
 - 문제 상황
 
@@ -517,33 +517,71 @@ https://takkom.vercel.app/
               ...
   ```
 
-### 4. 아이정보 UID 전달을 위한 데이터 삽입 및 조회 로직 수정
+### 4. [아이 중복 등록 이슈 해결] 아이 정보 등록 중 발생한 409 Conflict 오류  (장세희)
 
 - 문제 상황
 
-  - UID 없음: 1단계에서 등록된 아이가 없기 때문에 uid 값이 존재하지 않음.
-  - UID 전달 필요: 아이 정보 입력 후 '다음' 버튼을 클릭하면 child 테이블에 기본 정보가 입력되고, 이때 UID가 자동 생성됨. 이 UID를 2단계로 전달해야 함.
+  - 오류 메시지: duplicate key value violates unique constraint "child_pkey"
+  - 다음 버튼을 클릭할 때마다 새로운 자녀 정보가 등록되어 중복된 데이터가 생성
+  - 다음 버튼을 누를 때마다 childInfo가 초기화되거나 새로운 값으로 덮어쓰여, 이전 상태를 잃어버림, 결과적으로 이전 데이터를 재사용하지 못하고 새로운 데이터만 생성하고 있었음
 
-- 해결 방법
+- 해결 목표
+  - 아이디가 중복된 경우 새 데이터를 삽입하지 않고 기존 데이터를 업데이트하도록 코드 수정
 
-  - insert 메소드의 인자를 배열에서 객체로 수정.
-  - .single() 앞에 .select()를 추가하여 삽입된 데이터를 바로 조회할 수 있게 수정.
+- 구현 방법
+  - 중복된 데이터가 있으면 update로 기존 데이터를 수정
+  - 중복 데이터가 없으면 insert로 새 데이터를 삽입
+
+- 주요 개선점
+  - 중복 등록 방지: 중복된 id로 새 레코드가 생성되지 않고 기존 데이터가 업데이트됨
+  -  로직 안정성 강화: 비동기 작업에서 발생 가능한 오류를 체계적으로 처리
 
   ```tsx
-  const { data: childData, error } = await supabase
-    .from("child")
-    .insert({
-      user_id: user.id,
-      name: name,
-      birth: birthday,
-      profile: profileImageUrl,
-      notes: notes ?? ""
-    })
-    .select() //  이 부분 추가
-    .single();
+  const handleComplete = async () => {
+    try {
+      if (!childInfo.id) {
+        throw new Error("아이디가 없습니다. 유효한 아이디를 입력해 주세요.");
+      }
+
+      // 중복 데이터 확인
+      const { data: existingData, error: selectError } = await browserClient
+        .from("child")
+        .select("*")
+        .eq("id", childInfo.id)
+        .single();
+
+      if (selectError && selectError.code !== "PGRST116") {
+        throw selectError;
+      }
+
+      if (existingData) {
+        // 기존 데이터 업데이트
+        const { error: updateError } = await browserClient
+          .from("child")
+          .update({ ...childInfo, user_id: userId })
+          .eq("id", childInfo.id);
+
+        if (updateError) {
+          throw updateError;
+        }
+
+      } else {
+        // 새 데이터 삽입
+        const { error: insertError } = await browserClient
+          .from("child")
+          .insert([{ ...childInfo, user_id: userId }]);
+
+        if (insertError) {
+          throw insertError;
+        }
+      }
+    } catch (error) {
+          console.error("아이 등록 중 오류 발생:", error);
+    }
+  };
   ```
 
-### 5. 이전 단계로 돌아갈 때 작성된 Form 데이터를 유지가 안됨
+### 5. 이전 단계로 돌아갈 때 작성된 Form 데이터를 유지가 안됨 (장세희)
 
 - 문제 상황
   - 이전 단계 데이터 유실: 이전 버튼을 통해 1단계로 돌아가면 이전에 입력한 Form 데이터가 불러와지지 않음.
@@ -557,42 +595,40 @@ https://takkom.vercel.app/
 
   - RegisterChildInfo에서 childInfo 활용 - RegisterChildInfo 컴포넌트에서 전달받은 childInfo의 데이터를 Form의 defaultValues로 설정하여, 초기 값으로 사용. - 이렇게 설정하면 이전 버튼을 통해 돌아올 때 이전에 입력한 정보가 자동으로 입력란에 표시됨.
 
-        ```tsx
-        // RegisterForm 수정
-        const RegisterForm: React.FC<ChildCardProps> = ({ userId }) => {
-          const [childInfo, setChildInfo] = useState<Partial<Child>>({});
+    ```tsx
+    const RegisterForm: React.FC<ChildCardProps> = ({ userId }) => {
+      const [childInfo, setChildInfo] = useState<Partial<Child>>({});
 
-          return (
-            <RegisterChildInfo
-              onNext={handleNext}
-              userId={userId}
-              childInfo={childInfo}
-            />
-          );
-        };
-        ```
+      return (
+        <RegisterChildInfo
+          onNext={handleNext}
+          userId={userId}
+          childInfo={childInfo}
+        />
+      );
+    };
+    ```
 
-        ```tsx
-        // RegisterChildInfo 수정
-        const RegisterChildInfo = ({ onNext, userId, childInfo }: RegisterChildInfoProps) => {
-          const form = useForm({
-            resolver: zodResolver(formSchema),
-            defaultValues: {
-              name: childInfo.name || "",
-              birth: childInfo.birth || "",
-              notes: childInfo.notes || ""
-            }
-          });
+    ```tsx
+    const RegisterChildInfo = ({ onNext, userId, childInfo }: RegisterChildInfoProps) => {
+      const form = useForm({
+        resolver: zodResolver(formSchema),
+        defaultValues: {
+          name: childInfo.name || "",
+          birth: childInfo.birth || "",
+          notes: childInfo.notes || ""
+        }
+      });
 
-          return (
-            <div>
-              {/* JSX 코드 */}
-            </div>
-          );
-        };
-        ```
+      return (
+        <div>
+          {/* JSX 코드 */}
+        </div>
+      );
+    };
+    ```
 
-### 6. 소셜 로그인 리다이렉트 오류
+### 6. 소셜 로그인 리다이렉트 오류 (이예람)
 
 - 문제 상황
   - 소셜 로그인 기능을 구현하는 과정에서, 사용자가 소셜 로그인 후 다시 페이지로 돌아올 때 리다이렉트 설정이 제대로 되어있지 않아 오류가 발생
@@ -623,7 +659,7 @@ https://takkom.vercel.app/
 
 ## 자랑하고 싶은 코드
 
-### [연령별 예방 접종 정보]
+### [연령별 예방 접종 정보] (이석원)
 
 - 데이터 필터링을 위한 분류별 연결을 위한 전역상태관리
 - 대분류에 따른 소분류 변동과 병명 초기화 작동
@@ -681,173 +717,208 @@ https://takkom.vercel.app/
   }, [totalPages, page]);
   ```
 
-### [동네 병원 찾기]
+### [동네 병원 찾기] (조해인)
 
 1. 병원 정보 데이터 가져오는 방법 개선
 
-   - '어린이 국가예방접종 지원사업 위탁의료기관 현황 정보' api를 사용하여 해당 지원사업을 진행중인 병원 정보를 가져왔습니다. 공공데이터로 api 구조를 원하는대로 바꿀 수 없어 지원하는 기능을 사용하여 모든 병원 정보를 불러온 후 추가로 필터링을 거쳐 데이터를 나열했습니다.
+  - '어린이 국가예방접종 지원사업 위탁의료기관 현황 정보' api를 사용하여 해당 지원사업을 진행중인 병원 정보를 가져왔습니다. 공공데이터로 api 구조를 원하는대로 바꿀 수 없어 지원하는 기능을 사용하여 모든 병원 정보를 불러온 후 추가로 필터링을 거쳐 데이터를 나열했습니다.
 
-   - 아래 코드는 첫 100개의 데이터를 불러와 추가 데이터가 있는지 확인한 후 `Promise.all`을 사용해 남은 데이터를 불러와 합쳐주는 코드입니다. Api에서 '시도, 시군구', '시도, 시군구, 주소' 또는 '시도, 시군구, 병원명' 검색까지만 지원해, 저희가 제공하려는 서비스보다 기능이 부족해 위 과정을 거치게 되었습니다. 이후 `useQuery` 커스텀 훅을 통해 데이터를 캐싱하여 불필요한 요청을 하지 않도록 했습니다. 자주 변동되는 데이터는 아니지만 업데이트 될 수 있으므로 1시간마다 `revalidate`하도록 했습니다.
+  - 아래 코드는 첫 100개의 데이터를 불러와 추가 데이터가 있는지 확인한 후 `Promise.all`을 사용해 남은 데이터를 불러와 합쳐주는 코드입니다. Api에서 '시도, 시군구', '시도, 시군구, 주소' 또는 '시도, 시군구, 병원명' 검색까지만 지원해, 저희가 제공하려는 서비스보다 기능이 부족해 위 과정을 거치게 되었습니다. 이후 `useQuery` 커스텀 훅을 통해 데이터를 캐싱하여 불필요한 요청을 하지 않도록 했습니다. 자주 변동되는 데이터는 아니지만 업데이트 될 수 있으므로 1시간마다 `revalidate`하도록 했습니다.
 
-   ```tsx
-   // 병원 목록 가져오기
-   export const getHospitals = async (
-     input: HospitalParams
-   ): Promise<HospitalData> => {
-     const params = { serviceKey, ...input, numOfRows: "100", pageNo: "1" };
-     ...
-     const res = await fetch( ... , {
-       method: "GET",
-       next: {
-         revalidate: 3600
-       }
-     });
+    ```tsx
+    // 병원 목록 가져오기
+    export const getHospitals = async (
+      input: HospitalParams
+    ): Promise<HospitalData> => {
+      const params = { serviceKey, ...input, numOfRows: "100", pageNo: "1" };
+      ...
+      const res = await fetch( ... , {
+        method: "GET",
+        next: {
+          revalidate: 3600
+        }
+      });
 
-     ...
+      ...
 
-     if (body.maxPage > 1) {
-       const allData = await Promise.all(
-         Array(body.maxPage - 1)
-           .fill(0)
-           .map(async (_, idx) => {
-             ...
-             const res = await fetch( ... , {...});
-             ...
-           })
-       );
-       ...
-     }
+      if (body.maxPage > 1) {
+        const allData = await Promise.all(
+          Array(body.maxPage - 1)
+            .fill(0)
+            .map(async (_, idx) => {
+              ...
+              const res = await fetch( ... , {...});
+              ...
+            })
+        );
+        ...
+      }
 
-     ...
-   };
-   ```
+      ...
+    };
+    ```
 
 2. 페이지 로딩 개선
 
-   - Next.js 14 App Router의 `router.push()`를 사용하니 페이지 로딩이 너무 길어지는 문제점이 있었습니다. 이를 트러블 슈팅에서 이야기한 것처럼 아래와 같은 커스텀 훅을 만들어 페이지 로딩 시간을 단축할 수 있었습니다.
+  - Next.js 14 App Router의 `router.push()`를 사용하니 페이지 로딩이 너무 길어지는 문제점이 있었습니다. 이를 트러블 슈팅에서 이야기한 것처럼 아래와 같은 커스텀 훅을 만들어 페이지 로딩 시간을 단축할 수 있었습니다.
 
-   - `setQueryParams` 함수는 History API를 사용해 url을 변경해주는 함수입니다. `SearchForm.tsx`에서 검색 버튼을 누르면 커스텀 훅에 input으로 넣는 값의 state를 변경해, 연관된 `HospitalList.tsx`에서도 변경된 검색어들을 객체로 받을 수 있도록 했습니다.
+  - `setQueryParams` 함수는 History API를 사용해 url을 변경해주는 함수입니다. `SearchForm.tsx`에서 검색 버튼을 누르면 커스텀 훅에 input으로 넣는 값의 state를 변경해, 연관된 `HospitalList.tsx`에서도 변경된 검색어들을 객체로 받을 수 있도록 했습니다.
 
-   ```tsx
-   const useQueryParams = (currentQuery: string): [HospitalSearchParams, (params: HospitalSearchParams) => void] => {
-     const [params, setParams] = useState<HospitalSearchParams>(Object.fromEntries(new URLSearchParams(currentQuery)));
+    ```tsx
+    const useQueryParams = (currentQuery: string): [HospitalSearchParams, (params: HospitalSearchParams) => void] => {
+      const [params, setParams] = useState<HospitalSearchParams>(Object.fromEntries(new URLSearchParams(currentQuery)));
 
-     useEffect(() => {
-       // 클라이언트 환경에서만 실행됨
-       if (typeof window === "undefined") {
-         return;
-       }
+      useEffect(() => {
+        // 클라이언트 환경에서만 실행됨
+        if (typeof window === "undefined") {
+          return;
+        }
 
-       const handlePopState = () => {
-         // 뒤로 가기 또는 앞으로 가기 시 (= url 변경 시 발생) 쿼리 파라미터 업데이트
-         setParams(Object.fromEntries(new URLSearchParams(window.location.search)));
-       };
+        const handlePopState = () => {
+          // 뒤로 가기 또는 앞으로 가기 시 (= url 변경 시 발생) 쿼리 파라미터 업데이트
+          setParams(Object.fromEntries(new URLSearchParams(window.location.search)));
+        };
 
-       // 처음 마운트될 때 실행
-       handlePopState();
+        // 처음 마운트될 때 실행
+        handlePopState();
 
-       // popstate 이벤트 리스너 추가
-       window.addEventListener("popstate", handlePopState);
+        // popstate 이벤트 리스너 추가
+        window.addEventListener("popstate", handlePopState);
 
-       // 언마운트될 때 이벤트 리스너 제거
-       return () => {
-         window.removeEventListener("popstate", handlePopState);
-       };
-     }, [currentQuery]);
+        // 언마운트될 때 이벤트 리스너 제거
+        return () => {
+          window.removeEventListener("popstate", handlePopState);
+        };
+      }, [currentQuery]);
 
-     const setQueryParams = (params: HospitalSearchParams) => {
-       const newUrl = createQueryParams(params, "/hospital");
-       window.history.pushState({ ...window.history.state, as: newUrl, url: newUrl }, "", newUrl);
-       window.dispatchEvent(new PopStateEvent("popstate"));
-     };
+      const setQueryParams = (params: HospitalSearchParams) => {
+        const newUrl = createQueryParams(params, "/hospital");
+        window.history.pushState({ ...window.history.state, as: newUrl, url: newUrl }, "", newUrl);
+        window.dispatchEvent(new PopStateEvent("popstate"));
+      };
 
-     return [params, setQueryParams];
-   };
-   ```
+      return [params, setQueryParams];
+    };
+    ```
 
-### [우리 아이 맞춤형 플랜]
+### [우리 아이 맞춤형 플랜] (장세희)
 
-1. Custom Hooks 활용 (useChildrenQuery, useUserQuery)
+1. <b>Custom Hooks 활용 (useChildrenQuery, useUserQuery)</b>
 
-   - useChildrenQuery, useUserQuery라는 custom hooks으로 분리하여 코드의 재사용성을 높이고, 각 데이터 fetch 로직을 더 직관적으로 만들었습니다. 이 방식은 코드의 유지보수를 쉽게 하고, 추후 다른 페이지에서도 재사용 가능이 가능합니다. Custom hook을 통한 코드 분리는 다른 개발자들이 코드를 빠르게 이해할 수 있게 하며, 이로 인해 협업에서도 유리한 점이 많습니다.
+  - useChildrenQuery, useUserQuery라는 custom hooks으로 분리하여 코드의 재사용성을 높이고, 각 데이터 fetch 로직을 더 직관적으로 만들었습니다. 이 방식은 코드의 유지보수를 쉽게 하고, 추후 다른 페이지에서도 재사용 가능이 가능합니다. Custom hook을 통한 코드 분리는 다른 개발자들이 코드를 빠르게 이해할 수 있게 하며, 이로 인해 협업에서도 유리한 점이 많습니다.
 
-2. 자녀 정보 입력과 유효성 검사 (RegisterChildInfo)
+2. <b>접종 관리에서의 필수 및 선택 접종 상태를 구분하고 계산하는 로직</b>
+  - 따꼼 프로젝트에서 ChildCard 컴포넌트는 아이의 필수 및 선택 접종 상태를 직관적으로 확인할 수 있도록 돕는 중요한 역할을 합니다. 이 컴포넌트의 한가지 기능은 접종 데이터를 분석하여, 필수 접종과 선택 접종의 전체 개수와 완료된 개수를 정확히 계산하는 것입니다.
 
-   - formSchema는 zod를 사용하여 이름과 생년월일을 필수로 설정하며, 추가로 메모와 프로필 이미지는 선택 사항입니다.
-   - useForm에서 zodResolver를 사용해 쉽게 유효성 검사를 설정하고, form.handleSubmit을 통해 제출 시 검사를 실행합니다.
+- <b>이 코드가 특별한 이유!</b>
+  - <b>복잡한 데이터 구조를 정교하게 처리</b>: 접종 데이터는 disease, ids, additions 등의 중첩된 배열로 이루어져 있어 처리하기 까다롭습니다. 이 코드는 각 접종 항목을 순회하며, 필수/선택 접종 여부를 정확히 판별하고 개별 접종 기록과 대조하여 결과를 도출합니다.
+  - <b>직관적인 결과 제공</b>: 코드의 결과는 필수 접종 3/18개, 선택 접종 1/16개처럼 현재 상태를 직관적으로 보여줍니다. 이는 사용자에게 접종 상황을 한눈에 파악할 수 있도록 도움을 줍니다.
+  - <b>문제 해결을 위한 발전</b>: 초기에는 disease.additions와 disease.ids의 길이가 다를 때 잘못된 결과를 반환하는 문제가 있었습니다. 이 코드는 각 ID마다 개별적으로 처리하도록 수정되어, 데이터를 정확히 처리하는 데 성공했습니다.
 
-   ```tsx
-   import { useForm } from "react-hook-form";
-   import { z } from "zod";
-   import { zodResolver } from "@hookform/resolvers/zod";
+  ```tsx
+  const getVaccinesCount = () => {
+    let requiredVaccinesCount = 0; // 맞은 필수 접종 수
+    let optionalVaccinesCount = 0; // 맞은 선택 접종 수
+    let totalRequiredVaccines = 0; // 전체 필수 접종 수
+    let totalOptionalVaccines = 0; // 전체 선택 접종 수
 
-   export const formSchema = z.object({
-     name: z.string().min(1, { message: "이름은 필수입니다." }),
-     birth: z.string().min(1, { message: "생년월일은 필수입니다." }),
-     notes: z.string().optional(),
-     profileImage: z.instanceof(File).optional()
-   });
+    vaccineData.forEach((vaccine) => {
+      vaccine.disease.forEach((disease) => {
+        disease.ids.forEach((id, index) => {
+          const isOptional = disease.additions[index]; 
+          const allCheckedVaccine = vaccineRecord.includes(id);
 
-   const RegisterChildInfo = ({ onNext, childInfo }) => {
-     const form = useForm<z.infer<typeof formSchema>>({
-       resolver: zodResolver(formSchema),
-       defaultValues: {
-         name: childInfo.name ?? "",
-         birth: childInfo.birth ?? "",
-         notes: childInfo.notes ?? ""
-       }
-     });
+          if (isOptional) {
+            totalOptionalVaccines++;
+            if (allCheckedVaccine) optionalVaccinesCount++;
+          } else {
+            totalRequiredVaccines++;
+            if (allCheckedVaccine) requiredVaccinesCount++;
+          }
+        });
+      });
+    });
 
-     const handleFormSubmit = async (data) => {
-       onNext(data);
-     };
+    return { requiredVaccinesCount, totalRequiredVaccines, optionalVaccinesCount, totalOptionalVaccines };
+  };
+  ```
+3. <b>자녀 정보 입력과 유효성 검사 (RegisterChildInfo)</b>
 
-     return (
-       <Form {...form}>
-         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8 w-full">
-           {/* 프로필 이미지 입력 필드 */}
-           <FormField
-             control={form.control}
-             name="profileImage"
-             render={() => (
-               <FormItem>
-                 <FormLabel>프로필 이미지</FormLabel>
-                 <FormControl>
-                   <Input
-                     type="file"
-                     accept="image/*"
-                     onChange={(e) => setSelectedImage(e.target.files?.[0] ?? undefined)}
-                   />
-                 </FormControl>
-                 <FormMessage />
-               </FormItem>
-             )}
-           />
+  - formSchema는 zod를 사용하여 이름과 생년월일을 필수로 설정하며, 추가로 메모와 프로필 이미지는 선택 사항입니다.
+  - useForm에서 zodResolver를 사용해 쉽게 유효성 검사를 설정하고, form.handleSubmit을 통해 제출 시 검사를 실행합니다.
 
-           {/* 이름 입력 필드 */}
-           <FormField
-             control={form.control}
-             name="name"
-             render={({ field }) => (
-               <FormItem>
-                 <FormLabel>이름</FormLabel>
-                 <FormControl>
-                   <Input placeholder="ex. 김따꼼" {...field} className="w-full" />
-                 </FormControl>
-                 <FormMessage />
-               </FormItem>
-             )}
-           />
-           {/* 다음 버튼 */}
-           <Button type="submit">다음</Button>
-         </form>
-       </Form>
-     );
-   };
-   ```
+    ```tsx
+    import { useForm } from "react-hook-form";
+    import { z } from "zod";
+    import { zodResolver } from "@hookform/resolvers/zod";
 
-3. 접종 체크리스트: 데이터 그룹화
+    export const formSchema = z.object({
+      name: z.string().min(1, { message: "이름은 필수입니다." }),
+      birth: z.string().min(1, { message: "생년월일은 필수입니다." }),
+      notes: z.string().optional(),
+      profileImage: z.instanceof(File).optional()
+    });
 
+    const RegisterChildInfo = ({ onNext, childInfo }) => {
+      const form = useForm<z.infer<typeof formSchema>>({
+        resolver: zodResolver(formSchema),
+        defaultValues: {
+          name: childInfo.name ?? "",
+          birth: childInfo.birth ?? "",
+          notes: childInfo.notes ?? ""
+        }
+      });
+
+      const handleFormSubmit = async (data) => {
+        onNext(data);
+      };
+
+      return (
+        <Form {...form}>
+          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8 w-full">
+            {/* 프로필 이미지 입력 필드 */}
+            <FormField
+              control={form.control}
+              name="profileImage"
+              render={() => (
+                <FormItem>
+                  <FormLabel>프로필 이미지</FormLabel>
+                  <FormControl>
+                    <Input
+                      type="file"
+                      accept="image/*"
+                      onChange={(e) => setSelectedImage(e.target.files?.[0] ?? undefined)}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            {/* 이름 입력 필드 */}
+            <FormField
+              control={form.control}
+              name="name"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>이름</FormLabel>
+                  <FormControl>
+                    <Input placeholder="ex. 김따꼼" {...field} className="w-full" />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <Button type="submit">다음</Button>
+          </form>
+        </Form>
+      );
+    };
+    ```
+
+### [우리 아이 맞춤형 플랜 - 접종 체크리스트] (정지형)
+
+1. 데이터 그룹화
 - Map 자료구조를 통하여 데이터를 백신이름과 질병별로 그룹화
 - 중복되는 백신이름을 통합하여 각 백신의 질병이름과 접종차수, id, 추가정보를 담고 있는 객체 배열로 반환
 
@@ -881,72 +952,72 @@ https://takkom.vercel.app/
   };
   ```
 
-4. 접종 일정표
+2. 접종 일정표
 
-   - supabase에 저장한 접종 일정표를 기준으로 아이 생일에 맞는 접종 일정표를 제공합니다. 접종이 완료된 경우 목록에서 제거되며 선택, 해당 백신을 접종해야 하는 날짜와 추가/필수 접종 여부를 제공합니다.
+  - supabase에 저장한 접종 일정표를 기준으로 아이 생일에 맞는 접종 일정표를 제공합니다. 접종이 완료된 경우 목록에서 제거되며 선택, 해당 백신을 접종해야 하는 날짜와 추가/필수 접종 여부를 제공합니다.
 
-   - 접종 일정표를 계산하는 핵심 로직은 다음과 같습니다. 각 접종 일정에 포함된 달에 해당 접종 일정을 저장해 월별 접종 일정표를 반환해줍니다. `date-fns` 라이브러리를 사용하여 날짜 계산을 효율적으로 처리할 수 있었습니다.
+  - 접종 일정표를 계산하는 핵심 로직은 다음과 같습니다. 각 접종 일정에 포함된 달에 해당 접종 일정을 저장해 월별 접종 일정표를 반환해줍니다. `date-fns` 라이브러리를 사용하여 날짜 계산을 효율적으로 처리할 수 있었습니다.
 
-   ```tsx
-   // 생일에 따라 접종 일정 계산하기
-   export const calculateSchedule = (
-     date?: string,
-     schedules?: Tables<"vaccine">[]
-   ): Map<string, vaccineSchedule[]> | null => {
-     if (!date || !schedules) {
-       return null;
-     }
-     const birthday = new Date(date);
-     const mySchedule = new Map();
-     // 접종일정표 상 가장 나중 일정의 마지막 일자
-     const lastMonth = addDays(addMonths(addMonths(birthday, 12 * 12), 12), -1);
+    ```tsx
+    // 생일에 따라 접종 일정 계산하기
+    export const calculateSchedule = (
+      date?: string,
+      schedules?: Tables<"vaccine">[]
+    ): Map<string, vaccineSchedule[]> | null => {
+      if (!date || !schedules) {
+        return null;
+      }
+      const birthday = new Date(date);
+      const mySchedule = new Map();
+      // 접종일정표 상 가장 나중 일정의 마지막 일자
+      const lastMonth = addDays(addMonths(addMonths(birthday, 12 * 12), 12), -1);
 
-     // 비어 있는 달이 존재할 수 이어서 key를 먼저 생성
-     let currentDate = birthday;
-     while (isBefore(currentDate, lastMonth) || isEqual(addDays(currentDate, -1), lastMonth)) {
-       mySchedule.set(format(currentDate, "yyyy.MM"), []);
-       currentDate = addMonths(currentDate, 1);
-     }
+      // 비어 있는 달이 존재할 수 이어서 key를 먼저 생성
+      let currentDate = birthday;
+      while (isBefore(currentDate, lastMonth) || isEqual(addDays(currentDate, -1), lastMonth)) {
+        mySchedule.set(format(currentDate, "yyyy.MM"), []);
+        currentDate = addMonths(currentDate, 1);
+      }
 
-     for (const schedule of schedules) {
-       const { id, vaccine_name, disease_name, vaccinate_date, duration, additional, vaccine_turn } = schedule;
-       const [after, unit] = duration.split(" ");
-       const startDate = addMonths(birthday, vaccinate_date);
-       const startDateFormatted = format(startDate, "yyyy.MM.dd");
+      for (const schedule of schedules) {
+        const { id, vaccine_name, disease_name, vaccinate_date, duration, additional, vaccine_turn } = schedule;
+        const [after, unit] = duration.split(" ");
+        const startDate = addMonths(birthday, vaccinate_date);
+        const startDateFormatted = format(startDate, "yyyy.MM.dd");
 
-       if (unit === "일") {
-         // 일 단위
-         const startDate = addMonths(birthday, vaccinate_date);
-         const startDateFormatted = format(startDate, "yyyy.MM.dd");
-         const startMonthFormatted = format(startDate, "yyyy.MM");
-         mySchedule.set(
-           startMonthFormatted,
-           mySchedule.get(startMonthFormatted).concat([...])
-         );
-       } else {
-         // 개월 단위
-         const endDate = addDays(addMonths(addMonths(birthday, vaccinate_date), Number(after)), -1);
-         const endDateFormatted = format(endDate, "yyyy.MM.dd");
+        if (unit === "일") {
+          // 일 단위
+          const startDate = addMonths(birthday, vaccinate_date);
+          const startDateFormatted = format(startDate, "yyyy.MM.dd");
+          const startMonthFormatted = format(startDate, "yyyy.MM");
+          mySchedule.set(
+            startMonthFormatted,
+            mySchedule.get(startMonthFormatted).concat([...])
+          );
+        } else {
+          // 개월 단위
+          const endDate = addDays(addMonths(addMonths(birthday, vaccinate_date), Number(after)), -1);
+          const endDateFormatted = format(endDate, "yyyy.MM.dd");
 
-         // 위에서 key를 생성한 로직과 동일
-         // 일정이 시작하는 달부터 끝나는 달까지 해당 접종 일정을 추가함
-         let currentDate = startDate;
-         while (isBefore(currentDate, endDate) || isEqual(addDays(currentDate, -1), endDate)) {
-           const currentMonthFormatted = format(currentDate, "yyyy.MM");
-           mySchedule.set(
-             currentMonthFormatted,
-             mySchedule.get(currentMonthFormatted).concat([...])
-           );
-           currentDate = addMonths(currentDate, 1);
-         }
-       }
-     }
+          // 위에서 key를 생성한 로직과 동일
+          // 일정이 시작하는 달부터 끝나는 달까지 해당 접종 일정을 추가함
+          let currentDate = startDate;
+          while (isBefore(currentDate, endDate) || isEqual(addDays(currentDate, -1), endDate)) {
+            const currentMonthFormatted = format(currentDate, "yyyy.MM");
+            mySchedule.set(
+              currentMonthFormatted,
+              mySchedule.get(currentMonthFormatted).concat([...])
+            );
+            currentDate = addMonths(currentDate, 1);
+          }
+        }
+      }
 
-     return mySchedule;
-   };
-   ```
+      return mySchedule;
+    };
+    ```
 
-### [회원가입-유효성검사]
+### [회원가입-유효성검사] (이예람)
 
 - zod를 이용해 복잡한 schema를 설정하였고, superRefine 매서드를 이용해 강력한 유효성 검사를 시도한 부분입니다.
 - superRefine 매서드의 첫 번째 인자는 콜백함수가, 두 번째 인자에는 이슈를 생성하는 ctx가 들어갑니다. 이때, ctx에는 기존에 zod에서 제공하는 이슈도 있지만, 개발자가 직접 커스텀 할 수 있는 기능이 있어 해당 기능을 사용해 우리에게 맞는 이슈를 생성하였습니다.

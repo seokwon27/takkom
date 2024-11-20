@@ -81,13 +81,13 @@ const VaccineNames = ({ vaccineNames, filter }: { vaccineNames: string[]; filter
           <SelectTrigger
             className={cn(
               "h-fit p-1 justify-start border-0 rounded-none bg-gray-10 max-sm:h-6 max-sm:px-1 max-sm:py-[2px]",
-              isOpen ? "rounded-t" : "rounded"
+              isOpen ? "rounded-t max-sm:rounded-t-sm" : "rounded"
             )}
           >
             {placeHolder}
           </SelectTrigger>
           <SelectContent
-            className="max-h-[85px] mt-0 p-0 bg-gray-10 rounded-none rounded-b text-text-l"
+            className="max-h-[85px] mt-0 p-0 bg-gray-10 rounded-none rounded-b max-sm:rounded-b-sm text-text-l"
             avoidCollisions={false}
           >
             {/** avoidCollision : 충돌이 발생하는 방향의 반대로 select가 열리게 하는 속성, 항상 아래로 열리도록 false로 변경 */}
