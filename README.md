@@ -385,39 +385,58 @@ https://takkom.vercel.app/
 
 ## Trouble Shooting
 
-### 1. 접종 정보 페이지: 페이지네이션 (이석원)
+### 1. 접종 정보 페이지 (이석원)
 
-- 문제: 페이지네이션 적용한 정보 리스트에서 필터링 적용 시 최초 전체 로딩에서 설정된 페이지에 데이터가 고정되는 현상
+1. 페이지 네이션
+
+- 문제 상황: 페이지네이션 적용한 정보 리스트에서 필터링 적용 시 최초 전체 로딩에서 설정된 페이지에 데이터가 고정되는 현상
 - 문제 원인: 데이터 fetch시 supabase의 count를 통해 totalPage를 설정하면서 데이터 자체에 페이지가 적용되었으나, 데이터를 가져온 후 client에서 상태를 통한 필터링으로 생기는 문제
-- 해결방법: client에서 데이터를 가공하여 출력하기 때문에 페이지네이션 또한 페이지 상태를 추가하여 가공한 데이터를 기반으로 작동하도록 수정함.
+- 해결 방법: client에서 데이터를 가공하여 출력하기 때문에 페이지네이션 또한 페이지 상태를 추가하여 가공한 데이터를 기반으로 작동하도록 수정함.
 
-```tsx
-// 선택된 연령에 따라 데이터 필터링
-const filteredData = useMemo(() => {
-  if (!allData) return [];
-  return selectedAge === 1000
-    ? allData
-    : allData
-        .filter((item) => JSON.parse(item.vaccinate_date || "[]").includes(selectedAge))
-        .sort(
-          (a, b) =>
-            a.disease_name.localeCompare(b.disease_name) ||
-            a.vaccine_name.localeCompare(b.vaccine_name) ||
-            a.vaccine_turn.localeCompare(b.vaccine_turn)
-        );
-}, [allData, selectedAge]);
+  ```tsx
+  // 선택된 연령에 따라 데이터 필터링
+  const filteredData = useMemo(() => {
+    if (!allData) return [];
+    return selectedAge === 1000
+      ? allData
+      : allData
+          .filter((item) => JSON.parse(item.vaccinate_date || "[]").includes(selectedAge))
+          .sort(
+            (a, b) =>
+              a.disease_name.localeCompare(b.disease_name) ||
+              a.vaccine_name.localeCompare(b.vaccine_name) ||
+              a.vaccine_turn.localeCompare(b.vaccine_turn)
+          );
+  }, [allData, selectedAge]);
 
-// 총 페이지 수 계산
-const totalPages = Math.ceil(filteredData.length / ITEMS_PER_PAGE);
-```
+  // 총 페이지 수 계산
+  const totalPages = Math.ceil(filteredData.length / ITEMS_PER_PAGE);
+  ```
 
-- 문제:
--
+2. 도시정보 api 응답 개선
 
-### 2. 동네 병원 찾기 (전해인)
+- 문제 상황: 지역 선택 모달 창 구현 후 API 호출 시간이 길어져 사용자 경험 떨어짐
+- 문제 원인: 먼저 TanStack Query 개발자도구, 크롬 개발자 도구의 성능 통계 기능, console.time을 활용해 성능 데이터를 수집 결과, 도시정보 데이터 요청 후 화면에 표시되기 까지 1700ms 가 소요된다는 점을 파악(api 응답속도의 문제)
+- 해결 방법: TanStack Query의 prefetchQuery 기능을 활용해 데이터를 미리 가져오는 방식을 적용. 적용결과 약 0.59초 590ms 로 단축 되었음을 확인
 
-- 문제상황: 검색창과 페이지네이션에 사용할 state를 너무 많이 설정해, React에서 오류가 발생
-- 해결방법: 검색창에 입력된 정보를 모두 하나의 state로 합치고, 페이지네이션에 필요한 정보는 쿼리스트링으로 넘기게 되었습니다.
+  ````tsx
+    //상위컴포넌트에서 데이터 캐싱
+    useEffect(() => {
+      queryClient.prefetchQuery({
+        queryKey: ["cities"],
+        queryFn: fetchCityData
+      });
+    }, []);
+    ```
+  <br />
+  ````
+
+### 2. 동네 병원 찾기 (조해인)
+
+1. React state를 너무 많이 설정해서 발생한 오류 해결
+
+- 문제 상황: 검색창과 페이지네이션에 사용할 state를 너무 많이 설정해, React에서 오류가 발생
+- 해결 방법: 검색창에 입력된 정보를 모두 하나의 state로 합치고, 페이지네이션에 필요한 정보는 쿼리스트링으로 넘기게 되었습니다.
 
   - 이전에는 `brtcCd`, `sggCd`, `addr`, `org`에 대한 state가 별도로 존재했지만 현재는 `params`라는 이름의 state로 합쳤습니다.
 
@@ -452,8 +471,10 @@ const totalPages = Math.ceil(filteredData.length / ITEMS_PER_PAGE);
   export default HospitalList;
   ```
 
-- 문제상황: 데스크탑에서 잘 되던 병원 카드의 접종 목록 클릭이 일관되지 않음.
-- 해결방볍:
+2. 병원카드의 접종 목록 클릭이 일관되지 않은 오류 해결
+
+- 문제 상황: 데스크탑에서 잘 되던 병원 카드의 접종 목록 클릭이 일관되지 않음.
+- 해결 방볍:
 
   - 병원카드를 나열할 때 사용한 li 태그에서 onClick 함수를 `data-select='true'`가 추가된 컴포넌트와 겹칠 시 이벤트가 실행되지 않도록 했습니다.
 
@@ -489,8 +510,10 @@ const totalPages = Math.ceil(filteredData.length / ITEMS_PER_PAGE);
   };
   ```
 
-- 문제상황: 검색어를 적용하거나 백신 찾기로 필터를 설정하면 페이지 로딩이 너무 길어짐.
-- 해결방법
+3. 병원 검색 후 페이지 로딩이 너무 길었던 문제점 개선
+
+- 문제 상황: 검색어를 적용하거나 백신 찾기로 필터를 설정하면 페이지 로딩이 너무 길어짐.
+- 해결 방법
   - `useRouter()` 대신 History API를 사용해 SPA처럼 페이지 전환.
   - `use-query-param.ts`에 커스텀 훅을 만들어 페이지 상태 변화를 감지할 수 있도록 함.
 
@@ -552,15 +575,31 @@ const totalPages = Math.ceil(filteredData.length / ITEMS_PER_PAGE);
 
   - 아이디가 중복된 경우 새 데이터를 삽입하지 않고 기존 데이터를 업데이트하도록 코드 수정
 
-- 구현 방법
+- 코드 수정 내용
 
-  - 중복된 데이터가 있으면 update로 기존 데이터를 수정
-  - 중복 데이터가 없으면 insert로 새 데이터를 삽입
+  1. 아이디 유효성 검증:
+
+  - if (!childInfo.id) 조건 추가로, 자녀의 id가 존재하지 않는 경우 오류 메시지를 출력하고 등록 프로세스를 중단
+
+  2. 중복 확인 및 데이터 갱신:
+
+  - childrenData에 기존 자녀 데이터가 있는 경우:
+    - update() 메서드를 사용해 기존 데이터를 업데이트
+  - 기존 데이터가 없는 경우:
+    - insert() 메서드를 사용해 새 데이터를 삽입
+
+  3. 데이터 갱신:
+
+  - refetch()를 호출하여 최신 데이터로 상태를 갱신
+
+4. 에러 핸들링 개선:
+
+- 각 오류 상황에 대해 명확히 로그를 출력하여 디버깅 용이성 강화
 
 - 주요 개선점
 
   - 중복 등록 방지: 중복된 id로 새 레코드가 생성되지 않고 기존 데이터가 업데이트됨
-  - 로직 안정성 강화: 비동기 작업에서 발생 가능한 오류를 체계적으로 처리
+  - 사용자 경험 개선: 기존 데이터를 수정하거나 새 데이터를 추가할 때 자연스럽게 처리되도록 개선
 
   ```tsx
   const handleComplete = async () => {
@@ -569,19 +608,8 @@ const totalPages = Math.ceil(filteredData.length / ITEMS_PER_PAGE);
         throw new Error("아이디가 없습니다. 유효한 아이디를 입력해 주세요.");
       }
 
-      // 중복 데이터 확인
-      const { data: existingData, error: selectError } = await browserClient
-        .from("child")
-        .select("*")
-        .eq("id", childInfo.id)
-        .single();
-
-      if (selectError && selectError.code !== "PGRST116") {
-        throw selectError;
-      }
-
-      if (existingData) {
-        // 기존 데이터 업데이트
+      if (childrenData && childrenData.length > 0) {
+        // 기존 자녀 데이터가 있으면 업데이트
         const { error: updateError } = await browserClient
           .from("child")
           .update({ ...childInfo, user_id: userId })
@@ -590,16 +618,18 @@ const totalPages = Math.ceil(filteredData.length / ITEMS_PER_PAGE);
         if (updateError) {
           throw updateError;
         }
+        refetch(); // 데이터 갱신
       } else {
-        // 새 데이터 삽입
+        // 기존 자녀 데이터가 없으면 새로 등록
         const { error: insertError } = await browserClient.from("child").insert([{ ...childInfo, user_id: userId }]);
 
         if (insertError) {
           throw insertError;
         }
+        refetch(); // 데이터 갱신
       }
     } catch (error) {
-      console.error("아이 등록 중 오류 발생:", error);
+      console.error("아이 등록 중 오류 발생:", error); // 등록 오류 처리
     }
   };
   ```
@@ -932,9 +962,7 @@ const totalPages = Math.ceil(filteredData.length / ITEMS_PER_PAGE);
   };
   ```
 
-### [우리 아이 맞춤형 플랜 - 접종 체크리스트] (정지형)
-
-1. 데이터 그룹화
+### [우리 아이 맞춤형 플랜 - 데이터 그룹화] (정지형)
 
 - Map 자료구조를 통하여 데이터를 백신이름과 질병별로 그룹화
 - 중복되는 백신이름을 통합하여 각 백신의 질병이름과 접종차수, id, 추가정보를 담고 있는 객체 배열로 반환
@@ -969,7 +997,7 @@ const totalPages = Math.ceil(filteredData.length / ITEMS_PER_PAGE);
   };
   ```
 
-2. 접종 일정표
+### [우리 아이 맞춤형 플랜 - 접종 일정표] (조해인)
 
 - supabase에 저장한 접종 일정표를 기준으로 아이 생일에 맞는 접종 일정표를 제공합니다. 접종이 완료된 경우 목록에서 제거되며 선택, 해당 백신을 접종해야 하는 날짜와 추가/필수 접종 여부를 제공합니다.
 
@@ -1097,7 +1125,4 @@ const totalPages = Math.ceil(filteredData.length / ITEMS_PER_PAGE);
 
 - 정지형
 
-  - 소감소감
-
-- 전수빈
-  - 소감소감
+  - 이번 프로젝트는 디자이너와 협력하여 보다 좋은 프로젝트를 구현할 수 있어서 좋은 경험을 했다고 생각합니다. 사용자 경험을 향상 시키기 위해 함께 고민하여 해결하고 코드 품질을 높이기 위해 코드 리뷰와 역할 분담 뿐만 아니라 유저피드백을 받아 개선하여 모두가 성장할 수 있었다고 확신합니다. 이번 경험을 통해 팀 모두가 프로젝트에 더 나은 기여를 할 수 있을거라고 봅니다.
