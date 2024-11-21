@@ -23,7 +23,7 @@ https://takkom.vercel.app/
 8. [와이어프레임](#와이어프레임)
 9. [API 명세서](#API-명세서)
 10. [기능 설명](#기능-설명)
-11. [Trouble Shooting](#trouble-shooting) 
+11. [Trouble Shooting](#trouble-shooting)
 12. [자랑하고 싶은 코드](#자랑하고-싶은-코드)
 13. [프로젝트 소감](#프로젝트-소감)
     <br /><br /><br />
@@ -64,7 +64,7 @@ https://takkom.vercel.app/
 
 - **이석원**: 연령별 예방접종 정보 페이지
 - **조해인**: 동네 병원 찾기 페이지
-- **장세희**: 우리 아이 맞춤형 페이지: 아이 등록하기
+- **장세희**: 우리 아이 맞춤형 페이지: 아이 등록/수정하기
 - **정지형**: 우리 아이 맞춤형 페이지: 우리아이 접종 내역
 - **이예람**: 회원가입, 일반로그인, 소셜로그인
 - **전수빈**: 와이어프레임, UI 디자인, 로고
@@ -193,8 +193,159 @@ https://takkom.vercel.app/
 
 ## API 명세서
 
-(추후에 ... )
-<br/><br/><br/>
+### 기본정보
+
+- API 이름 : [질병관리청 어린이 국가예방접종 지원사업 위탁의료기관 현환 정보](https://www.data.go.kr/data/15084303/openapi.do?recommendDataYn=Y#/API%20%EB%AA%A9%EB%A1%9D/getOrgList3)
+- 버전: 1.0.0
+- Base URL: https://apis.data.go.kr/1790387/orglist3
+
+### 인증
+
+- 인증방식: 공공데이터포털에서 받은 인증키
+
+### 메서드
+
+- GET
+
+### 엔드포인트
+
+- GET /getOrgList3
+
+  - 지역코드, 검색어를 기준으로 어린이 국가예방접종 지정의료기관 상세정보를 조회하는 의료기관 정보 조회 기능
+  - 요청 파라미터:
+    - serviceKey: 인증키
+    - brtcCd: 시도 코드
+    - sggCd: 시군구 코드
+    - searchTpcd: 검색어 구분 코드(주소(ADDR) / 기관명(ORG))
+    - searchWord: 검색어
+    - numOfRows: 페이지당 표출 데이터 수
+    - pageNo: 현재 페이지
+  - 상태 코드: 200
+    <details>
+    <summary>응답 예시</summary>
+    <div markdown="1">
+      ```xml
+      <response>
+      <header>
+        <resultCode>00</resultCode>
+        <resultMsg>NORMAL SERVICE.</resultMsg>
+      </header>
+      <body>
+        <dataTime>20241119070519460</dataTime>
+        <pageNo>1</pageNo>
+        <numOfRows>2</numOfRows>
+        <totalCount>170</totalCount>
+        <maxPage>85</maxPage>
+        <items>
+          <item>
+            <orgcd>12348287</orgcd>
+            <orgnm>(의)성광의료재단 차움의원</orgnm>
+            <orgTlno>02-3015-5000</orgTlno>
+            <orgAddr>서울특별시 강남구 도산대로 442, (청담동) 피엔폴루스 2층일부, 3층일부</orgAddr>
+            <expnYmd>20240820</expnYmd>
+            <vcnList>
+              <vcnInfo>
+                <vcnNm>사람유두종바이러스(HPV, 가다실)_자궁경부암</vcnNm>
+                <vcncd>2001</vcncd>
+              </vcnInfo>
+            </vcnList>
+          </item>
+          <item>
+            <orgcd>13312545</orgcd>
+            <orgnm>365삼성의원</orgnm>
+            <orgTlno>02-555-0365</orgTlno>
+            <orgAddr>서울특별시 강남구 도곡로 331, (역삼동) 7층</orgAddr>
+            <expnYmd>20240730</expnYmd>
+            <vcnList>
+              <vcnInfo>
+                <vcnNm>인플루엔자(Flu)</vcnNm>
+                <vcncd>0901</vcncd>
+              </vcnInfo>
+            </vcnList>
+          </item>
+        </items>
+      </body>
+      </response>
+      ```
+    </div>
+    </details>
+
+- GET /getCondBrtcCd3
+
+  - 의료기관 조회 기준 목록(시도) 조회
+  - 요청 파라미터:
+    - serviceKey: 인증키
+  - 상태 코드: 200
+    <details>
+    <summary>응답 예시</summary>
+    <div markdown="1">
+    ```xml
+    <response>
+    <header>
+      <resultCode>00</resultCode>
+      <resultMsg>NORMAL SERVICE.</resultMsg>
+    </header>
+    <body>
+      <dataTime>20241119055641411</dataTime>
+      <pageNo>1</pageNo>
+      <numOfRows>17</numOfRows>
+      <totalCount>17</totalCount>
+      <items>
+        <item>
+          <cd>1100000000</cd>
+          <cdNm>서울특별시</cdNm>
+        </item>
+        <item>
+          <cd>2600000000</cd>
+          <cdNm>부산광역시</cdNm>
+        </item>
+        ...
+      </items>
+    </body>
+    </response>
+    ```
+    <div>
+    </details>
+
+- GET /getCondSggCd3
+
+  - 의료기관 조회 기준 목록(시군구) 조회
+  - 요청 파라미터:
+
+    - serviceKey: 인증키
+    - brtcCd: 시도 코드
+
+  - 응답 코드: 200
+    <details>
+    <summary>응답 예시</summary>
+    <div markdown="1">
+    ```xml
+    <response>
+      <header>
+        <resultCode>00</resultCode>
+        <resultMsg>NORMAL SERVICE.</resultMsg>
+      </header>
+      <body>
+        <dataTime>20241119070316188</dataTime>
+        <pageNo>1</pageNo>
+        <numOfRows>25</numOfRows>
+        <totalCount>25</totalCount>
+        <items>
+          <item>
+            <cd>11680</cd>
+            <cdNm>강남구</cdNm>
+          </item>
+          <item>
+            <cd>11740</cd>
+            <cdNm>강동구</cdNm>
+          </item>
+          ...
+        </items>
+      </body>
+      </response>
+    ```
+    </div>
+    </details>
 
 ## 기능 설명
 
@@ -232,46 +383,69 @@ https://takkom.vercel.app/
 2. 로그아웃 기능
    <br/><br/><br/>
 
-
 ## Trouble Shooting
 
-### 1. 접종 정보 페이지: 페이지네이션
+### 1. 접종 정보 페이지 (이석원)
 
-- 문제: 페이지네이션 적용한 정보 리스트에서 필터링 적용 시 최초 전체 로딩에서 설정된 페이지에 데이터가 고정되는 현상
+1. 페이지 네이션
+
+- 문제 상황: 페이지네이션 적용한 정보 리스트에서 필터링 적용 시 최초 전체 로딩에서 설정된 페이지에 데이터가 고정되는 현상
 - 문제 원인: 데이터 fetch시 supabase의 count를 통해 totalPage를 설정하면서 데이터 자체에 페이지가 적용되었으나, 데이터를 가져온 후 client에서 상태를 통한 필터링으로 생기는 문제
-- 해결방법: client에서 데이터를 가공하여 출력하기 때문에 페이지네이션 또한 페이지 상태를 추가하여 가공한 데이터를 기반으로 작동하도록 수정함.
-
-### 2. 동네 병원 찾기
-
-- 문제상황: 검색창과 페이지네이션에 사용할 state를 너무 많이 설정해, React에서 오류가 발생
-- 해결방법: 검색창에 입력된 정보를 모두 하나의 state로 합치고, 페이지네이션에 필요한 정보는 쿼리스트링으로 넘기게 되었습니다.
-- 이전에는 `brtcCd`, `sggCd`, `addr`, `org`에 대한 state가 별도로 존재하지만 아래 처럼 `params`라는 이름의 state로 합쳤습니다.
+- 해결 방법: client에서 데이터를 가공하여 출력하기 때문에 페이지네이션 또한 페이지 상태를 추가하여 가공한 데이터를 기반으로 작동하도록 수정함.
 
   ```tsx
-  const SearchForm = (...) => {
-    ...
-    const searchParams = useSearchParams();
-    const [params, setParams] = useState<{ brtcCd: string; sggCd: string; addr: string; org: string }>({
-      brtcCd: searchParams.get("brtcCd") ?? BRTC,
-      sggCd: searchParams.get("sggCd") ?? SGG,
-      addr: searchParams.get("addr") ?? "",
-      org: searchParams.get("org") ?? ""
-    });
-    const [disease, setDisease] = useState(searchParams.get("disease") || DISEASE);
-    const [showInfoTag, setShowInfoTag] = useState(true);
+  // 선택된 연령에 따라 데이터 필터링
+  const filteredData = useMemo(() => {
+    if (!allData) return [];
+    return selectedAge === 1000
+      ? allData
+      : allData
+          .filter((item) => JSON.parse(item.vaccinate_date || "[]").includes(selectedAge))
+          .sort(
+            (a, b) =>
+              a.disease_name.localeCompare(b.disease_name) ||
+              a.vaccine_name.localeCompare(b.vaccine_name) ||
+              a.vaccine_turn.localeCompare(b.vaccine_turn)
+          );
+  }, [allData, selectedAge]);
 
-    return (
-      ...
-    )
-  };
+  // 총 페이지 수 계산
+  const totalPages = Math.ceil(filteredData.length / ITEMS_PER_PAGE);
   ```
 
-- 페이지내이션은 상위컴포넌트에서 `currentPage`와 `startNum`을 저장해 state를 prop으로 넘겨주었지만, 데이터를 불러오는 과정과 렌더링되는 과정에서 오류와 경고가 발생해 쿼리스트링으로 불러오게 되었습니다. 쿼리 스트링을 사용하니 한층 더 간결하게 페이지네이션을 구현할 수 있었습니다.
+2. 도시정보 api 응답 개선
+
+- 문제 상황: 지역 선택 모달 창 구현 후 API 호출 시간이 길어져 사용자 경험 떨어짐
+- 문제 원인: 먼저 TanStack Query 개발자도구, 크롬 개발자 도구의 성능 통계 기능, console.time을 활용해 성능 데이터를 수집 결과, 도시정보 데이터 요청 후 화면에 표시되기 까지 1700ms 가 소요된다는 점을 파악(api 응답속도의 문제)
+- 해결 방법: TanStack Query의 prefetchQuery 기능을 활용해 데이터를 미리 가져오는 방식을 적용. 적용결과 약 0.59초 590ms 로 단축 되었음을 확인
+
+  ````tsx
+    //상위컴포넌트에서 데이터 캐싱
+    useEffect(() => {
+      queryClient.prefetchQuery({
+        queryKey: ["cities"],
+        queryFn: fetchCityData
+      });
+    }, []);
+    ```
+  <br />
+  ````
+
+### 2. 동네 병원 찾기 (조해인)
+
+1. React state를 너무 많이 설정해서 발생한 오류 해결
+
+- 문제 상황: 검색창과 페이지네이션에 사용할 state를 너무 많이 설정해, React에서 오류가 발생
+- 해결 방법: 검색창에 입력된 정보를 모두 하나의 state로 합치고, 페이지네이션에 필요한 정보는 쿼리스트링으로 넘기게 되었습니다.
+
+  - 이전에는 `brtcCd`, `sggCd`, `addr`, `org`에 대한 state가 별도로 존재했지만 현재는 `params`라는 이름의 state로 합쳤습니다.
+
+  - 페이지내이션은 상위 컴포넌트에서 `currentPage`와 `startNum`을 저장해 state를 prop으로 넘겨주었지만, 데이터를 불러오는 과정과 렌더링되는 과정에서 오류와 경고가 발생해 쿼리스트링으로 불러오게 되었습니다. 쿼리스트링을 사용하니 한층 더 간결하게 페이지네이션을 구현할 수 있었습니다.
 
   ```tsx
   // 상위 컴포넌트
-  const HospitalList = () => {
-    const searchParams = useSearchParams();
+  const HospitalList = ({ searchParams, user }: HospitalListProps) => {
+    const [params] = useQueryParams(new URLSearchParams(searchParams).toString());
     const [brtcCd, sggCd, addr, org, disease, currentPage] = [
       searchParams.get("brtcCd") ?? "",
       searchParams.get("sggCd") ?? "",
@@ -295,38 +469,55 @@ https://takkom.vercel.app/
   };
 
   export default HospitalList;
+  ```
 
-  // 페이지네이션 컴포넌트
-  const HospitalPagination = ({
-    maxPage,
-    currentPage,
-    params
-  }: {
-    maxPage: number;
-    currentPage: number;
-    params: { brtcCd: string; sggCd: string; addr: string; org: string; disease?: string };
-  }) => {
-    const pathname = usePathname();
+2. 병원카드의 접종 목록 클릭이 일관되지 않은 오류 해결
 
-    let startNum = 1;
-    if (maxPage >= 5) {
-      if (currentPage - 2 >= 1 && currentPage + 2 < maxPage) {
-        startNum = currentPage - 2;
-      } else if (currentPage + 2 >= maxPage) {
-        startNum = maxPage - 4;
+- 문제 상황: 데스크탑에서 잘 되던 병원 카드의 접종 목록 클릭이 일관되지 않음.
+- 해결 방볍:
+
+  - 병원카드를 나열할 때 사용한 li 태그에서 onClick 함수를 `data-select='true'`가 추가된 컴포넌트와 겹칠 시 이벤트가 실행되지 않도록 했습니다.
+
+  ```tsx
+  const HospitalList = ({ searchParams, user }: HospitalListProps) => {
+    ...
+    const handleClick = (e: React.MouseEvent<HTMLLIElement, MouseEvent>, info: HopsitalItem) => {
+      if ((e.target instanceof HTMLElement || e.target instanceof SVGElement) && e.target.dataset.select) {
+        // 모바일 클릭 오류 방지용: data-set='true' 달려있을 땐 동작하지 않음
+        return;
       }
+      setClickedId((prev) => {
+        if (prev === info.orgcd) {
+          return 0;
+        }
+        return info.orgcd;
+      });
     }
-    if (currentPage - 2 < 1) {
-      startNum = 1;
-    }
-
     return (
       ...
-    )
+              <li
+                key={info.orgcd}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  handleClick(e, info);
+                }}
+              >
+                ...
+              </li>
+
+      ...
+    );
   };
   ```
 
-### 3. 복잡한 라벨 로직을 컴포넌트 분리로 개선
+3. 병원 검색 후 페이지 로딩이 너무 길었던 문제점 개선
+
+- 문제 상황: 검색어를 적용하거나 백신 찾기로 필터를 설정하면 페이지 로딩이 너무 길어짐.
+- 해결 방법
+  - `useRouter()` 대신 History API를 사용해 SPA처럼 페이지 전환.
+  - `use-query-param.ts`에 커스텀 훅을 만들어 페이지 상태 변화를 감지할 수 있도록 함.
+
+### 3. 복잡한 라벨 로직을 컴포넌트 분리로 개선 (정지형)
 
 - 문제 상황
 
@@ -372,33 +563,78 @@ https://takkom.vercel.app/
               ...
   ```
 
-### 4. 아이정보 UID 전달을 위한 데이터 삽입 및 조회 로직 수정
+### 4. [아이 중복 등록 이슈 해결] 아이 정보 등록 중 발생한 409 Conflict 오류 (장세희)
 
 - 문제 상황
 
-  - UID 없음: 1단계에서 등록된 아이가 없기 때문에 uid 값이 존재하지 않음.
-  - UID 전달 필요: 아이 정보 입력 후 '다음' 버튼을 클릭하면 child 테이블에 기본 정보가 입력되고, 이때 UID가 자동 생성됨. 이 UID를 2단계로 전달해야 함.
+  - 오류 메시지: duplicate key value violates unique constraint "child_pkey"
+  - 다음 버튼을 클릭할 때마다 새로운 자녀 정보가 등록되어 중복된 데이터가 생성
+  - 다음 버튼을 누를 때마다 childInfo가 초기화되거나 새로운 값으로 덮어쓰여, 이전 상태를 잃어버림, 결과적으로 이전 데이터를 재사용하지 못하고 새로운 데이터만 생성하고 있었음
 
-- 해결 방법
+- 해결 목표
 
-  - insert 메소드의 인자를 배열에서 객체로 수정.
-  - .single() 앞에 .select()를 추가하여 삽입된 데이터를 바로 조회할 수 있게 수정.
+  - 아이디가 중복된 경우 새 데이터를 삽입하지 않고 기존 데이터를 업데이트하도록 코드 수정
+
+- 코드 수정 내용
+
+  1. 아이디 유효성 검증:
+
+  - if (!childInfo.id) 조건 추가로, 자녀의 id가 존재하지 않는 경우 오류 메시지를 출력하고 등록 프로세스를 중단
+
+  2. 중복 확인 및 데이터 갱신:
+
+  - childrenData에 기존 자녀 데이터가 있는 경우:
+    - update() 메서드를 사용해 기존 데이터를 업데이트
+  - 기존 데이터가 없는 경우:
+    - insert() 메서드를 사용해 새 데이터를 삽입
+
+  3. 데이터 갱신:
+
+  - refetch()를 호출하여 최신 데이터로 상태를 갱신
+
+4. 에러 핸들링 개선:
+
+- 각 오류 상황에 대해 명확히 로그를 출력하여 디버깅 용이성 강화
+
+- 주요 개선점
+
+  - 중복 등록 방지: 중복된 id로 새 레코드가 생성되지 않고 기존 데이터가 업데이트됨
+  - 사용자 경험 개선: 기존 데이터를 수정하거나 새 데이터를 추가할 때 자연스럽게 처리되도록 개선
 
   ```tsx
-  const { data: childData, error } = await supabase
-    .from("child")
-    .insert({
-      user_id: user.id,
-      name: name,
-      birth: birthday,
-      profile: profileImageUrl,
-      notes: notes ?? ""
-    })
-    .select() //  이 부분 추가
-    .single();
+  const handleComplete = async () => {
+    try {
+      if (!childInfo.id) {
+        throw new Error("아이디가 없습니다. 유효한 아이디를 입력해 주세요.");
+      }
+
+      if (childrenData && childrenData.length > 0) {
+        // 기존 자녀 데이터가 있으면 업데이트
+        const { error: updateError } = await browserClient
+          .from("child")
+          .update({ ...childInfo, user_id: userId })
+          .eq("id", childInfo.id);
+
+        if (updateError) {
+          throw updateError;
+        }
+        refetch(); // 데이터 갱신
+      } else {
+        // 기존 자녀 데이터가 없으면 새로 등록
+        const { error: insertError } = await browserClient.from("child").insert([{ ...childInfo, user_id: userId }]);
+
+        if (insertError) {
+          throw insertError;
+        }
+        refetch(); // 데이터 갱신
+      }
+    } catch (error) {
+      console.error("아이 등록 중 오류 발생:", error); // 등록 오류 처리
+    }
+  };
   ```
 
-### 5. 이전 단계로 돌아갈 때 작성된 Form 데이터를 유지가 안됨
+### 5. 이전 단계로 돌아갈 때 작성된 Form 데이터를 유지가 안됨 (장세희)
 
 - 문제 상황
   - 이전 단계 데이터 유실: 이전 버튼을 통해 1단계로 돌아가면 이전에 입력한 Form 데이터가 불러와지지 않음.
@@ -412,42 +648,30 @@ https://takkom.vercel.app/
 
   - RegisterChildInfo에서 childInfo 활용 - RegisterChildInfo 컴포넌트에서 전달받은 childInfo의 데이터를 Form의 defaultValues로 설정하여, 초기 값으로 사용. - 이렇게 설정하면 이전 버튼을 통해 돌아올 때 이전에 입력한 정보가 자동으로 입력란에 표시됨.
 
-        ```tsx
-        // RegisterForm 수정
-        const RegisterForm: React.FC<ChildCardProps> = ({ userId }) => {
-          const [childInfo, setChildInfo] = useState<Partial<Child>>({});
+    ```tsx
+    const RegisterForm: React.FC<ChildCardProps> = ({ userId }) => {
+      const [childInfo, setChildInfo] = useState<Partial<Child>>({});
 
-          return (
-            <RegisterChildInfo
-              onNext={handleNext}
-              userId={userId}
-              childInfo={childInfo}
-            />
-          );
-        };
-        ```
+      return <RegisterChildInfo onNext={handleNext} userId={userId} childInfo={childInfo} />;
+    };
+    ```
 
-        ```tsx
-        // RegisterChildInfo 수정
-        const RegisterChildInfo = ({ onNext, userId, childInfo }: RegisterChildInfoProps) => {
-          const form = useForm({
-            resolver: zodResolver(formSchema),
-            defaultValues: {
-              name: childInfo.name || "",
-              birth: childInfo.birth || "",
-              notes: childInfo.notes || ""
-            }
-          });
+    ```tsx
+    const RegisterChildInfo = ({ onNext, userId, childInfo }: RegisterChildInfoProps) => {
+      const form = useForm({
+        resolver: zodResolver(formSchema),
+        defaultValues: {
+          name: childInfo.name || "",
+          birth: childInfo.birth || "",
+          notes: childInfo.notes || ""
+        }
+      });
 
-          return (
-            <div>
-              {/* JSX 코드 */}
-            </div>
-          );
-        };
-        ```
+      return <div>{/* JSX 코드 */}</div>;
+    };
+    ```
 
-### 6. 소셜 로그인 리다이렉트 오류
+### 6. 소셜 로그인 리다이렉트 오류 (이예람)
 
 - 문제 상황
   - 소셜 로그인 기능을 구현하는 과정에서, 사용자가 소셜 로그인 후 다시 페이지로 돌아올 때 리다이렉트 설정이 제대로 되어있지 않아 오류가 발생
@@ -478,7 +702,7 @@ https://takkom.vercel.app/
 
 ## 자랑하고 싶은 코드
 
-### [연령별 예방 접종 정보]
+### [연령별 예방 접종 정보] (이석원)
 
 - 데이터 필터링을 위한 분류별 연결을 위한 전역상태관리
 - 대분류에 따른 소분류 변동과 병명 초기화 작동
@@ -536,7 +760,9 @@ https://takkom.vercel.app/
   }, [totalPages, page]);
   ```
 
-### [동네 병원 찾기]
+### [동네 병원 찾기] (조해인)
+
+1. 병원 정보 데이터 가져오는 방법 개선
 
 - '어린이 국가예방접종 지원사업 위탁의료기관 현황 정보' api를 사용하여 해당 지원사업을 진행중인 병원 정보를 가져왔습니다. 공공데이터로 api 구조를 원하는대로 바꿀 수 없어 지원하는 기능을 사용하여 모든 병원 정보를 불러온 후 추가로 필터링을 거쳐 데이터를 나열했습니다.
 
@@ -548,11 +774,11 @@ https://takkom.vercel.app/
     input: HospitalParams
   ): Promise<HospitalData> => {
     const params = { serviceKey, ...input, numOfRows: "100", pageNo: "1" };
-    const searchParams = new URLSearchParams(params).toString();
-    const res = await fetch(BASE_URL + `/getOrgList3?` + searchParams, {
+    ...
+    const res = await fetch( ... , {
       method: "GET",
       next: {
-        revalidate: 60 * 60
+        revalidate: 3600
       }
     });
 
@@ -563,104 +789,180 @@ https://takkom.vercel.app/
         Array(body.maxPage - 1)
           .fill(0)
           .map(async (_, idx) => {
-            params.pageNo = String(idx + 2);
-            const searchParams = new URLSearchParams(params).toString();
-
-            const res = await fetch(BASE_URL + `/getOrgList3?` + searchParams, {...});
+            ...
+            const res = await fetch( ... , {...});
             ...
           })
       );
-      for (const data of allData) {
-        item = item.concat(data);
-      }
+      ...
     }
 
-    return { items: item, totalCount: body.totalCount, maxPage: Math.ceil(body.totalCount / NUM_OF_CARDS_PER_PAGE) };
+    ...
   };
   ```
 
-### [우리 아이 맞춤형 플랜]
+2. 페이지 로딩 개선
 
-1. Custom Hooks 활용 (useChildrenQuery, useUserQuery)
+- Next.js 14 App Router의 `router.push()`를 사용하니 페이지 로딩이 너무 길어지는 문제점이 있었습니다. 이를 트러블 슈팅에서 이야기한 것처럼 아래와 같은 커스텀 훅을 만들어 페이지 로딩 시간을 단축할 수 있었습니다.
 
-   - useChildrenQuery, useUserQuery라는 custom hooks으로 분리하여 코드의 재사용성을 높이고, 각 데이터 fetch 로직을 더 직관적으로 만들었습니다. 이 방식은 코드의 유지보수를 쉽게 하고, 추후 다른 페이지에서도 재사용 가능이 가능합니다. Custom hook을 통한 코드 분리는 다른 개발자들이 코드를 빠르게 이해할 수 있게 하며, 이로 인해 협업에서도 유리한 점이 많습니다.
+- `setQueryParams` 함수는 History API를 사용해 url을 변경해주는 함수입니다. `SearchForm.tsx`에서 검색 버튼을 누르면 커스텀 훅에 input으로 넣는 값의 state를 변경해, 연관된 `HospitalList.tsx`에서도 변경된 검색어들을 객체로 받을 수 있도록 했습니다.
 
-2. 자녀 정보 입력과 유효성 검사 (RegisterChildInfo)
+  ```tsx
+  const useQueryParams = (currentQuery: string): [HospitalSearchParams, (params: HospitalSearchParams) => void] => {
+    const [params, setParams] = useState<HospitalSearchParams>(Object.fromEntries(new URLSearchParams(currentQuery)));
 
-   - formSchema는 zod를 사용하여 이름과 생년월일을 필수로 설정하며, 추가로 메모와 프로필 이미지는 선택 사항입니다.
-   - useForm에서 zodResolver를 사용해 쉽게 유효성 검사를 설정하고, form.handleSubmit을 통해 제출 시 검사를 실행합니다.
+    useEffect(() => {
+      // 클라이언트 환경에서만 실행됨
+      if (typeof window === "undefined") {
+        return;
+      }
 
-   ```tsx
-   import { useForm } from "react-hook-form";
-   import { z } from "zod";
-   import { zodResolver } from "@hookform/resolvers/zod";
+      const handlePopState = () => {
+        // 뒤로 가기 또는 앞으로 가기 시 (= url 변경 시 발생) 쿼리 파라미터 업데이트
+        setParams(Object.fromEntries(new URLSearchParams(window.location.search)));
+      };
 
-   export const formSchema = z.object({
-     name: z.string().min(1, { message: "이름은 필수입니다." }),
-     birth: z.string().min(1, { message: "생년월일은 필수입니다." }),
-     notes: z.string().optional(),
-     profileImage: z.instanceof(File).optional()
-   });
+      // 처음 마운트될 때 실행
+      handlePopState();
 
-   const RegisterChildInfo = ({ onNext, childInfo }) => {
-     const form = useForm<z.infer<typeof formSchema>>({
-       resolver: zodResolver(formSchema),
-       defaultValues: {
-         name: childInfo.name ?? "",
-         birth: childInfo.birth ?? "",
-         notes: childInfo.notes ?? ""
-       }
-     });
+      // popstate 이벤트 리스너 추가
+      window.addEventListener("popstate", handlePopState);
 
-     const handleFormSubmit = async (data) => {
-       onNext(data);
-     };
+      // 언마운트될 때 이벤트 리스너 제거
+      return () => {
+        window.removeEventListener("popstate", handlePopState);
+      };
+    }, [currentQuery]);
 
-     return (
-       <Form {...form}>
-         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8 w-full">
-           {/* 프로필 이미지 입력 필드 */}
-           <FormField
-             control={form.control}
-             name="profileImage"
-             render={() => (
-               <FormItem>
-                 <FormLabel>프로필 이미지</FormLabel>
-                 <FormControl>
-                   <Input
-                     type="file"
-                     accept="image/*"
-                     onChange={(e) => setSelectedImage(e.target.files?.[0] ?? undefined)}
-                   />
-                 </FormControl>
-                 <FormMessage />
-               </FormItem>
-             )}
-           />
+    const setQueryParams = (params: HospitalSearchParams) => {
+      const newUrl = createQueryParams(params, "/hospital");
+      window.history.pushState({ ...window.history.state, as: newUrl, url: newUrl }, "", newUrl);
+      window.dispatchEvent(new PopStateEvent("popstate"));
+    };
 
-           {/* 이름 입력 필드 */}
-           <FormField
-             control={form.control}
-             name="name"
-             render={({ field }) => (
-               <FormItem>
-                 <FormLabel>이름</FormLabel>
-                 <FormControl>
-                   <Input placeholder="ex. 김따꼼" {...field} className="w-full" />
-                 </FormControl>
-                 <FormMessage />
-               </FormItem>
-             )}
-           />
-           {/* 다음 버튼 */}
-           <Button type="submit">다음</Button>
-         </form>
-       </Form>
-     );
-   };
-   ```
+    return [params, setQueryParams];
+  };
+  ```
 
-3. 접종 체크리스트: 데이터 그룹화
+### [우리 아이 맞춤형 플랜] (장세희)
+
+1. <b>Custom Hooks 활용 (useChildrenQuery, useUserQuery)</b>
+
+- useChildrenQuery, useUserQuery라는 custom hooks으로 분리하여 코드의 재사용성을 높이고, 각 데이터 fetch 로직을 더 직관적으로 만들었습니다. 이 방식은 코드의 유지보수를 쉽게 하고, 추후 다른 페이지에서도 재사용 가능이 가능합니다. Custom hook을 통한 코드 분리는 다른 개발자들이 코드를 빠르게 이해할 수 있게 하며, 이로 인해 협업에서도 유리한 점이 많습니다.
+
+2. <b>접종 관리에서의 필수 및 선택 접종 상태를 구분하고 계산하는 로직</b>
+
+- 따꼼 프로젝트에서 ChildCard 컴포넌트는 아이의 필수 및 선택 접종 상태를 직관적으로 확인할 수 있도록 돕는 중요한 역할을 합니다. 이 컴포넌트의 한가지 기능은 접종 데이터를 분석하여, 필수 접종과 선택 접종의 전체 개수와 완료된 개수를 정확히 계산하는 것입니다.
+
+- <b>이 코드가 특별한 이유!</b>
+
+  - <b>복잡한 데이터 구조를 정교하게 처리</b>: 접종 데이터는 disease, ids, additions 등의 중첩된 배열로 이루어져 있어 처리하기 까다롭습니다. 이 코드는 각 접종 항목을 순회하며, 필수/선택 접종 여부를 정확히 판별하고 개별 접종 기록과 대조하여 결과를 도출합니다.
+  - <b>직관적인 결과 제공</b>: 코드의 결과는 필수 접종 3/18개, 선택 접종 1/16개처럼 현재 상태를 직관적으로 보여줍니다. 이는 사용자에게 접종 상황을 한눈에 파악할 수 있도록 도움을 줍니다.
+  - <b>문제 해결을 위한 발전</b>: 초기에는 disease.additions와 disease.ids의 길이가 다를 때 잘못된 결과를 반환하는 문제가 있었습니다. 이 코드는 각 ID마다 개별적으로 처리하도록 수정되어, 데이터를 정확히 처리하는 데 성공했습니다.
+
+  ```tsx
+  const getVaccinesCount = () => {
+    let requiredVaccinesCount = 0; // 맞은 필수 접종 수
+    let optionalVaccinesCount = 0; // 맞은 선택 접종 수
+    let totalRequiredVaccines = 0; // 전체 필수 접종 수
+    let totalOptionalVaccines = 0; // 전체 선택 접종 수
+
+    vaccineData.forEach((vaccine) => {
+      vaccine.disease.forEach((disease) => {
+        disease.ids.forEach((id, index) => {
+          const isOptional = disease.additions[index];
+          const allCheckedVaccine = vaccineRecord.includes(id);
+
+          if (isOptional) {
+            totalOptionalVaccines++;
+            if (allCheckedVaccine) optionalVaccinesCount++;
+          } else {
+            totalRequiredVaccines++;
+            if (allCheckedVaccine) requiredVaccinesCount++;
+          }
+        });
+      });
+    });
+
+    return { requiredVaccinesCount, totalRequiredVaccines, optionalVaccinesCount, totalOptionalVaccines };
+  };
+  ```
+
+3. <b>자녀 정보 입력과 유효성 검사 (RegisterChildInfo)</b>
+
+- formSchema는 zod를 사용하여 이름과 생년월일을 필수로 설정하며, 추가로 메모와 프로필 이미지는 선택 사항입니다.
+- useForm에서 zodResolver를 사용해 쉽게 유효성 검사를 설정하고, form.handleSubmit을 통해 제출 시 검사를 실행합니다.
+
+  ```tsx
+  import { useForm } from "react-hook-form";
+  import { z } from "zod";
+  import { zodResolver } from "@hookform/resolvers/zod";
+
+  export const formSchema = z.object({
+    name: z.string().min(1, { message: "이름은 필수입니다." }),
+    birth: z.string().min(1, { message: "생년월일은 필수입니다." }),
+    notes: z.string().optional(),
+    profileImage: z.instanceof(File).optional()
+  });
+
+  const RegisterChildInfo = ({ onNext, childInfo }) => {
+    const form = useForm<z.infer<typeof formSchema>>({
+      resolver: zodResolver(formSchema),
+      defaultValues: {
+        name: childInfo.name ?? "",
+        birth: childInfo.birth ?? "",
+        notes: childInfo.notes ?? ""
+      }
+    });
+
+    const handleFormSubmit = async (data) => {
+      onNext(data);
+    };
+
+    return (
+      <Form {...form}>
+        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8 w-full">
+          {/* 프로필 이미지 입력 필드 */}
+          <FormField
+            control={form.control}
+            name="profileImage"
+            render={() => (
+              <FormItem>
+                <FormLabel>프로필 이미지</FormLabel>
+                <FormControl>
+                  <Input
+                    type="file"
+                    accept="image/*"
+                    onChange={(e) => setSelectedImage(e.target.files?.[0] ?? undefined)}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          {/* 이름 입력 필드 */}
+          <FormField
+            control={form.control}
+            name="name"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>이름</FormLabel>
+                <FormControl>
+                  <Input placeholder="ex. 김따꼼" {...field} className="w-full" />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <Button type="submit">다음</Button>
+        </form>
+      </Form>
+    );
+  };
+  ```
+
+### [우리 아이 맞춤형 플랜 - 데이터 그룹화] (정지형)
 
 - Map 자료구조를 통하여 데이터를 백신이름과 질병별로 그룹화
 - 중복되는 백신이름을 통합하여 각 백신의 질병이름과 접종차수, id, 추가정보를 담고 있는 객체 배열로 반환
@@ -695,72 +997,72 @@ https://takkom.vercel.app/
   };
   ```
 
-4. 접종 일정표
+### [우리 아이 맞춤형 플랜 - 접종 일정표] (조해인)
 
-   - supabase에 저장한 접종 일정표를 기준으로 아이 생일에 맞는 접종 일정표를 제공합니다. 접종이 완료된 경우 목록에서 제거되며 선택, 해당 백신을 접종해야 하는 날짜와 추가/필수 접종 여부를 제공합니다.
+- supabase에 저장한 접종 일정표를 기준으로 아이 생일에 맞는 접종 일정표를 제공합니다. 접종이 완료된 경우 목록에서 제거되며 선택, 해당 백신을 접종해야 하는 날짜와 추가/필수 접종 여부를 제공합니다.
 
-   - 접종 일정표를 계산하는 핵심 로직은 다음과 같습니다. 각 접종 일정에 포함된 달에 해당 접종 일정을 저장해 월별 접종 일정표를 반환해줍니다. `date-fns` 라이브러리를 사용하여 날짜 계산을 효율적으로 처리할 수 있었습니다.
+- 접종 일정표를 계산하는 핵심 로직은 다음과 같습니다. 각 접종 일정에 포함된 달에 해당 접종 일정을 저장해 월별 접종 일정표를 반환해줍니다. `date-fns` 라이브러리를 사용하여 날짜 계산을 효율적으로 처리할 수 있었습니다.
 
-   ```tsx
-   // 생일에 따라 접종 일정 계산하기
-   export const calculateSchedule = (
-     date?: string,
-     schedules?: Tables<"vaccine">[]
-   ): Map<string, vaccineSchedule[]> | null => {
-     if (!date || !schedules) {
-       return null;
-     }
-     const birthday = new Date(date);
-     const mySchedule = new Map();
-     // 접종일정표 상 가장 나중 일정의 마지막 일자
-     const lastMonth = addDays(addMonths(addMonths(birthday, 12 * 12), 12), -1);
+  ```tsx
+  // 생일에 따라 접종 일정 계산하기
+  export const calculateSchedule = (
+    date?: string,
+    schedules?: Tables<"vaccine">[]
+  ): Map<string, vaccineSchedule[]> | null => {
+    if (!date || !schedules) {
+      return null;
+    }
+    const birthday = new Date(date);
+    const mySchedule = new Map();
+    // 접종일정표 상 가장 나중 일정의 마지막 일자
+    const lastMonth = addDays(addMonths(addMonths(birthday, 12 * 12), 12), -1);
 
-     // 비어 있는 달이 존재할 수 이어서 key를 먼저 생성
-     let currentDate = birthday;
-     while (isBefore(currentDate, lastMonth) || isEqual(addDays(currentDate, -1), lastMonth)) {
-       mySchedule.set(format(currentDate, "yyyy.MM"), []);
-       currentDate = addMonths(currentDate, 1);
-     }
+    // 비어 있는 달이 존재할 수 이어서 key를 먼저 생성
+    let currentDate = birthday;
+    while (isBefore(currentDate, lastMonth) || isEqual(addDays(currentDate, -1), lastMonth)) {
+      mySchedule.set(format(currentDate, "yyyy.MM"), []);
+      currentDate = addMonths(currentDate, 1);
+    }
 
-     for (const schedule of schedules) {
-       const { id, vaccine_name, disease_name, vaccinate_date, duration, additional, vaccine_turn } = schedule;
-       const [after, unit] = duration.split(" ");
-       const startDate = addMonths(birthday, vaccinate_date);
-       const startDateFormatted = format(startDate, "yyyy.MM.dd");
+    for (const schedule of schedules) {
+      const { id, vaccine_name, disease_name, vaccinate_date, duration, additional, vaccine_turn } = schedule;
+      const [after, unit] = duration.split(" ");
+      const startDate = addMonths(birthday, vaccinate_date);
+      const startDateFormatted = format(startDate, "yyyy.MM.dd");
 
-       if (unit === "일") {
-         // 일 단위
-         const startDate = addMonths(birthday, vaccinate_date);
-         const startDateFormatted = format(startDate, "yyyy.MM.dd");
-         const startMonthFormatted = format(startDate, "yyyy.MM");
-         mySchedule.set(
-           startMonthFormatted,
-           mySchedule.get(startMonthFormatted).concat([...])
-         );
-       } else {
-         // 개월 단위
-         const endDate = addDays(addMonths(addMonths(birthday, vaccinate_date), Number(after)), -1);
-         const endDateFormatted = format(endDate, "yyyy.MM.dd");
+      if (unit === "일") {
+        // 일 단위
+        const startDate = addMonths(birthday, vaccinate_date);
+        const startDateFormatted = format(startDate, "yyyy.MM.dd");
+        const startMonthFormatted = format(startDate, "yyyy.MM");
+        mySchedule.set(
+          startMonthFormatted,
+          mySchedule.get(startMonthFormatted).concat([...])
+        );
+      } else {
+        // 개월 단위
+        const endDate = addDays(addMonths(addMonths(birthday, vaccinate_date), Number(after)), -1);
+        const endDateFormatted = format(endDate, "yyyy.MM.dd");
 
-         // 위에서 key를 생성한 로직과 동일
-         // 일정이 시작하는 달부터 끝나는 달까지 해당 접종 일정을 추가함
-         let currentDate = startDate;
-         while (isBefore(currentDate, endDate) || isEqual(addDays(currentDate, -1), endDate)) {
-           const currentMonthFormatted = format(currentDate, "yyyy.MM");
-           mySchedule.set(
-             currentMonthFormatted,
-             mySchedule.get(currentMonthFormatted).concat([...])
-           );
-           currentDate = addMonths(currentDate, 1);
-         }
-       }
-     }
+        // 위에서 key를 생성한 로직과 동일
+        // 일정이 시작하는 달부터 끝나는 달까지 해당 접종 일정을 추가함
+        let currentDate = startDate;
+        while (isBefore(currentDate, endDate) || isEqual(addDays(currentDate, -1), endDate)) {
+          const currentMonthFormatted = format(currentDate, "yyyy.MM");
+          mySchedule.set(
+            currentMonthFormatted,
+            mySchedule.get(currentMonthFormatted).concat([...])
+          );
+          currentDate = addMonths(currentDate, 1);
+        }
+      }
+    }
 
-     return mySchedule;
-   };
-   ```
+    return mySchedule;
+  };
+  ```
 
-### [회원가입-유효성검사]
+### [회원가입-유효성검사] (이예람)
 
 - zod를 이용해 복잡한 schema를 설정하였고, superRefine 매서드를 이용해 강력한 유효성 검사를 시도한 부분입니다.
 - superRefine 매서드의 첫 번째 인자는 콜백함수가, 두 번째 인자에는 이슈를 생성하는 ctx가 들어갑니다. 이때, ctx에는 기존에 zod에서 제공하는 이슈도 있지만, 개발자가 직접 커스텀 할 수 있는 기능이 있어 해당 기능을 사용해 우리에게 맞는 이슈를 생성하였습니다.
@@ -799,3 +1101,28 @@ https://takkom.vercel.app/
 ## 프로젝트 소감
 
 <img width="691" alt="Screenshot 2024-11-06 at 8 31 36 PM" src="https://github.com/user-attachments/assets/86d45e55-5e9a-479a-a77d-49a9724a0e62">
+
+- 이석원
+
+  - 단순히 실습해보는 프로젝트가 아닌 실제 서비스 하기위한 프로젝트 결과물을 목표로 해보니 신경을 써야하는 부분이 더 많아졌습니다. 디자이너와 협업 그리고 사용자 테스트로 피드백 반영까지 많은 과정을 경험할 수 있었고, 협업 능력과 기술적 성장을 동시에 할 수 있던 시간이 되었습니다. 좋은 결과물이 나와 뿌듯합니다. 모두 고생 많으셨습니다.
+
+- 조해인
+
+  - 따꼼 프로젝트를 진행하며 실제 서비스 처럼 제공하기 위해 많이 노력했습니다. 사용자 테스트를 받아보니 저희가 생각하지 못한 부분에 대해 많이 말씀을 해주셔서 좀 더 생각의 폭을 넓힐 수 있었습니다. 또한 이전에는 데스크탑 환경만 고려했는데, 모바일 환경도 고려하게 되면서 PC환경에서 없던 클릭 이벤트 중첩 문제처럼 약간의 차이점을 느낄 수 있었습니다. 동네 병원 찾기 페이지에서 검색 버튼을 누르면 로딩이 길다는 피드백이 많았는데, 페이지 로딩 시간을 단축하기 위해 노력하며 한층 성장했다고 느꼈습니다.
+
+    다들 한달 동안 고생하셨습니다. 감사합니다!
+
+- 이예람
+
+  - 실제 서비스까지 이어지는 경험은 정말 어려웠고 색다르기도하고 흥미로웠습니다! 무엇 하나 쉬운게 없었지만 팀장님과 팀원분들이 많이 도와주셔서 끝까지 포기하지 않고 끝마칠 수 있었던것같습니다. 마지막까지 문제도 많고 난항도 수 차례 겪었지만 사람들이 실제로 우리 서비스를 이용하는것을 직접 보고 피드백을 받으면서 너무 설레고 기쁘고 재미있기도 했습니다. 많이 부족한 저를 지금까지 이끌어주신 팀원분들께 진심으로 감사드립니다! 고생하셨습니다!
+
+- 장세희
+
+  - 이전 프로젝트들을 진행하면서 성장하고 있구나를 느껴왔지만, 특히 이번 따꼼 프로젝트를 통해 더 많은 것을 배울 수 있었습니다. 초기 계획 단계에서부터 구현, 그리고 최종 결과물에 이르기까지 팀원들과의 협업과 각자의 역할을 수행하며 많은 도전과 성취를 경험했습니다.<br/>
+    이 프로젝트를 통해서 각자 맡은 역할을 충실히 수행하면서도 팀원들과의 긴밀한 소통이 얼마나 중요한지 다시 한 번 깨달았습니다. 또한, 프로젝트를 진행하며 예상치 못한 오류와 문제들이 발생했지만, 이를 해결하는 과정에서 개발자로서 성장과 자신감을 얻었습니다. 마지막으로, 이번 프로젝트에서 사용한 다양한 기술스택을 다루며 실제 프로젝트에서의 활용 방법과 장단점을 체감할 수 있어 뜻깊은 시간이었습니다.<br/>
+    이 프로젝트는 단순히 결과물만이 아니라 과정 자체가 의미 있었습니다. 지난 한 달여간 애정을 많이 담았는데 아쉬움도 많이 남고.. 어려움도 많았지만, 이를 극복하며 더 나은 결과물을 만들어냈다는 점에서 뿌듯함을 느낍니다.<br />
+    앞으로도 이런 경험을 바탕으로 더 발전된 프로젝트를 만들어가고 싶습니다. 함께해 준 팀원들에게 감사하며, 이번 프로젝트의 과정과 결과물이 모두에게 뜻깊은 시간이었길 바랍니다. 다들 고생하셨습니다. 감사합니다 :)
+
+- 정지형
+
+  - 이번 프로젝트는 디자이너와 협력하여 보다 좋은 프로젝트를 구현할 수 있어서 좋은 경험을 했다고 생각합니다. 사용자 경험을 향상 시키기 위해 함께 고민하여 해결하고 코드 품질을 높이기 위해 코드 리뷰와 역할 분담 뿐만 아니라 유저피드백을 받아 개선하여 모두가 성장할 수 있었다고 확신합니다. 이번 경험을 통해 팀 모두가 프로젝트에 더 나은 기여를 할 수 있을거라고 봅니다.

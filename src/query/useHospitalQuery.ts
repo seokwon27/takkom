@@ -1,6 +1,9 @@
-import { getHospitalsMutliConditions } from "@/api/hospital-actions";
-import { defaultHospitalData } from "@/constants/constants";
 import { useQuery } from "@tanstack/react-query";
+import { getHospitalsMutliConditions } from "@/api/hospital-actions";
+import { HospitalData } from "@/types/hospital";
+
+// 검색 결과가 없을 때 기본값
+const DEFAULT_HOSPITAL_DATA: HospitalData = { items: [], totalCount: 0, maxPage: 1 };
 
 export const useHospitalQuery = (brtcCd: string, sggCd: string, addr: string, org: string, disease: string) => {
   return useQuery({
@@ -8,7 +11,7 @@ export const useHospitalQuery = (brtcCd: string, sggCd: string, addr: string, or
     queryFn: async () => {
       if (brtcCd && sggCd) return getHospitalsMutliConditions({ brtcCd, sggCd, org, addr, disease });
       else {
-        return defaultHospitalData;
+        return DEFAULT_HOSPITAL_DATA;
       }
     },
     enabled: !!brtcCd && !!sggCd,

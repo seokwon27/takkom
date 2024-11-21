@@ -11,8 +11,8 @@ const LoadingSearchForm = () => {
         <div className="w-full flex flex-col">
           <div className="w-full mt-3 px-6 py-1.5 text-title-m text-gray-800 font-bold">검색</div>
           <div className="grid grid-cols-[1fr_1fr] gap-4 mt-14 mb-4 px-6">
-            <div className="h-12 border border-gray-300/50 rounded-lg" />
-            <div className="h-12 border border-gray-300/50 rounded-lg" />
+            <div className="h-12 border border-gray-300/50 rounded-xl" />
+            <div className="h-12 border border-gray-300/50 rounded-xl" />
             <div className="h-12 col-span-2 bg-gray-30/50 rounded-xl" />
             <div className="h-12 col-span-2 bg-gray-30/50 rounded-xl" />
             <div className="h-12 mt-1 col-span-2 bg-primary-400/50 rounded-lg" />

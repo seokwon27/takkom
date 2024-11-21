@@ -1,7 +1,4 @@
 "use client";
-
-import EditChildForm from "@/components/child/EditChildForm";
-import browserClient from "@/utils/supabase/client";
 import { useParams, useRouter } from "next/navigation";
 import React from "react";
 import { useChildInfoQuery } from "@/query/useChildQuery";
@@ -10,6 +7,9 @@ import PreIcon from "../../../../../public/icon/preIcon.svg";
 import Image from "next/image";
 import { useToast } from "@/hooks/use-toast";
 import { ToastDescription } from "@/components/ui/toast";
+import EditChildForm from "@/components/child/EditChildForm";
+import browserClient from "@/utils/supabase/client";
+
 
 const ChildInfoEditPage = () => {
   const { toast } = useToast();
@@ -24,24 +24,23 @@ const ChildInfoEditPage = () => {
   // userId가 설정된 후 아이들 정보 가져오기
   const userId = user?.id;
   const childId = Array.isArray(id) ? id[0] : id;
-  const { data: child, isLoading, error } = useChildInfoQuery(userId, childId);
+  const { data: child, isLoading: isChildLoading, error: isChildError } = useChildInfoQuery(userId, childId);
   // console.log(child);
 
   // 사용자 정보를 로드하는 동안 로딩 표시
   if (isUserLoading) return <p>로딩 중...</p>;
   if (isUserError) return <p>사용자 정보를 가져오는 데 오류가 발생했습니다.</p>;
 
-  // userId가 로드될 때까지 로딩 표시
-  if (isLoading) return <p>로딩 중...</p>;
-  if (error) return <p>오류가 발생했습니다: {error.message}</p>;
+  // 아이들 정보 로드하는 동안 로딩 표시
+  if (isChildLoading) return <p>로딩 중...</p>;
+  if (isChildError) return <p>아이 정보를 가져오는 데 오류가 발생했습니다: {isChildError.message}</p>;
 
   const onComplete = () => {
-    router.push(`/child`);
-
     toast({
       description: <ToastDescription className="text-white">수정이 완료되었습니다.</ToastDescription>,
       variant: "mobile"
     });
+    router.back();
   };
 
   return (

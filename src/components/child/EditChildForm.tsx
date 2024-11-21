@@ -49,7 +49,7 @@ const EditChildForm = ({ child, onComplete }: EditFormProps) => {
 
   // 이미지 업로드 함수
   const uploadImage = async (file: File): Promise<string | null> => {
-    const fileName = `public/${Date.now()}_${file.name}`; // 파일 이름 생성: 파일 이름 중복을 방지하기 위해 '등록현재날짜_파일이름' 형식으로 지정
+    const fileName = `public/${Date.now()}_${file.name}`;
     const { error } = await browserClient.storage.from("profiles").upload(fileName, file, {
       cacheControl: "3600", // 1시간 동안 캐시 유지
       upsert: true // 기존 파일이 있으면 덮어씌움
@@ -64,90 +64,51 @@ const EditChildForm = ({ child, onComplete }: EditFormProps) => {
     return publicUrlData?.publicUrl ?? null; // 이미지 URL 반환
   };
 
-  // 폼 제출 함수 -- 수정 전
-  // const onSubmit = async (data: z.infer<typeof formSchema>) => {
-  //   const supabase = browserClient;
-  //   const profileImageUrl = selectedImage ? await uploadImage(selectedImage) : child.profile;
-  //   const profileUrl = profileImageUrl ?? undefined;
-
-  //   // 데이터 업데이트
-  //   const { error } = await supabase
-  //     .from("child")
-  //     .update({
-  //       name: data.name, // 이름 업데이트
-  //       birth: data.birth, // 생년월일 업데이트
-  //       notes: data.notes, // 특이사항 업데이트
-  //       profile: profileUrl // 프로필 이미지 업데이트
-  //     })
-  //     .eq("id", child.id); // 해당 자식 ID에 대한 업데이트
-
-  //   if (error) {
-  //     console.error("수정 중 오류 발생:", error); // 오류 처리
-  //     return;
-  //   }
-
-  //   onComplete(); // 완료 후 부모 컴포넌트에 통보
-  // };
-
   // 폼 제출 함수 -- 수정 후
   const onSubmit = async (data: z.infer<typeof formSchema>) => {
     const profileImageUrl = selectedImage ? await uploadImage(selectedImage) : child.profile;
     const profileUrl = profileImageUrl ?? undefined;
 
     // 데이터 업데이트
-    updateChildInfo({
+    await updateChildInfo({
+      userId: child.user_id,
       childId: child.id,
       name: data.name,
       birth: data.birth,
       notes: data.notes,
       profile: profileUrl
     });
-    queryClient.setQueryData(["child", child.id], {
-      ...child, // 기존 데이터 유지
-      name: data.name,
-      birth: data.birth,
-      notes: data.notes,
-      profile: profileUrl
-    });
 
-    onComplete(); 
+    onComplete();
   };
-
-  // 프로필 이미지 삭제 함수 -- 수정 전
-  // const handleDeleteImage = async () => {
-  //   // 프로필 이미지를 삭제하고 기본 이미지로 변경
-  //   const { error } = await browserClient.storage.from("profiles").remove([child.profile]); // 기존 이미지를 삭제합니다.
-
-  //   if (error) {
-  //     console.error("이미지 삭제 오류:", error); // 삭제 오류 처리
-  //     return;
-  //   }
-
-  //   // 기본 이미지로 업데이트
-  //   const supabase = browserClient;
-  //   await supabase
-  //     .from("child")
-  //     .update({
-  //       profile: DEFAULT_PROFILE_IMAGE_URL // 기본 이미지로 변경
-  //     })
-  //     .eq("id", child.id);
-
-  //   // 기본 이미지가 설정되었으므로 상태 업데이트 및 완료 처리
-  //   onComplete();
-  // };
 
   const handleDeleteImage = async () => {
     try {
-      await deleteProfileImage(); // 이미지 삭제 및 기본 이미지로 설정
-      // 이미지 삭제 후 캐시 갱신
-      queryClient.setQueryData(["child", child.id], {
+      await deleteProfileImage();
+      queryClient.setQueryData(["childInfo", child.user_id, child.id], {
         ...child,
-        profile: DEFAULT_PROFILE_IMAGE_URL // 기본 이미지로 설정
+        profile: DEFAULT_PROFILE_IMAGE_URL
       });
-      onComplete(); // 완료 처리
+      onComplete();
     } catch (error) {
-      console.log("프로필 이미지 삭제 오류: ", error);
+      console.error("프로필 이미지 삭제 오류: ", error);
     }
+  };
+
+
+  const getImageSrc = () => {
+    // 새로 업로드된 이미지가 있으면 이를 반환
+    if (selectedImage) {
+      return URL.createObjectURL(selectedImage);
+    }
+
+    // 기존 프로필 이미지가 있으면 그것을 반환
+    if (child.profile && child.profile !== DEFAULT_PROFILE_IMAGE_URL) {
+      return child.profile;
+    }
+
+    // 새 이미지도 없고 기존 이미지도 없다면 기본 이미지 반환
+    return DEFAULT_PROFILE_IMAGE_URL;
   };
 
   return (
@@ -161,13 +122,7 @@ const EditChildForm = ({ child, onComplete }: EditFormProps) => {
             <FormItem className="relative flex items-center justify-center w-44 h-44 mx-auto mb-20">
               <div>
                 <Image
-                  src={
-                    selectedImage // 새로 업로드된 이미지가 있다면 이를 표시
-                      ? URL.createObjectURL(selectedImage)
-                      : child.profile && child.profile !== DEFAULT_PROFILE_IMAGE_URL // 기존 프로필 이미지가 있다면 그것을 표시
-                      ? child.profile
-                      : DEFAULT_PROFILE_IMAGE_URL // 새 이미지도 없고 기존 이미지도 없다면 기본 이미지 표시
-                  }
+                  src={getImageSrc()}
                   alt="Current Profile"
                   width={176}
                   height={176}
@@ -215,9 +170,9 @@ const EditChildForm = ({ child, onComplete }: EditFormProps) => {
           name="name"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>이름</FormLabel>
-              <FormControl>
-                <Input placeholder="이름을 입력하세요" {...field} />
+              <FormLabel className="text-gray-800">이름</FormLabel>
+              <FormControl className="text-gary-700 px-6 py-4 rounded-xl">
+                <Input className="h-full text-text-xl" placeholder="이름을 입력하세요" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -230,9 +185,9 @@ const EditChildForm = ({ child, onComplete }: EditFormProps) => {
           name="birth"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>생년월일</FormLabel>
-              <FormControl>
-                <Input type="date" {...field} />
+              <FormLabel className="text-gray-800">생년월일</FormLabel>
+              <FormControl className="text-gary-700 px-6 py-4 rounded-xl">
+                <Input className="h-full text-text-xl" type="date" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -245,9 +200,9 @@ const EditChildForm = ({ child, onComplete }: EditFormProps) => {
           name="notes"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>특이사항(선택)</FormLabel>
-              <FormControl>
-                <Input placeholder="특이사항을 입력하세요" {...field} />
+              <FormLabel className="text-gray-800">특이사항(선택)</FormLabel>
+              <FormControl className="text-gary-700">
+                <Input className="h-full text-text-xl" placeholder="특이사항을 입력하세요" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>

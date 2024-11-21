@@ -7,10 +7,32 @@ import { groupVaccines } from "@/utils/vaccineRecord/vaccinesRecord";
 
 import { dehydrate, HydrationBoundary, QueryClient } from "@tanstack/react-query";
 
-import Image from "next/image";
-import Vaccination11 from "../../../../public/vaccinerecord/vaccination1-1.svg";
-import Vaccination12 from "../../../../public/vaccinerecord/vaccination1-2.svg";
-import BackButton from "@/components/ui/backbutton";
+import BackButton from "@/components/ui/back-button";
+import VaccineRecordTitle from "@/components/vaccinerecord/VaccineRecordTitle";
+import { Metadata } from "next";
+
+export const generateMetadata = ({ params }: { params: { id: string } }): Metadata => {
+  const { id } = params;
+
+  return {
+    title: "따꼼 - 체크리스트",
+    description: "우리아이의 접종 내역을 간편하게 기록하고 확인할 수 있어요.",
+    keywords: ["따꼼", "따꼬미", "체크리스트", "예방접종"],
+    openGraph: {
+      title: "따꼼 - 체크리스트",
+      description: "우리아이의 접종 내역을 간편하게 기록하고 확인할 수 있어요.",
+      url: `https://www.takkom.site/child/${id}`,
+      images: [
+        {
+          url: "/opengraph/checklist-og.png",
+          width: 1280,
+          height: 680,
+          alt: "따꼼 - 체크리스트"
+        }
+      ]
+    }
+  };
+};
 
 interface VaccinatePageProps {
   params: {
@@ -41,24 +63,12 @@ const VaccineRecordPage = async ({ params }: VaccinatePageProps) => {
 
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>
-      <div className="flex flex-col min-w-[375px] pb-20 justify-center items-center mx-auto md:w-[796px] md:gap-20 md:items-start md:my-[100px]">
-        <div className="flex w-full items-start px-6 py-1.5 md:hidden">
+      <div className="flex flex-col w-full px-6 pb-20 justify-center items-center mx-auto sm:w-[796px] sm:gap-20 sm:items-start sm:my-[100px]">
+        <div className="flex w-full items-start py-1.5 sticky top-0 bg-white z-50 sm:hidden">
           <BackButton childId={childId} />
         </div>
-        <div className="flex flex-col gap-10 relative self-stretch w-full md:max-w-[796px] md:items-start">
-          <div className="inline-flex flex-col items-start gap-6 px-6 relative md:gap-12 md:min-w-[323px] md:min-h-[171px]">
-            <Image src={Vaccination11} alt="Vaccination" className="size-12 relative md:size-20" />
-            <div className="inline-flex flex-col items-start relative gap-2 md:gap-3 md:px-6">
-              <h1 className="self-stretch text-heading-s text-gray-800 font-bold md:text-heading-xxl">
-                우리 아이 접종 체크리스트
-              </h1>
-            </div>
-            <Image
-              src={Vaccination12}
-              alt="Vaccination"
-              className="absolute size-12 top-1.5 left-[30px] md:w-[80px] md:h-[80px] md:top-2"
-            />
-          </div>
+        <div className="flex flex-col gap-10 relative self-stretch w-full sm:max-w-[796px] sm:items-start">
+          <VaccineRecordTitle />
 
           <VaccineRecordTabs childId={childId} edit={false} />
         </div>

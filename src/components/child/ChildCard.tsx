@@ -1,28 +1,56 @@
-import React from "react";
-import { Child } from "@/types/childType";
-import Image from "next/image";
-import { DEFAULT_PROFILE_IMAGE_URL } from "@/utils/supabase/client";
+"use client";
+import React, { useState } from "react";
+import browserClient, { DEFAULT_PROFILE_IMAGE_URL } from "@/utils/supabase/client";
 import Link from "next/link";
 import Schedule from "./Schedule";
 import CakeIcon from "../../../public/child/cake-icon.svg";
 import InjectorIcon from "../../../public/child/injector-icon.svg";
 import RightArrowIcon from "../../../public/child/right-arrow-icon.svg";
 import { useVaccineQuery, useVaccineRecordQuery } from "@/query/useVaccineRecordQuery";
+import { ToastDescription } from "@radix-ui/react-toast";
+import { useToast } from "@/hooks/use-toast";
+import { Child } from "@/types/childType";
+import Image from "next/image";
 
 interface ChildCardProps {
   child?: Child; // 등록된 child가 없으면 undefined일 수 있음
   onEdit?: (child: Child) => void; // 수정 기능을 위해 child를 전달
+  onDelete?: (childId: string) => void;
 }
 
-export const ChildCard = ({ child }: ChildCardProps) => {
+export const ChildCard = ({ child, onDelete }: ChildCardProps) => {
+  const { toast } = useToast();
+
   // vaccineData와 vaccineRecord를 가져오는 쿼리
   const { data: vaccineData } = useVaccineQuery();
   const { data: vaccineRecord } = useVaccineRecordQuery(child?.id);
+  const [menuOpen, setMenuOpen] = useState(false);
 
   // child가 없을 때를 대비한 처리
   if (!child) {
     return <div>아이가 등록되지 않았습니다.</div>;
   }
+
+  // 햄버거 메뉴 버튼 클릭 시 메뉴 열기/닫기 토글
+  const toggleMenu = () => {
+    setMenuOpen(!menuOpen);
+  };
+
+  const handleDelete = async () => {
+    if (onDelete) {
+      const { error } = await browserClient.from("child").delete().match({ id: child.id });
+
+      if (error) {
+        console.error("아이 삭제에 실패했습니다:", error.message);
+      } else {
+        onDelete(child.id);
+        toast({
+          description: <ToastDescription className="text-white">{child.name}이(가) 삭제되었습니다.</ToastDescription>,
+          variant: "mobile"
+        });
+      }
+    }
+  };
 
   // 접종 데이터가 없으면 처리하지 않도록
   if (!vaccineData || !vaccineRecord) return <div>Loading...</div>;
@@ -61,56 +89,47 @@ export const ChildCard = ({ child }: ChildCardProps) => {
   return (
     <>
       {/* 아이 카드 전체 컨테이너 */}
-      <div className="flex flex-col justify-center items-center w-full max-w-[792px] gap-6 p-6 rounded-2xl bg-neutral-50 mb-6 max-sm:p-0">
+      <div className="relative flex flex-col justify-center items-center w-full max-w-[792px] gap-6 p-6 rounded-2xl bg-gray-10 max-sm:bg-white mb-6 max-sm:p-0">
+        {/* 미트볼 메뉴 버튼 */}
+        <button onClick={toggleMenu} className="absolute top-0 right-4 text-primary-300 hover:text-primary-400">
+          &#8230;
+        </button>
+
+        {/* 삭제하기 버튼이 보이는 메뉴 */}
+        {menuOpen && (
+          <div className="absolute top-7 right-0 bg-white shadow-md rounded-md p-2 z-10">
+            <button
+              onClick={handleDelete}
+              className="text-text-l text-gray-700 hover:text-gray-800 bg-gray-30 font-medium px-6 py-4 min-w-[132px]"
+            >
+              삭제하기
+            </button>
+          </div>
+        )}
+
         {/* 아이 기본 정보 & 우리 아이 접종 내역 컨테이너 */}
         <div className="flex flex-col md:flex-row justify-start items-start w-full gap-6">
           {/* 아이 기본 정보 컨테이너 */}
-          {/* TEST 01 */}
-          {/* <div className="flex flex-col md:flex-row items-center p-4 rounded-lg bg-white w-full max-w-lg mx-auto shadow-[0px_0px_12px_#7272721A]">
-            <div className="md:w-32 md:h-32 flex-shrink-0">
-              <Image
-                src={child.profile || DEFAULT_PROFILE_IMAGE_URL}
-                width={176}
-                height={176}
-                alt="profile Image"
-                className="w-44 h-44 object-cover rounded-[13px]"
-              />
-            </div>
-            <div className="flex flex-col items-center md:items-start md:ml-6 mt-4 md:mt-0 space-y-2 md:text-left">
-              <p className="text-base font-bold text-neutral-900">{child.name}</p>
-              <div className="flex items-center space-x-2">
-                <Image src={CakeIcon} alt="아이 생일 좌측에 보여지는 케이크 아이콘" />
-                <p className="text-xs font-medium text-gray-400">{child.birth}</p>
-              </div>
-              <p className="h-[50px] text-xs font-medium text-gray-600">{child.notes && <span>{child.notes}</span>}</p>
-              <Link key={child.id} href={`/child/${child.id}/childinfo`}>
-                <div className="flex gap-2 p-2 px-10 rounded-[7px] bg-gray-30 w-full">
-                  <button className="text-xs font-medium text-center text-gray-700">수정하기</button>
-                </div>
-              </Link>
-            </div>
-          </div> */}
-
           <div className="w-full md:w-[50%] flex flex-col justify-start items-start flex-grow-0 flex-shrink-0 p-4 rounded-2xl bg-white shadow-[0px_0px_12px_#7272721A]">
             <div className="w-full flex flex-col gap-4">
               {/* 아이 기본 정보 내 좌/우 영역 나누기 위한 컨테이너 */}
               <div className="flex items-center justify-between w-full gap-3 md:gap-6">
                 {/* 좌측: 프로필 이미지 */}
 
-                <div className="flex-shrink-0">
+                <div className="flex-shrink-0 w-32 h-32 sm:w-36 sm:h-36 md:w-44 md:h-44 relative overflow-hidden rounded-[13px]">
                   <Image
                     src={child.profile || DEFAULT_PROFILE_IMAGE_URL}
                     width={176}
                     height={176}
                     alt="profile Image"
-                    className="w-44 h-44 object-cover rounded-[13px]"
+                    className="absolute w-full h-full object-cover"
                   />
                 </div>
 
                 {/* 우측: 기본 정보 & 수정하기 버튼 */}
-                <div className="flex flex-col justify-start items-start gap-4 w-full md:w-[calc(100%-176px)]">
+                <div className="flex flex-col justify-start items-start w-full md:w-[calc(100%-176px)] gap-0 lg:gap-3">
                   {/* 이름 & 생년월일 시작 */}
-                  <div className="flex flex-col justify-between items-start gap-3 w-full pt-2">
+                  <div className="flex flex-col justify-between items-start w-full pt-2  gap-2 lg:gap-3 max-lg:pt-0">
                     {/*  아이 이름 영역 */}
                     <p className="text-base font-bold text-center text-neutral-900">{child.name}</p>
 
@@ -120,20 +139,20 @@ export const ChildCard = ({ child }: ChildCardProps) => {
                       <Image src={CakeIcon} alt="케이크 아이콘" />
 
                       {/* 아이 생일 */}
-                      <p className="text-xs font-medium text-center text-gray-400">{child.birth}</p>
+                      <p className="text-text-s font-medium text-center text-gray-400">{child.birth}</p>
                     </div>
                   </div>
                   {/* 이름 & 생년월일 끝 */}
 
                   {/* 아이 특이사항 */}
-                  <p className="w-full h-[50px] text-xs font-medium text-left text-gray-600">
+                  <p className="w-full h-[50px] text-text-s font-medium text-left text-gray-600 overflow-y-auto">
                     {child.notes && <span>{child.notes}</span>}
                   </p>
 
                   {/* 수정하기 */}
-                  <Link key={child.id} href={`/child/${child.id}/childinfo`}>
-                    <div className="flex justify-center items-center h-8 gap-[8px] px-4 py-2 rounded-[7px] bg-gray-30 w-full">
-                      <button className="text-xs font-medium text-center text-gray-700">수정하기</button>
+                  <Link key={child.id} href={`/child/${child.id}/childinfo`} className="w-full">
+                    <div className="flex justify-center items-center h-8 gap-[8px] px-4 py-2 rounded-[7px] bg-gray-30">
+                      <button className="text-text-s font-medium text-center text-gray-700">수정하기</button>
                     </div>
                   </Link>
                 </div>

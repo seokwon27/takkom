@@ -1,6 +1,6 @@
+import { addLike, cancelLike } from "@/api/userApi";
 import { HopsitalItem } from "@/types/hospital";
 import { Like } from "@/types/user";
-import browserClient from "@/utils/supabase/client";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 const convertToLike = (hospitalInfo: HopsitalItem): Like => {
@@ -26,30 +26,6 @@ const convertToLike = (hospitalInfo: HopsitalItem): Like => {
   };
 
   return hospitalData;
-};
-
-export const addLike = async (hospitalInfo: HopsitalItem) => {
-  const {
-    orgnm,
-    orgcd,
-    orgAddr,
-    orgTlno,
-    expnYmd,
-    vcnList: { vcnInfo: tmpInfo }
-  } = hospitalInfo;
-  const vcnInfo = Array.isArray(tmpInfo) ? tmpInfo : [tmpInfo];
-  const hospitalData = { orgnm, orgcd, orgAddr, orgTlno, expnYmd, vcnInfo: JSON.stringify(vcnInfo) };
-  const { error } = await browserClient.from("like").insert(hospitalData);
-
-  if (error) throw Error(error.message);
-};
-
-export const cancelLike = async (id?: string) => {
-  if (id) {
-    const { error } = await browserClient.from("like").delete().eq("id", id);
-
-    if (error) throw Error(error.message);
-  }
 };
 
 export const useAddLikeMutation = (userId?: string) => {

@@ -19,7 +19,7 @@ const buttonVariants = cva(
           "bg-neutral-100 text-neutral-900 hover:bg-neutral-100/80 dark:bg-neutral-800 dark:text-neutral-50 dark:hover:bg-neutral-800/80",
         ghost: "hover:bg-neutral-100 hover:text-neutral-900 dark:hover:bg-neutral-800 dark:hover:text-neutral-50",
         link: "text-neutral-900 underline-offset-4 hover:underline dark:text-neutral-50",
-        vaccineinfo: "w-full bg-primary-400 rounded-[12px] text-center text-white my-[48px]"
+        vaccineinfo: "w-full bg-primary-400 rounded-[12px] text-center text-white"
       },
       size: {
         default: "h-10 px-4 py-2",

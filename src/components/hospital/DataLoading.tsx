@@ -3,7 +3,7 @@ import Image from "next/image";
 import LoadingSpinner from "../../../public/common/loading-spinner.svg";
 import { createPortal } from "react-dom";
 
-const LoadingData = () => {
+const DataLoading = () => {
   return createPortal(
     <div className="fixed top-0 left-0 bottom-0 right-0 bg-gray-900/50 z-50 pointer-active-auto">
       <div className="w-full h-full flex">
@@ -14,4 +14,4 @@ const LoadingData = () => {
   );
 };
 
-export default LoadingData;
+export default DataLoading;
