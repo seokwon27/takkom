@@ -1,7 +1,4 @@
 "use client";
-
-import EditChildForm from "@/components/child/EditChildForm";
-import browserClient from "@/utils/supabase/client";
 import { useParams, useRouter } from "next/navigation";
 import React from "react";
 import { useChildInfoQuery } from "@/query/useChildQuery";
@@ -10,6 +7,9 @@ import PreIcon from "../../../../../public/icon/preIcon.svg";
 import Image from "next/image";
 import { useToast } from "@/hooks/use-toast";
 import { ToastDescription } from "@/components/ui/toast";
+import EditChildForm from "@/components/child/EditChildForm";
+import browserClient from "@/utils/supabase/client";
+
 
 const ChildInfoEditPage = () => {
   const { toast } = useToast();
@@ -37,7 +37,7 @@ const ChildInfoEditPage = () => {
 
   const onComplete = () => {
     toast({
-      description: <ToastDescription className="text-white text-text-s">수정이 완료되었습니다.</ToastDescription>,
+      description: <ToastDescription className="text-white">수정이 완료되었습니다.</ToastDescription>,
       variant: "mobile"
     });
     router.back();

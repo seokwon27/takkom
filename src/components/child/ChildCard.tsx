@@ -1,6 +1,5 @@
+"use client";
 import React, { useState } from "react";
-import { Child } from "@/types/childType";
-import Image from "next/image";
 import browserClient, { DEFAULT_PROFILE_IMAGE_URL } from "@/utils/supabase/client";
 import Link from "next/link";
 import Schedule from "./Schedule";
@@ -10,6 +9,8 @@ import RightArrowIcon from "../../../public/child/right-arrow-icon.svg";
 import { useVaccineQuery, useVaccineRecordQuery } from "@/query/useVaccineRecordQuery";
 import { ToastDescription } from "@radix-ui/react-toast";
 import { useToast } from "@/hooks/use-toast";
+import { Child } from "@/types/childType";
+import Image from "next/image";
 
 interface ChildCardProps {
   child?: Child; // 등록된 child가 없으면 undefined일 수 있음
@@ -44,7 +45,7 @@ export const ChildCard = ({ child, onDelete }: ChildCardProps) => {
       } else {
         onDelete(child.id);
         toast({
-          description: <ToastDescription className="text-white text-text-s">{child.name}이(가) 삭제되었습니다.</ToastDescription>,
+          description: <ToastDescription className="text-white">{child.name}이(가) 삭제되었습니다.</ToastDescription>,
           variant: "mobile"
         });
       }
@@ -88,7 +89,7 @@ export const ChildCard = ({ child, onDelete }: ChildCardProps) => {
   return (
     <>
       {/* 아이 카드 전체 컨테이너 */}
-      <div className="relative flex flex-col justify-center items-center w-full max-w-[792px] gap-6 p-6 rounded-2xl bg-gray-10 mb-6 max-sm:p-0">
+      <div className="relative flex flex-col justify-center items-center w-full max-w-[792px] gap-6 p-6 rounded-2xl bg-gray-10 max-sm:bg-white mb-6 max-sm:p-0">
         {/* 미트볼 메뉴 버튼 */}
         <button onClick={toggleMenu} className="absolute top-0 right-4 text-primary-300 hover:text-primary-400">
           &#8230;
