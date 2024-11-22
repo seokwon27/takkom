@@ -49,7 +49,10 @@ const EditChildForm = ({ child, onComplete }: EditFormProps) => {
 
   // 이미지 업로드 함수
   const uploadImage = async (file: File): Promise<string | null> => {
-    const fileName = `public/${Date.now()}_${file.name}`;
+    const fileName = `public/${Date.now()}_${file.name
+      .replace(/\s+/g, "_") // 공백을 밑줄(_)로 대체
+      .replace(/[^\x00-\x7F]/g, "_") // 한글 및 특수문자를 밑줄(_)로 대체
+      .replace(/[^\w.-]/g, "")}`; // 알파벳, 숫자, 밑줄(_), 점(.), 하이픈(-) 외의 문자는 제거
     const { error } = await browserClient.storage.from("profiles").upload(fileName, file, {
       cacheControl: "3600", // 1시간 동안 캐시 유지
       upsert: true // 기존 파일이 있으면 덮어씌움
