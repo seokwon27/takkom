@@ -19,7 +19,7 @@ export const useUpdateChildMutation = () => {
     onSuccess: (_, { userId, childId }) => {
       // 쿼리 키를 useChildInfoQuery에서 사용한 것과 동일하게 설정
       queryClient.invalidateQueries({
-        queryKey: ["childInfo", userId, childId]
+        queryKey: ["child_info", userId]
       });
     },
     onError: (error) => {

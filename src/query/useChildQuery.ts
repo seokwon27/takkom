@@ -1,4 +1,4 @@
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useSuspenseQuery } from "@tanstack/react-query";
 import browserClient, { DEFAULT_PROFILE_IMAGE_URL } from "@/utils/supabase/client";
 import { Child } from "@/types/childType";
 import { SupabaseDatabase } from "@/types/supabaseDataType";
@@ -23,7 +23,7 @@ export const fetchChildInfo = async (userId: string, childId: string): Promise<C
 export const useChildInfoQuery = (userId?: string, childId?: string) => {
   return useQuery({
     // 쿼리 키에 userId와 childId를 포함해 캐싱 및 데이터 유효성 관리
-    queryKey: ["childInfo", userId, childId],
+    queryKey: ["child_info", userId, childId],
     // fetchChildInfo 함수를 사용해 쿼리 실행: userId, childId를 전달
     queryFn: () => fetchChildInfo(userId!, childId!),
     // userId와 childId가 모두 유효할 때만 쿼리가 실행되도록 설정
@@ -67,12 +67,13 @@ export const useDeleteProfileImageMutation = (childId: string) => {
   });
 };
 
-
 // 사용자의 아이들 정보 가져오기
-export const useChildrenQuery = (supabaseClient: SupabaseDatabase, userId?: string) => {
+export const useChildrenQuery = (supabaseClient: SupabaseDatabase, userId?: string, childId?: string | null) => {
   return useQuery({
     queryKey: ["child_info", userId],
-    queryFn: () => getChildren(supabaseClient, userId),
-    enabled: !!userId
+    queryFn: () => getChildren(supabaseClient, userId)
+    // enabled: !!userId && !!childId
   });
 };
+
+//
