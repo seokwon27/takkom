@@ -81,25 +81,6 @@ const EditChildForm = ({ child, onComplete }: EditFormProps) => {
       notes: data.notes,
       profile: profileUrl
     });
-    // const queryKey = ["childInfo", child.user_id, child.id];
-
-    // console.log("child.user_id:", child.user_id);
-    // console.log("child.id:", child.id);
-
-    // queryClient.invalidateQueries(queryKey as [string, string, string]); // 쿼리 키 타입 지정
-    // invalidateQueries를 넣을 때 문자 배열을 바로 넣는게 아니라
-
-    // queryClient.invalidateQueries({
-    //   queryKey: ["childInfo", child.user_id, child.id]
-    // });
-
-    // const allQueries = queryClient.getQueryCache().findAll();
-
-    // console.log(
-    //   "queryKey: ",
-    //   allQueries.map((query) => query.queryKey)
-    // );
-
     onComplete();
   };
 
