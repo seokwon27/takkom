@@ -1,4 +1,4 @@
-import { useMutation, useQuery, useSuspenseQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import browserClient, { DEFAULT_PROFILE_IMAGE_URL } from "@/utils/supabase/client";
 import { Child } from "@/types/childType";
 import { SupabaseDatabase } from "@/types/supabaseDataType";
@@ -33,6 +33,8 @@ export const useChildInfoQuery = (userId?: string, childId?: string) => {
 
 // 프로필 이미지 삭제
 export const useDeleteProfileImageMutation = (childId: string) => {
+  const queryClient = useQueryClient();
+
   return useMutation({
     mutationFn: async () => {
       const { data: childData, error: fetchError } = await browserClient
@@ -63,12 +65,22 @@ export const useDeleteProfileImageMutation = (childId: string) => {
       if (updateError) {
         throw new Error(`Failed to update child profile: ${updateError.message}`);
       }
+    },
+    onSuccess: () => {
+      // 프로필 이미지를 삭제하고 해당 쿼리를 무효화시킴
+      queryClient.invalidateQueries({
+        queryKey: ["child_info", childId]
+      });
+      console.log("프로필 이미지가 삭제되었습니다.");
+    },
+    onError: (error) => {
+      console.error("프로필 이미지 삭제 오류: ", error);
     }
   });
 };
 
 // 사용자의 아이들 정보 가져오기
-export const useChildrenQuery = (supabaseClient: SupabaseDatabase, userId?: string, childId?: string | null) => {
+export const useChildrenQuery = (supabaseClient: SupabaseDatabase, userId?: string) => {
   return useQuery({
     queryKey: ["child_info", userId],
     queryFn: () => getChildren(supabaseClient, userId)

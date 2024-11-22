@@ -87,7 +87,7 @@ const EditChildForm = ({ child, onComplete }: EditFormProps) => {
   const handleDeleteImage = async () => {
     try {
       await deleteProfileImage();
-      queryClient.setQueryData(["childInfo", child.user_id, child.id], {
+      queryClient.setQueryData(["child_info", child.user_id, child.id], {
         ...child,
         profile: DEFAULT_PROFILE_IMAGE_URL
       });

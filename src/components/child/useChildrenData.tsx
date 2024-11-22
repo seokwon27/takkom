@@ -9,7 +9,7 @@ const useChildrenData = () => {
   const [selectedChildId, setSelectedChildId] = useState<string | null>(null);
   const { data: user, isLoading: isUserLoading, isError: isUserError } = useUserQuery(browserClient);
   const userId = user?.id;
-  const { data: childrenData, isLoading, error } = useChildrenQuery(browserClient, userId, selectedChildId);
+  const { data: childrenData, isLoading, error } = useChildrenQuery(browserClient, userId);
 
   const [children, setChildren] = useState<Child[]>([]);
 
