@@ -14,6 +14,11 @@ import Image from "next/image";
 import { useUpdateChildMutation } from "@/query/useUpdateChildMutation";
 import { useDeleteProfileImageMutation } from "@/query/useChildQuery";
 import { useQueryClient } from "@tanstack/react-query";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import { Calendar } from "@/components/ui/calendar";
+import { CalendarIcon } from "lucide-react";
+import { format } from "date-fns";
+import { cn } from "@/lib/utils";
 
 interface EditFormProps {
   child: Child; // 수정할 자식 데이터
@@ -187,9 +192,35 @@ const EditChildForm = ({ child, onComplete }: EditFormProps) => {
           render={({ field }) => (
             <FormItem>
               <FormLabel className="text-gray-800">생년월일</FormLabel>
-              <FormControl className="text-gary-700 px-6 py-4 rounded-xl">
+              <Popover>
+                <PopoverTrigger asChild>
+                  <FormControl className="text-gary-700 px-6 py-4 rounded-xl">
+                    <Button
+                      variant={"outline"}
+                      className={cn("w-full h-full text-text-xl text-left", !field.value && "text-muted-foreground")}
+                    >
+                      {field.value ? (
+                        format(new Date(field.value), "PPP") // 날짜를 포맷팅할 때 Date 객체로 변환
+                      ) : (
+                        <span>Pick a date</span>
+                      )}
+                      <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
+                    </Button>
+                  </FormControl>
+                </PopoverTrigger>
+                <PopoverContent className="w-auto p-0" align="start">
+                  <Calendar
+                    mode="single"
+                    selected={field.value ? new Date(field.value) : undefined}
+                    onSelect={field.onChange}
+                    disabled={(date) => date > new Date() || date < new Date("1900-01-01")}
+                    initialFocus
+                  />
+                </PopoverContent>
+              </Popover>
+              {/* <FormControl className="text-gary-700 px-6 py-4 rounded-xl">
                 <Input className="h-full text-text-xl" type="date" {...field} />
-              </FormControl>
+              </FormControl> */}
               <FormMessage />
             </FormItem>
           )}
@@ -202,7 +233,7 @@ const EditChildForm = ({ child, onComplete }: EditFormProps) => {
           render={({ field }) => (
             <FormItem>
               <FormLabel className="text-gray-800">특이사항(선택)</FormLabel>
-              <FormControl className="text-gary-700">
+              <FormControl className="text-gary-700 px-6 py-4 rounded-xl">
                 <Input className="h-full text-text-xl" placeholder="특이사항을 입력하세요" {...field} />
               </FormControl>
               <FormMessage />
