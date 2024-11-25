@@ -2,7 +2,7 @@ import { Form, FormField, FormItem, FormLabel, FormControl, FormMessage } from "
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { z } from "zod";
-import { ControllerRenderProps, UseFormReturn } from "react-hook-form";
+import { UseFormReturn } from "react-hook-form";
 import { formSchema } from "@/app/child/register/steps/RegisterChildInfo";
 import { useRef, useState } from "react";
 import cameraIcon from "../../../public/child/camera-icon.svg";
@@ -33,21 +33,21 @@ const RegisterChildInfoForm = ({ form, onSubmit, setSelectedImage }: RegisterChi
     }
   };
   // 생년월일 입력 시 형식을 맞추기 위한 함수
-  const handleDateChange = (
-    e: React.ChangeEvent<HTMLInputElement>,
-    field: ControllerRenderProps<z.infer<typeof formSchema>, "birth">
-  ) => {
-    const dateValue = e.target.value;
-    const [year, month, day] = dateValue.split("-");
+  // const handleDateChange = (
+  //   e: React.ChangeEvent<HTMLInputElement>,
+  //   field: ControllerRenderProps<z.infer<typeof formSchema>, "birth">
+  // ) => {
+  //   const dateValue = e.target.value;
+  //   const [year, month, day] = dateValue.split("-");
 
-    // 연도가 4자리를 초과하지 않도록 설정
-    if (year.length > 4) {
-      const formattedDate = `${year.slice(0, 4)}-${month ?? ""}-${day ?? ""}`;
-      field.onChange(formattedDate);
-    } else {
-      field.onChange(dateValue);
-    }
-  };
+  //   // 연도가 4자리를 초과하지 않도록 설정
+  //   if (year.length > 4) {
+  //     const formattedDate = `${year.slice(0, 4)}-${month ?? ""}-${day ?? ""}`;
+  //     field.onChange(formattedDate);
+  //   } else {
+  //     field.onChange(dateValue);
+  //   }
+  // };
 
   return (
     <Form {...form}>
