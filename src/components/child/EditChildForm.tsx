@@ -197,12 +197,15 @@ const EditChildForm = ({ child, onComplete }: EditFormProps) => {
                   <FormControl className="text-gary-700 px-6 py-4 rounded-xl">
                     <Button
                       variant={"outline"}
-                      className={cn("w-full h-full text-text-xl text-left", !field.value && "text-muted-foreground")}
+                      className={cn(
+                        "w-full h-full text-text-xl text-left text-gray-800",
+                        !field.value && "text-muted-foreground"
+                      )}
                     >
                       {field.value ? (
-                        format(new Date(field.value), "PPP") // 날짜를 포맷팅할 때 Date 객체로 변환
+                        format(new Date(field.value), "yyyy-MM-dd") // Date 포맷
                       ) : (
-                        <span>Pick a date</span>
+                        <span className="text-gray-800">생년월일을 선택해주세요.</span>
                       )}
                       <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
                     </Button>
@@ -212,7 +215,7 @@ const EditChildForm = ({ child, onComplete }: EditFormProps) => {
                   <Calendar
                     mode="single"
                     selected={field.value ? new Date(field.value) : undefined}
-                    onSelect={field.onChange}
+                    onSelect={(date) => field.onChange(date ? format(date, "yyyy-MM-dd") : undefined)}
                     disabled={(date) => date > new Date() || date < new Date("1900-01-01")}
                     initialFocus
                   />

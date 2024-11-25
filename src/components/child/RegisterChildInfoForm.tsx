@@ -8,6 +8,11 @@ import { useRef, useState } from "react";
 import cameraIcon from "../../../public/child/camera-icon.svg";
 import Image from "next/image";
 import { DEFAULT_PROFILE_IMAGE_URL } from "@/utils/supabase/client";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import { Calendar } from "@/components/ui/calendar";
+import { CalendarIcon } from "lucide-react";
+import { format } from "date-fns";
+import { cn } from "@/lib/utils";
 
 interface RegisterChildInfoFormProps {
   form: UseFormReturn<z.infer<typeof formSchema>>; // form prop의 타입 지정
@@ -108,14 +113,45 @@ const RegisterChildInfoForm = ({ form, onSubmit, setSelectedImage }: RegisterChi
           render={({ field }) => (
             <FormItem>
               <FormLabel className="text-gray-800">생년월일(필수)</FormLabel>
-              <FormControl className="text-gary-700 px-6 py-4 rounded-xl">
+              {/* <FormControl className="text-gary-700 px-6 py-4 rounded-xl">
                 <Input
                   type="date"
                   {...field}
                   className="h-full text-text-xl placeholder:text-gray-200"
                   onChange={(e) => handleDateChange(e, field)}
                 />
-              </FormControl>
+              </FormControl> */}
+              <Popover>
+                <PopoverTrigger asChild>
+                  <FormControl className="text-gary-700 px-6 py-4 rounded-xl">
+                    <Button
+                      variant={"outline"}
+                      className={cn(
+                        "w-full h-full text-text-xl text-left text-gray-800",
+                        !field.value && "text-muted-foreground"
+                      )}
+                    >
+                      {field.value ? (
+                        format(new Date(field.value), "yyyy-MM-dd") // Date 포맷
+                      ) : (
+                        <span className="text-gray-800">생년월일을 선택해주세요.</span>
+                      )}
+                      <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
+                    </Button>
+                  </FormControl>
+                </PopoverTrigger>
+                <PopoverContent className="w-auto p-0" align="start">
+                  <Calendar
+                    mode="single"
+                    selected={field.value ? new Date(field.value) : undefined}
+                    onSelect={
+                      (date) => field.onChange(date ? format(date, "yyyy-MM-dd") : undefined)
+                    }
+                    disabled={(date) => date > new Date() || date < new Date("1900-01-01")}
+                    initialFocus
+                  />
+                </PopoverContent>
+              </Popover>
               <FormMessage />
             </FormItem>
           )}
