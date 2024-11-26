@@ -6,12 +6,12 @@ import { useEffect, useState } from "react";
 import { Child } from "@/types/childType";
 
 const useChildrenData = () => {
+  const [selectedChildId, setSelectedChildId] = useState<string | null>(null);
   const { data: user, isLoading: isUserLoading, isError: isUserError } = useUserQuery(browserClient);
   const userId = user?.id;
   const { data: childrenData, isLoading, error } = useChildrenQuery(browserClient, userId);
 
   const [children, setChildren] = useState<Child[]>([]);
-  const [selectedChildId, setSelectedChildId] = useState<string | null>(null);
 
   useEffect(() => {
     if (childrenData) {

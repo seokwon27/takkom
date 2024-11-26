@@ -16,10 +16,10 @@ export const useUpdateChildMutation = () => {
     // child 정보를 업데이트하는 함수
     mutationFn: ({ childId, name, birth, notes, profile }: UpdateChildMutationProps) =>
       updateChildInfo(childId, name, birth, notes, profile),
-    onSuccess: (_, { userId, childId }) => {
+    onSuccess: (_, { userId }) => {
       // 쿼리 키를 useChildInfoQuery에서 사용한 것과 동일하게 설정
       queryClient.invalidateQueries({
-        queryKey: ["childInfo", userId, childId]
+        queryKey: ["child_info", userId]
       });
     },
     onError: (error) => {

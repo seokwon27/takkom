@@ -14,6 +14,11 @@ import Image from "next/image";
 import { useUpdateChildMutation } from "@/query/useUpdateChildMutation";
 import { useDeleteProfileImageMutation } from "@/query/useChildQuery";
 import { useQueryClient } from "@tanstack/react-query";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import { Calendar } from "@/components/ui/calendar";
+import { CalendarIcon } from "lucide-react";
+import { format } from "date-fns";
+import { cn } from "@/lib/utils";
 
 interface EditFormProps {
   child: Child; // 수정할 자식 데이터
@@ -49,7 +54,10 @@ const EditChildForm = ({ child, onComplete }: EditFormProps) => {
 
   // 이미지 업로드 함수
   const uploadImage = async (file: File): Promise<string | null> => {
-    const fileName = `public/${Date.now()}_${file.name}`;
+    const fileName = `public/${Date.now()}_${file.name
+      .replace(/\s+/g, "_") // 공백을 밑줄(_)로 대체
+      .replace(/[^\x00-\x7F]/g, "_") // 한글 및 특수문자를 밑줄(_)로 대체
+      .replace(/[^\w.-]/g, "")}`; // 알파벳, 숫자, 밑줄(_), 점(.), 하이픈(-) 외의 문자는 제거
     const { error } = await browserClient.storage.from("profiles").upload(fileName, file, {
       cacheControl: "3600", // 1시간 동안 캐시 유지
       upsert: true // 기존 파일이 있으면 덮어씌움
@@ -78,14 +86,13 @@ const EditChildForm = ({ child, onComplete }: EditFormProps) => {
       notes: data.notes,
       profile: profileUrl
     });
-
     onComplete();
   };
 
   const handleDeleteImage = async () => {
     try {
       await deleteProfileImage();
-      queryClient.setQueryData(["childInfo", child.user_id, child.id], {
+      queryClient.setQueryData(["child_info", child.user_id, child.id], {
         ...child,
         profile: DEFAULT_PROFILE_IMAGE_URL
       });
@@ -94,7 +101,6 @@ const EditChildForm = ({ child, onComplete }: EditFormProps) => {
       console.error("프로필 이미지 삭제 오류: ", error);
     }
   };
-
 
   const getImageSrc = () => {
     // 새로 업로드된 이미지가 있으면 이를 반환
@@ -186,9 +192,38 @@ const EditChildForm = ({ child, onComplete }: EditFormProps) => {
           render={({ field }) => (
             <FormItem>
               <FormLabel className="text-gray-800">생년월일</FormLabel>
-              <FormControl className="text-gary-700 px-6 py-4 rounded-xl">
+              <Popover>
+                <PopoverTrigger asChild>
+                  <FormControl className="text-gary-700 px-6 py-4 rounded-xl">
+                    <Button
+                      variant={"outline"}
+                      className={cn(
+                        "w-full h-full text-text-xl text-left text-gray-800",
+                        !field.value && "text-muted-foreground"
+                      )}
+                    >
+                      {field.value ? (
+                        format(new Date(field.value), "yyyy-MM-dd") // Date 포맷
+                      ) : (
+                        <span className="text-gray-800">생년월일을 선택해주세요.</span>
+                      )}
+                      <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
+                    </Button>
+                  </FormControl>
+                </PopoverTrigger>
+                <PopoverContent className="w-auto p-0" align="start">
+                  <Calendar
+                    mode="single"
+                    selected={field.value ? new Date(field.value) : undefined}
+                    onSelect={(date) => field.onChange(date ? format(date, "yyyy-MM-dd") : undefined)}
+                    disabled={(date) => date > new Date() || date < new Date("1900-01-01")}
+                    initialFocus
+                  />
+                </PopoverContent>
+              </Popover>
+              {/* <FormControl className="text-gary-700 px-6 py-4 rounded-xl">
                 <Input className="h-full text-text-xl" type="date" {...field} />
-              </FormControl>
+              </FormControl> */}
               <FormMessage />
             </FormItem>
           )}
@@ -201,7 +236,7 @@ const EditChildForm = ({ child, onComplete }: EditFormProps) => {
           render={({ field }) => (
             <FormItem>
               <FormLabel className="text-gray-800">특이사항(선택)</FormLabel>
-              <FormControl className="text-gary-700">
+              <FormControl className="text-gary-700 px-6 py-4 rounded-xl">
                 <Input className="h-full text-text-xl" placeholder="특이사항을 입력하세요" {...field} />
               </FormControl>
               <FormMessage />
