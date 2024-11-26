@@ -1,15 +1,16 @@
 "use client";
-import Loading from "@/components/child/loading";
+// import Loading from "@/components/child/loading";
 import ErrorMessage from "@/components/child/error";
 import useChildrenData from "./useChildrenData";
 import ChildPageContent from "./ChildPageContent";
+import ChildPageLoading from "@/app/child/loading";
 
 const ChildPageWrap = () => {
   const { children, setChildren, selectedChildId, setSelectedChildId, isUserLoading, isUserError, isLoading, error } =
     useChildrenData();
 
   // 로딩 중 또는 에러 발생 시 처리
-  if (isUserLoading || isLoading) return <Loading />;
+  if (isUserLoading || isLoading) return <ChildPageLoading />;
   if (isUserError) return <ErrorMessage message="사용자 정보를 가져오는 데 오류가 발생했습니다." />;
   if (error) return <ErrorMessage message={error.message} />;
 
@@ -23,7 +24,7 @@ const ChildPageWrap = () => {
   };
 
   return (
-    <div className="container flex flex-col mx-auto justify-center max-w-[996px] mt-16 max-sm:mt-3 max-sm:px-6 max-sm:pb-[132px] max-sm:mb-0 xl:bg-gray-10">
+    <div className="container flex flex-col mx-auto justify-center max-w-[996px] mt-16 max-sm:mt-3 max-sm:px-6 max-sm:pb-[132px] max-sm:mb-0">
       <div className="py-[6px] mb-4 hidden max-sm:block">
         <p className="text-gray-800 text-title-m font-semibold">우리아이</p>
       </div>
