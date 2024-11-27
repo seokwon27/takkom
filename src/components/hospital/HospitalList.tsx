@@ -13,7 +13,6 @@ import { NUM_OF_CARDS_PER_PAGE } from "../../constants/constants";
 import HospitalCard from "./HospitalCard";
 import HospitalPagination from "./HospitalPagination";
 import LoadingHospitalList from "./HospitalListLoading";
-import useDevice from "@/utils/useDevice";
 import HospitalCardWithDrawer from "./HospitalCardWithDrawer";
 import MobileLayout from "../layout/MobileLayout";
 import DesktopLayout from "../layout/DesktopLayout";
@@ -27,7 +26,6 @@ type HospitalListProps = {
 const HospitalList = ({ searchParams, user }: HospitalListProps) => {
   const { step } = useHospitalContext((state) => state);
   const [clickedId, setClickedId] = useState(0);
-  const device = useDevice();
   const [params] = useQueryParams(new URLSearchParams(searchParams).toString());
 
   // const {brtcCd, sggCd, addr, org} = params
@@ -86,14 +84,23 @@ const HospitalList = ({ searchParams, user }: HospitalListProps) => {
     );
   }
 
-  if ((step === 0 && device === "mobile") || !hospitalData) {
+  if (step === 0 || !hospitalData) {
     return (
-      <LoadingHospitalList>
-        <p>우리 동네 병원을 검색해 보세요.</p>
-      </LoadingHospitalList>
+      <>
+        <MobileLayout>
+          <LoadingHospitalList>
+            <p>우리 동네 병원을 검색해 보세요.</p>
+          </LoadingHospitalList>
+        </MobileLayout>
+        <DesktopLayout>
+          <LoadingHospitalList>
+            <p>우리 동네 병원을 검색해 보세요.</p>
+          </LoadingHospitalList>
+        </DesktopLayout>
+      </>
     );
   }
-  if ((step === 1 || device === "desktop") && !!hospitalData && hospitalData.totalCount === 0) {
+  if (step === 1 && !!hospitalData && hospitalData.totalCount === 0) {
     return (
       <LoadingHospitalList>
         <p>검색 결과가 없습니다.</p>
