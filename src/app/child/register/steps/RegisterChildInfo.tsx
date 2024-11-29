@@ -19,10 +19,20 @@ interface RegisterChildInfoProps {
 }
 
 export const formSchema = z.object({
-  name: z.string().min(1, { message: "이름은 필수입니다." }), // 이름 필수 조건
-  birth: z.string().min(1, { message: "생년월일은 필수입니다." }), // 생년월일 필수 조건
-  notes: z.string().optional(), // 메모는 선택적
-  profileImage: z.instanceof(File).optional() // 프로필 이미지는 선택적
+  name: z.string().min(1, { message: "이름은 필수입니다." }),
+  birth: z.preprocess(
+    (val) => {
+      if (typeof val === "string" || val instanceof String) {
+        // 문자열을 Date 객체로 변환
+        const parsedDate = new Date(val as string);
+        return isNaN(parsedDate.getTime()) ? undefined : parsedDate;
+      }
+      return val; // 이미 Date 타입일 경우 그대로 반환
+    },
+    z.date({ message: "생년월일은 필수입니다." }) // 변환된 값 검증
+  ),
+  notes: z.string().optional(),
+  profileImage: z.instanceof(File).optional()
 });
 
 const RegisterChildInfo = ({ onNext, childInfo }: RegisterChildInfoProps) => {
@@ -35,7 +45,7 @@ const RegisterChildInfo = ({ onNext, childInfo }: RegisterChildInfoProps) => {
     resolver: zodResolver(formSchema), // zod 유효성 검사 사용
     defaultValues: {
       name: childInfo.name ?? "",
-      birth: childInfo.birth ?? "",
+      birth: childInfo.birth ? new Date(childInfo.birth) : undefined, // 기존에 string인 birth 값을 Date로 변환
       notes: childInfo.notes ?? ""
     }
   });
@@ -48,18 +58,23 @@ const RegisterChildInfo = ({ onNext, childInfo }: RegisterChildInfoProps) => {
   });
 
   const handleFormSubmit = async (data: z.infer<typeof formSchema>): Promise<void> => {
+    const formData = {
+      ...data,
+      birth: data.birth instanceof Date ? data.birth.toISOString() : data.birth, // Date일 경우 string으로 변환
+      selectedImage
+    };
+
     // childId가 없는 경우에만 새로 등록 (이미 등록된 경우 등록하지 않음)
     if (!childId) {
-      registerChild({ ...data, selectedImage });
+      registerChild(formData);
     } else {
       // 이미 등록된 자녀의 정보를 그대로 다음 단계로 전달
-      onNext({ ...data, id: childId });
+      onNext({ ...formData, id: childId });
     }
   };
 
   return (
     <div className="container flex flex-col mx-auto justify-center max-w-[588px] mt-16 max-sm:mt-3 max-sm:px-6 max-sm:pb-[132px] max-sm:mb-0">
-      {/* <div className="max-w-[588px] mx-auto m-20"> */}
       {/* 모바일에서 보이는 레이아웃 */}
       <div className="w-full px-6 py-2 flex items-center gap-6 mb-4 sm:hidden">
         <div className="relative">

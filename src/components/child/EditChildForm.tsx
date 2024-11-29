@@ -14,11 +14,7 @@ import Image from "next/image";
 import { useUpdateChildMutation } from "@/query/useUpdateChildMutation";
 import { useDeleteProfileImageMutation } from "@/query/useChildQuery";
 import { useQueryClient } from "@tanstack/react-query";
-import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
-import { Calendar } from "@/components/ui/calendar";
-import { CalendarIcon } from "lucide-react";
-import { format } from "date-fns";
-import { cn } from "@/lib/utils";
+import { DateTimePicker } from "@/components/ui/datetime-picker";
 
 interface EditFormProps {
   child: Child; // 수정할 자식 데이터
@@ -28,7 +24,7 @@ interface EditFormProps {
 // 입력값 검증을 위한 Zod 스키마 정의
 const formSchema = z.object({
   name: z.string().min(1, { message: "이름은 필수입니다." }), // 이름 필드 검증
-  birth: z.string().min(1, { message: "생년월일은 필수입니다." }), // 생년월일 필드 검증
+  birth: z.date({ message: "생년월일은 필수입니다." }),
   notes: z.string().optional(), // 특이사항은 선택 항목
   profile: z.union([z.instanceof(File), z.string()]).optional() // 프로필 이미지 (파일 또는 URL)
 });
@@ -46,7 +42,7 @@ const EditChildForm = ({ child, onComplete }: EditFormProps) => {
     resolver: zodResolver(formSchema), // Zod 스키마를 사용한 폼 유효성 검사
     defaultValues: {
       name: child.name, // 기본 값: 기존 자식의 이름
-      birth: child.birth, // 기본 값: 기존 자식의 생년월일
+      birth: child.birth ? new Date(child.birth) : new Date(),
       notes: child.notes ?? "", // 기본 값: 기존 자식의 특이사항 (없을 경우 빈 문자열)
       profile: child.profile ?? DEFAULT_PROFILE_IMAGE_URL // 기본 값: 기존 자식의 프로필 이미지, 없으면 기본 이미지
     }
@@ -74,6 +70,8 @@ const EditChildForm = ({ child, onComplete }: EditFormProps) => {
 
   // 폼 제출 함수 -- 수정 후
   const onSubmit = async (data: z.infer<typeof formSchema>) => {
+    console.log("폼 데이터:", data);
+    const formattedBirth = data.birth.toISOString();
     const profileImageUrl = selectedImage ? await uploadImage(selectedImage) : child.profile;
     const profileUrl = profileImageUrl ?? undefined;
 
@@ -82,10 +80,11 @@ const EditChildForm = ({ child, onComplete }: EditFormProps) => {
       userId: child.user_id,
       childId: child.id,
       name: data.name,
-      birth: data.birth,
+      birth: formattedBirth,
       notes: data.notes,
       profile: profileUrl
     });
+
     onComplete();
   };
 
@@ -192,38 +191,13 @@ const EditChildForm = ({ child, onComplete }: EditFormProps) => {
           render={({ field }) => (
             <FormItem>
               <FormLabel className="text-gray-800">생년월일</FormLabel>
-              <Popover>
-                <PopoverTrigger asChild>
-                  <FormControl className="text-gary-700 px-6 py-4 rounded-xl">
-                    <Button
-                      variant={"outline"}
-                      className={cn(
-                        "w-full h-full text-text-xl text-left text-gray-800",
-                        !field.value && "text-muted-foreground"
-                      )}
-                    >
-                      {field.value ? (
-                        format(new Date(field.value), "yyyy-MM-dd") // Date 포맷
-                      ) : (
-                        <span className="text-gray-800">생년월일을 선택해주세요.</span>
-                      )}
-                      <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
-                    </Button>
-                  </FormControl>
-                </PopoverTrigger>
-                <PopoverContent className="w-auto p-0" align="start">
-                  <Calendar
-                    mode="single"
-                    selected={field.value ? new Date(field.value) : undefined}
-                    onSelect={(date) => field.onChange(date ? format(date, "yyyy-MM-dd") : undefined)}
-                    disabled={(date) => date > new Date() || date < new Date("1900-01-01")}
-                    initialFocus
-                  />
-                </PopoverContent>
-              </Popover>
-              {/* <FormControl className="text-gary-700 px-6 py-4 rounded-xl">
-                <Input className="h-full text-text-xl" type="date" {...field} />
-              </FormControl> */}
+              <DateTimePicker
+                value={field.value}
+                onChange={(value) => {
+                  const parsedDate = value ? new Date(value + "T00:00:00") : undefined; // 시간을 명시적으로 설정
+                  field.onChange(parsedDate);
+                }}
+              />
               <FormMessage />
             </FormItem>
           )}
