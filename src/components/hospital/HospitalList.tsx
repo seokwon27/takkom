@@ -125,6 +125,7 @@ const HospitalList = ({ searchParams, user }: HospitalListProps) => {
                 <HospitalCardWithDrawer
                   user={user ?? null}
                   hospitalInfo={info}
+                  regionInfo={{brtcCd, sggCd}}
                   clickedId={clickedId}
                   filter={disease}
                   likes={likes}
@@ -134,6 +135,7 @@ const HospitalList = ({ searchParams, user }: HospitalListProps) => {
                 <HospitalCard
                   user={user ?? null}
                   hospitalInfo={info}
+                  regionInfo={{brtcCd, sggCd}}
                   clickedId={clickedId}
                   filter={disease}
                   likes={likes}

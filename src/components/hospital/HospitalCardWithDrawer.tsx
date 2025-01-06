@@ -18,13 +18,14 @@ import PhoneModal from "./PhoneModal";
 type HospitalCardProps = {
   user: User | null;
   hospitalInfo: HopsitalItem;
+  regionInfo: { brtcCd: string; sggCd: string };
   clickedId: number;
   filter?: string;
   likes?: Like[];
   children?: ReactNode;
 };
 
-const HospitalCardWithDrawer = ({ user, hospitalInfo, clickedId, filter, likes }: HospitalCardProps) => {
+const HospitalCardWithDrawer = ({ user, hospitalInfo, regionInfo, clickedId, filter, likes }: HospitalCardProps) => {
   const [showModal, setShowModal] = useState(false);
   const {
     orgcd,
