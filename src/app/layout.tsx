@@ -6,6 +6,7 @@ import Header from "@/components/rootlayout/Header";
 import Footer from "@/components/rootlayout/Footer";
 import { PWAProvider } from "./PWAProvider";
 import { Toaster } from "@/components/ui/toaster";
+import Script from "next/script";
 
 const pretendard = localFont({
   src: "./fonts/PretendardVariable.woff2",
@@ -38,6 +39,8 @@ export const metadata: Metadata = {
   }
 };
 
+const API_URL = `//dapi.kakao.com/v2/maps/sdk.js?appkey=${process.env.NEXT_PUBLIC_KAKAOMAP_API_KEY}&libraries=services&autoload=false`;
+
 const RootLayout = ({
   children
 }: Readonly<{
@@ -53,6 +56,7 @@ const RootLayout = ({
         <meta name="format-detection" content="telephone=no" />
       </head>
       <body className={`${pretendard.className} flex flex-col min-h-screen relative`}>
+        <Script src={API_URL} strategy="beforeInteractive" />
         <Providers>
           <Header />
           <main className="grow flex flex-col w-full max-w-[1200px] mx-auto mb-[100px] max-sm:mx-0 max-sm:mb-0 ">
