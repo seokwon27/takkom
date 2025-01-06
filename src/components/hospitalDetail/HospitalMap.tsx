@@ -1,5 +1,6 @@
 "use client";
 
+import { AddressSearchResult, Status } from "@/types/kakaoMaps";
 import { useEffect, useState } from "react";
 import { Map, MapMarker } from "react-kakao-maps-sdk";
 
@@ -10,7 +11,7 @@ const HospitalMap = ({ orgAddr }: { orgAddr: string }) => {
   useEffect(() => {
     window.kakao.maps.load(() => {
       const geocoder = new window.kakao.maps.services.Geocoder();
-      geocoder.addressSearch(orgAddr, (result, status) => {
+      geocoder.addressSearch(orgAddr, (result: AddressSearchResult[], status: Status) => {
         if (status === window.kakao.maps.services.Status.OK) {
           setCoords({ lat: Number(result[0].y), lng: Number(result[0].x) });
           console.log("지도 좌표:", result[0].y, result[0].x);
