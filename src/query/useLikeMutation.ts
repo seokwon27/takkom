@@ -1,16 +1,18 @@
 import { addLike, cancelLike } from "@/api/userApi";
 import { HopsitalItem } from "@/types/hospital";
-import { Like } from "@/types/user";
+import { Like, Regioninfo } from "@/types/user";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
-const convertToLike = (hospitalInfo: HopsitalItem): Like => {
+const convertToLike = (hospitalInfo: HopsitalItem & Regioninfo): Like => {
   const {
     orgnm,
     orgcd,
     orgAddr,
     orgTlno,
     expnYmd,
-    vcnList: { vcnInfo: tmpInfo }
+    vcnList: { vcnInfo: tmpInfo },
+    brtcCd,
+    sggCd
   } = hospitalInfo;
   const vcnInfo = Array.isArray(tmpInfo) ? tmpInfo : [tmpInfo];
   const hospitalData = {
@@ -22,7 +24,9 @@ const convertToLike = (hospitalInfo: HopsitalItem): Like => {
     orgAddr,
     orgTlno,
     expnYmd,
-    vcnInfo: JSON.stringify(vcnInfo)
+    vcnInfo: JSON.stringify(vcnInfo),
+    brtcCd,
+    sggCd
   };
 
   return hospitalData;
@@ -32,10 +36,10 @@ export const useAddLikeMutation = (userId?: string) => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: ({ hospitalInfo }: { hospitalInfo: HopsitalItem }) => addLike(hospitalInfo),
+    mutationFn: ({ hospitalInfo }: { hospitalInfo: HopsitalItem & Regioninfo }) => addLike(hospitalInfo),
 
     // 낙관적 업데이트
-    onMutate: async ({ hospitalInfo }: { hospitalInfo: HopsitalItem }) => {
+    onMutate: async ({ hospitalInfo }: { hospitalInfo: HopsitalItem & Regioninfo }) => {
       await queryClient.cancelQueries({ queryKey: ["user", "like", userId ?? ""] });
       const prevLikes = queryClient.getQueryData<Like[]>(["user", "like", userId ?? ""]);
 

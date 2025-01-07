@@ -1,5 +1,6 @@
 import { HopsitalItem } from "@/types/hospital";
 import { SupabaseDatabase } from "@/types/supabaseDataType";
+import { Regioninfo } from "@/types/user";
 import browserClient from "@/utils/supabase/client";
 
 // supabase에서 로그인 정보 가져오기
@@ -53,17 +54,19 @@ export const getUserLike = async (supabaseClient: SupabaseDatabase, userId: stri
   }
 };
 
-export const addLike = async (hospitalInfo: HopsitalItem) => {
+export const addLike = async (hospitalInfo: HopsitalItem & Regioninfo) => {
   const {
     orgnm,
     orgcd,
     orgAddr,
     orgTlno,
     expnYmd,
-    vcnList: { vcnInfo: tmpInfo }
+    vcnList: { vcnInfo: tmpInfo },
+    brtcCd,
+    sggCd
   } = hospitalInfo;
   const vcnInfo = Array.isArray(tmpInfo) ? tmpInfo : [tmpInfo];
-  const hospitalData = { orgnm, orgcd, orgAddr, orgTlno, expnYmd, vcnInfo: JSON.stringify(vcnInfo) };
+  const hospitalData = { orgnm, orgcd, orgAddr, orgTlno, expnYmd, vcnInfo: JSON.stringify(vcnInfo), brtcCd, sggCd };
   const { error } = await browserClient.from("like").insert(hospitalData);
 
   if (error) throw Error(error.message);

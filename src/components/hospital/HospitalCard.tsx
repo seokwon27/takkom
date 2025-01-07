@@ -52,10 +52,10 @@ const HospitalCard = ({ user, hospitalInfo, regionInfo, clickedId, filter, likes
   const { mutate: cancelLike } = useCancelLikeMutation(user?.id);
 
   const onHeartClick = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
-    e.stopPropagation();
+    e.preventDefault();
     if (user) {
       if (!likeData) {
-        addLike({ hospitalInfo });
+        addLike({hospitalInfo: {...hospitalInfo, ...regionInfo} });
       }
       if (!!likeData) {
         cancelLike({ id: likeData?.id });

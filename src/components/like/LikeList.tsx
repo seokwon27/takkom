@@ -71,7 +71,7 @@ const LikeList = ({ currentPage, user }: LikeListProps) => {
                   orgAddr: like.orgAddr,
                   expnYmd: like.expnYmd,
                   orgTlno: like.orgTlno,
-                  vcnList: { vcnInfo: JSON.parse(like.vcnInfo) }
+                  vcnList: { vcnInfo: JSON.parse(like.vcnInfo) },
                 };
 
                 return (
@@ -86,6 +86,7 @@ const LikeList = ({ currentPage, user }: LikeListProps) => {
                       <HospitalCard
                         user={user ?? null}
                         hospitalInfo={info}
+                        regionInfo={{ brtcCd: like.brtcCd, sggCd: like.sggCd }}
                         clickedId={clickedId}
                         // filter={disease}
                         likes={likes}
@@ -95,6 +96,7 @@ const LikeList = ({ currentPage, user }: LikeListProps) => {
                       <HospitalCardWithDrawer
                         user={user ?? null}
                         hospitalInfo={info}
+                        regionInfo={{ brtcCd: like.brtcCd, sggCd: like.sggCd }}
                         clickedId={clickedId}
                         // filter={disease}
                         likes={likes}

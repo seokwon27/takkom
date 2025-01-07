@@ -18,9 +18,9 @@ const HospitalDetail = ({ hospitalInfo }: Props) => {
     <>
       <section className="w-full">
         <div>
-          <p className="text-heading-l">{orgnm}</p>
+          <p className="text-heading-xl">{orgnm}</p>
         </div>
-        <div className="w-full flex flex-col gap-5 mt-5">
+        <div className="w-full flex flex-col mt-5">
           <div className="w-full flex gap-5 mt-5">
             <Image src={HospitalImg} alt="병원 이미지" />
             <div>
@@ -33,9 +33,7 @@ const HospitalDetail = ({ hospitalInfo }: Props) => {
           <VaccineList vcnInfo={vcnInfo} />
         </div>
       </section>
-      <section className="w-full">
-        <HospitalMap orgAddr={orgAddr} />
-      </section>
+      <HospitalMap orgAddr={orgAddr} />
     </>
   );
 };

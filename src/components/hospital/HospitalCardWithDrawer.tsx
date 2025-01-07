@@ -54,7 +54,7 @@ const HospitalCardWithDrawer = ({ user, hospitalInfo, regionInfo, clickedId, fil
     e.stopPropagation();
     if (user) {
       if (!likeData) {
-        addLike({ hospitalInfo });
+        addLike({hospitalInfo: {...hospitalInfo, ...regionInfo} });
       }
       if (!!likeData) {
         cancelLike({ id: likeData?.id });

@@ -14,7 +14,6 @@ const HospitalMap = ({ orgAddr }: { orgAddr: string }) => {
       geocoder.addressSearch(orgAddr, (result: AddressSearchResult[], status: Status) => {
         if (status === window.kakao.maps.services.Status.OK) {
           setCoords({ lat: Number(result[0].y), lng: Number(result[0].x) });
-          console.log("지도 좌표:", result[0].y, result[0].x);
         }
       });
     });
@@ -34,14 +33,12 @@ const HospitalMap = ({ orgAddr }: { orgAddr: string }) => {
   // }, [coords]);
 
   return (
-    <>
-      <p>
-        {coords.lat} {coords.lng}
-      </p>
+    <section className="w-full mt-8">
+      <p className="mb-5 text-title-m">위치</p>
       <Map center={coords} className="w-full aspect-[16/9]" level={1}>
         <MapMarker position={coords} />
       </Map>
-    </>
+    </section>
   );
 };
 
