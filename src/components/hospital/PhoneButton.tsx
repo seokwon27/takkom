@@ -6,7 +6,7 @@ import Image from "next/image";
 import CallImg from "../../../public/hospital/call.svg";
 import { cn } from "@/lib/utils";
 
-const PhoneButton = ({ onClick }: { onClick?: () => void }) => {
+const PhoneButton = ({ onClick }: { onClick?: (e:React.MouseEvent<HTMLButtonElement, MouseEvent>) => void }) => {
   return (
     <Button
       className={cn(

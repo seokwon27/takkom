@@ -9,14 +9,14 @@ import { NUM_OF_CARDS_PER_PAGE } from "@/constants/constants";
 import HospitalCard from "../hospital/HospitalCard";
 import HospitalPagination from "../hospital/HospitalPagination";
 import { HopsitalItem } from "@/types/hospital";
-import useDevice from "@/utils/useDevice";
 import HospitalCardWithDrawer from "../hospital/HospitalCardWithDrawer";
+import DesktopLayout from "../layout/DesktopLayout";
+import MobileLayout from "../layout/MobileLayout";
 
 type LikeListProps = { currentPage: number; user: User | null };
 
 const LikeList = ({ currentPage, user }: LikeListProps) => {
   const [clickedId, setClickedId] = useState(0);
-  const device = useDevice();
 
   const { data: likes, isLoading, isError, error } = useUserLike(browserClient, user?.id);
   const totalCount = likes?.length ?? 0;
@@ -71,7 +71,7 @@ const LikeList = ({ currentPage, user }: LikeListProps) => {
                   orgAddr: like.orgAddr,
                   expnYmd: like.expnYmd,
                   orgTlno: like.orgTlno,
-                  vcnList: { vcnInfo: JSON.parse(like.vcnInfo) }
+                  vcnList: { vcnInfo: JSON.parse(like.vcnInfo) },
                 };
 
                 return (
@@ -82,26 +82,26 @@ const LikeList = ({ currentPage, user }: LikeListProps) => {
                       handleClick(e, info);
                     }}
                   >
-                    {device === "desktop" && (
+                    <DesktopLayout>
                       <HospitalCard
                         user={user ?? null}
                         hospitalInfo={info}
+                        regionInfo={{ brtcCd: like.brtcCd, sggCd: like.sggCd }}
                         clickedId={clickedId}
                         // filter={disease}
                         likes={likes}
                       />
-                    )}
-                    {device === "mobile" && (
-                      <>
-                        <HospitalCardWithDrawer
-                          user={user ?? null}
-                          hospitalInfo={info}
-                          clickedId={clickedId}
-                          // filter={disease}
-                          likes={likes}
-                        />
-                      </>
-                    )}{" "}
+                    </DesktopLayout>
+                    <MobileLayout>
+                      <HospitalCardWithDrawer
+                        user={user ?? null}
+                        hospitalInfo={info}
+                        regionInfo={{ brtcCd: like.brtcCd, sggCd: like.sggCd }}
+                        clickedId={clickedId}
+                        // filter={disease}
+                        likes={likes}
+                      />
+                    </MobileLayout>
                   </li>
                 );
               })}

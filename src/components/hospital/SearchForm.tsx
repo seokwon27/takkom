@@ -45,11 +45,11 @@ const SearchForm = ({ brtcObj, regionInfo, searchParams }: SearchFormProps) => {
 
   // searchParams가 바뀔 때마다 재실행
   useEffect(() => {
-    if (!currentParams.brtcCd || !currentParams.sggCd) {
-      setStep(0);
-    } else {
-      setStep(1);
-    }
+    // if (!currentParams.brtcCd || !currentParams.sggCd) {
+    //   setStep(0);
+    // } else {
+    //   setStep(1);
+    // }
     setParams({
       brtcCd: currentParams.brtcCd ?? BRTC,
       sggCd: currentParams.sggCd ?? SGG,

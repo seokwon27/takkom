@@ -14,17 +14,19 @@ import { Heart } from "lucide-react";
 import { User } from "@supabase/supabase-js";
 import { cn } from "@/lib/utils";
 import PhoneModal from "./PhoneModal";
+import Link from "next/link";
 
 type HospitalCardProps = {
   user: User | null;
   hospitalInfo: HopsitalItem;
+  regionInfo: { brtcCd: string; sggCd: string };
   clickedId: number;
   filter?: string;
   likes?: Like[];
   children?: ReactNode;
 };
 
-const HospitalCard = ({ user, hospitalInfo, clickedId, filter, likes }: HospitalCardProps) => {
+const HospitalCard = ({ user, hospitalInfo, regionInfo, clickedId, filter, likes }: HospitalCardProps) => {
   const {
     orgcd,
     orgnm,
@@ -50,10 +52,10 @@ const HospitalCard = ({ user, hospitalInfo, clickedId, filter, likes }: Hospital
   const { mutate: cancelLike } = useCancelLikeMutation(user?.id);
 
   const onHeartClick = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
-    e.stopPropagation();
+    e.preventDefault();
     if (user) {
       if (!likeData) {
-        addLike({ hospitalInfo });
+        addLike({hospitalInfo: {...hospitalInfo, ...regionInfo} });
       }
       if (!!likeData) {
         cancelLike({ id: likeData?.id });
@@ -63,15 +65,21 @@ const HospitalCard = ({ user, hospitalInfo, clickedId, filter, likes }: Hospital
 
   return (
     <>
-      <div
+      <Link
+        href={`/hospital/${orgcd}?orgnm=${orgnm}&orgaddr=${orgAddr}&brtcCd=${regionInfo.brtcCd}&sggCd=${regionInfo.sggCd}`}
+        // onClick={(e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {console.log(orgcd)}}
         className={cn(
           "w-full h-fit min-h-[200px] flex border border-gray-30 rounded-3xl p-5 justify-between items-start shadow-[0px_0px_16px_rgba(114,114,114,0.1)]",
           "max-sm:min-h-fit max-sm:p-3 max-sm:rounded-xl max-sm:shadow-[0px_0px_7px_rgba(114,114,114,0.1)]",
           orgcd === clickedId && "max-sm:border-primary-400 max-sm:shadow-none"
         )}
       >
-        <div className="size-[160px] flex justify-center items-center bg-gray-10 rounded-xl overflow-hidden relative max-sm:size-[86px] max-sm:rounded-md">
-          <Image src={Ambulance} alt="병원 이미지" className="object-cover" />
+        <div
+            onClick={(e:React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+              e.preventDefault();
+            }}
+            className="size-[160px] flex justify-center items-center bg-gray-10 rounded-xl overflow-hidden relative max-sm:size-[86px] max-sm:rounded-md">
+          <Image src={Ambulance} alt="병원 이미지" className="object-cover cursor-default" />
           <div
             className=" absolute top-[6px] left-[6px] aspect-square cursor-pointer sm:top-3 sm:left-3 sm:w-10 sm:p-1"
             onClick={onHeartClick}
@@ -109,12 +117,13 @@ const HospitalCard = ({ user, hospitalInfo, clickedId, filter, likes }: Hospital
         </div>
         <div className="mt-auto max-sm:hidden">
           <PhoneButton
-            onClick={() => {
+            onClick={(e:React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+              e.preventDefault();
               setShowModal(true);
             }}
           />
         </div>
-      </div>
+      </Link>
       {showModal && <PhoneModal phoneNumber={orgTlno} setShowModal={setShowModal} />}
     </>
   );

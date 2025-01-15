@@ -9,6 +9,18 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
+      authentication: {
+        Row: {
+          id: number
+        }
+        Insert: {
+          id?: never
+        }
+        Update: {
+          id?: never
+        }
+        Relationships: []
+      }
       child: {
         Row: {
           birth: string
@@ -44,6 +56,7 @@ export type Database = {
       }
       like: {
         Row: {
+          brtcCd: string
           created_at: string
           expnYmd: number
           id: string
@@ -51,10 +64,12 @@ export type Database = {
           orgcd: number
           orgnm: string
           orgTlno: string
+          sggCd: string
           user_id: string
           vcnInfo: string
         }
         Insert: {
+          brtcCd?: string
           created_at?: string
           expnYmd?: number
           id?: string
@@ -62,10 +77,12 @@ export type Database = {
           orgcd?: number
           orgnm?: string
           orgTlno?: string
+          sggCd?: string
           user_id?: string
           vcnInfo?: string
         }
         Update: {
+          brtcCd?: string
           created_at?: string
           expnYmd?: number
           id?: string
@@ -73,6 +90,7 @@ export type Database = {
           orgcd?: number
           orgnm?: string
           orgTlno?: string
+          sggCd?: string
           user_id?: string
           vcnInfo?: string
         }

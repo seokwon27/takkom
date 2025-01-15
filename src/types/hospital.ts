@@ -21,7 +21,7 @@ export type RegionType = {
   };
 };
 
-type VcnInfo = {
+export type VcnInfo = {
   vcnNm: string; // 백신 이름 (접종명)
   vcncd: string; // 백신 코드
 };
@@ -30,7 +30,7 @@ export type HopsitalItem = {
   orgnm: string; // 병원 이름
   orgTlno: string; // 전화번호
   orgAddr: string; // 병원 주소
-  expnYmd: number; // 병원 ?
+  expnYmd: number; // 지원사업 등록 일자
   orgcd: number; // 병원 코드
   vcnList: {
     vcnInfo: VcnInfo[] | VcnInfo;
