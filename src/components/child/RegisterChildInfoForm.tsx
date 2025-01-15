@@ -26,6 +26,8 @@ const RegisterChildInfoForm = ({ form, onSubmit, setSelectedImage }: RegisterChi
     if (file) {
       setSelectedImage(file);
       setProfileImageUrl(URL.createObjectURL(file));
+    } else {
+      setProfileImageUrl(DEFAULT_PROFILE_IMAGE_URL);
     }
   };
 

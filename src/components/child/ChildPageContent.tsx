@@ -13,7 +13,7 @@ interface ChildPageContentProps {
 
 const ChildPageContent: React.FC<ChildPageContentProps> = ({ selectedChildId, onTabClick, onDelete, children }) => {
   return (
-    <div className="flex flex-col lg:flex-row gap-4 max-w-[996px] w-full">
+    <div className="flex flex-col lg:flex-row gap-4 max-w-[996px] w-full max-lg:items-center">
       {/* 좌측 사이드바 영역 */}
       <Sidebar selectedChildId={selectedChildId} onTabClick={onTabClick}>
         {children}

@@ -25,7 +25,10 @@ export const formSchema = z.object({
       if (typeof val === "string" || val instanceof String) {
         // 문자열을 Date 객체로 변환
         const parsedDate = new Date(val as string);
-        return isNaN(parsedDate.getTime()) ? undefined : parsedDate;
+        if (isNaN(parsedDate.getTime())) {
+          throw new Error("유효하지 않은 날짜 형식입니다.");
+        }
+        return parsedDate;
       }
       return val; // 이미 Date 타입일 경우 그대로 반환
     },
