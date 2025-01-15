@@ -22,3 +22,6 @@ export type AuthResponseWithUser = AuthResponse & {
 };
 
 export type Like = Tables<"like">;
+
+// 관심 병원에 쓰이는 지역 정보 타입
+export type Regioninfo = { brtcCd: string; sggCd: string };
