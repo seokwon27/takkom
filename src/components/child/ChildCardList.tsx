@@ -10,7 +10,7 @@ interface ChildCardListProps {
 
 const ChildCardList: React.FC<ChildCardListProps> = ({ children, selectedChildId, onDelete }) => {
   return (
-    <div className="flex flex-col gap-4">
+    <div className="flex flex-col gap-4 max-lg:items-center">
       {selectedChildId
         ? children
             .filter((child) => child.id === selectedChildId)

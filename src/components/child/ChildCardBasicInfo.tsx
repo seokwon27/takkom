@@ -16,7 +16,7 @@ const ChildBasicInfo = ({ child }: ChildCardProps) => {
 
   return (
     <div className="w-full md:w-[50%] flex flex-col justify-start items-start flex-grow-0 flex-shrink-0 p-4 rounded-2xl bg-white shadow-[0px_0px_12px_#7272721A]">
-      <div className="w-full flex flex-col gap-4">
+      <div className="w-full flex flex-col gap-4 items-center">
         {/* 아이 기본 정보 내 좌/우 영역 나누기 위한 컨테이너 */}
         <div className="flex items-center justify-between w-full gap-3 md:gap-6">
           {/* 좌측: 프로필 이미지 */}
