@@ -13,7 +13,7 @@ interface SidebarProps {
 
 const Sidebar: React.FC<SidebarProps> = ({ children, selectedChildId, onTabClick }) => {
   return (
-    <aside className="w-full bg-white lg:max-w-[180px] max-lg:w-auto max-sm:p-0">
+    <aside className="w-full bg-white lg:max-w-[180px] max-w-[792px] max-sm:p-0">
       <div className="flex flex-col max-lg:flex-row p-3 rounded-xl bg-white shadow-[0px_0px_12px_#7272721A] gap-2">
         {children && children.length > 0 && (
           <div className="flex flex-col overflow-x-auto max-lg:flex-row lg:flex-col gap-2">
