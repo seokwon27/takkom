@@ -1,6 +1,6 @@
 "use client";
 
-import React, { ReactNode, useState } from "react";
+import React, { ReactNode } from "react";
 import Image from "next/image";
 import { User } from "@supabase/supabase-js";
 import { HopsitalItem } from "@/types/hospital";
