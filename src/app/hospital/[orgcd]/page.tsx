@@ -13,7 +13,7 @@ const HospitalDetailPage = async ({ searchParams }: Params) => {
 
   return (
     <div className="w-full max-w-[792px] grow flex flex-col items-center mx-auto pt-5 max-sm:max-w-auto">
-      <SearchParams seachParams={{ org: orgnm, addr: orgAddr, brtcCd, sggCd }} />
+      <SearchParams searchParams={{ org: orgnm, addr: orgAddr, brtcCd, sggCd }} />
       <HospitalDetail hospitalInfo={hospitalInfo} />
     </div>
   );
