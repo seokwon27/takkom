@@ -17,25 +17,25 @@ const HospitalDetail = ({ hospitalInfo }: Props) => {
 
   return (
     <>
-      <section className="w-full">
-        <PrevButton />
+      <PrevButton />
+      <section className="w-full max-sm:px-6">
         <div>
-          <p className="text-heading-xl">{orgnm}</p>
+          <p className="text-heading-xl max-sm:text-heading-s max-sm:line-clamp-2">{orgnm}</p>
         </div>
-        <div className="w-full flex flex-col mt-5">
-          <div className="w-full flex gap-5 mt-5">
-            <Image src={HospitalImg} alt="병원 이미지" />
+        <div className="w-full flex flex-col mt-5 max-sm:mt-0">
+          <div className="w-full flex gap-5 mt-5 max-sm:flex-col">
+            <Image src={HospitalImg} alt="병원 이미지" className="max-sm:w-full max-sm:aspect-[16/9] max-sm:object-cover"/>
             <div>
-              <p className="mb-2 text-label-xl text-gray-300 max-sm:text-label-s">병원 주소</p>
-              <p>{orgAddr}</p>
-              <p className="mt-4 mb-2 text-label-xl text-gray-300 max-sm:text-label-s">전화번호</p>
-              <p>{orgTlno}</p>
+              <p className="mb-2 text-label-xl text-gray-300 max-sm:text-label-s max-sm:mb-1">병원 주소</p>
+              <p className="max-sm:text-text-m">{orgAddr}</p>
+              <p className="mt-4 mb-2 text-label-xl text-gray-300 max-sm:text-label-s max-sm:mt-2 max-sm:mb-1">전화번호</p>
+              <p className="max-sm:text-text-m">{orgTlno}</p>
             </div>
           </div>
           <VaccineList vcnInfo={vcnInfo} />
         </div>
       </section>
-      <HospitalMap orgAddr={orgAddr} />
+      <HospitalMap orgnm={orgnm} orgAddr={orgAddr} />
     </>
   );
 };
