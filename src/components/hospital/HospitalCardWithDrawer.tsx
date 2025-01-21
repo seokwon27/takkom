@@ -1,6 +1,6 @@
 "use client";
 
-import React, { ReactNode, useState } from "react";
+import React, { ReactNode } from "react";
 import Image from "next/image";
 import { User } from "@supabase/supabase-js";
 import { HopsitalItem } from "@/types/hospital";
@@ -12,8 +12,8 @@ import VaccinateTag from "./VaccinateTag";
 import { Heart } from "lucide-react";
 import { cn } from "@/lib/utils";
 import Ambulance from "../../../public/hospital/ambulance.svg";
-import PhoneButton from "./PhoneButton";
-import PhoneModal from "./PhoneModal";
+// import PhoneModal from "./PhoneModal";
+import ToDetailButton from "./ToDetailButton";
 
 type HospitalCardProps = {
   user: User | null;
@@ -26,11 +26,11 @@ type HospitalCardProps = {
 };
 
 const HospitalCardWithDrawer = ({ user, hospitalInfo, regionInfo, clickedId, filter, likes }: HospitalCardProps) => {
-  const [showModal, setShowModal] = useState(false);
+  // const [showModal, setShowModal] = useState(false);
   const {
     orgcd,
     orgnm,
-    orgTlno,
+    // orgTlno,
     orgAddr,
     vcnList: { vcnInfo }
   } = hospitalInfo;
@@ -54,7 +54,7 @@ const HospitalCardWithDrawer = ({ user, hospitalInfo, regionInfo, clickedId, fil
     e.stopPropagation();
     if (user) {
       if (!likeData) {
-        addLike({hospitalInfo: {...hospitalInfo, ...regionInfo} });
+        addLike({ hospitalInfo: { ...hospitalInfo, ...regionInfo } });
       }
       if (!!likeData) {
         cancelLike({ id: likeData?.id });
@@ -119,9 +119,11 @@ const HospitalCardWithDrawer = ({ user, hospitalInfo, regionInfo, clickedId, fil
           clickedId === hospitalInfo.orgcd ? "animate-in slide-in-from-bottom" : "hidden"
         )}
       >
-        <PhoneButton onClick={() => setShowModal(true)} />
+        <ToDetailButton
+          href={`/hospital/${orgcd}?orgnm=${orgnm}&orgaddr=${orgAddr}&brtcCd=${regionInfo.brtcCd}&sggCd=${regionInfo.sggCd}`}
+        />
       </div>
-      {showModal && <PhoneModal phoneNumber={orgTlno} setShowModal={setShowModal} />}
+      {/* {showModal && <PhoneModal phoneNumber={orgTlno} setShowModal={setShowModal} />} */}
     </>
   );
 };

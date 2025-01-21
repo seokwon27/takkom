@@ -1,43 +1,37 @@
 "use client";
 
 import { AddressSearchResult, Status } from "@/types/kakaoMaps";
+import Link from "next/link";
 import { useEffect, useState } from "react";
 import { Map, MapMarker } from "react-kakao-maps-sdk";
 
-const HospitalMap = ({ orgAddr }: { orgAddr: string }) => {
+const HospitalMap = ({ orgnm, orgAddr }: { orgnm: string; orgAddr: string }) => {
   const [coords, setCoords] = useState<{ lat: number; lng: number }>({ lat: 0, lng: 0 });
 
-  // const mapRef = useRef<HTMLDivElement>(null);
   useEffect(() => {
     window.kakao.maps.load(() => {
       const geocoder = new window.kakao.maps.services.Geocoder();
-      geocoder.addressSearch(orgAddr, (result: AddressSearchResult[], status: Status) => {
+      geocoder.addressSearch(orgAddr.split(",")[0], (result: AddressSearchResult[], status: Status) => {
         if (status === window.kakao.maps.services.Status.OK) {
           setCoords({ lat: Number(result[0].y), lng: Number(result[0].x) });
         }
       });
     });
   }, []);
-  // useEffect(() => {
-  //   console.log(coords)
-  //   window.kakao.maps.load(() => {
-  //     console.log("지도 좌표:", coords.lat, coords.lng);
-  //     // const options = {
-  //     //   //지도를 생성할 때 필요한 기본 옵션
-  //     //   center: new window.kakao.maps.LatLng(coords.lat, coords.lng), //지도의 중심좌표.
-  //     //   level: 1 //지도의 레벨(확대, 축소 정도)
-  //     // };
-
-  //     // const map = new window.kakao.maps.Map(mapRef.current, options); //지도 생성 및 객체 리턴
-  //   });
-  // }, [coords]);
 
   return (
-    <section className="w-full mt-8">
-      <p className="mb-5 text-title-m">위치</p>
-      <Map center={coords} className="w-full aspect-[16/9]" level={1}>
+    <section className="w-full flex flex-col mt-8 max-sm:px-6 max-sm:mb-8">
+      <p className="mb-5 text-title-m max-sm:mb-3 max-sm:text-title-s">위치</p>
+      <Map center={coords} className="w-full aspect-[16/9] mb-2 border" level={1}>
         <MapMarker position={coords} />
       </Map>
+      <Link
+        href={`https://map.kakao.com/link/map/${orgnm},${coords.lat},${coords.lng}`}
+        target="_blank"
+        className="ml-auto cursor-pointer max-sm:text-text-m"
+      >
+        지도로 위치 검색하기
+      </Link>
     </section>
   );
 };
