@@ -3,6 +3,7 @@ import HospitalImg from "../../../public/hospital/ambulance.svg";
 import Image from "next/image";
 import VaccineList from "./VaccineList";
 import HospitalMap from "./HospitalMap";
+import PrevButton from "./PrevButton";
 
 type Props = { hospitalInfo: HopsitalItem };
 
@@ -17,6 +18,7 @@ const HospitalDetail = ({ hospitalInfo }: Props) => {
   return (
     <>
       <section className="w-full">
+        <PrevButton />
         <div>
           <p className="text-heading-xl">{orgnm}</p>
         </div>
